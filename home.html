@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
+    <link rel="stylesheet" href="home.css">
+    <title>home</title>
+</head>
+<body>
+    <header>
+        <span id="logo-hermes-home"><h1>HERMES</h1></span>
+        <nav>
+            <ul>
+                <li><input type="text" name="search-product" id="input-search-product" placeholder="Buscar producto...">
+                <div id="results-container"></div>
+                </li>
+                <li><span id="span-menu-categoria">Categorias</span>
+                    <div id="menu-categoria" class="menu-categoria">
+                        <ul>
+                            <li>Electrodomesticos</li>
+                            <li>Tecnologia</li>
+                            <li>Hogar</li>
+                            <li>Moda</li>
+                            <li>Deportes</li>
+                            <li>Belleza</li>
+                            <li>Jugueteria</li>
+                            <li>Automotriz</li>
+                            <li>Electronica</li>
+                            <li>Mascotas</li>
+                        </ul>
+                    </div>
+                </li>
+                <li><span>Vender</span></li>
+                <li><span>Ayuda</span></li>
+            </ul>
+        </nav>
+        <div class="icons-header">
+            <span><img src="SOURCES/ICONOS-LOGOS/bookmark.svg" alt="wishlist"></span>
+            <span><img src="SOURCES/ICONOS-LOGOS/shopping_bag.svg" alt="Shopping Cart"></span>
+            <span><img src="SOURCES/ICONOS-LOGOS/account_circle.svg" alt="Account"></span>
+        </div>
+    </header>
+    <main>
+        <div class="header-box">
+
+        </div>
+        <div class="categories-box">
+
+        </div>
+        <div class="products-box">
+
+        </div>
+        <div class="our-stores">
+
+        </div>
+    </main>
+    <footer>
+            
+    </footer>
+    <script>
+
+        /*
+        const searchInput = document.getElementById('input-search-product');
+        const resultsContainer = document.getElementById('results-container');
+
+        // Escuchar el evento 'input'
+        searchInput.addEventListener('input', async (event) => {
+            const query = event.target.value;
+
+            // Limpiar resultados anteriores
+            resultsContainer.innerHTML = '';
+            
+            if (query.length < 2) { // Opcional: buscar solo a partir de 2 caracteres
+                resultsContainer.style.display = 'none';
+                return;
+            }
+
+            try {
+                // 1. HACER LA PETICIÓN AL SERVIDOR PHP
+                // Usamos 'fetch' para llamar a nuestro script.
+                // Le pasamos el término de búsqueda como un parámetro en la URL.
+                const response = await fetch(`buscar-productos.php?term=${query}`);
+                const productos = await response.json(); // Convertir la respuesta JSON a un array
+
+                if (productos.length > 0) {
+                    resultsContainer.style.display = 'block';
+                    productos.forEach(producto => {
+                        const item = document.createElement('div');
+                        item.className = 'result-item';
+                        item.textContent = producto;
+
+                        item.addEventListener('click', () => {
+                            searchInput.value = producto;
+                            resultsContainer.style.display = 'none';
+                        });
+
+                        resultsContainer.appendChild(item);
+                    });
+                } else {
+                    resultsContainer.style.display = 'none';
+                }
+
+            } catch (error) {
+                console.error("Error al buscar productos:", error);
+                resultsContainer.style.display = 'none';
+            }
+        });
+
+        // Ocultar resultados si se hace clic fuera
+        document.addEventListener('click', (event) => {
+            if (!searchInput.contains(event.target)) {
+                resultsContainer.style.display = 'none';
+            }
+        });
+
+        */
+
+        //Mi Version de la linea de Codigo Anterior
+
+  const input_request = document.getElementById('input-search-product');
+  const box_result = document.getElementById('results-container');
+
+  input_request.addEventListener('input', async (event) => {
+    const textoDelUsuario = event.target.value;
+   //limpiamos los resultados anteriores
+   box_result.innerHTML = '';
+
+    if(textoDelUsuario.length < 2){ //opcional: buscar solo a partir de 2 caracteres
+        box_result.style.display = 'none';
+        return;
+    }
+    //1. HACER LA PETICION AL SERVIDOR PHP
+try{
+    //hacemos la llamada al php dandole el valor por medio del ?termn=
+    const respuesta_producto = await fetch(`buscar-productos.php?term=${textoDelUsuario}`);
+    //desempacamos la respuesta del server
+    const productos = await respuesta_producto.json(); // .json convierte la respuesta venida del servidor(texto Plano) y lo convierte en un array de oroducto listo para utilizar
+    if(productos.length > 0){
+        box_result.style.display = 'block';
+        productos.forEach(producto => { //se peude utilizar otro nombre en lugar de producto, no afecta en nada ya que es un nombrte de la funcion temporal
+        const item = document.createElement('div') //esto creara varios divs que correspondan al elemento puesto en la barra de busqueda
+        item.classList.add('result-item')
+        item.textContent = producto // asignamos al div, un texto a partir del array recorrido, utilizamos para eso el nombre de la funcion productos
+         item.addEventListener('click', () => {
+                            input_request.value = producto;
+                            box_result.style.display = 'none';
+                        });
+ //poner el div item creado en el div contenedor que se creo posteriormente
+ box_result.appendChild(item)
+
+  });
+    } else{
+        box_result.style.display = 'none';
+}
+    }catch(error){
+        console.error("Error al buscar productos:", error);
+        box_result.style.display = 'none';
+        
+    };
+});
+
+    // vamos a ocultar la barra si hace click fuera de la busqueda
+    document.addEventListener('click', (event_close) => {
+        if(!input_request.contains(event.target) && !box_result.contains(event.target)){
+           box_result.style.display = 'none'
+        }
+    })
+</script>
+<script src="home.js"></script>
+</body>
+</html>

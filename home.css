@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color:#fff8f1;
+    font-family: 'roboto condensed', sans-serif;
+}
+
+header{
+    width: 100%;
+    height: 80px;
+    border-bottom: 2px solid #461d01;
+    display: flex;
+    /* CAMBIO: Usamos space-between para distribuir el espacio automáticamente */
+    justify-content: space-between; 
+    /* AÑADIDO: Alinea los elementos verticalmente */
+    align-items: center; 
+    /* AÑADIDO: Padding para crear espacio en los bordes en lugar de márgenes fijos */
+    padding: 0 2rem;
+}
+
+/*Logo*/
+h1{
+    font-family: 'Anton', sans-serif;
+    font-size: 2rem;
+    color: #461d01;
+    margin: 1rem auto;
+    letter-spacing: 8px;
+    cursor: pointer;
+}
+
+#logo-hermes-home{
+    display: inline-block;
+    /* CAMBIO: Quitamos el ancho fijo para que sea flexible */
+    width: auto; 
+    height: 100%;
+    text-align: center;
+}
+
+
+/*Barra de navegacion y demas*/
+
+nav{
+    /* CAMBIO: Quitamos el ancho fijo. Flexbox gestionará el espacio */
+    width: auto; 
+    height: 100%;
+    display: flex;
+    /* AÑADIDO: Centramos el menú de navegación en el espacio disponible */
+    justify-content: center; 
+    align-items: center;
+    /* AÑADIDO: Permite que este elemento crezca para ocupar el espacio sobrante */
+    flex-grow: 1; 
+}
+
+/*Menu de opciones de input*/
+nav > ul{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 3rem;
+}
+
+nav ul li{
+    position: relative;
+}
+
+nav ul li span{
+    font-size: 1rem;
+    color: #461d01;
+    cursor: pointer;
+    text-align: center;
+    width: 5rem;
+    padding: 1rem 1rem 1rem 1rem;
+    border-radius: 3rem;
+    transition: background-color 0.7s ease, transform 0.7s ease;
+}
+
+nav ul li span:hover{
+ background-color: #461d01;
+ transition: 0.7s;
+ color: #fff8f1;
+}
+
+ul li input{
+    height: 40px;
+    border: 2px solid #461d01;
+    border-radius: 25px;
+    padding-left: 10px;
+    font-family: 'roboto condensed', sans-serif;
+    font-weight: 100;
+    /* CAMBIO: Hacemos el input flexible con límites */
+    width: 100%; /* Ocupa el espacio disponible en su contenedor */
+    min-width: 200px; /* Evita que sea demasiado pequeño */
+    max-width: 400px; /* Evita que sea demasiado grande en pantallas anchas */
+}
+
+#results-container {
+    position: absolute;
+    top: 45px;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 0 0 10px 10px;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    display: none;
+    max-height: 250px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.result-item {
+    padding: 20px 20px;
+    cursor: pointer;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    transition: background 0.2s;
+    
+}
+.result-item:hover {
+    background: #461d01;
+    color: #fff8f1;
+}
+
+/*Iconos a la derecha del header*/
+
+.icons-header{
+    /* CAMBIO: Quitamos el ancho y los márgenes fijos */
+    width: auto; 
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.icons-header span{
+    cursor: pointer;
+}
+
+.icons-header span:hover{
+    filter: brightness(0) saturate(100%) invert(60%) sepia(30%) saturate(500%) hue-rotate(160deg);  transition: 1s;
+}
+
+/*Menu desplegable de las categorias*/
+.menu-categoria{
+    width: 10rem;
+    position: absolute;
+    top: 50px;
+    left: -30px;
+    display: none;
+}
+
+.menu-categoria ul{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f8f8;
+    border: 1px solid #461d01;
+    border-radius: 40px;
+    list-style:  none;
+    font-size: .8rem;
+    text-align: center;
+    padding: 1rem 0 2rem 0;
+    align-items: center;
+}
+
+.menu-categoria ul li{
+    width: 60%;
+ padding-bottom: 1rem;
+ padding-top: 1rem;
+ cursor: pointer;
+}
+
+.menu-categoria ul li:hover{
+    width: 80%;
+    background-color: #461d01;
+    border-radius: 1rem;
+    transition: .8s;
+    color: #f8f8f8;
+}
