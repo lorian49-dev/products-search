@@ -97,7 +97,7 @@ ul li input{
     font-weight: 100;
     /* CAMBIO: Hacemos el input flexible con límites */
     width: 100%; /* Ocupa el espacio disponible en su contenedor */
-    min-width: 200px; /* Evita que sea demasiado pequeño */
+    min-width: 300px; /* Evita que sea demasiado pequeño */
     max-width: 400px; /* Evita que sea demasiado grande en pantallas anchas */
 }
 
