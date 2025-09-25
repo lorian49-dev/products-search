@@ -235,3 +235,60 @@ con overflow:hidden lo que hacemos es eliminar la regla del overflow scrollbar p
     overflow: hidden !important;
     left: -40px;
 }
+
+/*CONTENEDOR DE IMAGENES Y CARRUSEL PROMOCIONALES*/
+
+.header-box{
+    margin: 0 auto;
+    width: 90%;
+    height: 750px;
+    transition: filter 1s ease ,transform 1s ease;
+}
+
+.header-box:hover{
+ transition: 1s;
+ filter: blur(10px);
+}
+
+.header-box_slides{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    filter:opacity(10px)
+}
+
+.header-box_slides_img {
+    width: 100%;
+    height: 100%;
+    /* Shorthand: color url() repeat position/size */
+    background: url(https://i0.wp.com/imgs.hipertextual.com/wp-content/uploads/2025/09/iphone-17-pro-scaled.jpg?fit=2560%2C1577&quality=70&strip=all&ssl=1) no-repeat center/cover;
+    object-fit: contain;
+    position: relative;
+    flex: 0 0 100%; 
+    
+  /*  mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+     Para máxima compatibilidad con navegadores como Chrome y Safari 
+    -webkit-mask-image: radial-gradient( at center, black 60%, transparent 100%);*/
+
+    box-shadow: inset 0 0 50px 5px #f8f8f8;
+}
+
+.header-box_slides_img:nth-child(2){
+    background: url(SOURCES/IMAGENES/ZFLIP.png) no-repeat center/cover;
+}
+
+.header-box_slides_img:nth-child(3){
+    background: url(SOURCES/IMAGENES/ZFOLD.jpg) no-repeat center/cover;
+}
+
+.header-box_slides_img:nth-child(4){
+    background: url(SOURCES/IMAGENES/NSWITCH.jpg) no-repeat center/cover;
+}
+
+.header-box_slides_img:last-child{
+    background: url(https://fantasiasmiguel.com/cdn/shop/collections/promociones_navidenas.jpg?v=1639694906&width=1920) no-repeat center/cover;   
+}
+
+
+
