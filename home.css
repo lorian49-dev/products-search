@@ -181,35 +181,35 @@ ul li input{
 
 /* --- Estilos para la Barra de Scroll Personalizada --- */
 
-.menu-categoria::-webkit-scrollbar{
-    width: 5px;
-  border-radius: 40px;
-}
-
-/* Ocultamos las flechas */
-.menu-categoria::-webkit-scrollbar-button {
-  display: none;
-}
-
-/* Le damos un fondo a la pista y la redondeamos */
-.menu-categoria::-webkit-scrollbar-track {
-  border-radius: 40px;
-}
-
-.menu-categoria::-webkit-scrollbar-track-piece:start {
-  background: transparent; /* Un color de fondo suave */
-  margin-top: 40px;
-}
-.menu-categoria::-webkit-scrollbar-track-piece:end {
-  background: transparent; /* Un color de fondo suave */
-  margin-bottom: 40px;
-}
-
-/* Le damos el color y el borde redondeado a la parte móvil */
-.menu-categoria::-webkit-scrollbar-thumb {
-  background: #461d01; /* El color que ya estás usando */
-  border-radius: 40px;
-}
+.menu-categoria::-webkit-scrollbar {
+    width: 8px; /* Un poco más de ancho para que sea más fácil de usar */
+  }
+  
+  /* Fondo de la barra de desplazamiento (la pista) */
+  .menu-categoria::-webkit-scrollbar-track {
+    background: transparent; /* Fondo transparente */
+    border-radius: 10px;
+    /* El margen superior e inferior creará el espacio que buscabas */
+    margin: 50px 0; 
+  }
+  
+  /* El "pulgar" o la parte móvil de la barra de desplazamiento */
+  .menu-categoria::-webkit-scrollbar-thumb {
+    background: #461d01; /* Color del pulgar */
+    border-radius: 10px;
+    border: 2px solid transparent; /* Crea un padding visual alrededor del pulgar */
+    background-clip: content-box;
+  }
+  
+  /* Estilos para cuando el mouse está sobre la barra */
+  .menu-categoria::-webkit-scrollbar-thumb:hover {
+    background: #6a2c02; /* Un color ligeramente más claro al pasar el mouse */
+  }
+  
+  /* Ocultamos las flechas (esto generalmente no es necesario, pero lo mantenemos por si acaso) */
+  .menu-categoria::-webkit-scrollbar-button {
+    display: none;
+  }
 
 .menu-categoria ul li{
     width: 60%;
@@ -233,4 +233,5 @@ con overflow:hidden lo que hacemos es eliminar la regla del overflow scrollbar p
     min-height: 180px !important;
     max-height: 200px !important;
     overflow: hidden !important;
+    left: -40px;
 }
