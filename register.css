@@ -82,4 +82,7 @@ form button{
     background-color: #ffb000;
     border-style: none;
     font-family: "Host Grotesk", sans-serif;
+    grid-column: 1 / -1;
+    margin-top: 20px;
+    cursor: pointer;
 }
