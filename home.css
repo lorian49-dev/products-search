@@ -23,17 +23,10 @@ header{
     align-items: center; 
     /* AÑADIDO: Padding para crear espacio en los bordes en lugar de márgenes fijos */
     padding: 0 2rem;
+    background-color: #461d01;
 }
 
 /*Logo*/
-h1{
-    font-family: 'Anton', sans-serif;
-    font-size: 2rem;
-    color: #461d01;
-    margin: 1rem auto;
-    letter-spacing: 8px;
-    cursor: pointer;
-}
 
 #logo-hermes-home{
     display: inline-block;
@@ -41,6 +34,17 @@ h1{
     width: auto; 
     height: 100%;
     text-align: center;
+    display: flex;
+    align-items: center;
+}
+
+h1{
+    font-family: 'Anton', sans-serif;
+    font-size: 2.5rem;
+    color: #fff8f1;
+    margin: 1rem auto;
+    letter-spacing: 10px;
+    cursor: pointer;
 }
 
 
@@ -73,7 +77,7 @@ nav ul li{
 
 nav ul li span{
     font-size: 1rem;
-    color: #461d01;
+    color: #fff8f1;
     cursor: pointer;
     text-align: center;
     width: 5rem;
@@ -83,15 +87,15 @@ nav ul li span{
 }
 
 nav ul li span:hover{
- background-color: #461d01;
+ background-color: #fff8f1;
  transition: 0.7s;
- color: #fff8f1;
+ color: #461d01;
 }
 
 ul li input{
     height: 40px;
     border: 2px solid #461d01;
-    border-radius: 25px;
+    border-radius:10px;
     padding-left: 10px;
     font-family: 'roboto condensed', sans-serif;
     font-weight: 100;
@@ -108,7 +112,7 @@ ul li input{
     width: 100%;
     background: #fff;
     border: 1px solid #eee;
-    border-radius: 0 0 10px 10px;
+    border-radius: 10px;
     z-index: 100;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     display: none;
@@ -123,7 +127,7 @@ ul li input{
     background: #fff;
     border-bottom: 1px solid #eee;
     transition: background 0.2s;
-    
+    border-radius: 10px;
 }
 .result-item:hover {
     background: #461d01;
@@ -139,11 +143,12 @@ ul li input{
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 .icons-header span{
     cursor: pointer;
+    width: 20px;
 }
 
 .icons-header span:hover{
@@ -234,3 +239,6 @@ con overflow:hidden lo que hacemos es eliminar la regla del overflow scrollbar p
     max-height: 200px !important;
     overflow: hidden !important;
 }
+
+
+
