@@ -248,13 +248,14 @@ con overflow:hidden lo que hacemos es eliminar la regla del overflow scrollbar p
     width: 100vw;
     height: 60vh;
     background-color: #eee;
+    overflow: hidden;
 }
 
 .slides{
     width: 100%;
     height: 100%;
     display: flex;
-    overflow: hidden;
+    transition: all 1s ease-in-out;
 }
 
 /*Contenido en si del carrusel*/

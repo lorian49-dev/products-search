@@ -33,4 +33,44 @@ document.addEventListener('click', (event) => {
     }
 });
 
+// CARRUSEL----------------------------------------------------
 
+// Esperamos a que todo el contenido de la página (HTML) esté cargado
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- 1. Seleccionamos los elementos y preparamos las variables ---
+    const contenedorCarrusel = document.querySelector('.header-box');
+    const carrusel = document.querySelector('.slides');
+    const totalSlides = document.querySelectorAll('.slides-box').length;
+
+    let currentIndex = 0; // Para saber en qué slide estamos
+    let intervalID;     // Para guardar el "ticket" de nuestro intervalo (inicia vacío)
+
+    // --- 2. La función que mueve el carrusel (nuestro motor) ---
+    function moverSlides() {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        const offset = -currentIndex * 100;
+        carrusel.style.transform = `translateX(${offset}%)`;
+    }
+
+    // --- 3. El vigilante (IntersectionObserver) ---
+    const observer = new IntersectionObserver((entries) => {
+        // 'entries' es el informe del vigilante
+        const entry = entries[0];
+        
+        // La gran decisión: ¿El carrusel está visible?
+        if (entry.isIntersecting) {
+            // Si está visible, le damos a "play"
+            // Guardamos el ID que nos devuelve setInterval
+            intervalID = setInterval(moverSlides, 4000); // Cambia cada 3 segundos
+        } else {
+            // Si no está visible, le damos a "stop"
+            // Usamos el ID que guardamos para detener el intervalo correcto
+            clearInterval(intervalID);
+        }
+    });
+
+    // --- 4. Le decimos al vigilante qué elemento debe observar ---
+    observer.observe(contenedorCarrusel);
+
+});
