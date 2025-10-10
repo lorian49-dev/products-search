@@ -7,7 +7,6 @@
 
 
  //Verificacion de la conexion
- $ENLACE_PRODUCTOS = mysqli_connect($SERVIDORH, $USUARIOH, $PASSWORDH, $BASE, 4306);
 if (!$ENLACE_PRODUCTOS) {
     die("Conexión fallida: " . mysqli_connect_error());
 }

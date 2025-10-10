@@ -157,6 +157,27 @@ ul li input{
     filter: brightness(0) saturate(100%) invert(60%) sepia(30%) saturate(500%) hue-rotate(160deg);  transition: 1s;
 }
 
+.icons-header span:nth-child(3n), .icons-header span:last-child{
+    width: 80px;
+    filter: none;
+    background-color: #ffb000;
+    text-align: center;
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: all .5s ease;
+}
+
+.icons-header span:nth-child(3n):hover, .icons-header span:last-child:hover{
+    background-color: #0097b2;
+    color: #fff8f1;
+    box-shadow: #0097b2 1px 1px 25px;
+}
+
+header a{
+ text-decoration: none;
+ color: #461d01;
+}
+
 /*Menu desplegable de las categorias*/
 .menu-categoria{
     width: 10rem;
