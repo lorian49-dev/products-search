@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (entry.isIntersecting) {
             // Si está visible, le damos a "play"
             // Guardamos el ID que nos devuelve setInterval
-            intervalID = setInterval(moverSlides, 4000); // Cambia cada 3 segundos
+            intervalID = setInterval(moverSlides, 3000); // Cambia cada 3 segundos
         } else {
             // Si no está visible, le damos a "stop"
             // Usamos el ID que guardamos para detener el intervalo correcto
