@@ -75,7 +75,7 @@
          </div>
         </div>
         <div class="products-box">
-
+         
         </div>
         <div class="our-stores">
 
@@ -86,63 +86,7 @@
     </footer>
     <script>
 
-        /*
-        const searchInput = document.getElementById('input-search-product');
-        const resultsContainer = document.getElementById('results-container');
-
-        // Escuchar el evento 'input'
-        searchInput.addEventListener('input', async (event) => {
-            const query = event.target.value;
-
-            // Limpiar resultados anteriores
-            resultsContainer.innerHTML = '';
-            
-            if (query.length < 2) { // Opcional: buscar solo a partir de 2 caracteres
-                resultsContainer.style.display = 'none';
-                return;
-            }
-
-            try {
-                // 1. HACER LA PETICIÓN AL SERVIDOR PHP
-                // Usamos 'fetch' para llamar a nuestro script.
-                // Le pasamos el término de búsqueda como un parámetro en la URL.
-                const response = await fetch(`buscar-productos.php?term=${query}`);
-                const productos = await response.json(); // Convertir la respuesta JSON a un array
-
-                if (productos.length > 0) {
-                    resultsContainer.style.display = 'block';
-                    productos.forEach(producto => {
-                        const item = document.createElement('div');
-                        item.className = 'result-item';
-                        item.textContent = producto;
-
-                        item.addEventListener('click', () => {
-                            searchInput.value = producto;
-                            resultsContainer.style.display = 'none';
-                        });
-
-                        resultsContainer.appendChild(item);
-                    });
-                } else {
-                    resultsContainer.style.display = 'none';
-                }
-
-            } catch (error) {
-                console.error("Error al buscar productos:", error);
-                resultsContainer.style.display = 'none';
-            }
-        });
-
-        // Ocultar resultados si se hace clic fuera
-        document.addEventListener('click', (event) => {
-            if (!searchInput.contains(event.target)) {
-                resultsContainer.style.display = 'none';
-            }
-        });
-
-        */
-
-        //Mi Version de la linea de Codigo Anterior
+        //Script de peticion al servidor para busqueda en el buscador
 
   const input_request = document.getElementById('input-search-product');
   const box_result = document.getElementById('results-container');
