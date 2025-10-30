@@ -4,7 +4,7 @@
     $host = "localhost";
     $username = "root";
     $password = "";
-    $db = "modelo_sgbd";
+    $db = "hermes_bd";
 
     //comprobar la conexion a la base de datos
     $connect = mysqli_connect($host, $username, $password, $db);

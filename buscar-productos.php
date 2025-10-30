@@ -3,7 +3,7 @@
  $SERVIDORH= "localhost";
  $USUARIOH = "root";
  $PASSWORDH = "";
- $BASE = "modelo_sgbd";
+ $BASE = "hermes_bd";
 
 
  //Verificacion de la conexion
