@@ -5,7 +5,7 @@ include ('registros-inicio-sesion/connect.php');
 // Verificamos si el formulario fue enviado por método POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Capturamos los datos enviados desde el formulario
-    $id = intval($_POST['ID_Usuario']); // ID del usuario a actualizar
+    $id = intval($_POST['id_usuario']); // ID del usuario a actualizar
     $name = $_POST['name'];             // Nombre
     $lastname = $_POST['lastname'];     // Apellido
     $email = $_POST['email'];           // Correo electrónico
@@ -15,40 +15,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Creamos la consulta SQL para actualizar el usuario
     $sql = "UPDATE usuario SET 
-                Nombre = '$name',
-                Apellido = '$lastname',
+                nombre = '$name',
+                apellido = '$lastname',
                 correo = '$email',
                 contrasena = '$password',
                 fecha_nacimiento = '$birthday',
-                Telefono = '$phone'
-            WHERE ID_Usuario = $id";
+                telefono = '$phone'
+            WHERE id_usuario = $id";
 
     // Ejecutamos la consulta
     $result = mysqli_query($connect, $sql);
 
     // Verificamos si la actualización fue exitosa
     if ($result) {
-        echo "✅ Usuario actualizado correctamente.";
-        // redireccionamiento
-        header("Location: admin_crud.php");
-        exit;
-    } else {
-        // Mostramos el error si la consulta falló
-        echo "❌ Error al actualizar: " . mysqli_error($connect);
-        exit;
-    }
+    echo "✅ Usuario actualizado correctamente.";
+    echo '<script>
+        setTimeout(function() {
+            window.location.href = "Admin_CRUD.php";
+        }, 2000); // 2000 milisegundos = 2 segundos
+    </script>';
+    exit;
+} else {
+    echo "❌ Error al actualizar: " . mysqli_error($connect);
+    exit;
+}
+
 }
 
 // Si no se ha enviado el formulario, mostramos el formulario de edición
-$id = isset($_GET['ID_Usuario']) ? intval($_GET['ID_Usuario']) : null;
+$id = isset($_GET['id_usuario']) ? intval($_GET['id_usuario']) : null;
 
 // Validamos que se haya recibido el ID del usuario
 if ($id === null) {
-    die("! ID_Usuario no proporcionado.");
+    die("! id no proporcionado.");
 }
 
 // Consulta para obtener los datos actuales del usuario
-$sql = "SELECT * FROM usuario WHERE ID_Usuario = $id";
+$sql = "SELECT * FROM usuario WHERE id_usuario = $id";
 $query = mysqli_query($connect, $sql);
 
 // Validamos que la consulta se haya ejecutado correctamente
@@ -73,15 +76,15 @@ $row = mysqli_fetch_array($query);
         <h1>Editar Usuario</h1>
 
         <!-- Campo oculto con el ID del usuario -->
-        <input type="hidden" name="ID_Usuario" value="<?= $row['ID_Usuario'] ?>">
+        <input type="hidden" name="id_usuario" value="<?= $row['id_usuario'] ?>">
 
         <!-- Campos editables con los datos actuales -->
-        <input type="text" name="name" placeholder="Nombres" value="<?= $row['Nombre'] ?>">
-        <input type="text" name="lastname" placeholder="Apellidos" value="<?= $row['Apellido'] ?>">
+        <input type="text" name="name" placeholder="Nombres" value="<?= $row['nombre'] ?>">
+        <input type="text" name="lastname" placeholder="Apellidos" value="<?= $row['apellido'] ?>">
         <input type="text" name="email" placeholder="Correo Electrónico" value="<?= $row['correo'] ?>">
         <input type="text" name="password" placeholder="Contraseña" value="<?= $row['contrasena'] ?>">
         <input type="date" name="birthday" placeholder="Fecha de Nacimiento" value="<?= $row['fecha_nacimiento'] ?>">
-        <input type="text" name="phone" placeholder="Teléfono" value="<?= $row['Telefono'] ?>">
+        <input type="text" name="phone" placeholder="Teléfono" value="<?= $row['telefono'] ?>">
 
         <!-- Botón para enviar el formulario -->
         <button type="submit">Editar</button>

@@ -44,17 +44,17 @@
                 <?php while($row = mysqli_fetch_array($ejec)):?>
                 <tr>
 
-                    <th><?= $row['Nombre']?></th>
-                    <th><?= $row['Apellido']?></th>
+                    <th><?= $row['nombre']?></th>
+                    <th><?= $row['apellido']?></th>
                     <th><?= $row['correo']?></th>
                     <th><?= $row['contrasena']?></th>
                     <th><?= $row['fecha_nacimiento']?></th>
-                    <th><?= $row['Telefono']?></th>
+                    <th><?= $row['telefono']?></th>
 
                 <!--Línea 55 Corregida: Debes añadir 'id=' y cerrar la etiqueta la Columna ID_Usuario esta distinta</a>-->
-<td><a href="update_user.php?ID_Usuario=<?= $row['ID_Usuario']?>" >Editar</a></td>  <!--Modificacion en la ruta de acceso de id a ID_usuario-->
+<td><a href="update_user.php?id_usuario=<?= $row['id_usuario']?>" >Editar</a></td>  <!--Modificacion en la ruta de acceso de id a ID_usuario-->
                 <!--Línea 57 Corregida: Debes añadir 'id=' y cerrar la etiqueta, la Columna ID_Usuario esta distinta </a>-->
-<td><a href="delete_user.php?ID_Usuario=<?= $row['ID_Usuario']?>">Eliminar</a></td>
+<td><a href="delete_user.php?id_usuario=<?= $row['id_usuario']?>">Eliminar</a></td>
                 </tr>
                 <?php endwhile;?>
             </tbody>
