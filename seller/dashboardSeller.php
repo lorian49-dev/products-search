@@ -61,5 +61,6 @@
             </ol>
         </aside>
     </main>
+    <script src="dashboardseller.js"></script>
 </body>
 </html>

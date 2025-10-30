@@ -74,3 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(contenedorCarrusel);
 
 });
+
+// enlace a otras paginas
+
+let linkSell = document.getElementById('venderPage')
+
+linkSell.addEventListener('click', ()=>{
+    window.location.href = 'seller/dashboardSeller.php'
+})
