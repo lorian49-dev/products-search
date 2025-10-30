@@ -1,20 +1,18 @@
 <?php
+// Configuración de conexión
+$host = "localhost";
+$username = "root";
+$password = "";
+$db = "modelo_sgbd";
 
-    //Conexion a la base de datos
-    $host = "localhost";
-    $username = "root";
-    $password = "";
-    $db = "modelo_sgbd";
+// Intentar conexión
+$connect = mysqli_connect($host, $username, $password, $db);
 
-    //comprobar la conexion a la base de datos
-    $connect = mysqli_connect($host, $username, $password, $db);
+// Validación con mensaje de error detallado
+if (!$connect) {
+    die("Error al conectar a la base de datos: " . mysqli_connect_error());
+}
 
-    //Validacion simple
-    /*if($connect){
-        echo "La conexion ha sido exitosa";
-    }else{
-        echo "Error al conectar la base de datos";
-    }*/
-
-
+// Opcional: establecer codificación UTF-8
+mysqli_set_charset($connect, "utf8");
 ?>

@@ -1,6 +1,6 @@
 <?php
     //Conexion a la base de datos
-    include 'connect.php';
+    include ('registros-inicio-sesion/connect.php');
 
     
 

@@ -1,6 +1,6 @@
 <?php
 
-    include ('connect.php');
+    include ('registros-inicio-sesion/connect.php');
 
     $nombre = $_POST['name'];
     $apellido = $_POST['lastname'];
@@ -11,7 +11,7 @@
     $telefono = $_POST['phone'];
     
     //Realizamos el QUERY
-    $sql = "INSERT INTO usuario (nombre, apellido, correo, contrasena, fecha_nacimiento, telefono) VALUES (?,?,?,?,?,?)";
+    $sql = "INSERT INTO usuario (Nombre, Apellido, correo, contrasena, fecha_nacimiento, Telefono) VALUES (?,?,?,?,?,?)"; // Se Modificaron los nombres que aqui conectan con la tabla
 
     //Preparamos la consulta
     $stmt = mysqli_prepare($connect, $sql);
@@ -27,7 +27,7 @@
 
     //Manejo de redireccion
     if($query){
-        header("Location: index.php");
+        header("Location: Admin_CRUD.php");
         exit(); //detiene la ejecucion del script despues de la redirección
     }else{
         //Manejo de errores

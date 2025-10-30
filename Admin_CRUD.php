@@ -1,5 +1,5 @@
 <?php
-    include ('connect.php');
+    include ('registros-inicio-sesion/connect.php');
     
     $query= "SELECT * FROM usuario";
     $ejec= mysqli_query($connect, $query);  
@@ -14,7 +14,7 @@
 </head>
 <body>
     <div>
-        <form action="create_user.php" metohd="POST">
+        <form action="create_user.php" method="POST"> <!--Correcion de ortografia en el metodo POST-->
             <h1>Crear Usuario</h1>
             
             <input type="text" name="name" placeholder="Nombres">
@@ -44,15 +44,17 @@
                 <?php while($row = mysqli_fetch_array($ejec)):?>
                 <tr>
 
-                    <th><?= $row['nombre']?></th>
-                    <th><?= $row['apellido']?></th>
+                    <th><?= $row['Nombre']?></th>
+                    <th><?= $row['Apellido']?></th>
                     <th><?= $row['correo']?></th>
                     <th><?= $row['contrasena']?></th>
                     <th><?= $row['fecha_nacimiento']?></th>
-                    <th><?= $row['telefono']?></th>
+                    <th><?= $row['Telefono']?></th>
 
-                    <th><a href="edit_user.php?<?= $row['id']?>" >Editar</th>
-                    <th><a href="delete_user.php?<?= $row['id']?>">Eliminar</th>
+                <!--Línea 55 Corregida: Debes añadir 'id=' y cerrar la etiqueta la Columna ID_Usuario esta distinta</a>-->
+<td><a href="update_user.php?ID_Usuario=<?= $row['ID_Usuario']?>" >Editar</a></td>  <!--Modificacion en la ruta de acceso de id a ID_usuario-->
+                <!--Línea 57 Corregida: Debes añadir 'id=' y cerrar la etiqueta, la Columna ID_Usuario esta distinta </a>-->
+<td><a href="delete_user.php?ID_Usuario=<?= $row['ID_Usuario']?>">Eliminar</a></td>
                 </tr>
                 <?php endwhile;?>
             </tbody>
