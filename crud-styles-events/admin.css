@@ -10,7 +10,6 @@ body{
     font-family: 'roboto condensed', sans-serif;
     background-color:#fff8f1;
     display: flex;
-    padding-left: 300px;
     font-weight: 300;
 }
 
@@ -25,19 +24,74 @@ h1{
     color: #fff8f1;
 }
 
+/*Estilos de la barra de navegacion a la izquierda de la pagina*/
+
 #navegation{
     background-color: #461d01;
-    position: fixed;
-    left: 0;
     height: 100vh;
-    width: 300px;
+    width: 15%;
     display: flex;
     align-items: center;
     flex-direction: column;
 }
 
-#container{
+#iconHome{
+ position: absolute;
+ top: 20px;
+ left: 20px;
+ color: #fff8f1;
+ cursor: pointer;
+}
+
+#navegation a{
+    text-decoration: none;
+}
+
+#navegation ul{
+    width: 80%;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    gap: 15px;
+    color:#fff8f1;
+}
+
+#navegation ul li:nth-child(n+2){
+    padding-bottom: 5px;
+    border-bottom: 1px solid white;
+    display: flex;
+    justify-content: space-between;
+}
+
+#navegation ul li:nth-child(1){
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+#inputSearchProfile{
+    padding: 9px 10px;
+    border-radius: 15px;
     width: 100%;
+    border-style: none;
+}
+
+#btnSearch{
+    width: 100px;
+    height: 30px;
+    border-radius: 25px;
+    border-style: none;
+    background-color: #0097b2;
+    color: #fff8f1;
+    cursor: pointer;
+}
+
+/*Estilos del formulario para agregar manualmente un nuevo usuario a la pagina*/
+
+#container{
+    width: 20%;
     height: 80vh;
     display: flex;
     justify-content: center;
@@ -83,7 +137,7 @@ input:focus {
     background-color: #461d01;
     color: #fff8f1;
     cursor: pointer;
-    transition: all .5s ease-in-out;
+    transition: all .2s ease-in-out;
 }
 
 .buttonBox button:hover{
@@ -93,7 +147,7 @@ input:focus {
 }
 
 #view{
-    width: 3000px;
+    width: 65%;
     height: 100vh;
     display: flex;
     flex-direction: column;

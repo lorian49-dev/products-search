@@ -17,10 +17,21 @@
 </head>
 <body>
     <nav id="navegation">
+        <a href="#"><i class="fas fa-home" id="iconHome"></i></a>
         <span>
             <img src="SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO" width="200px">
         </span>
         <h1>Bienvenido Administrador</h1>
+        <ul>
+            <li><input type="text" name="search-profile" id="inputSearchProfile" placeholder="Buscar Usuario por Correo...">
+            <button id="btnSearch">Consultar</button>
+        </li>
+        <li>Consultar Usuarios<i class="fa-solid fa-caret-up"></i></li>
+        <li>Consultar Productos<i class="fa-solid fa-caret-up"></i></li>
+        <li>Consultar Estados de Pago<i class="fa-solid fa-caret-up"></i></li>
+        <li>Estadisticas<i class="fa-solid fa-caret-up"></i></li>
+        <li>Acerca de<i class="fa-solid fa-caret-up"></i></li>
+        </ul>
     </nav>
     <div id="container">
         <form action="create_user.php" method="POST"> <!--Correcion de ortografia en el metodo POST-->

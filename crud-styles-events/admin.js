@@ -18,3 +18,11 @@ clearButton.addEventListener('click', (event)=>{
      input.value = ''
     })
 })
+
+// accion al icono de home
+
+ let inicio = document.getElementById('icon-home')
+
+ if(inicio){
+   console.log('Hola')
+ }
