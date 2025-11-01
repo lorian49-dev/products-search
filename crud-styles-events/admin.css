@@ -47,7 +47,7 @@ h1{
     text-decoration: none;
 }
 
-#navegation ul{
+#navegation .listMother{
     width: 80%;
     padding: 20px 0;
     display: flex;
@@ -57,18 +57,38 @@ h1{
     color:#fff8f1;
 }
 
-#navegation ul li:nth-child(n+2){
+#liUsers, #liProducts, #liPayments, #liStats, #liAbout{ /*Estos son los li que se usan para clasificar a las listas de opciones dentro del nav*/
     padding-bottom: 5px;
     border-bottom: 1px solid white;
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
 }
 
-#navegation ul li:nth-child(1){
+    #liSearch{
     display: flex;
     gap: 20px;
     flex-direction: column;
     align-items: flex-end;
+}
+
+.sheetList, .sheetListProducts{ /*Sublista del apartado de usuarios y sus consultas*/
+font-size: small;
+font-weight: 300;
+list-style: none;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+transition: all .5s ease;
+height: 0;
+overflow: hidden;
+}
+
+.sheetList li:nth-child(1){
+ font-weight: 700;
+}
+
+.fa-caret-up{
+    transition: all .3s ease-in-out;
 }
 
 #inputSearchProfile{

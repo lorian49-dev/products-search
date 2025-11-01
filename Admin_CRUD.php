@@ -22,15 +22,25 @@
             <img src="SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO" width="200px">
         </span>
         <h1>Bienvenido Administrador</h1>
-        <ul>
-            <li><input type="text" name="search-profile" id="inputSearchProfile" placeholder="Buscar Usuario por Correo...">
+        <ul class="listMother">
+            <li id="liSearch"><input type="text" name="search-profile" id="inputSearchProfile" placeholder="Buscar Usuario por Correo...">
             <button id="btnSearch">Consultar</button>
         </li>
-        <li>Consultar Usuarios<i class="fa-solid fa-caret-up"></i></li>
-        <li>Consultar Productos<i class="fa-solid fa-caret-up"></i></li>
-        <li>Consultar Estados de Pago<i class="fa-solid fa-caret-up"></i></li>
-        <li>Estadisticas<i class="fa-solid fa-caret-up"></i></li>
-        <li>Acerca de<i class="fa-solid fa-caret-up"></i></li>
+        <li id="liUsers">Consultar Usuarios<i class="fa-solid fa-caret-up"></i></li>
+        <ul class="sheetList">
+            <li>Usuarios</li>
+            <li>Clientes</li>
+            <li>Vendedores</li>
+         </ul>
+        <li id="liProducts">Consultar Productos<i class="fa-solid fa-caret-up"></i></li>
+        <ul class="sheetListProducts">
+            <li>Productos</li>
+            <li>Categorias</li>
+            <li>Ventas</li>
+         </ul>
+        <li id="liPayments">Consultar Estados de Pago<i class="fa-solid fa-caret-up"></i></li>
+        <li id="liStats">Estadisticas<i class="fa-solid fa-caret-up"></i></li>
+        <li id="liAbout">Acerca de<i class="fa-solid fa-caret-up"></i></li>
         </ul>
     </nav>
     <div id="container">
