@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'roboto condensed', sans-serif;
+    background-color:#fff8f1;
+    display: flex;
+    font-weight: 300;
+}
+
+h2{
+    font-family: 'roboto condensed', sans-serif;
+    font-weight: 300;
+}
+
+h1{
+    font-family: 'roboto condensed', sans-serif;
+    font-weight: 200;
+    color: #fff8f1;
+}
+
+/*Estilos de la barra de navegacion a la izquierda de la pagina*/
+
+#navegation{
+    background-color: #461d01;
+    height: 100vh;
+    width: 15%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#iconHome{
+ position: absolute;
+ top: 20px;
+ left: 20px;
+ color: #fff8f1;
+ cursor: pointer;
+}
+
+#navegation a{
+    text-decoration: none;
+}
+
+#navegation .listMother{
+    width: 80%;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    gap: 15px;
+    color:#fff8f1;
+}
+
+#liUsers, #liProducts, #liPayments, #liStats, #liAbout{ /*Estos son los li que se usan para clasificar a las listas de opciones dentro del nav*/
+    padding-bottom: 5px;
+    border-bottom: 1px solid white;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+    #liSearch{
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.sheetList, .sheetListProducts{ /*Sublista del apartado de usuarios y sus consultas*/
+font-size: small;
+font-weight: 300;
+list-style: none;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+transition: all .5s ease;
+height: 0;
+overflow: hidden;
+}
+
+.sheetList li:nth-child(1){
+ font-weight: 700;
+}
+
+.fa-caret-up{
+    transition: all .3s ease-in-out;
+}
+
+#inputSearchProfile{
+    padding: 9px 10px;
+    border-radius: 15px;
+    width: 100%;
+    border-style: none;
+}
+
+#btnSearch{
+    width: 100px;
+    height: 30px;
+    border-radius: 25px;
+    border-style: none;
+    background-color: #0097b2;
+    color: #fff8f1;
+    cursor: pointer;
+}
+
+/*Estilos del formulario para agregar manualmente un nuevo usuario a la pagina*/
+
+#container{
+    width: 20%;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+}
+
+#container>form{
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+#container>form>input{
+    width: 200px;
+    height: 50px;
+    padding: 20px 10px;
+    border-radius: 15px;
+    border-style: none;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.514);
+}
+
+input:focus {
+  outline: none; /* Elimina el contorno */
+  border: none;  /* Opcional: elimina el borde si lo tiene */
+}
+
+.buttonBox{
+    width: 300px;
+    display: flex;
+    justify-content: space-around;
+    padding-top: 20px;
+}
+
+
+.buttonBox button{
+    
+    padding: 10px;
+    width: 100px;
+    border-radius: 20px;
+    border-style: none;
+    background-color: #461d01;
+    color: #fff8f1;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+
+.buttonBox button:hover{
+    transform: scale(1.2);
+    background-color: #0097b2;
+    box-shadow: #0097b2 1px 1px 10px 1px;
+}
+
+#view{
+    width: 65%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 50px 50px 50px 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    text-align: center;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.514);
+}
+
+table input{
+    padding: 5px ;
+    border-radius: 15px;
+    border-style: none;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.514);
+}
+
+table input:focus{
+    border-style: none;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.514);
+}
+
+thead{
+    background-color: #461d01;
+    color: #fff8f1;    
+}
+
+th{
+  font-family: 'roboto condensed';
+  font-weight: 300;
+  padding: 15px;
+}
+
+td{
+    padding: 10px;
+    font-size: small;
+}
+
+td>button{
+    background-color: transparent;
+    border-style: none;
+    margin-left: 5px;
+    color: rgba(0, 0, 0, 0.514);
+    cursor: pointer;
+}
+
+a{
+    color: gray;
+}

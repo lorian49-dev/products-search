@@ -14,7 +14,7 @@ if (!$ENLACE_PRODUCTOS) {
 
 $termino = $_GET['term'] ?? '';
 // Buscamos productos cuyo nombre contenga el término de búsqueda
-$sql = "SELECT Nombre_Producto FROM producto WHERE Nombre_Producto LIKE ?";
+$sql = "SELECT nombre FROM producto WHERE nombre LIKE ?";
 $stmt = $ENLACE_PRODUCTOS->prepare($sql);
 
 $param = "%" . $termino . "%";
@@ -26,7 +26,7 @@ $resultado = $stmt->get_result();
 
 $productos = [];
 while ($fila = $resultado->fetch_assoc()) {
-    $productos[] = $fila['Nombre_Producto'];
+    $productos[] = $fila['nombre'];
 }
 
 header('Content-Type: application/json');

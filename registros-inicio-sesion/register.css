@@ -118,6 +118,7 @@ form button{
     width: 150px;
     height: 40px;
     border-radius: 20px;
+    background-color: transparent;
     background-color: #ffb000;
     border-style: none;
     font-family: "Host Grotesk", sans-serif;
