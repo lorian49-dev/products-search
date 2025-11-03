@@ -1,5 +1,5 @@
 <?php
-    include ('registros-inicio-sesion/connect.php');
+    include ('../registros-inicio-sesion/connect.php');
     
     $query= "SELECT * FROM usuario";
     $ejec= mysqli_query($connect, $query);  
@@ -11,15 +11,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador</title>
-    <link rel="stylesheet" href="crud-styles-events/admin.css">
-    <link rel="shortcut icon" href="SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
-    <link rel="stylesheet" href="SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
+    <link rel="stylesheet" href="../crud-styles-events/admin.css">
+    <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
 </head>
 <body>
     <nav id="navegation">
         <a href="#"><i class="fas fa-home" id="iconHome"></i></a>
         <span>
-            <img src="SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO" width="200px">
+            <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO" width="200px">
         </span>
         <h1>Bienvenido Administrador</h1>
         <ul class="listMother">
@@ -102,7 +102,7 @@
         </table>
     </div>
 
-<script src="crud-styles-events/admin.js"></script>
+<script src="../crud-styles-events/admin.js"></script>
 
 </body>
 </html>

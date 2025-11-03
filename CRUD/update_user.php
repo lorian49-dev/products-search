@@ -1,6 +1,6 @@
 <?php
 // Conexión a la base de datos
-include ('registros-inicio-sesion/connect.php');
+include ('../registros-inicio-sesion/connect.php');
 
 // Verificamos si el formulario fue enviado por método POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -1,5 +1,5 @@
 <?php
-    include('registros-inicio-sesion/connect.php');
+    include('../registros-inicio-sesion/connect.php');
 
     // Validamos que el parámetro id_usuario esté presente en la URL
     if (isset($_GET['id_usuario']) && is_numeric($_GET['id_usuario'])) {

@@ -1,5 +1,5 @@
 <?php
-    include('registros-inicio-sesion/connect.php');
+    include('../registros-inicio-sesion/connect.php');
 
     // Capturamos los datos del formulario
     $nombre = trim($_POST['name']);
@@ -18,6 +18,12 @@
     // Hasheamos la contraseña solo si no está vacía
     $passwordh = password_hash($password, PASSWORD_DEFAULT);
 
+    //Verifcacion de Correo
+    $stmt = $connect->prepare("SELECT * FROM usuario WHERE correo = ?");
+    $stmt->bind_param("s", $correo);
+    $stmt->execute();
+    $stmt->store_result();
+    
     // Preparamos el INSERT
     $sql = "INSERT INTO usuario (nombre, apellido, correo, contrasena, fecha_nacimiento, telefono) VALUES (?,?,?,?,?,?)";
     $stmt = mysqli_prepare($connect, $sql);
