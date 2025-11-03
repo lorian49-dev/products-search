@@ -1,0 +1,44 @@
+<?php include("../registros-inicio-sesion/connect.php"); ?>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nombre = $_POST["nombre"];
+    $descripcion = $_POST["descripcion"];
+    $precio = $_POST["precio"];
+    $stock = $_POST["stock"];
+
+    $sql = "INSERT INTO producto (Nombre_Producto, Descripcion, Precio, Stock)
+        VALUES ('$nombre', '$descripcion', '$precio', '$stock')";
+    $conexion->query($sql);
+
+    header("Location: index.php");
+}
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Agregar Producto</title>
+</head>
+<body>
+  <h1>Agregar Nuevo Producto</h1>
+  <form method="POST">
+    <label>Nombre:</label><br>
+    <input type="text" name="nombre" required><br><br>
+
+    <label>Descripción:</label><br>
+    <textarea name="descripcion" rows="4"></textarea><br><br>
+
+    <label>Precio:</label><br>
+    <input type="number" name="precio" step="0.01" required><br><br>
+
+    <label>Stock:</label><br>
+    <input type="number" name="stock" required><br><br>
+
+    <input type="submit" value="Guardar">
+  </form>
+  <br>
+  <a href="index.php">⬅️ Volver</a>
+</body>
+</html>
