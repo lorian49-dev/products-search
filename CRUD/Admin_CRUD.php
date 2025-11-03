@@ -1,5 +1,5 @@
 <?php
-    include ('registros-inicio-sesion/connect.php');
+    include ('../registros-inicio-sesion/connect.php');
     
     $query= "SELECT * FROM usuario";
     $ejec= mysqli_query($connect, $query);  
@@ -11,15 +11,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador</title>
-    <link rel="stylesheet" href="crud-styles-events/admin.css">
-    <link rel="shortcut icon" href="SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
-    <link rel="stylesheet" href="SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
+    <link rel="stylesheet" href="../crud-styles-events/admin.css">
+    <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
 </head>
 <body>
     <nav id="navegation">
         <a href="#"><i class="fas fa-home" id="iconHome"></i></a>
         <span>
-            <img src="SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO" width="200px">
+            <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO" width="200px">
         </span>
         <h1>Bienvenido Administrador</h1>
         <ul class="listMother">
@@ -36,26 +36,11 @@
         <ul class="sheetListProducts">
             <li>Productos</li>
             <li>Categorias</li>
-            <li>Variantes</li>
+            <li>Ventas</li>
          </ul>
-        <li id="liGets">Gestion de pedidos<i class="fa-solid fa-caret-up"></i></li>
-        <ul class="sheetListGets">
-            <li>Listado de ventas por vendedor</li>
-            <li>Disputas</li>
-            <li>Actualizar estados de pedidos</li>
-         </ul>
-        <li id="liStats">Reportes Generales<i class="fa-solid fa-caret-up"></i></li>
-        <ul class="sheetListStats">
-            <li>Mejores Vendedores</li>
-            <li>Mas Vendidos</li>
-            <li>Trafico de la plataforma</li>
-         </ul>
+        <li id="liPayments">Consultar Estados de Pago<i class="fa-solid fa-caret-up"></i></li>
+        <li id="liStats">Estadisticas<i class="fa-solid fa-caret-up"></i></li>
         <li id="liAbout">Acerca de<i class="fa-solid fa-caret-up"></i></li>
-        <ul class="sheetListAbout">
-            <li>Politicas de privacidad y uso</li>
-            <li>Terminos para vendedores</li>
-            <li>Persol=nalizacion visual de la pcntl_async_signals</li>
-         </ul>
         </ul>
     </nav>
     <div id="container">
@@ -117,7 +102,7 @@
         </table>
     </div>
 
-<script src="crud-styles-events/admin.js"></script>
+<script src="../crud-styles-events/admin.js"></script>
 
 </body>
 </html>
