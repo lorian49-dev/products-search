@@ -69,6 +69,9 @@ $row = mysqli_fetch_array($query);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Usuario</title>
+    <link rel="stylesheet" href="crud-styles-events/updateUser.css">
+    <link rel="shortcut icon" href="SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
+    <link rel="stylesheet" href="SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
 </head>
 <body>
     <!-- Formulario para editar los datos del usuario -->

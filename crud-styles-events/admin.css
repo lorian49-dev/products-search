@@ -33,7 +33,39 @@ h1{
     display: flex;
     align-items: center;
     flex-direction: column;
+    overflow: auto;
+    padding-bottom: 100px;
 }
+
+#navegation::-webkit-scrollbar {
+    width: 8px; /* Un poco más de ancho para que sea más fácil de usar */
+  }
+  
+  /* Fondo de la barra de desplazamiento (la pista) */
+#navegation::-webkit-scrollbar-track {
+    background: transparent; /* Fondo transparente */
+    border-radius: 10px;
+    /* El margen superior e inferior creará el espacio que buscabas */
+    margin: 50px 0; 
+  }
+  
+  /* El "pulgar" o la parte móvil de la barra de desplazamiento */
+#navegation::-webkit-scrollbar-thumb {
+    background: #fff8f1; /* Color del pulgar */
+    border-radius: 10px;
+    border: 2px solid transparent; /* Crea un padding visual alrededor del pulgar */
+    background-clip: content-box;
+  }
+  
+  /* Estilos para cuando el mouse está sobre la barra */
+#navegation::-webkit-scrollbar-thumb:hover {
+    background-color: #ffb000; /* Un color ligeramente más claro al pasar el mouse */
+  }
+  
+  /* Ocultamos las flechas (esto generalmente no es necesario, pero lo mantenemos por si acaso) */
+#navegation::-webkit-scrollbar-button {
+    display: none;
+  }
 
 #iconHome{
  position: absolute;
@@ -57,7 +89,7 @@ h1{
     color:#fff8f1;
 }
 
-#liUsers, #liProducts, #liPayments, #liStats, #liAbout{ /*Estos son los li que se usan para clasificar a las listas de opciones dentro del nav*/
+#liUsers, #liProducts, #liGets, #liStats, #liAbout{ /*Estos son los li que se usan para clasificar a las listas de opciones dentro del nav*/
     padding-bottom: 5px;
     border-bottom: 1px solid white;
     display: flex;
@@ -72,12 +104,13 @@ h1{
     align-items: flex-end;
 }
 
-.sheetList, .sheetListProducts{ /*Sublista del apartado de usuarios y sus consultas*/
+.sheetList, .sheetListProducts, .sheetListGets, .sheetListStats, .sheetListAbout{ /*Sublista del apartado de usuarios y sus consultas*/
 font-size: small;
 font-weight: 300;
 list-style: none;
 display: grid;
-grid-template-columns: repeat(3, 1fr);
+grid-template-rows: repeat(3, 1fr);
+gap: 10px;
 transition: all .5s ease;
 height: 0;
 overflow: hidden;
