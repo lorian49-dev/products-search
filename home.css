@@ -183,7 +183,7 @@ header a{
     position: absolute;
     top: 50px;
     left: -30px;
-    display: none;
+    display: block;
     background-color: #fff8f1;
     overflow: scroll;
     overflow-x: hidden;
@@ -192,6 +192,9 @@ header a{
     border-radius: 40px;
     z-index: 1;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.514);
+    transition: all .5s ease;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .menu-categoria ul{

@@ -8,8 +8,18 @@ menuTrigger.addEventListener('click', (event) => {
     event.stopPropagation(); 
     
     // Muestra u oculta el menú cada vez que se hace clic
-    const isVisible = menuDiv.style.display === 'block';
-    menuDiv.style.display = isVisible ? 'none' : 'block';
+    const isVisible = menuDiv.style.opacity === '1';
+    menuDiv.style.opacity = isVisible ? '0' : '1';
+
+    const opacity = menuDiv.style.opacity
+
+    if(opacity === '1'){
+       menuDiv.style.pointerEvents = 'auto'
+    } else{
+        menuDiv.style.pointerEvents = 'none'
+    }
+    
+
 });
 
 menuTrigger_help.addEventListener('click', (event) => {
@@ -17,19 +27,45 @@ menuTrigger_help.addEventListener('click', (event) => {
     event.stopPropagation(); 
     
     // Muestra u oculta el menú cada vez que se hace clic
-    const isVisible = menuDiv_help.style.display === 'block';
-    menuDiv_help.style.display = isVisible ? 'none' : 'block';
+    const isVisible = menuDiv_help.style.opacity === '1';
+    menuDiv_help.style.opacity = isVisible ? '0' : '1';
+    //Control de enventos por la opacidad del contenedor
+    const opacity = menuDiv_help.style.opacity
+
+    if(opacity === '1'){
+       menuDiv_help.style.pointerEvents = 'auto'
+    } else{
+        menuDiv_help.style.pointerEvents = 'none'
+    }
 });
 
-// Opcional pero muy recomendado: Cierra el menú si se hace clic en cualquier otro lugar de la página
+//Cierra el menú si se hace clic en cualquier otro lugar de la página
 document.addEventListener('click', (event) => {
     // Si el menú está visible Y el clic fue fuera del menú
-    if (menuDiv.style.display === 'block' && !menuDiv.contains(event.target)) {
-        menuDiv.style.display = 'none';
+    if (menuDiv.style.opacity === '1' && !menuDiv.contains(event.target)) {
+        menuDiv.style.opacity = '0';
+        
+const opacity = menuDiv.style.opacity
+
+    if(opacity === '1'){
+       menuDiv.style.pointerEvents = 'auto'
+    } else{
+        menuDiv.style.pointerEvents = 'none'
     }
 
-    if (menuDiv_help.style.display === 'block' && !menuDiv_help.contains(event.target) ) {
-        menuDiv_help.style.display = 'none';
+    }
+
+    if (menuDiv_help.style.opacity === '1' && !menuDiv_help.contains(event.target) ) {
+        menuDiv_help.style.opacity = '0';
+
+        const opacity = menuDiv_help.style.opacity
+
+    if(opacity === '1'){
+       menuDiv_help.style.pointerEvents = 'auto'
+    } else{
+        menuDiv_help.style.pointerEvents = 'none'
+    }
+
     }
 });
 

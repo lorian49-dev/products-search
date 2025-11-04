@@ -1,4 +1,4 @@
-
+// Este bloque de codigo es para mostrar y ocultar la contrasena del usuario en cuestion ------------------------------------------------------------------------------------
 function togglePass(id) {
   const input = document.getElementById(id);
   if (input) {
@@ -7,7 +7,7 @@ function togglePass(id) {
   }
 }
 
-// borrar espacios del input al tocar boton limpiar
+// Evento del boton Limpiar, aqui limpia los datos del input ----------------------------------------------------------------------------------------------------------------
 
 let clearButton = document.getElementById('clearButton')
 let inputCreate = document.querySelectorAll('.inputCreate')
@@ -19,7 +19,7 @@ clearButton.addEventListener('click', (event)=>{
     })
 })
 
-// accion de ocultar y mostrar lista
+// accion de ocultar y mostrar lista ----------------------------------------------------------------------------------------------------------------------------------------
 
 function showList(a, b, c){
  if(b){
@@ -76,4 +76,8 @@ liAbout.addEventListener('click', ()=>{
   showList(sheetListAbout, stateAbout, iconList[4])
   stateAbout = !stateAbout
 })
+
+// Aqui termina la accion de mostrar la lista de la barra de navegacion--------------------------------------------------------------------------------------------
+
+
 
