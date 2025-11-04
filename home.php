@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,11 +49,24 @@
             </ul>
         </nav>
         <div class="icons-header">
-            <span><img src="SOURCES/ICONOS-LOGOS/bookmark.svg" alt="wishlist"></span>
-            <span><img src="SOURCES/ICONOS-LOGOS/shopping_bag.svg" alt="Shopping Cart"></span>
+        <span><img src="SOURCES/ICONOS-LOGOS/bookmark.svg" alt="wishlist"></span>
+        <span><img src="SOURCES/ICONOS-LOGOS/shopping_bag.svg" alt="Shopping Cart"></span>
+
+        <!-- perfil usuario -->
+        <?php if (isset($_SESSION['usuario_nombre'])): ?>
+            <div class="perfil-menu">
+                <button class="perfil-btn"> <?php echo htmlspecialchars($_SESSION['usuario_nombre']); ?></button>
+                <div class="dropdown-content">
+                    <a href="#">Mi cuenta</a>
+                    <a href="registros-inicio-sesion/logout.php">Cerrar sesión</a>
+                </div>
+            </div>
+        <?php else: ?>
             <a href="registros-inicio-sesion/login.html"><span class="sisu-buttons"> Sign In</span></a>
             <a href="registros-inicio-sesion/register.html"><span class="sisu-buttons"> Sign Up</span></a>
-        </div>
+        <?php endif; ?>
+    </div>
+    <!-- fin del menu despegable -->
     </header>
     <main>
         <div class="header-box">

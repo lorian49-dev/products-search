@@ -17,11 +17,8 @@ header{
     width: 100%;
     height: 80px;
     display: flex;
-    /* CAMBIO: Usamos space-between para distribuir el espacio automáticamente */
     justify-content: space-between; 
-    /* AÑADIDO: Alinea los elementos verticalmente */
     align-items: center; 
-    /* AÑADIDO: Padding para crear espacio en los bordes en lugar de márgenes fijos */
     padding: 0 2rem;
     background-color: #461d01;
 }
@@ -30,7 +27,6 @@ header{
 
 #logo-hermes-home{
     display: inline-block;
-    /* CAMBIO: Quitamos el ancho fijo para que sea flexible */
     width: auto; 
     height: 100%;
     text-align: center;
@@ -52,18 +48,14 @@ h1{
 /*Barra de navegacion y demas*/
 
 nav{
-    /* CAMBIO: Quitamos el ancho fijo. Flexbox gestionará el espacio */
     width: auto; 
     height: 100%;
     display: flex;
-    /* AÑADIDO: Centramos el menú de navegación en el espacio disponible */
     justify-content: center; 
     align-items: center;
-    /* AÑADIDO: Permite que este elemento crezca para ocupar el espacio sobrante */
     flex-grow: 1; 
 }
 
-/*Menu de opciones de input*/
 nav > ul{
     list-style: none;
     display: flex;
@@ -100,10 +92,9 @@ ul li input{
     padding-left: 10px;
     font-family: 'roboto condensed', sans-serif;
     font-weight: 100;
-    /* CAMBIO: Hacemos el input flexible con límites */
-    width: 100%; /* Ocupa el espacio disponible en su contenedor */
-    min-width: 300px; /* Evita que sea demasiado pequeño */
-    max-width: 400px; /* Evita que sea demasiado grande en pantallas anchas */
+    width: 100%; 
+    min-width: 300px;
+    max-width: 400px; 
 }
 
 #results-container {
@@ -138,7 +129,6 @@ ul li input{
 /*Iconos a la derecha del header*/
 
 .icons-header{
-    /* CAMBIO: Quitamos el ancho y los márgenes fijos */
     width: auto; 
     height: 100%;
     display: flex;
@@ -153,7 +143,8 @@ ul li input{
 }
 
 .icons-header span:hover{
-    filter: brightness(0) saturate(100%) invert(60%) sepia(30%) saturate(500%) hue-rotate(160deg);  transition: 1s;
+    filter: brightness(0) saturate(100%) invert(60%) sepia(30%) saturate(500%) hue-rotate(160deg);  
+    transition: 1s;
 }
 
 .icons-header span:nth-child(3n), .icons-header span:last-child{
@@ -207,40 +198,30 @@ header a{
     text-align: center;
     padding: 1rem 0 1rem 0;
     align-items: center;
-
 }
 
-/* --- Estilos para la Barra de Scroll Personalizada --- */
+/* --- Scroll personalizado --- */
 
 .menu-categoria::-webkit-scrollbar {
-    width: 8px; /* Un poco más de ancho para que sea más fácil de usar */
-  }
-  
-  /* Fondo de la barra de desplazamiento (la pista) */
-  .menu-categoria::-webkit-scrollbar-track {
-    background: transparent; /* Fondo transparente */
+    width: 8px;
+}
+.menu-categoria::-webkit-scrollbar-track {
+    background: transparent;
     border-radius: 10px;
-    /* El margen superior e inferior creará el espacio que buscabas */
     margin: 50px 0; 
-  }
-  
-  /* El "pulgar" o la parte móvil de la barra de desplazamiento */
-  .menu-categoria::-webkit-scrollbar-thumb {
-    background: #461d01; /* Color del pulgar */
+}
+.menu-categoria::-webkit-scrollbar-thumb {
+    background: #461d01;
     border-radius: 10px;
-    border: 2px solid transparent; /* Crea un padding visual alrededor del pulgar */
+    border: 2px solid transparent;
     background-clip: content-box;
-  }
-  
-  /* Estilos para cuando el mouse está sobre la barra */
-  .menu-categoria::-webkit-scrollbar-thumb:hover {
-    background: #6a2c02; /* Un color ligeramente más claro al pasar el mouse */
-  }
-  
-  /* Ocultamos las flechas (esto generalmente no es necesario, pero lo mantenemos por si acaso) */
-  .menu-categoria::-webkit-scrollbar-button {
+}
+.menu-categoria::-webkit-scrollbar-thumb:hover {
+    background: #6a2c02;
+}
+.menu-categoria::-webkit-scrollbar-button {
     display: none;
-  }
+}
 
 .menu-categoria ul li{
     width: 60%;
@@ -257,9 +238,7 @@ header a{
     color: #f8f8f8;
 }
 
-/*Modificacion de el contenedor de la lista de ayuda para minimizar el tamanio del alto del contenedor, y
-con overflow:hidden lo que hacemos es eliminar la regla del overflow scrollbar pasado*/
-
+/*Menu de ayuda*/
 #menu-ayuda{
     min-height: 180px !important;
     max-height: 200px !important;
@@ -267,7 +246,7 @@ con overflow:hidden lo que hacemos es eliminar la regla del overflow scrollbar p
     left: -40px;
 }
 
-/*CONTENEDOR DE IMAGENES Y CARRUSEL PROMOCIONALES*/
+/*CONTENEDOR DE IMAGENES Y CARRUSEL*/
 
 .header-box{
     width: 100vw;
@@ -283,8 +262,6 @@ con overflow:hidden lo que hacemos es eliminar la regla del overflow scrollbar p
     transition: all 1s ease-in-out;
 }
 
-/*Contenido en si del carrusel*/
-
 .slides-box{
     width: 100%;
     height: 100%;
@@ -297,22 +274,18 @@ con overflow:hidden lo que hacemos es eliminar la regla del overflow scrollbar p
     background-repeat: no-repeat;
     background-size: cover;
 }
-
 .slides-box:nth-child(2){
     background-image: url(SOURCES/IMAGENES/header-S-Z-fold-7.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
-
 .slides-box:nth-child(3){
     background-image: url(SOURCES/IMAGENES/header-nintendo-switch-2.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
-
-
 .slides-box:nth-child(4){
     background-image: url(SOURCES/IMAGENES/header-lenovo.png);
     background-position: center;
@@ -320,7 +293,7 @@ con overflow:hidden lo que hacemos es eliminar la regla del overflow scrollbar p
     background-size: cover;
 }
 
-/*Contenedor debajo de los slides*/
+/*Contenedor de ofertas*/
 
 .offerts-box{
     width: 100%;
@@ -345,7 +318,6 @@ con overflow:hidden lo que hacemos es eliminar la regla del overflow scrollbar p
     width: 100%;
     padding: 100px 0 20px 0;
     text-align: center;
-
 }
 
 .offerts-text>h2{
@@ -389,4 +361,56 @@ con overflow:hidden lo que hacemos es eliminar la regla del overflow scrollbar p
     padding: 20px;
 }
 
+/* -------------------- */
+/* 👤 MENÚ DE PERFIL DEL USUARIO */
+/* -------------------- */
 
+.perfil-menu {
+    position: relative; /* // Permite que el desplegable se posicione respecto al botón */
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.perfil-btn {
+    background-color: transparent; /* // Sin fondo */
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff8f1; /* // Texto claro sobre fondo oscuro */
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s;
+}
+
+.perfil-btn:hover {
+    background-color: #ffb000; /* // Amarillo al pasar el mouse */
+    color: #461d01; /* // Texto oscuro */
+}
+
+.dropdown-content {
+    display: none; /* // Oculto por defecto */
+    position: absolute;
+    right: 0;
+    background-color: #fff;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 10;
+    border-radius: 8px;
+}
+
+.dropdown-content a {
+    color: #461d01;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s;
+}
+
+.dropdown-content a:hover {
+    background-color: #ffb000; /* // Efecto hover */
+    color: white;
+}
+
+.perfil-menu:hover .dropdown-content {
+    display: block; /* // Muestra el menú cuando pasas el cursor */
+}
