@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Redirigimos a la página principal (home.php)
             echo "<script>
-                alert('Inisio de sesion exitoso');
+                alert('Inicio de sesion exitoso');
             </script>";
             header("Location: ../home.php");
             exit();

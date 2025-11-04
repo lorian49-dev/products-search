@@ -377,25 +377,29 @@ header a{
     cursor: pointer;
     font-size: 16px;
     color: #fff8f1; /* // Texto claro sobre fondo oscuro */
-    padding: 8px 15px;
+    padding: 10px 20px;
     border-radius: 20px;
-    transition: background-color 0.3s;
+    transition: all 1s ease;
 }
 
 .perfil-btn:hover {
-    background-color: #ffb000; /* // Amarillo al pasar el mouse */
-    color: #461d01; /* // Texto oscuro */
+    background-color: #0097b2;
+    box-shadow: #0097b2 1px 1px 25px;
 }
 
 .dropdown-content {
-    display: none; /* // Oculto por defecto */
     position: absolute;
+    top: 50px;
     right: 0;
     background-color: #fff;
     min-width: 150px;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
     z-index: 10;
     border-radius: 8px;
+    transition: all .5s ease-in-out;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
 }
 
 .dropdown-content a {
@@ -403,14 +407,10 @@ header a{
     padding: 10px 15px;
     text-decoration: none;
     display: block;
-    transition: background-color 0.3s;
+    transition: background-color 0.5s;
 }
 
 .dropdown-content a:hover {
     background-color: #ffb000; /* // Efecto hover */
     color: white;
-}
-
-.perfil-menu:hover .dropdown-content {
-    display: block; /* // Muestra el menú cuando pasas el cursor */
 }

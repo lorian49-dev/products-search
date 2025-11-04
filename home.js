@@ -67,7 +67,29 @@ const opacity = menuDiv.style.opacity
     }
 
     }
+
+
 });
+
+// Evento de cursor sobre informacion del inicio del usuario y perfil
+
+let btnProfile = document.getElementsByClassName('perfil-btn')[0]
+let btnProfileContainer = document.getElementsByClassName('dropdown-content')[0]
+
+btnProfile.addEventListener('click',(Event)=>{
+    Event.stopPropagation()
+    btnProfileContainer.style.opacity = '1'
+    btnProfileContainer.style.pointerEvents = 'auto'
+})
+
+document.addEventListener('click', (event)=>{
+        // adiciono un evento al hacer click fuera del contenedor del perfil
+ if (btnProfileContainer.style.opacity === '1' && !btnProfileContainer.contains(event.target) ) {
+        btnProfileContainer.style.opacity = '0';
+        btnProfileContainer.style.pointerEvents = 'none'
+ }
+
+})
 
 // CARRUSEL----------------------------------------------------
 
