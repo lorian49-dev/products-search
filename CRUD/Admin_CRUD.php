@@ -30,18 +30,31 @@
         <ul class="sheetList">
             <li>Usuarios</li>
             <li>Clientes</li>
-            <li>Vendedores</li>
+             <li>Vendedores</li>
          </ul>
-        <li id="liProducts">Consultar Productos<i class="fa-solid fa-caret-up"></i></li>
+          <li id="liProducts">Consultar Productos<i class="fa-solid fa-caret-up"></i></li>
         <ul class="sheetListProducts">
             <li>Productos</li>
             <li>Categorias</li>
-            <li>Ventas</li>
+            <li>Variantes</li>
          </ul>
-        <li id="liPayments">Consultar Estados de Pago<i class="fa-solid fa-caret-up"></i></li>
-        <li id="liStats">Estadisticas<i class="fa-solid fa-caret-up"></i></li>
-        <li id="liAbout">Acerca de<i class="fa-solid fa-caret-up"></i></li>
+        <li id="liGets">Gestion de pedidos<i class="fa-solid fa-caret-up"></i></li>
+        <ul class="sheetListGets">
+            <li>Listado de ventas por vendedor</li>
+            <li>Disputas</li>
+            <li>Actualizar estados de pedidos</li>
+         </ul>
+        <li id="liStats">Reportes Generales<i class="fa-solid fa-caret-up"></i></li>
+        <ul class="sheetListStats">
+            <li>Mejores Vendedores</li>
+            <li>Mas Vendidos</li>
+            <li>Trafico de la plataforma</li>
         </ul>
+         <li id="liAbout">Acerca de<i class="fa-solid fa-caret-up"></i></li>
+        <ul class="sheetListAbout">
+            <li>Politicas de privacidad y uso</li>
+            <li>Terminos para vendedores</li>
+         </ul>
     </nav>
     <div id="container">
         <form action="create_user.php" method="POST"> <!--Correcion de ortografia en el metodo POST-->
