@@ -39,7 +39,7 @@
     $stmt->bind_param("ssssss", $nombre, $apellido, $correo, $password_h, $fecha_nacimiento, $telefono);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Usuario registrado correctamente'); window.location.href='../home.html';</script>";
+        echo "<script>alert('Usuario registrado correctamente'); window.location.href='../home.php';</script>";
     } else {
         echo "Error al registrar usuario: " . $stmt->error;
     }

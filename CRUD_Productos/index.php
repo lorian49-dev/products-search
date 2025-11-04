@@ -1,8 +1,9 @@
+<?php include('registros-inicio-sesion/session-check.php'); ?>
 <?php
 include("../registros-inicio-sesion/connect.php");
 
 $sql = "SELECT * FROM producto";
-$resultado = $conexion->query($sql);
+$resultado = $connect->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -52,14 +53,14 @@ $resultado = $conexion->query($sql);
         if ($resultado && $resultado->num_rows > 0) {
             while ($fila = $resultado->fetch_assoc()) {
                 echo "<tr>";
-                echo "<td>" . $fila["ID_Producto"] . "</td>";
-                echo "<td>" . $fila["Nombre_Producto"] . "</td>";
-                echo "<td>" . $fila["Descripcion"] . "</td>";
-                echo "<td>" . $fila["Precio"] . "</td>";
-                echo "<td>" . $fila["Stock"] . "</td>";
+                echo "<td>" . $fila["id_producto"] . "</td>";
+                echo "<td>" . $fila["nombre"] . "</td>";
+                echo "<td>" . $fila["descripcion"] . "</td>";
+                echo "<td>" . $fila["precio"] . "</td>";
+                echo "<td>" . $fila["stock"] . "</td>";
                 echo "<td>
-                        <a href='editar.php?id=" . $fila["ID_Producto"] . "'>Editar</a> |
-                        <a class='borrar' href='eliminar.php?id=" . $fila["ID_Producto"] . "' 
+                        <a href='editar.php?id=" . $fila["id_producto"] . "'>Editar</a> |
+                        <a class='borrar' href='eliminar.php?id=" . $fila["id_producto"] . "' 
                            onclick=\"return confirm('¿Estás seguro de eliminar este producto?');\">Eliminar</a>
                       </td>";
                 echo "</tr>";

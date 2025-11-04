@@ -7,7 +7,7 @@ if (!isset($_GET['id'])) {
 
 $id = $_GET['id'];
 $sql = "SELECT * FROM producto WHERE ID_Producto = $id";
-$resultado = $conexion->query($sql);
+$resultado = $connect->query($sql);
 
 if (!$resultado || $resultado->num_rows == 0) {
     die("No se encontró el producto con ID $id");
@@ -22,14 +22,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stock = $_POST["stock"];
 
     $sql_update = "UPDATE producto 
-                   SET Nombre_Producto='$nombre', Descripcion='$descripcion', Precio='$precio', Stock='$stock'
+                   SET nombre='$nombre', descripcion='$descripcion', precio='$precio', stock='$stock'
                    WHERE ID_Producto=$id";
 
-    if ($conexion->query($sql_update)) {
+    if ($connect->query($sql_update)) {
         header("Location: index.php");
         exit;
     } else {
-        echo "Error al actualizar: " . $conexion->error;
+        echo "Error al actualizar: " . $connect->error;
     }
 }
 ?>
@@ -44,16 +44,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h1>Editar Producto</h1>
     <form method="POST">
         <label>Nombre:</label><br>
-        <input type="text" name="nombre" value="<?php echo htmlspecialchars($fila['Nombre_Producto']); ?>" required><br><br>
+        <input type="text" name="nombre" value="<?php echo htmlspecialchars($fila['nombre']); ?>" required><br><br>
 
         <label>Descripción:</label><br>
-        <textarea name="descripcion" rows="4"><?php echo htmlspecialchars($fila['Descripcion']); ?></textarea><br><br>
+        <textarea name="descripcion" rows="4"><?php echo htmlspecialchars($fila['descripcion']); ?></textarea><br><br>
 
         <label>Precio:</label><br>
-        <input type="number" name="precio" step="0.01" value="<?php echo htmlspecialchars($fila['Precio']); ?>" required><br><br>
+        <input type="number" name="precio" step="0.01" value="<?php echo htmlspecialchars($fila['precio']); ?>" required><br><br>
 
         <label>Stock:</label><br>
-        <input type="number" name="stock" value="<?php echo htmlspecialchars($fila['Stock']); ?>" required><br><br>
+        <input type="number" name="stock" value="<?php echo htmlspecialchars($fila['stock']); ?>" required><br><br>
 
         <input type="submit" value="Actualizar">
     </form>

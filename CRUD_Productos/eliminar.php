@@ -2,6 +2,6 @@
 
 <?php
 $id = $_GET["id"];
-$conexion->query("DELETE FROM producto WHERE ID_Producto=$id");
+$connect->query("DELETE FROM producto WHERE id_producto=$id");
 header("Location: index.php");
 ?>

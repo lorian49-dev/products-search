@@ -1,3 +1,4 @@
+<?php include('registros-inicio-sesion/session-check.php'); ?>
 <?php include("../registros-inicio-sesion/connect.php"); ?>
 
 <?php
@@ -7,9 +8,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $precio = $_POST["precio"];
     $stock = $_POST["stock"];
 
-    $sql = "INSERT INTO producto (Nombre_Producto, Descripcion, Precio, Stock)
+    $sql = "INSERT INTO producto (nombre, descripcion, precio, stock)
         VALUES ('$nombre', '$descripcion', '$precio', '$stock')";
-    $conexion->query($sql);
+    $connect->query($sql);
 
     header("Location: index.php");
 }
