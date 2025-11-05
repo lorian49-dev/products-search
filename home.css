@@ -144,7 +144,7 @@ ul li input{
 
 .icons-header span:hover{
     filter: brightness(0) saturate(100%) invert(60%) sepia(30%) saturate(500%) hue-rotate(160deg);  
-    transition: 1s;
+    transition: .5s;
 }
 
 .icons-header span:nth-child(3n), .icons-header span:last-child{
@@ -379,7 +379,12 @@ header a{
     color: #fff8f1; /* // Texto claro sobre fondo oscuro */
     padding: 10px 20px;
     border-radius: 20px;
-    transition: all 1s ease;
+    transition: all .5s ease;
+}
+
+.perfil-btn.active{
+    background-color: #0097b2;
+    box-shadow: #0097b2 1px 1px 25px;
 }
 
 .perfil-btn:hover {
@@ -407,7 +412,7 @@ header a{
     padding: 10px 15px;
     text-decoration: none;
     display: block;
-    transition: background-color 0.5s;
+    transition: background-color .5s ease-in-out;
 }
 
 .dropdown-content a:hover {

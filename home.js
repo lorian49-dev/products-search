@@ -1,94 +1,73 @@
-const menuTrigger = document.getElementById('span-menu-categoria');
-const menuTrigger_help = document.getElementById('ayuda-listado')
-const menuDiv = document.getElementById('menu-categoria');
-const menuDiv_help = document.getElementById('menu-ayuda');
+const triggerCategories = document.getElementById('span-menu-categoria')
+const divCategories = document.getElementById('menu-categoria')
+const triggerHelp = document.getElementById('ayuda-listado')
+const divHelp = document.getElementById('menu-ayuda')
 
-menuTrigger.addEventListener('click', (event) => {
-    // Evita que al hacer clic en el trigger se cierre el menú inmediatamente
-    event.stopPropagation(); 
-    
-    // Muestra u oculta el menú cada vez que se hace clic
-    const isVisible = menuDiv.style.opacity === '1';
-    menuDiv.style.opacity = isVisible ? '0' : '1';
 
-    const opacity = menuDiv.style.opacity
+function listTriggerEvents(req1, req2){
+ req1.addEventListener('click', (event)=>{
+    event.stopPropagation()
+    const isVisible = req2.style.opacity === '1'
+    req2.style.opacity = isVisible?'0':'1'
 
-    if(opacity === '1'){
-       menuDiv.style.pointerEvents = 'auto'
+    if(req2.style.opacity === '1'){
+    req2.style.pointerEvents = 'auto'
     } else{
-        menuDiv.style.pointerEvents = 'none'
+        req2.style.pointerEvents = 'none'
     }
-    
+})
 
-});
+document.addEventListener('click', (event)=>{
+    if(req2.style.opacity==='1' && !req2.contains(event.target)){
+       req2.style.opacity = '0'
+       req2.style.pointerEvents = 'none'
 
-menuTrigger_help.addEventListener('click', (event) => {
-    // Evita que al hacer clic en el trigger se cierre el menú inmediatamente
-    event.stopPropagation(); 
-    
-    // Muestra u oculta el menú cada vez que se hace clic
-    const isVisible = menuDiv_help.style.opacity === '1';
-    menuDiv_help.style.opacity = isVisible ? '0' : '1';
-    //Control de enventos por la opacidad del contenedor
-    const opacity = menuDiv_help.style.opacity
+    }
+})
+}
 
-    if(opacity === '1'){
-       menuDiv_help.style.pointerEvents = 'auto'
+listTriggerEvents(triggerCategories, divCategories) // aqui llamamos a nuestra funcion dandole los argumentos que necesita para funcionar
+listTriggerEvents(triggerHelp, divHelp) // igual aca, solo que este es para la lista de ayuda
+
+
+/*triggerCategories.addEventListener('click', (event)=>{
+    event.stopPropagation()
+    const isVisible = divCategories.style.opacity === '1'
+    divCategories.style.opacity = isVisible?'0':'1'
+
+    if(divCategories.style.opacity === '1'){
+    divCategories.style.pointerEvents = 'auto'
     } else{
-        menuDiv_help.style.pointerEvents = 'none'
+        divCategories.style.pointerEvents = 'none'
     }
-});
+})
 
-//Cierra el menú si se hace clic en cualquier otro lugar de la página
-document.addEventListener('click', (event) => {
-    // Si el menú está visible Y el clic fue fuera del menú
-    if (menuDiv.style.opacity === '1' && !menuDiv.contains(event.target)) {
-        menuDiv.style.opacity = '0';
-        
-const opacity = menuDiv.style.opacity
-
-    if(opacity === '1'){
-       menuDiv.style.pointerEvents = 'auto'
-    } else{
-        menuDiv.style.pointerEvents = 'none'
-    }
+document.addEventListener('click', (event)=>{
+    if(divCategories.style.opacity==='1' && !divCategories.contains(event.target)){
+       divCategories.style.opacity = '0'
+       divCategories.style.pointerEvents = 'none'
 
     }
+})*/
 
-    if (menuDiv_help.style.opacity === '1' && !menuDiv_help.contains(event.target) ) {
-        menuDiv_help.style.opacity = '0';
-
-        const opacity = menuDiv_help.style.opacity
-
-    if(opacity === '1'){
-       menuDiv_help.style.pointerEvents = 'auto'
-    } else{
-        menuDiv_help.style.pointerEvents = 'none'
-    }
-
-    }
-
-
-});
 
 // Evento de cursor sobre informacion del inicio del usuario y perfil
 
 let btnProfile = document.getElementsByClassName('perfil-btn')[0]
 let btnProfileContainer = document.getElementsByClassName('dropdown-content')[0]
 
-btnProfile.addEventListener('click',(Event)=>{
-    Event.stopPropagation()
-    btnProfileContainer.style.opacity = '1'
-    btnProfileContainer.style.pointerEvents = 'auto'
+listTriggerEvents(btnProfile, btnProfileContainer)
+
+btnProfile.addEventListener('click', (event)=>{
+    event.stopPropagation()
+    btnProfile.classList.toggle('active')
+   // btnProfile.classList.add('active')
 })
 
 document.addEventListener('click', (event)=>{
-        // adiciono un evento al hacer click fuera del contenedor del perfil
- if (btnProfileContainer.style.opacity === '1' && !btnProfileContainer.contains(event.target) ) {
-        btnProfileContainer.style.opacity = '0';
-        btnProfileContainer.style.pointerEvents = 'none'
- }
-
+    if(btnProfile.classList.contains('active') && !btnProfile.contains(event.target)){
+        btnProfile.classList.remove('active')
+    }
 })
 
 // CARRUSEL----------------------------------------------------
@@ -116,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 'entries' es el informe del vigilante
         const entry = entries[0];
         
-        // La gran decisión: ¿El carrusel está visible?
+        //  ¿El carrusel está visible?
         if (entry.isIntersecting) {
             // Si está visible, le damos a "play"
             // Guardamos el ID que nos devuelve setInterval
