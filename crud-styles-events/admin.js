@@ -109,8 +109,12 @@ btnEdit.forEach(promise =>{
 
     modalWindow.style.opacity = '1'
     modalWindow.style.pointerEvents = 'auto'
+
+    setTimeout(()=>{
     modalContainer.style.opacity = '1'
     modalContainer.style.pointerEvents = 'auto'
+    modalContainer.style.transform = 'translateY(0)'
+    }, 500)
     
   })
 })
@@ -122,4 +126,5 @@ buttonBack.addEventListener('click', ()=>{
     modalWindow.style.pointerEvents = 'none'
     modalContainer.style.opacity = '0'
     modalContainer.style.pointerEvents = 'none'
+    modalContainer.style.transform = 'translateY(-100%)'
 })

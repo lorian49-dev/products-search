@@ -281,8 +281,8 @@ a{
 }
 
 .modalContainer{
-  width: 600px;
-  height: 700px;
+  width: 500px;
+  height: 600px;
   background-color: #fff8f1;
   border-radius: 30px;
   padding: 20px;
@@ -292,7 +292,8 @@ a{
   position: relative;
   opacity: 0;
   pointer-events: none;
-  transition: all 2s ease-in-out;
+  transition: all .5s ease;
+  transform: translateY(-100%);
 }
 
 .formUpdateUser{
