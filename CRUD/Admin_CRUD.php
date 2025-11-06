@@ -106,13 +106,44 @@
                     <td><?= $row['telefono']?></td>
 
                 <!--Línea 55 Corregida: Debes añadir 'id=' y cerrar la etiqueta la Columna ID_Usuario esta distinta</a>-->
-<td><a href="update_user.php?id_usuario=<?= $row['id_usuario']?>" >Editar</a></td>  <!--Modificacion en la ruta de acceso de id a ID_usuario-->
+<td><a href="#" 
+     class="btn-edit" 
+     data-id="<?=$row['id_usuario']?>"
+     data-name="<?=$row['nombre']?>"
+     data-lastname="<?=$row['apellido']?>"
+     data-email="<?=$row['correo']?>"
+     data-password="<?=$row['contrasena']?>"
+     data-birthday="<?=$row['fecha_nacimiento']?>"
+     data-phone="<?=$row['telefono']?>"
+     >
+     Editar
+  </a></td>  <!--Modificacion en la ruta de acceso de id a ID_usuario-->
                 <!--Línea 57 Corregida: Debes añadir 'id=' y cerrar la etiqueta, la Columna ID_Usuario esta distinta </a>-->
 <td><a href="delete_user.php?id_usuario=<?= $row['id_usuario']?>">Eliminar</a></td>
                 </tr>
                 <?php endwhile;?>
             </tbody>
         </table>
+    </div>
+
+    <div class="modalWindow">
+        <div class="modalContainer">
+            <span class="back-icon"><img src="../SOURCES/ICONOS-LOGOS/return.svg"></span>
+            <form action="update_user.php" method="POST" class="formUpdateUser">
+            <h2>Actualizar Datos</h2>
+                <!--Input invisible, simplemente sirve de guia para lo que se muestra al lado--> 
+              <input type="hidden" name="id_usuario">
+                <!--Campos editables-->
+              <input type="text" name="name" placeholder="Nombres">
+              <input type="text" name="lastname" placeholder="Apellidos">
+              <input type="text" name="email" placeholder="E-mail">
+              <input type="text" name="password" placeholder="Clave">
+              <input type="date" name="birthday" placeholder="Fecha de nacimiento">
+              <input type="text" name="phone" placeholder="Telefono">
+               <!-- Botón para enviar el formulario -->
+              <button type="submit">Guardar</button>
+            </form>
+        </div>
     </div>
 
 <script src="../crud-styles-events/admin.js"></script>

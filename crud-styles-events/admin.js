@@ -80,4 +80,46 @@ liAbout.addEventListener('click', ()=>{
 // Aqui termina la accion de mostrar la lista de la barra de navegacion--------------------------------------------------------------------------------------------
 
 
+let btnEdit = document.querySelectorAll('.btn-edit')
+let modalWindow = document.getElementsByClassName('modalWindow')[0]
+let modalContainer = document.getElementsByClassName('modalContainer')[0]
+btnEdit.forEach(promise =>{
+  promise.addEventListener('click', (event)=>{
+    event.preventDefault()
 
+    // obtenemos los valores en las variables
+
+    const id = promise.dataset.id
+    const name = promise.dataset.name
+    const lastname = promise.dataset.lastname
+    const email = promise.dataset.email
+    const password = promise.dataset.password
+    const birthday = promise.dataset.birthday
+    const phone = promise.dataset.phone
+
+    const form = document.querySelector('.formUpdateUser')
+
+    form.id_usuario.value = id
+    form.name.value = name
+    form.lastname.value = lastname
+    form.email.value = email
+    form.password.value = password
+    form.birthday.value = birthday
+    form.phone.value = phone
+
+    modalWindow.style.opacity = '1'
+    modalWindow.style.pointerEvents = 'auto'
+    modalContainer.style.opacity = '1'
+    modalContainer.style.pointerEvents = 'auto'
+    
+  })
+})
+
+const buttonBack = document.querySelector('.back-icon')
+
+buttonBack.addEventListener('click', ()=>{
+    modalWindow.style.opacity = '0'
+    modalWindow.style.pointerEvents = 'none'
+    modalContainer.style.opacity = '0'
+    modalContainer.style.pointerEvents = 'none'
+})

@@ -261,4 +261,95 @@ a{
     color: gray;
 }
 
-/**/
+/*Ventana modal*/
+
+.modalWindow{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: rgba(165, 165, 165, 0.356);
+    backdrop-filter: blur(3px);
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .5s ease;
+}
+
+.modalContainer{
+  width: 600px;
+  height: 700px;
+  background-color: #fff8f1;
+  border-radius: 30px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.514);
+  position: relative;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 2s ease-in-out;
+}
+
+.formUpdateUser{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.formUpdateUser input{
+    padding: 15px 10px;
+    border-radius: 10px;
+    border-style: none;
+    width: 200px;
+    box-shadow: #2b2b2b7e 1px 1px 5px;
+    font-family: 'roboto condensed', sans-serif;
+}
+
+.formUpdateUser button{
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    border-style: none;
+    box-shadow: #2b2b2b7e 1px 1px 5px;
+    font-family: 'roboto condensed', sans-serif;
+    background-color: #461d01;
+    transition: all .2s ease;
+    color: #fff8f1;
+    cursor: pointer;
+}
+
+.formUpdateUser button:hover{
+    transform: scale(1.1);
+    background-color: #0097b2;
+    box-shadow: #0097b2 1px 1px 10px 1px;
+}
+
+.formUpdateUser h2{
+    margin-bottom: 20px;
+}
+
+.back-icon{
+    position: absolute;
+    width: 40px;
+    height: 30px;
+    top: 30px;
+    left: 30px;
+    transition: all .5s ease;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+.back-icon:hover{
+transform: translateX(-10px);
+    filter: brightness(0) saturate(100%) invert(60%) sepia(30%) saturate(500%) hue-rotate(160deg);
+    box-shadow: black 1px 0px 0px;
+
+}
