@@ -32,18 +32,7 @@
     <main>
         <h2>Como comenzar a vender?</h2>
         <section>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint rem quasi, voluptatibus omnis porro fugit! Nesciunt nobis nulla eum quaerat quia dignissimos officiis corporis quas optio cum, odio temporibus debitis amet quasi consequatur, tempore cupiditate excepturi voluptatum! Doloribus nihil nemo magni voluptates impedit soluta. Temporibus velit dicta itaque blanditiis dolore!
-            </p>
-             <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint rem quasi, voluptatibus omnis porro fugit! Nesciunt nobis nulla eum quaerat quia dignissimos officiis corporis quas optio cum, odio temporibus debitis amet quasi consequatur, tempore cupiditate excepturi voluptatum! Doloribus nihil nemo magni voluptates impedit soluta. Temporibus velit dicta itaque blanditiis dolore!
-            </p>
-             <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint rem quasi, voluptatibus omnis porro fugit! Nesciunt nobis nulla eum quaerat quia dignissimos officiis corporis quas optio cum, odio temporibus debitis amet quasi consequatur, tempore cupiditate excepturi voluptatum! Doloribus nihil nemo magni voluptates impedit soluta. Temporibus velit dicta itaque blanditiis dolore!
-            </p>
-             <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint rem quasi, voluptatibus omnis porro fugit! Nesciunt nobis nulla eum quaerat quia dignissimos officiis corporis quas optio cum, odio temporibus debitis amet quasi consequatur, tempore cupiditate excepturi voluptatum! Doloribus nihil nemo magni voluptates impedit soluta. Temporibus velit dicta itaque blanditiis dolore!
-            </p>
+            
         </section>
         <aside>
             <h2>Sumario</h2>

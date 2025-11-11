@@ -26,7 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Creamos cookie para recordar sesión 30 días
             setcookie("usuario_id", $usuario['id'], time() + (86400 * 30), "/");
-
             // Redirigimos a la página principal (home.php)
             echo "<script>
                 alert('Inicio de sesion exitoso');
