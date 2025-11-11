@@ -1,8 +1,14 @@
+
+// Esperamos a que todo el contenido de la página (HTML) esté cargado
+document.addEventListener('DOMContentLoaded', () => {
+// Elementos del menú de categorías y ayuda
+
 const triggerCategories = document.getElementById('span-menu-categoria')
 const divCategories = document.getElementById('menu-categoria')
 const triggerHelp = document.getElementById('ayuda-listado')
 const divHelp = document.getElementById('menu-ayuda')
 
+// Función para manejar eventos de apertura/cierre de menús
 
 function listTriggerEvents(req1, req2){
  req1.addEventListener('click', (event)=>{
@@ -26,8 +32,13 @@ document.addEventListener('click', (event)=>{
 })
 }
 
-listTriggerEvents(triggerCategories, divCategories) // aqui llamamos a nuestra funcion dandole los argumentos que necesita para funcionar
-listTriggerEvents(triggerHelp, divHelp) // igual aca, solo que este es para la lista de ayuda
+if(triggerCategories && divCategories){
+ listTriggerEvents(triggerCategories, divCategories) // aqui llamamos a nuestra funcion dandole los argumentos que necesita para funcionar
+}
+ if(triggerHelp && divHelp){
+    listTriggerEvents(triggerHelp, divHelp) // igual aca, solo que este es para la lista de ayuda
+ }
+
 
 
 /*triggerCategories.addEventListener('click', (event)=>{
@@ -56,9 +67,10 @@ document.addEventListener('click', (event)=>{
 let btnProfile = document.getElementsByClassName('perfil-btn')[0]
 let btnProfileContainer = document.getElementsByClassName('dropdown-content')[0]
 
-listTriggerEvents(btnProfile, btnProfileContainer)
+if(btnProfile && btnProfileContainer){
+    listTriggerEvents(btnProfile, btnProfileContainer)
 
-btnProfile.addEventListener('click', (event)=>{
+    btnProfile.addEventListener('click', (event)=>{
     event.stopPropagation()
     btnProfile.classList.toggle('active')
    // btnProfile.classList.add('active')
@@ -69,11 +81,11 @@ document.addEventListener('click', (event)=>{
         btnProfile.classList.remove('active')
     }
 })
+}
+
+
 
 // CARRUSEL----------------------------------------------------
-
-// Esperamos a que todo el contenido de la página (HTML) esté cargado
-document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1. Seleccionamos los elementos y preparamos las variables ---
     const contenedorCarrusel = document.querySelector('.header-box');
@@ -110,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 4. Le decimos al vigilante qué elemento debe observar ---
     observer.observe(contenedorCarrusel);
 
-});
+
 
 // enlace a otras paginas
 
@@ -119,3 +131,5 @@ let linkSell = document.getElementById('venderPage')
 linkSell.addEventListener('click', ()=>{
     window.location.href = 'seller/dashboardSeller.php'
 })
+
+});
