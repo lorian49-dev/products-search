@@ -13,12 +13,17 @@ session_start();
 </head>
 <body>
     <header>
+        <div class="top">
         <span id="logo-hermes-home"><h1>HERMES</h1></span>
-        <nav>
-            <ul>
+        <ul style="list-style:none;">
                 <li><input type="text" name="search-product" id="input-search-product" placeholder="Buscar producto...">
                 <div id="results-container"></div>
                 </li>
+        </ul>
+        </div>
+        <div class="bottom">
+        <nav>
+            <ul>
                 <li><span id="span-menu-categoria">Categorias</span>
                     <div id="menu-categoria" class="menu-categoria">
                         <ul>
@@ -48,11 +53,9 @@ session_start();
                 </li>
             </ul>
         </nav>
-        <div class="icons-header">
-        <span><img src="SOURCES/ICONOS-LOGOS/bookmark.svg" alt="wishlist"></span>
-        <span><img src="SOURCES/ICONOS-LOGOS/shopping_bag.svg" alt="Shopping Cart"></span>
 
-        <!-- perfil usuario -->
+        <div class="account-header">
+          <!-- perfil usuario -->
         <?php if (isset($_SESSION['usuario_nombre'])): ?>
             <div class="perfil-menu">
                 <button class="perfil-btn"> <?php echo htmlspecialchars($_SESSION['usuario_nombre']); ?></button>
@@ -65,8 +68,13 @@ session_start();
             <a href="registros-inicio-sesion/login.html"><span class="sisu-buttons"> Sign In</span></a>
             <a href="registros-inicio-sesion/register.html"><span class="sisu-buttons"> Sign Up</span></a>
         <?php endif; ?>
-    </div>
     <!-- fin del menu despegable -->
+        </div>
+        <div class="icons-header">
+        <span><img src="SOURCES/ICONOS-LOGOS/bookmark.svg" alt="wishlist"></span>
+        <span><img src="SOURCES/ICONOS-LOGOS/shopping_bag.svg" alt="Shopping Cart"></span>
+        </div>
+     </div>
     </header>
     <main>
         <div class="header-box">

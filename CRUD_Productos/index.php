@@ -11,36 +11,22 @@ $resultado = $connect->query($sql);
 <head>
     <meta charset="UTF-8">
     <title>Lista de Productos</title>
-    <style>
-        table {
-            width: 90%;
-            border-collapse: collapse;
-            margin: 20px auto;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: center;
-        }
-        th {
-            background: #333;
-            color: white;
-        }
-        a {
-            text-decoration: none;
-            color: blue;
-        }
-        a.borrar {
-            color: red;
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
+    <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
 </head>
 <body>
+
+<nav>
+ 
+</nav>
+
     <h1 style="text-align:center;">Lista de Productos</h1>
     <p style="text-align:center;"><a href="agregar.php">Agregar nuevo producto</a></p>
 
     <table>
-        <tr>
+        <thead>
+            <tr>
             <th>ID</th>
             <th>Nombre</th>
             <th>Descripción</th>
@@ -48,6 +34,7 @@ $resultado = $connect->query($sql);
             <th>Stock</th>
             <th>Acciones</th>
         </tr>
+        </thead>
 
         <?php
         if ($resultado && $resultado->num_rows > 0) {

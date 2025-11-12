@@ -15,12 +15,26 @@ body{
 
 header{
     width: 100%;
-    height: 80px;
     display: flex;
+    flex-direction: column;
     justify-content: space-between; 
     align-items: center; 
-    padding: 0 2rem;
+    padding: 0 2rem 2rem 2rem;
     background-color: #461d01;
+}
+
+.top{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.bottom{
+    display: flex;
+    align-items: center;
+    gap: 30px;
 }
 
 /*Logo*/
@@ -61,7 +75,7 @@ nav > ul{
     display: flex;
     align-items: center;
     height: 100%;
-    gap: 3rem;
+    gap: 1rem;
 }
 
 nav ul li{
@@ -88,13 +102,12 @@ nav ul li span:hover{
 ul li input{
     height: 40px;
     border: 2px solid #461d01;
-    border-radius:10px;
+    border-radius:25px;
     padding-left: 10px;
     font-family: 'roboto condensed', sans-serif;
     font-weight: 100;
-    width: 100%; 
-    min-width: 300px;
-    max-width: 400px; 
+    min-width: 400px;
+    max-width: 700px; 
 }
 
 #results-container {
@@ -136,6 +149,13 @@ ul li input{
     align-items: center;
     gap: 1rem;
 }
+.account-header{    
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    margin-right: 20px;
+    gap: 1rem;
+}
 
 .icons-header span{
     cursor: pointer;
@@ -147,7 +167,7 @@ ul li input{
     transition: .5s;
 }
 
-.icons-header span:nth-child(3n), .icons-header span:last-child{
+.account-header span:nth-child(3n), .account-header span:last-child{
     width: 80px;
     filter: none;
     background-color: #ffb000;
@@ -157,7 +177,7 @@ ul li input{
     transition: all .5s ease;
 }
 
-.icons-header span:nth-child(3n):hover, .icons-header span:last-child:hover{
+.account-header span:nth-child(3n):hover, .account-header span:last-child:hover{
     background-color: #0097b2;
     color: #fff8f1;
     box-shadow: #0097b2 1px 1px 25px;
@@ -376,7 +396,7 @@ header a{
     border: none;
     cursor: pointer;
     font-size: 16px;
-    color: #fff8f1; /* // Texto claro sobre fondo oscuro */
+    color: #ffffff; /* // Texto claro sobre fondo oscuro */
     padding: 10px 20px;
     border-radius: 20px;
     transition: all .5s ease;
