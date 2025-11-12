@@ -16,9 +16,11 @@ session_start();
         <div class="top">
         <span id="logo-hermes-home"><h1>HERMES</h1></span>
         <ul style="list-style:none;">
+            <div class="input-search-product-box">
                 <li><input type="text" name="search-product" id="input-search-product" placeholder="Buscar producto...">
                 <div id="results-container"></div>
                 </li>
+            </div>    
         </ul>
         </div>
         <div class="bottom">
