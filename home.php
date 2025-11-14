@@ -96,11 +96,11 @@ session_start();
             <div class="card">
                 <div class="card-preview">
                  <div class="preview-description">
-                  <span>NIKE</span>
-                  <span>Air Force One 2</span>
+                  <span><strong>NIKE</strong></span>
+                  <span>Air Force One Supreme</span>  
                  </div>
                  <div class="preview-image">
-
+                  
                  </div>
                  <div class="preview-color">
 

@@ -133,3 +133,9 @@ linkSell.addEventListener('click', ()=>{
 })
 
 });
+
+// Imagenes de prueba para el carrusel de productos  
+
+const preview_image = document.querySelector('.preview-image')
+
+preview_image.style.backgroundImage = 'url("https://www.laces.mx/cdn/shop/files/DD8959-115_1.jpg?v=1754878157&width=1024")';
