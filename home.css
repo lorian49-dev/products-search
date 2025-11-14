@@ -427,7 +427,8 @@ header a{
 .dropdown-content {
     position: absolute;
     top: 50px;
-    right: 0;
+    left: 0;
+    transform: translateX(-25%);
     background-color: #fff;
     min-width: 150px;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
