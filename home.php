@@ -93,11 +93,87 @@ session_start();
             <h2>SOLO POR HOY !</h2>
           </div>
           <div class="offerts-box-targets-cards">
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
+            <div class="card">
+                <div class="card-preview">
+                 <div class="preview-description">
+                  <span><strong>NIKE</strong></span>
+                  <span>Air Force One Supreme</span>  
+                 </div>
+                 <div class="preview-image">
+                  
+                 </div>
+                 <div class="preview-color">
+
+                 </div>
+                </div>
+                <div class="card-info">
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview">
+                 <div class="preview-description">
+                  
+                 </div>
+                 <div class="preview-image">
+
+                 </div>
+                 <div class="preview-color">
+
+                 </div>
+                </div>
+                <div class="card-info">
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview">
+                 <div class="preview-description">
+                  
+                 </div>
+                 <div class="preview-image">
+
+                 </div>
+                 <div class="preview-color">
+
+                 </div>
+                </div>
+                <div class="card-info">
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview">
+                 <div class="preview-description">
+                  
+                 </div>
+                 <div class="preview-image">
+
+                 </div>
+                 <div class="preview-color">
+
+                 </div>
+                </div>
+                <div class="card-info">
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview">
+                 <div class="preview-description">
+                  
+                 </div>
+                 <div class="preview-image">
+
+                 </div>
+                 <div class="preview-color">
+
+                 </div>
+                </div>
+                <div class="card-info">
+
+                </div>
+            </div>
           </div>
          </div>
         </div>
