@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="register.css">
+    <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
+</head>
+<body>
+    <main>
+        <div class="contenedor">
+       <span class="back-icon"><a href="../home.php"><img src="../SOURCES/ICONOS-LOGOS/return.svg"></a></span>
+            <div class="tittle-text">
+                <h1>Registrarse</h1>
+                <p>Ya tienes Una Cuenta? <a href="login.html">Iniciar Sesion</a></p>
+            </div>
+
+            <form method="post" action="register_user.php">
+            <input type="text" name="name-user" id="name-user-id" placeholder="Nombre..." required>
+            <input type="text" name="second-name-user" id="second-name-user-id" placeholder="Apellido..." required>
+            <input type="email" name="email-user" id="email-user-id" placeholder="email" required>
+            <input type="password" name="pass-user" id="pass-user-id" placeholder="Clave" required>
+            <input type="text" name="birth-user" id="birth-user-id" placeholder="Fecha de nacimiento" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" required>
+            <input type="tel" name="phone-user" id="phoner-user-id" placeholder="Numero de telefono">
+            <button type="submit" class="send-info"><span>Registrarse</span></button>
+        </form>
+        </div>
+        
+    </main>
+</body>
+</html>
