@@ -100,10 +100,10 @@ session_start();
                   <span>Air Force One Supreme</span>  
                  </div>
                  <div class="preview-image">
-                  
+        <!--Imagen como Background del producto-->
                  </div>
                  <div class="preview-color">
-
+                  
                  </div>
                 </div>
                 <div class="card-info">

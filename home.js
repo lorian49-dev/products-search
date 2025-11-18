@@ -139,3 +139,9 @@ linkSell.addEventListener('click', ()=>{
 const preview_image = document.querySelector('.preview-image')
 
 preview_image.style.backgroundImage = 'url("https://www.laces.mx/cdn/shop/files/DD8959-115_1.jpg?v=1754878157&width=1024")';
+
+const arrayColors = ['#F8FAFC', '#F4320B']
+
+let preview_color = document.querySelector('.preview-color')
+
+
