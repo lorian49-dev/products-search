@@ -42,23 +42,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Crear Negocio</title>
     <style>
-        body{
+        body {
             font-family: Arial;
             background: #f5f5f5;
         }
-        form{
+
+        form {
             background: white;
             width: 400px;
             margin: 40px auto;
             padding: 25px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
-        input, textarea, select{
+
+        input,
+        textarea,
+        select {
             width: 100%;
             padding: 10px;
             margin-top: 8px;
@@ -66,7 +71,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border: 1px solid #ccc;
             border-radius: 6px;
         }
-        button{
+
+        button {
             background: #ff9800;
             border: none;
             padding: 12px;
@@ -75,35 +81,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-size: 16px;
             cursor: pointer;
         }
-        button:hover{
+
+        button:hover {
             background: #e68900;
         }
+
+        .btn-volver {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 15px;
+            background: #ccc;
+            color: #000;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-volver:hover {
+            background: #b3b3b3;
+        }    
     </style>
 </head>
+
 <body>
 
-<h2 style="text-align:center; margin-top:20px;">Crear Tu Negocio</h2>
+    <h2 style="text-align:center; margin-top:20px;">Crear Tu Negocio</h2>
 
-<form method="POST">
+    <form method="POST">
 
-    <label>Nombre del Negocio:</label>
-    <input type="text" name="nombre_negocio" required>
-    
-    <label>correo:</label>
-    <input type="text" name="correo" required>
+        <label>Nombre del Negocio:</label>
+        <input type="text" name="nombre_negocio" required>
 
-    <label>Descripción:</label>
-    <textarea name="descripcion" rows="4" required></textarea>
+        <label>correo:</label>
+        <input type="text" name="correo" required>
 
-    <label>Dirección (si aplica):</label>
-    <input type="text" name="direccion">
+        <label>Descripción:</label>
+        <textarea name="descripcion" rows="4" required></textarea>
 
-    <label>Teléfono:</label>
-    <input type="text" name="telefono" required>
+        <label>Dirección (si aplica):</label>
+        <input type="text" name="direccion">
 
-    <button type="submit">Crear Negocio</button>
+        <label>Teléfono:</label>
+        <input type="text" name="telefono" required>
 
-</form>
+        <button type="submit">Crear Negocio</button>
+
+        <a href="dashboardSeller.php" class="btn-volver">Volver</a>
+
+    </form>
 
 </body>
+
 </html>
