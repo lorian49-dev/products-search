@@ -111,6 +111,11 @@ header i{
   transition: background-color 0.3s ease;
 }
 
+a{
+  text-decoration: none;
+  color: #461d01;
+}
+
 .manageBussines::before, .newBussines::before {
   content: '';
   display: inline-block;
@@ -142,7 +147,7 @@ header i{
 
 /* Al pasar el mouse: se desplaza y se hace visible */
 .manageBussines:hover::after, .newBussines:hover::after {
-  transform: translateX(150%) rotate(60deg);
+  transform: translateX(150%) rotate(45deg);
   opacity: 1;
 }
 
