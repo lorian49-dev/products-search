@@ -14,7 +14,7 @@
         <span id="logo-hermes-home"><h1>HERMES</h1></span>
         <span><i class="far fa-home"></i></span>
     </header>
-sadasd
+
     <div class="container">
         <div class="content">
 
