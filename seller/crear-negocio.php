@@ -1,187 +1,171 @@
 <?php
 session_start();
+require "../registros-inicio-sesion/connect.php";
 
-// -- 1) Verificar sesión de usuario --
 if (!isset($_SESSION['usuario_id'])) {
-    // Si no hay sesión, redirigir al login
     header("Location: ../registros-inicio-sesion/login.html");
-    exit();
+    exit;
 }
 
-$id_usuario = intval($_SESSION['usuario_id']); // id del usuario logueado
+$idUsuario = $_SESSION['usuario_id'];
 
-// -- 2) Conexión a la BD (ajusta credenciales si es necesario) --
-$conexion = new mysqli("localhost", "root", "", "hermes_bd");
-if ($conexion->connect_error) {
-    die("Error de conexión: " . $conexion->connect_error);
+$sql = "SELECT * FROM vendedor WHERE id_vendedor = ?";
+$stmt = $connect->prepare($sql);
+$stmt->bind_param("i", $idUsuario);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    echo "<script>
+        alert('Ya tienes un negocio registrado.');
+        window.location.href = 'gestionar-negocio.php'
+    </script>";
+    exit;
 }
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-// -- 3) Si se recibió el formulario, procesar --
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["registrar_negocio"])) {
+    $nombre_empresa = $_POST['nombre_empresa'];
+    $nit = $_POST['nit'];
+    $telefono = $_POST['telefono'];
+    $ubicacion = $_POST['ubicacion'];
+    $correo_contacto = $_POST['correo_contacto'];
+    $fecha_registro = date("Y-m-d");
 
-    // datos del formulario (sanitiza si quieres)
-    $nombre = trim($_POST['nombre_empresa'] ?? '');
-    $NIT = trim($_POST['nit'] ?? '');
-    $telefono = trim($_POST['telefono_contacto'] ?? '');
-    $ubicacion = trim($_POST['ubicacion'] ?? '');
-    $correo = trim($_POST['correo_contacto'] ?? '');
-    $fecha_reg = trim($_POST['fecha_registro'] ?? '');
+    $sqlInsert = "INSERT INTO vendedor 
+        (id_vendedor, nombre_empresa, nit, telefono_contacto, ubicacion, correo_contacto, fecha_registro)
+        VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-    // validación mínima
-    if ($nombre === '' || $NIT === '' || $telefono === '' || $correo === '' || $fecha_reg === '') {
-        $error_msg = "Por favor completa todos los campos obligatorios.";
+    $stmtInsert = $connect->prepare($sqlInsert);
+    $stmtInsert->bind_param(
+        "issssss",
+        $idUsuario,
+        $nombre_empresa,
+        $nit,
+        $telefono,
+        $ubicacion,
+        $correo_contacto,
+        $fecha_registro
+    );
+
+    if ($stmtInsert->execute()) {
+        echo "<script>
+            alert('Negocio creado exitosamente');
+            window.location.href = 'gestionar-negocio.php';
+        </script>";
+        exit;
     } else {
-        // 3.1) Comprobar si ya existe un registro de vendedor para este usuario
-        $checkStmt = $conexion->prepare("SELECT id_vendedor FROM vendedor WHERE id_vendedor = ?");
-        $checkStmt->bind_param("i", $id_usuario);
-        $checkStmt->execute();
-        $res = $checkStmt->get_result();
-
-        if ($res && $res->num_rows > 0) {
-            // Ya existe → hacemos UPDATE (evita duplicados)
-            $updateStmt = $conexion->prepare("UPDATE vendedor SET nombre_empresa = ?, nit = ?, telefono_contacto = ?, ubicacion = ?, correo_contacto = ?, fecha_registro = ? WHERE id_vendedor = ?");
-            $updateStmt->bind_param("ssssssi", $nombre, $NIT, $telefono, $ubicacion, $correo, $fecha_reg, $id_usuario);
-            if ($updateStmt->execute()) {
-                // éxito al actualizar
-                header("Location: dashboard-vendedor.php");
-                exit();
-            } else {
-                $error_msg = "Error al actualizar: " . $conexion->error;
-            }
-            $updateStmt->close();
-        } else {
-            // No existe → hacemos INSERT (usamos id_vendedor = id_usuario para respetar FK)
-            $insertStmt = $conexion->prepare("INSERT INTO vendedor (id_vendedor, nombre_empresa, nit, telefono_contacto, ubicacion, correo_contacto, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $insertStmt->bind_param("issssss", $id_usuario, $nombre, $NIT, $telefono, $ubicacion, $correo, $fecha_reg);
-            if ($insertStmt->execute()) {
-                // éxito al insertar
-                header("Location: dashboard-vendedor.php");
-                exit();
-            } else {
-                $error_msg = "Error al insertar: " . $conexion->error;
-            }
-            $insertStmt->close();
-        }
-        $checkStmt->close();
+        echo "<script>alert('Error al registrar el negocio');</script>";
     }
 }
 
-// Cerrar conexión al final (se cierra luego del HTML si quieres)
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
     <title>Crear Negocio</title>
+
     <style>
-        /* estilos simples (puedes usar los tuyos) */
         body {
             font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            margin: 0;
-            padding: 0;
+            background: #f3f4f6;
+            padding: 40px;
         }
 
-        .container {
-            width: 420px;
-            margin: 40px auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .form-container {
+            width: 450px;
+            margin: auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #1f2937;
         }
 
         label {
+            display: block;
             font-weight: bold;
+            margin-top: 15px;
+            color: #374151;
         }
 
-        input,
-        textarea,
-        select {
+        input[type="text"],
+        input[type="email"] {
             width: 100%;
-            padding: 8px;
-            margin: 8px 0 14px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            margin-top: 5px;
+            font-size: 14px;
         }
 
         .btn {
-            background: #007bff;
-            color: #fff;
-            padding: 12px;
-            border: none;
+            margin-top: 20px;
             width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
             border-radius: 6px;
             cursor: pointer;
+            font-size: 16px;
+            transition: .2s;
         }
 
         .btn:hover {
-            background: #0056b3;
+            background: #1e40af;
         }
 
-        .notice {
-            color: #b00;
-            text-align: center;
-            margin-bottom: 10px;
+        .terms {
+            margin-top: 15px;
+            font-size: 14px;
         }
 
-        .back {
-            display: block;
-            text-align: center;
-            margin-top: 12px;
-            background: #666;
-            color: #fff;
+        .terms a {
+            color: #2563eb;
             text-decoration: none;
-            padding: 10px;
-            border-radius: 6px;
+        }
+
+        .terms a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
-
 <body>
 
-    <div class="container">
-        <h2>Registrar / Actualizar Negocio</h2>
+<div class="form-container">
+    <h2>Registrar Nuevo Negocio</h2>
 
-        <?php if (!empty($error_msg)): ?>
-            <p class="notice"><?php echo htmlspecialchars($error_msg); ?></p>
-        <?php endif; ?>
+    <form action="" method="POST">
 
-        <form method="POST" novalidate>
-            <label for="nombre_empresa">Nombre de la Empresa</label>
-            <input id="nombre_empresa" name="nombre_empresa" required value="<?php echo isset($nombre) ? htmlspecialchars($nombre) : ''; ?>">
+        <label>Nombre de la Empresa</label>
+        <input type="text" name="nombre_empresa" required>
 
-            <label for="nit">NIT</label>
-            <input id="nit" name="nit" required value="<?php echo isset($NIT) ? htmlspecialchars($NIT) : ''; ?>">
+        <label>NIT</label>
+        <input type="text" name="nit" required>
 
-            <label for="telefono_contacto">Teléfono de Contacto</label>
-            <input id="telefono_contacto" name="telefono_contacto" required value="<?php echo isset($telefono) ? htmlspecialchars($telefono) : ''; ?>">
+        <label>Teléfono</label>
+        <input type="text" name="telefono" required>
 
-            <label for="ubicacion">Ubicación</label>
-            <input id="ubicacion" name="ubicacion" required value="<?php echo isset($ubicacion) ? htmlspecialchars($ubicacion) : ''; ?>">
+        <label>Ubicación</label>
+        <input type="text" name="ubicacion" required>
 
-            <label for="correo_contacto">Correo de Contacto</label>
-            <input id="correo_contacto" type="email" name="correo_contacto" required value="<?php echo isset($correo) ? htmlspecialchars($correo) : ''; ?>">
+        <label>Correo de Contacto</label>
+        <input type="email" name="correo_contacto">
 
-            <label for="fecha_registro">Fecha de Registro</label>
-            <input id="fecha_registro" type="date" name="fecha_registro" required value="<?php echo isset($fecha_reg) ? htmlspecialchars($fecha_reg) : ''; ?>">
+        <div class="terms">
+            <input type="checkbox" name="terminos" required>
+            Acepto los <a href="terminos.php">términos y condiciones</a>
+        </div>
 
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-                <input id="acepto" type="checkbox" required>
-                <label for="acepto">Acepto términos y condiciones</label>
-            </div>
-
-            <button class="btn" type="submit" name="registrar_negocio">Guardar negocio</button>
-        </form>
-
-        <a class="back" href="dashboard-vendedor.php">⟵ Volver al panel</a>
-    </div>
+        <button type="submit" class="btn">Registrar Negocio</button>
+    </form>
+</div>
 
 </body>
-
 </html>
-<?php
-$conexion->close();
-?>
