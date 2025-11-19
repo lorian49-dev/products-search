@@ -9,31 +9,39 @@
     <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
+
     <header>
         <span id="logo-hermes-home"><h1>HERMES</h1></span>
         <span><i class="far fa-home"></i></span>
     </header>
+
     <div class="container">
         <div class="content">
+
+            <!-- YA ERES VENDEDOR -->
             <div class="login">
-             <h2>Ya eres Vendedor?</h2>
-             <button class="manageBussines">
-                Gestionar Negocio
-             </button>
+                <h2>¿Ya eres Vendedor?</h2>
+
+                <!-- Redirección a gestionar negocio -->
+                <a href="gestionar-negocio.php" class="manageBussines">
+                    Gestionar Negocio
+                </a>
             </div>
+
+            <!-- NO ERES VENDEDOR -->
             <div class="register">
-             <h2>Aun no eres vendedor?</h2>
-             <button class="newBussines">
-                Comenzar a vender
-             </button>
+                <h2>¿Aún no eres vendedor?</h2>
+
+                <!-- ESTE ES EL BOTÓN QUE PEDISTE -->
+                <a href="crear-negocio.php" class="newBussines">Comenzar a vender</a>
             </div>
         </div>
     </div>
+
     <main>
-        <h2>Como comenzar a vender?</h2>
-        <section>
-            
-        </section>
+        <h2>¿Cómo comenzar a vender?</h2>
+        <section></section>
+
         <aside>
             <h2>Sumario</h2>
             <ol>
@@ -50,6 +58,7 @@
             </ol>
         </aside>
     </main>
+
     <script src="dashboardseller2.js"></script>
 </body>
 </html>
