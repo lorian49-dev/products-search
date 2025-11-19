@@ -2,7 +2,6 @@
 session_start();
 require "../registros-inicio-sesion/connect.php";
 
-// 1. Verificar sesión activa
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: ../registros-inicio-sesion/login.html");
     exit;
@@ -10,7 +9,6 @@ if (!isset($_SESSION['usuario_id'])) {
 
 $idUsuario = $_SESSION['usuario_id'];
 
-// 2. Verificar si el usuario es vendedor
 $sql = "SELECT * FROM vendedor WHERE id_vendedor = ?";
 $stmt = $connect->prepare($sql);
 $stmt->bind_param("i", $idUsuario);
@@ -25,7 +23,6 @@ if ($result->num_rows === 0) {
     exit;
 }
 
-// Obtener datos del negocio
 $negocio = $result->fetch_assoc();
 ?>
 
