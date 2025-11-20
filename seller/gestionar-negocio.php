@@ -17,8 +17,7 @@ $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
     echo "<script>
-        alert('Primero debes crear un negocio.');
-        window.location.href = 'crear-negocio.php';
+        window.location.href = 'dashboardSeller.php';
     </script>";
     exit;
 }

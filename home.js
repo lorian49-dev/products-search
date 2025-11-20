@@ -129,7 +129,7 @@ document.addEventListener('click', (event)=>{
 let linkSell = document.getElementById('venderPage')
 
 linkSell.addEventListener('click', ()=>{
-    window.location.href = 'seller/dashboardSeller.php'
+    window.location.href = 'seller/comprobatorio.php'
 })
 
 });
