@@ -43,10 +43,9 @@ session_start();
     </div>
 
     <main>
-        
-     <h2 class="scrolling">Hermes Click&Sell</h2>
      <div class="scrolling">
-     <section class="scrolling-container-section">
+     <section class="scrolling-container-section">    
+      <h2>Hermes Click&Sell</h2>
       <p>
     <strong>Hermes Click&Sell</strong> nació con la misión de conectar a personas que desean 
     comercializar sus productos, ya sean nuevos o usados, con un público que busca siempre 
@@ -79,31 +78,19 @@ session_start();
 
      <div class="scrolling">
      <section class="scrolling-container-section">
-        <h2>Donde comienzo?</h2>
+        <h2>¿Por donde comienzo?</h2>
       <p>
-    <strong>Hermes Click&Sell</strong> nació con la misión de conectar a personas que desean 
-    comercializar sus productos, ya sean nuevos o usados, con un público que busca siempre 
-    la mejor calidad y confianza en cada compra. <br>
-  </p>
-  <p>
-    Nuestra plataforma <strong>Hermes Click&Go</strong> ofrece un espacio dinámico y seguro 
-    donde vendedores independientes y empresas pueden alojar sus tiendas virtuales, 
-    facilitando la interacción directa con potenciales clientes.
-  </p>
-  <p>
-    Con <strong>Hermes Click&Sell</strong> unificamos la experiencia de compra y venta, 
-    brindando herramientas que permiten:
-  </p>
-  <ul>
-    <li>Publicar productos de manera rápida y sencilla.</li>
-    <li>Acceder a una comunidad activa de compradores interesados.</li>
-    <li>Garantizar transacciones seguras y transparentes.</li>
-    <li>Impulsar la visibilidad de tu negocio en un entorno digital confiable.</li>
-  </ul>
-  <p>
-    Ya seas un emprendedor que inicia su camino o una empresa consolidada, 
-    <strong>Hermes Click&Sell</strong> es tu aliado para crecer en el mundo del comercio electrónico.
-  </p>
+       Si aun no estas familiarizado con nuestra plataforma, te invitamos a leer nuestro <a href="#">Manual de Usuario</a> , el cual tambien podrás encontrar en la pestaña de <a href="#">soporte</a> .
+      <p>
+      <p>
+       Luego de registrar los datos de tu negocio o empresa, serás redirigido a un apartado especialmente diseñado para ti como vendedor, podras elegir entre un panel con distribucion simple o mas profesional, dependiendo de lo que mas se adapte a tus necesidades.
+      </p>
+      <p>
+        En el panel de administracion para mi como vendedor gestionaras tus productos, catalogos, las categorias que manejaras, pagos y transacciones, ademas de una seccion personalizada de chat directamente con el cliente, con el cual este podra resolver sus dudas de forma mas personal, este chat se limitara con su apertura desde que se envia el producto hasta este mismo llega a las manos del comprador.
+      </p>
+      <p>
+        Los productos podran ser editados, eliminados(Si alguien anteriormente compro el producto y se elimina, este pasara a ya no estar disponible hasta que llegue a las manos del comprador), 
+      </p>
      </section>
      <aside class="scrolling-container-aside">
         <img src="../SOURCES/IMAGENES/ILUSTRACIONES/notebook.svg" alt="imagen de señorita frente a un portatil" width="300px">
