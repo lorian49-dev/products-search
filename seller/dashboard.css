@@ -5,12 +5,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'roboto condensed', sans-serif;
 }
 
 body{
         background-color:#fff8f1;
-        font-family: 'roboto condensed', sans-serif;
-
 }
 
 /*Estilos de la cabecera*/
@@ -42,6 +41,12 @@ h1::after{
     border-radius: 10px;
 }
 
+h2{
+  font-size: 70px;
+  font-weight: 200;
+  text-align: center;
+}
+
 header i{
     padding-top: 5px;
     cursor: pointer;
@@ -61,6 +66,7 @@ header i{
     justify-content: center;
     align-items: center;
     z-index: 0;
+    margin-bottom: 100px;
 }
 
 .container::after{
@@ -154,6 +160,36 @@ a{
 /* Fondo transparente al hover */
 .manageBussines:hover, .newBussines:hover {
   background-color: transparent;
+}
+
+/*Estilos debajo de la cabecera, dando informacion al usuario sobre el apartado de vendedor*/
+
+.scrolling:nth-child(n+2){
+  display: flex;
+  justify-content: center;
+  width: 70%;
+  margin: 50px auto 0 auto;
+  gap: 20px;
+}
+
+.scrolling-container-section{
+  width: 700px;
+  font-size: 20px;
+  font-weight: 100;
+  padding: 20px;
+}
+
+.scrolling-container-section ul{
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 40px;
+}
+
+.scrolling-container-section p{
+  margin-bottom: 20px;
 }
 
 
