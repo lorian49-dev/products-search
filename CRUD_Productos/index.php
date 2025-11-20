@@ -1,5 +1,5 @@
-<?php include('registros-inicio-sesion/session-check.php'); ?>
 <?php
+include('../registros-inicio-sesion/session-check.php');
 include("../registros-inicio-sesion/connect.php");
 
 $sql = "SELECT * FROM producto";
