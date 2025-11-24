@@ -1,5 +1,28 @@
 <?php
 session_start();
+require_once "registros-inicio-sesion/connect.php";
+
+
+$productos = [];
+
+// PROCESAR BÚSQUEDA
+if (isset($_GET['q']) && !empty($_GET['q'])) {
+    $busqueda = $connect->real_escape_string($_GET['q']);
+
+    $sql = "SELECT * FROM producto 
+            WHERE nombre LIKE '%$busqueda%' 
+            OR descripcion LIKE '%$busqueda%'";
+
+    $resultadoBusqueda = $connect->query($sql);
+
+    if ($resultadoBusqueda && $resultadoBusqueda->num_rows > 0) {
+        while ($fila = $resultadoBusqueda->fetch_assoc()) {
+            $productos[] = $fila;
+        }
+    }
+} else {
+    $resultadoBusqueda = null;
+}
 ?>
 
 <!DOCTYPE html>
@@ -21,8 +44,19 @@ session_start();
             </span>
             <ul style="list-style:none;">
                 <div class="input-search-product-box">
-                    <li><input type="text" name="search-product" id="input-search-product" placeholder="Buscar producto...">
-                        <div id="results-container"></div>
+                    <form action="buscar.php" method="GET" style="width:100%">
+                        <li>
+                            <input
+                                type="text"
+                                name="q"
+                                id="input-search-product"
+                                placeholder="Buscar producto..."
+                                value="">
+                            <div id="results-container"></div>
+                            <button type="submit">Buscar</button>
+                        </li>
+                    </form>
+
                     </li>
                 </div>
             </ul>
@@ -85,6 +119,31 @@ session_start();
         </div>
     </header>
     <main>
+        <!-- RESULTADOS DE LA BÚSQUEDA -->
+        <?php if ($resultadoBusqueda !== null): ?>
+            <div class="products-box" style="padding:20px;">
+                <h2>Resultados de búsqueda:</h2>
+
+                <?php if ($resultadoBusqueda->num_rows > 0): ?>
+                    <div class="lista-resultados" style="display:flex; flex-wrap:wrap; gap:20px;">
+                        <?php while ($row = $resultadoBusqueda->fetch_assoc()): ?>
+
+                            <div class="producto-card" style="width:200px; border:1px solid #ccc; border-radius:10px; padding:10px;">
+                                <h3><?php echo $row['nombre']; ?></h3>
+                                <p><?php echo $row['descripcion']; ?></p>
+                                <p><strong>$<?php echo $row['precio']; ?></strong></p>
+                                <p>Stock: <?php echo $row['stock']; ?></p>
+                            </div>
+
+                        <?php endwhile; ?>
+                    </div>
+                <?php else: ?>
+                    <p>No se encontraron productos.</p>
+                <?php endif; ?>
+
+                <hr style="margin-top:30px;">
+            </div>
+        <?php endif; ?>
         <div class="header-box">
             <div class="slides">
                 <div class="slides-box"></div>

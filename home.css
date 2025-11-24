@@ -483,3 +483,23 @@ header a{
     background-color: #ffb000; /* // Efecto hover */
     color: white;
 }
+.resultados {
+    position: absolute;
+    background: white;
+    width: 300px;
+    max-height: 200px;
+    overflow-y: auto;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    display: none;
+    z-index: 999;
+}
+
+.resultados div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.resultados div:hover {
+    background: #f0f0f0;
+}

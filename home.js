@@ -131,6 +131,56 @@ let linkSell = document.getElementById('venderPage')
 linkSell.addEventListener('click', ()=>{
     window.location.href = 'seller/comprobatorio.php'
 })
+document.addEventListener('DOMContentLoaded', () => {
+// ------------------ BUSCADOR DE PRODUCTOS ------------------
+
+const inputSearch = document.getElementById("buscador");
+const boxSearch = document.getElementById("resultados-busqueda");
+
+if (inputSearch && boxSearch) {
+
+    inputSearch.addEventListener("input", function () {
+        let term = this.value.trim();
+
+        if (term.length === 0) {
+            boxSearch.style.display = "none";
+            return;
+        }
+
+        fetch(`buscar-productos.php?q=${textoDelUsuario}`)
+            .then(res => res.json())
+            .then(data => {
+                boxSearch.innerHTML = "";
+
+                if (data.length === 0) {
+                    boxSearch.style.display = "none";
+                    return;
+                }
+
+                data.forEach(nombre => {
+                    let item = document.createElement("div");
+                    item.textContent = nombre;
+
+                    item.onclick = () => {
+                        inputSearch.value = nombre;
+                        boxSearch.style.display = "none";
+                    };
+
+                    boxSearch.appendChild(item);
+                });
+
+                boxSearch.style.display = "block";
+            });
+    });
+
+    // Cerrar la lista si hago clic afuera
+    document.addEventListener("click", (e) => {
+        if (!inputSearch.contains(e.target)) {
+            boxSearch.style.display = "none";
+        }
+    });
+
+}
 
 });
 
@@ -143,5 +193,4 @@ preview_image.style.backgroundImage = 'url("https://www.laces.mx/cdn/shop/files/
 const arrayColors = ['#F8FAFC', '#F4320B']
 
 let preview_color = document.querySelector('.preview-color')
-
-
+})
