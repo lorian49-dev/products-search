@@ -128,9 +128,12 @@ document.addEventListener('click', (event)=>{
 
 let linkSell = document.getElementById('venderPage')
 
-linkSell.addEventListener('click', ()=>{
+if(linkSell){
+    linkSell.addEventListener('click', ()=>{
     window.location.href = 'seller/comprobatorio.php'
 })
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 // ------------------ BUSCADOR DE PRODUCTOS ------------------
 

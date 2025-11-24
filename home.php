@@ -6,8 +6,8 @@ require_once "registros-inicio-sesion/connect.php";
 $productos = [];
 
 // PROCESAR BÚSQUEDA
-if (isset($_GET['q']) && !empty($_GET['q'])) {
-    $busqueda = $connect->real_escape_string($_GET['q']);
+if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
+    $busqueda = $connect->real_escape_string($_GET['search-product']);
 
     $sql = "SELECT * FROM producto 
             WHERE nombre LIKE '%$busqueda%' 
@@ -34,6 +34,7 @@ if (isset($_GET['q']) && !empty($_GET['q'])) {
     <link rel="shortcut icon" href="SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
     <link rel="stylesheet" href="home.css">
     <title>home</title>
+    <link rel="stylesheet" href="SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
 </head>
 
 <body>
@@ -45,15 +46,15 @@ if (isset($_GET['q']) && !empty($_GET['q'])) {
             <ul style="list-style:none;">
                 <div class="input-search-product-box">
                     <form action="buscar.php" method="GET" style="width:100%">
-                        <li>
+                        <li class="input-search-product-li">
                             <input
                                 type="text"
-                                name="q"
+                                name="search-product"
                                 id="input-search-product"
                                 placeholder="Buscar producto..."
-                                value="">
+                                value="" autocomplete="off">
+                                <button type="submit" class="button-search"><i class="fa-solid fa-magnifying-glass"></i></button>
                             <div id="results-container"></div>
-                            <button type="submit">Buscar</button>
                         </li>
                     </form>
 

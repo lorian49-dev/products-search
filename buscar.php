@@ -5,8 +5,8 @@ require_once "registros-inicio-sesion/connect.php";
 // Si viene una búsqueda
 $productos = [];
 
-if (isset($_GET['q']) && !empty($_GET['q'])) {
-    $busqueda = $connect->real_escape_string($_GET['q']);
+if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
+    $busqueda = $connect->real_escape_string($_GET['search-product']);
 
     $sql = "SELECT * FROM producto 
             WHERE nombre LIKE '%$busqueda%' 
@@ -186,7 +186,7 @@ if (isset($_GET['q']) && !empty($_GET['q'])) {
                         <li>
                             <input
                                 type="text"
-                                name="q"
+                                name="search-product"
                                 id="input-search-product"
                                 placeholder="Buscar producto..."
                                 value="">
@@ -266,7 +266,7 @@ if (isset($_GET['q']) && !empty($_GET['q'])) {
 
                     <?php if ($resultado->num_rows > 0): ?>
 
-                        <h2>Resultados para: "<?php echo htmlspecialchars($_GET['q']); ?>"</h2>
+                        <h2>Resultados para: "<?php echo htmlspecialchars($_GET['search-product']); ?>"</h2>
                         <div class="productos-grid">
 
                             <?php while ($row = $resultado->fetch_assoc()): ?>
@@ -277,7 +277,7 @@ if (isset($_GET['q']) && !empty($_GET['q'])) {
                                         style="background-image: url('SOURCES/PRODUCTOS/<?php echo $row['imagen'] ?? "default.png"; ?>');">
                                     </div>
                                     <h3>
-                                        <a href="producto.php?id=<?php echo $row['id_producto']; ?>&q=<?php echo urlencode($_GET['q']); ?>" class="producto-link">
+                                        <a href="producto.php?id=<?php echo $row['id_producto']; ?>&search-product=<?php echo urlencode($_GET['search-product']); ?>" class="producto-link">
                                             <?php echo htmlspecialchars($row['nombre']); ?>
                                         </a>
                                     </h3>

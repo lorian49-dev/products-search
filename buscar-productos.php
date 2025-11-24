@@ -14,7 +14,7 @@ if (!$ENLACE) {
 $termino = $_GET['term'] ?? '';
 // Buscamos productos cuyo nombre contenga el término de búsqueda
 $sql = "SELECT nombre FROM producto WHERE nombre LIKE ?";
-$stmt = $ENLACE_PRODUCTOS->prepare($sql);
+$stmt = $ENLACE->prepare($sql);
 
 $param = "%" . $termino . "%";
 $stmt->bind_param("s", $param);

@@ -98,7 +98,7 @@ nav ul li span:hover{
  color: #461d01;
 }
 
-
+/*Estilos de la barra de Busqueda*/
 
 #input-search-product{
     height: 40px;
@@ -149,6 +149,21 @@ nav ul li span:hover{
 .result-item:hover {
     background: #461d01;
     color: #fff8f1;
+}
+
+.input-search-product-li{
+    position: relative;
+}
+
+.button-search{
+    right: 10px;
+    padding: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    position: absolute;
+    color: #727272
 }
 
 /*Iconos a la derecha del header*/
@@ -459,7 +474,6 @@ header a{
     position: absolute;
     top: 50px;
     left: 0;
-    transform: translateX(-25%);
     background-color: #fff;
     min-width: 150px;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
