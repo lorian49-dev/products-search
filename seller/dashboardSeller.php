@@ -20,24 +20,25 @@ session_start();
     </header>
 
     <div class="container">
+      <div class="slogan">
+        <h2>Con Hermes Click&Sell Impulsa Tu negocio y comienza a vender sin costos iniciales</h2>
+        <ul>
+          <li>Registro gratuito</li>
+          <li>Pagos seguros</li>
+          <li>Recibes 100.000 COP por publicar tus primeros 10 productos</li>
+          <li>Pagas el 3% de comision los primeros 2 meses</li>
+          <li>Creditos para Impulsar tus ventas</li>
+        </ul>
+        <h3>Y mucho mas...</h2>
+      </div>
         <div class="content">
-
-            <!-- YA ERES VENDEDOR -->
-            <div class="login">
-                <h2>¿Ya eres Vendedor?</h2>
-
-                <!-- Redirección a gestionar negocio -->
-                <a href="gestionar-negocio.php" class="manageBussines">
-                    Gestionar Negocio
-                </a>
-            </div>
 
             <!-- NO ERES VENDEDOR -->
             <div class="register">
-                <h2>¿Aún no eres vendedor?</h2>
+                <h2>¿Que estas esperando?</h2>
 
                 <!-- ESTE ES EL BOTÓN QUE PEDISTE -->
-                <a href="crear-negocio.php" class="newBussines">Comenzar a vender</a>
+                <a href="crear-negocio.php" class="newBussines">Registrate y abre tu tienda HOY</a>
             </div>
         </div>
     </div>
@@ -72,7 +73,7 @@ session_start();
   </p>
      </section>
      <aside class="scrolling-container-aside">
-        <img src="../SOURCES/IMAGENES/ILUSTRACIONES/girl-pc.svg" alt="imagen de señorita frente a un portatil" width="300px">
+        <img src="../SOURCES/IMAGENES/ILUSTRACIONES/girl-pc.png" alt="imagen de señorita frente a un portatil" width="300px">
      </aside>
      </div>
 
@@ -93,7 +94,7 @@ session_start();
       </p>
      </section>
      <aside class="scrolling-container-aside">
-        <img src="../SOURCES/IMAGENES/ILUSTRACIONES/notebook.svg" alt="imagen de señorita frente a un portatil" width="300px">
+        <img src="../SOURCES/IMAGENES/ILUSTRACIONES/notebook.png" alt="imagen de señorita frente a un portatil" width="300px">
      </aside>
      </div>
      

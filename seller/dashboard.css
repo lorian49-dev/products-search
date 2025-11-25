@@ -58,13 +58,16 @@ header i{
 .container{
     width: 100%;
     height: 60vh;
-    background-image: url("https://images.pexels.com/photos/3184285/pexels-photo-3184285.jpeg?cs=srgb&dl=pexels-fauxels-3184285.jpg&fm=jpg");
+     background-image: 
+    linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0)), /* degradado negro */
+    url("https://images.pexels.com/photos/3184285/pexels-photo-3184285.jpeg?cs=srgb&dl=pexels-fauxels-3184285.jpg&fm=jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover; 
     position: relative;
     display: flex;  
     justify-content: center;
+    gap: 100px;
     align-items: center;
     z-index: 0;
     margin-bottom: 100px;
@@ -84,6 +87,27 @@ header i{
     display: flex;
     z-index: 1;
     gap: 50px;
+}
+.slogan{
+  width: 700px;
+  color: #fff8f1;
+}
+
+.slogan h2{
+  text-align: left;
+  font-size: 40px;
+  font-weight: 300;
+}
+
+.slogan h3{
+  margin-top: 50px;
+  text-align: right;
+  font-size: 30px;
+  font-weight: 300;
+}
+
+.slogan ul{
+  margin-left: 50px;
 }
 
 .login, .register{
@@ -107,7 +131,7 @@ header i{
     font-weight: 100;
 }
 
-.manageBussines, .newBussines {
+.newBussines {
   padding: 10px 15px;
   border-radius: 15px;
   border-style: none;
@@ -123,7 +147,7 @@ a{
   color: #461d01;
 }
 
-.manageBussines::before, .newBussines::before {
+.newBussines::before {
   content: '';
   display: inline-block;
   width: 100%;
@@ -137,7 +161,7 @@ a{
 }
 
 /* Estado inicial del brillo */
-.manageBussines::after, .newBussines::after {
+.newBussines::after {
   content: '';
   display: inline-block;
   width: 140%;
@@ -153,13 +177,13 @@ a{
 }
 
 /* Al pasar el mouse: se desplaza y se hace visible */
-.manageBussines:hover::after, .newBussines:hover::after {
-  transform: translateX(150%) rotate(45deg);
+.newBussines:hover::after {
+  transform: translateX(130%) rotate(45deg);
   opacity: 1;
 }
 
 /* Fondo transparente al hover */
-.manageBussines:hover, .newBussines:hover {
+.newBussines:hover {
   background-color: transparent;
 }
 
