@@ -53,7 +53,7 @@ $producto = $result->fetch_assoc();
 
     <br><br>
 
-    <a class="btn-volver" href="buscar.php?q=<?php echo urlencode($_GET['q'] ?? ''); ?>">← Volver a resultados</a>
+    <a class="btn-volver" href="buscar.php?search-product=<?php echo urlencode($_GET['search-product'] ?? ''); ?>">← Volver a resultados</a>
 
 
 
