@@ -91,6 +91,9 @@ header i{
 .slogan{
   width: 700px;
   color: #fff8f1;
+  transform: translateX(-400px);
+  opacity: 0;
+  transition: all 1s ease;
 }
 
 .slogan h2{
@@ -103,11 +106,15 @@ header i{
   margin-top: 50px;
   text-align: right;
   font-size: 30px;
-  font-weight: 300;
+  font-weight: 200;
 }
 
 .slogan ul{
   margin-left: 50px;
+  font-weight: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .login, .register{
