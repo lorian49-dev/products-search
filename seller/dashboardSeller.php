@@ -47,7 +47,8 @@ session_start();
     
     <div class="incentives">
       <section class="incentives-container-section">
-       
+       <div class="incentives-left"></div>
+       <div class="incentives-right"></div>
       </section>
     </div>
 
