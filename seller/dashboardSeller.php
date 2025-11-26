@@ -44,6 +44,13 @@ session_start();
     </div>
 
     <main>
+    
+    <div class="incentives">
+      <section class="incentives-container-section">
+       
+      </section>
+    </div>
+
      <div class="scrolling">
      <section class="scrolling-container-section">    
       <h2>Hermes Click&Sell</h2>
