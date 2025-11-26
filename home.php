@@ -103,7 +103,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                     <div class="perfil-menu">
                         <button class="perfil-btn"> <?php echo htmlspecialchars($_SESSION['usuario_nombre']); ?></button>
                         <div class="dropdown-content">
-                            <a href="#">Mi cuenta</a>
+                            <a href="USER/usuario.php">Mi cuenta</a>
                             <a href="registros-inicio-sesion/logout.php">Cerrar sesión</a>
                         </div>
                     </div>
