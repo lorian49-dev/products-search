@@ -2,20 +2,60 @@
 session_start();
 require_once "registros-inicio-sesion/connect.php";
 
-// Si viene una búsqueda
-$productos = [];
+// Parámetros seguros
+$busqueda   = isset($_GET['search-product']) ? $connect->real_escape_string($_GET['search-product']) : "";
+$min        = isset($_GET['min']) ? intval($_GET['min']) : 0;
+$max        = isset($_GET['max']) ? intval($_GET['max']) : 999999999;
+$categoria  = isset($_GET['categoria']) ? intval($_GET['categoria']) : null;
 
-if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
-    $busqueda = $connect->real_escape_string($_GET['search-product']);
+$sql = "
+    SELECT producto.*
+    FROM producto
+    LEFT JOIN producto_categoria pc ON producto.id_producto = pc.id_producto
+    LEFT JOIN categoria c ON pc.id_categoria = c.id_categoria
+    WHERE 1
+";
 
-    $sql = "SELECT * FROM producto 
-            WHERE nombre LIKE '%$busqueda%' 
-            OR descripcion LIKE '%$busqueda%'";
-    $resultado = $connect->query($sql);
-} else {
-    $resultado = null;
+// Búsqueda por texto
+if (!empty($busqueda)) {
+    $sql .= " AND (producto.nombre LIKE '%$busqueda%' OR producto.descripcion LIKE '%$busqueda%') ";
 }
+
+// Rango de precio
+$sql .= " AND producto.precio BETWEEN $min AND $max ";
+
+// Categoría
+if (!empty($categoria)) {
+    $sql .= " AND c.id_categoria = $categoria ";
+}
+
+$resultado = $connect->query($sql);
+$busqueda = $connect->real_escape_string($_GET['search-product'] ?? "");
+$categoria = $_GET['categoria'] ?? "";
+$precio_min = isset($_GET['precio_min']) && $_GET['precio_min'] !== "" 
+              ? (int)$_GET['precio_min'] 
+              : 0;
+$precio_max = isset($_GET['precio_max']) && $_GET['precio_max'] !== "" 
+              ? (int)$_GET['precio_max'] 
+              : 999999999; // máximo por defecto si está vacío
+$sql = "SELECT p.*
+        FROM producto p
+        LEFT JOIN producto_categoria pc ON pc.id_producto = p.id_producto
+        LEFT JOIN categoria c ON c.id_categoria = pc.id_categoria
+        WHERE (p.nombre LIKE '%$busqueda%' OR p.descripcion LIKE '%$busqueda%')
+        AND p.precio >= $precio_min
+        AND p.precio <= $precio_max";
+
+
+if (!empty($categoria)) {
+    $categoria = $connect->real_escape_string($categoria);
+    $sql .= " AND c.nombre_categoria = '$categoria'";
+}
+
+$resultado = $connect->query($sql);
+
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -170,6 +210,43 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
             border-radius: 8px;
             text-decoration: none;
         }
+        /* css sobre el slider */
+
+        .range-slider {
+            position: relative;
+            width: 100%;
+            height: 40px;
+        }
+
+        .range-slider input[type=range] {
+            position: absolute;
+            width: 100%;
+        }
+
+
+        .range-slider input::-webkit-slider-thumb {
+            pointer-events: auto;
+            width: 16px;
+            height: 16px;
+            background: #3b82f6;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .range-values {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            width: 300px;
+        }
+
+        .filtro-precio {
+            margin: 20px 0;
+            padding-bottom: 40px;
+            /* da espacio y evita que tape */
+            position: relative;
+            width: 320px;
+        }
     </style>
 </head>
 
@@ -177,7 +254,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
 
     <header>
         <div class="top">
-            <span id="logo-hermes-home">
+            <span id="logo-hermes-home" href="home.php">
                 <h1>HERMES</h1>
             </span>
             <ul style="list-style:none;">
@@ -231,7 +308,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                             </ul>
                         </div>
                     </li>
-                </ul>   
+                </ul>
             </nav>
             <div class="icons-header">
                 <span><img src="SOURCES/ICONOS-LOGOS/bookmark.svg" alt="wishlist"></span>
@@ -264,20 +341,37 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
     <div class="container" style="display:flex; gap:20px;">
 
         <aside class="sidebar" style="width:250px; border:1px solid #ccc; padding:15px; background:#f9f9f9; border-radius:8px;">
+            <!-- Categorias -->
             <h3>Categorías</h3>
             <ul>
-                <li><a href="buscar.php?q=<?php echo urlencode($busqueda); ?>&categoria=Electrodomesticos">Electrodomésticos</a></li>
-                <li><a href="buscar.php?q=<?php echo urlencode($busqueda); ?>&categoria=Tecnologia">Tecnología</a></li>
-                <li><a href="buscar.php?q=<?php echo urlencode($busqueda); ?>&categoria=Hogar">Hogar</a></li>
-                <!-- Añade más categorías aquí -->
+                <?php
+                $cats = $connect->query("SELECT * FROM categoria ORDER BY nombre_categoria ASC");
+                while ($c = $cats->fetch_assoc()):
+                ?>
+                    <li>
+                        <a href="buscar.php?search-product=<?php echo urlencode($busqueda); ?>&categoria=<?php echo $c['id_categoria']; ?>">
+                            <?php echo $c['nombre_categoria']; ?>
+                        </a>
+                    </li>
+                <?php endwhile; ?>
             </ul>
 
+
             <h3>Rango de precio</h3>
-            <ul>
-                <li><a href="buscar.php?q=<?php echo urlencode($busqueda); ?>&precio=0-100">Hasta $100</a></li>
-                <li><a href="buscar.php?q=<?php echo urlencode($busqueda); ?>&precio=100-500">$100 - $500</a></li>
-                <li><a href="buscar.php?q=<?php echo urlencode($busqueda); ?>&precio=500-1000">$500 - $1000</a></li>
-            </ul>
+
+            <form action="buscar.php" method="GET">
+
+                <label>Mínimo:</label>
+                <input type="number" name="precio_min" min="0" value="<?php echo $_GET['precio_min'] ?? 0; ?>">
+
+                <label>Máximo:</label>
+                <input type="number" name="precio_max" min="0" value="<?php echo $_GET['precio_max'] ?? 1000000; ?>">
+
+                <input type="hidden" name="search-product" value="<?php echo htmlspecialchars($busqueda); ?>">
+
+                <button type="submit">Filtrar</button>
+            </form>
+
         </aside>
 
         <section class="main-content" style="flex:1;">
@@ -287,7 +381,8 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
 
                     <?php if ($resultado->num_rows > 0): ?>
 
-                        <h2>Resultados para: "<?php echo htmlspecialchars($_GET['search-product']); ?>"</h2>
+                        <h2>Resultados para: "<?php echo htmlspecialchars($busqueda); ?>"</h2>
+
                         <div class="productos-grid">
 
                             <?php while ($row = $resultado->fetch_assoc()): ?>
@@ -297,11 +392,14 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                                         class="producto-img"
                                         style="background-image: url('SOURCES/PRODUCTOS/<?php echo $row['imagen'] ?? "default.png"; ?>');">
                                     </div>
+
                                     <h3>
-                                        <a href="producto.php?id=<?php echo $row['id_producto']; ?>&search-product=<?php echo urlencode($_GET['search-product']); ?>" class="producto-link">
+                                        <a href="producto.php?id=<?php echo $row['id_producto']; ?>&search-product=<?php echo urlencode($busqueda); ?>"
+                                            class="producto-link">
                                             <?php echo htmlspecialchars($row['nombre']); ?>
                                         </a>
                                     </h3>
+
                                     <p><?php echo htmlspecialchars($row['descripcion']); ?></p>
                                     <p><strong>$<?php echo number_format($row['precio']); ?></strong></p>
                                     <p>Stock: <?php echo $row['stock']; ?></p>
@@ -325,6 +423,26 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
 
     </div>
     <script>
+        // Actualizar valores
+        const min = document.getElementById("min");
+        const max = document.getElementById("max");
+        const minValue = document.getElementById("min-value");
+        const maxValue = document.getElementById("max-value");
+
+        // Evitar cruce de sliders
+        min.addEventListener("input", () => {
+            if (parseInt(min.value) > parseInt(max.value)) {
+                min.value = max.value;
+            }
+            minValue.textContent = min.value;
+        });
+
+        max.addEventListener("input", () => {
+            if (parseInt(max.value) < parseInt(min.value)) {
+                max.value = min.value;
+            }
+            maxValue.textContent = max.value;
+        });
         //Script de peticion al servidor para busqueda en el buscador
 
         const input_request = document.getElementById('input-search-product');
