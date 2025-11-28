@@ -1,32 +1,9 @@
 <?php
-// ==================== PROTECCIÓN DE ACCESO ====================
-session_start();
 include('../registros-inicio-sesion/connect.php');
 
-
-// Verificar si está logueado como ADMIN
-if (!isset($_SESSION['admin_logueado']) || $_SESSION['admin_logueado'] !== true) {
-    echo "<script>
-        alert('Acceso denegado. Debe iniciar sesión como administrador.');
-        window.location.href = '../registros-inicio-sesion/admin-login.php';  // ← CORREGIDO
-    </script>";
-    exit();
-}
-
-// Verificar rol de administrador (1 = administrador, 2 = admin_colaborador)
-$rolesPermitidos = [1, 2];
-if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPermitidos)) {
-    echo "<script>
-        alert('No tiene permisos de administrador.');
-        window.location.href = '../home.php';
-    </script>";
-    exit();
-}
-// ==================== FIN PROTECCIÓN ====================
-
-// ✅ TU CÓDIGO ORIGINAL SE MANTIENE INTACTO
 $query = "SELECT * FROM usuario";
 $ejec = mysqli_query($connect, $query);
+
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +12,7 @@ $ejec = mysqli_query($connect, $query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Administrativo - HERMES</title>
+    <title>Administrador</title>
     <link rel="stylesheet" href="../crud-styles-events/admin.css">
     <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
     <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
@@ -47,16 +24,7 @@ $ejec = mysqli_query($connect, $query);
         <span>
             <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO" width="200px">
         </span>
-        
-        <!-- ✅ MODIFICADO: Muestra info del admin logueado -->
-        <h1>Bienvenido <?php echo $_SESSION['admin_nombre'] ?? 'Administrador'; ?> 
-            (<?php 
-                if ($_SESSION['admin_rol'] == 1) echo 'Administrador';
-                elseif ($_SESSION['admin_rol'] == 2) echo 'Admin Colaborador'; 
-                else echo 'Administrador';
-            ?>)
-        </h1>
-        
+        <h1>Bienvenido Administrador</h1>
         <ul class="listMother">
             <li id="liSearch"><input type="text" name="search-profile" id="inputSearchProfile" placeholder="Buscar Usuario por Correo...">
                 <button id="btnSearch">Consultar</button>
@@ -90,19 +58,9 @@ $ejec = mysqli_query($connect, $query);
                 <li>Politicas de privacidad y uso</li>
                 <li>Terminos para vendedores</li>
             </ul>
-            
-            <!-- ✅ NUEVO: Botón de cerrar sesión admin -->
-            <li id="liLogout" style="margin-left: auto;">
-                <a href="admin_logaut.php" style="color: #ff4444; text-decoration: none; font-weight: bold;">
-                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión Admin
-                </a>
-            </li>
-        </ul>
     </nav>
-    
-    <!-- ✅ TODO TU CÓDIGO ORIGINAL DEL CRUD SE MANTIENE IGUAL -->
     <div id="container">
-        <form action="create_user.php" method="POST">
+        <form action="create_user.php" method="POST"> <!--Correcion de ortografia en el metodo POST-->
             <h2>Crear Usuario</h2>
 
             <input type="text" name="name" placeholder="Nombres" class="inputCreate">
@@ -150,6 +108,7 @@ $ejec = mysqli_query($connect, $query);
                         <td><?= $row['fecha_nacimiento'] ?></td>
                         <td><?= $row['telefono'] ?></td>
 
+                        <!--Línea 55 Corregida: Debes añadir 'id=' y cerrar la etiqueta la Columna ID_Usuario esta distinta</a>-->
                         <td><a href="#"
                                 class="btn-edit"
                                 data-id="<?= $row['id_usuario'] ?>"
@@ -160,7 +119,8 @@ $ejec = mysqli_query($connect, $query);
                                 data-birthday="<?= $row['fecha_nacimiento'] ?>"
                                 data-phone="<?= $row['telefono'] ?>">
                                 Editar
-                            </a></td>
+                            </a></td> <!--Modificacion en la ruta de acceso de id a ID_usuario-->
+                        <!--Línea 57 Corregida: Debes añadir 'id=' y cerrar la etiqueta, la Columna ID_Usuario esta distinta </a>-->
                         <td><a href="delete_user.php?id_usuario=<?= $row['id_usuario'] ?>">Eliminar</a></td>
                     </tr>
                 <?php endwhile; ?>
@@ -173,13 +133,16 @@ $ejec = mysqli_query($connect, $query);
             <span class="back-icon"><img src="../SOURCES/ICONOS-LOGOS/return.svg"></span>
             <form action="update_user.php" method="POST" class="formUpdateUser">
                 <h2>Actualizar Datos</h2>
+                <!--Input invisible, simplemente sirve de guia para lo que se muestra al lado-->
                 <input type="hidden" name="id_usuario">
+                <!--Campos editables-->
                 <input type="text" name="name" placeholder="Nombres">
                 <input type="text" name="lastname" placeholder="Apellidos">
                 <input type="text" name="email" placeholder="E-mail">
                 <input type="text" name="password" placeholder="Clave">
                 <input type="date" name="birthday" placeholder="Fecha de nacimiento">
                 <input type="text" name="phone" placeholder="Telefono">
+                <!-- Botón para enviar el formulario -->
                 <button type="submit">Guardar</button>
             </form>
         </div>
