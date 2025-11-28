@@ -32,12 +32,12 @@ if (!empty($categoria)) {
 $resultado = $connect->query($sql);
 $busqueda = $connect->real_escape_string($_GET['search-product'] ?? "");
 $categoria = $_GET['categoria'] ?? "";
-$precio_min = isset($_GET['precio_min']) && $_GET['precio_min'] !== "" 
-              ? (int)$_GET['precio_min'] 
-              : 0;
-$precio_max = isset($_GET['precio_max']) && $_GET['precio_max'] !== "" 
-              ? (int)$_GET['precio_max'] 
-              : 999999999; // máximo por defecto si está vacío
+$precio_min = isset($_GET['precio_min']) && $_GET['precio_min'] !== ""
+    ? (int)$_GET['precio_min']
+    : 0;
+$precio_max = isset($_GET['precio_max']) && $_GET['precio_max'] !== ""
+    ? (int)$_GET['precio_max']
+    : 999999999; // máximo por defecto si está vacío
 $sql = "SELECT p.*
         FROM producto p
         LEFT JOIN producto_categoria pc ON pc.id_producto = p.id_producto
@@ -64,8 +64,8 @@ $resultado = $connect->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
     <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
     <title>Resultados de búsqueda</title>
-    <link rel="stylesheet" href="home.css"> <!-- Para mantener TU diseño -->
     <style>
         .result-container {
             padding: 20px;
@@ -210,6 +210,7 @@ $resultado = $connect->query($sql);
             border-radius: 8px;
             text-decoration: none;
         }
+
         /* css sobre el slider */
 
         .range-slider {
@@ -247,6 +248,52 @@ $resultado = $connect->query($sql);
             position: relative;
             width: 320px;
         }
+
+        #results-container {
+            position: absolute;
+            top: 45px;
+            left: 0;
+            min-width: 400px;
+            max-width: 700px;
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: none;
+            max-height: 250px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .result-item {
+            padding: 20px 20px;
+            cursor: pointer;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s;
+            border-radius: 10px;
+        }
+
+        .result-item:hover {
+            background: #461d01;
+            color: #fff8f1;
+        }
+
+        .input-search-product-li {
+            position: relative;
+        }
+
+        .button-search {
+            right: 10px;
+            padding: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            position: absolute;
+            color: #727272
+        }
     </style>
 </head>
 
@@ -260,15 +307,15 @@ $resultado = $connect->query($sql);
             <ul style="list-style:none;">
                 <div class="input-search-product-box">
                     <form action="buscar.php" method="GET" style="width:100%">
-                        <li>
+                        <li class="input-search-product-li">
                             <input
                                 type="text"
                                 name="search-product"
                                 id="input-search-product"
                                 placeholder="Buscar producto..."
-                                value="">
+                                value="" autocomplete="off">
+                            <button type="submit" class="button-search"><i class="fa-solid fa-magnifying-glass"></i></button>
                             <div id="results-container"></div>
-                            <button type="submit">Buscar</button>
                         </li>
                     </form>
 
@@ -279,23 +326,6 @@ $resultado = $connect->query($sql);
         <div class="bottom">
             <nav>
                 <ul>
-                    <li><span id="span-menu-categoria">Categorias</span>
-                        <div id="menu-categoria" class="menu-categoria">
-                            <ul>
-                                <li>Electrodomesticos</li>
-                                <li>Tecnologia</li>
-                                <li>Hogar</li>
-                                <li>Moda</li>
-                                <li>Deportes</li>
-                                <li>Belleza</li>
-                                <li>Jugueteria</li>
-                                <li>Automotriz</li>
-                                <li>Electronica</li>
-                                <li>Mascotas</li>
-                                <li>Arte</li>
-                            </ul>
-                        </div>
-                    </li>
                     <?php if (isset($_SESSION['usuario_nombre'])): ?>
                         <li><span id="venderPage">Vender</span></li>
                     <?php endif; ?>
@@ -320,7 +350,7 @@ $resultado = $connect->query($sql);
                     <div class="perfil-menu">
                         <button class="perfil-btn"> <?php echo htmlspecialchars($_SESSION['usuario_nombre']); ?></button>
                         <div class="dropdown-content">
-                            <a href="#">Mi cuenta</a>
+                            <a href="USER/usuario.php">Mi cuenta</a>
                             <a href="registros-inicio-sesion/logout.php">Cerrar sesión</a>
                         </div>
                     </div>
@@ -388,10 +418,14 @@ $resultado = $connect->query($sql);
                             <?php while ($row = $resultado->fetch_assoc()): ?>
 
                                 <div class="producto-card">
+                                    <?php
+                                    $imagen = (!empty($row['imagen'])) ? $row['imagen'] : "default.png";
+                                    ?>
                                     <div
                                         class="producto-img"
-                                        style="background-image: url('SOURCES/PRODUCTOS/<?php echo $row['imagen'] ?? "default.png"; ?>');">
+                                        style="background-image: url('SOURCES/PRODUCTOS/<?php echo $imagen; ?>');">
                                     </div>
+
 
                                     <h3>
                                         <a href="producto.php?id=<?php echo $row['id_producto']; ?>&search-product=<?php echo urlencode($busqueda); ?>"
@@ -420,81 +454,9 @@ $resultado = $connect->query($sql);
                 <a class="btn-volver" href="home.php">← Volver al inicio</a>
             </div>
         </section>
-
     </div>
-    <script>
-        // Actualizar valores
-        const min = document.getElementById("min");
-        const max = document.getElementById("max");
-        const minValue = document.getElementById("min-value");
-        const maxValue = document.getElementById("max-value");
-
-        // Evitar cruce de sliders
-        min.addEventListener("input", () => {
-            if (parseInt(min.value) > parseInt(max.value)) {
-                min.value = max.value;
-            }
-            minValue.textContent = min.value;
-        });
-
-        max.addEventListener("input", () => {
-            if (parseInt(max.value) < parseInt(min.value)) {
-                max.value = min.value;
-            }
-            maxValue.textContent = max.value;
-        });
-        //Script de peticion al servidor para busqueda en el buscador
-
-        const input_request = document.getElementById('input-search-product');
-        const box_result = document.getElementById('results-container');
-
-        input_request.addEventListener('input', async (event) => {
-            const textoDelUsuario = event.target.value;
-            //limpiamos los resultados anteriores
-            box_result.innerHTML = '';
-
-            if (textoDelUsuario.length < 2) { //opcional: buscar solo a partir de 2 caracteres
-                box_result.style.display = 'none';
-                return;
-            }
-            //1. HACER LA PETICION AL SERVIDOR PHP
-            try {
-                //hacemos la llamada al php dandole el valor por medio del ?termn=
-                const respuesta_producto = await fetch(`buscar-productos.php?term=${textoDelUsuario}`);
-                //desempacamos la respuesta del server
-                const productos = await respuesta_producto.json(); // .json convierte la respuesta venida del servidor(texto Plano) y lo convierte en un array de oroducto listo para utilizar
-                if (productos.length > 0) {
-                    box_result.style.display = 'block';
-                    productos.forEach(producto => { //se peude utilizar otro nombre en lugar de producto, no afecta en nada ya que es un nombrte de la funcion temporal
-                        const item = document.createElement('div') //esto creara varios divs que correspondan al elemento puesto en la barra de busqueda
-                        item.classList.add('result-item')
-                        item.textContent = producto // asignamos al div, un texto a partir del array recorrido, utilizamos para eso el nombre de la funcion productos
-                        item.addEventListener('click', () => {
-                            input_request.value = producto;
-                            box_result.style.display = 'none';
-                        });
-                        //poner el div item creado en el div contenedor que se creo posteriormente
-                        box_result.appendChild(item)
-
-                    });
-                } else {
-                    box_result.style.display = 'none';
-                }
-            } catch (error) {
-                console.error("Error al buscar productos:", error);
-                box_result.style.display = 'none';
-
-            };
-        });
-
-        // vamos a ocultar la barra si hace click fuera de la busqueda
-        document.addEventListener('click', (event_close) => {
-            if (!input_request.contains(event.target) && !box_result.contains(event.target)) {
-                box_result.style.display = 'none'
-            }
-        })
+    <script src="buscar.js" ;>
     </script>
-    <script src="home.js"></script>
 </body>
 
 </html>
