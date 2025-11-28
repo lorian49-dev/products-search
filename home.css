@@ -13,6 +13,21 @@ body{
     overflow-x: hidden;
 }
 
+/*Mensaje de sesion inicio*/
+
+.message-session{
+    position: absolute;
+    width: 300px;
+    background-color: #d4edda; 
+    color: #155724; 
+    border: 1px solid #c3e6cb; 
+    padding: 15px; 
+    margin-bottom: 20px; 
+    border-radius: 25px;
+    right: 0;
+    top: 20px;
+}
+
 header{
     width: 100%;
     display: flex;
@@ -21,6 +36,7 @@ header{
     align-items: center; 
     padding: 0 2rem 2rem 2rem;
     background-color: #461d01;
+
 }
 
 .top{

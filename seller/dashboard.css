@@ -70,7 +70,7 @@ header i{
     gap: 100px;
     align-items: center;
     z-index: 0;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
 }
 
 .container::after{
@@ -222,6 +222,86 @@ a{
 
 .scrolling-container-section p{
   margin-bottom: 20px;
+}
+
+/*Contenedor de INCENTIVOS*/
+
+.incentives{
+  width: 50%;
+  height: 600px;
+  margin: 0 auto 0 auto;
+  opacity: 0;
+  transform: translateX(150px);
+  transition: all 1s ease;
+}
+
+.incentives-container-section{
+  width: 100%;
+  height: 100%; 
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.incentives-left{
+  background-image: linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0)),url("../SOURCES/IMAGENES/IMAGES-FREE-RIGHTS/person-reading.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 25px;
+  position: relative;
+  box-shadow: #000 1px 1px 3px 1px;
+}
+
+.incentives-left::after{
+   content: '';
+  display: inline-block;
+  position: absolute;
+  width: 300px;
+  height: 215px;
+  background-image: url("../SOURCES/IMAGENES/IMAGES-FREE-RIGHTS/web-page-template.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  right: -200px;
+  top: 40%;
+  transform: translateY(-50%);
+  z-index: 1;
+  border-radius: 30px;
+  box-shadow: #000 1px 1px 3px 1px;
+}
+
+.incentives-right{
+  position: relative;
+}
+
+.right-cloud{
+  position: absolute;
+  width: 350px;
+  height: 50px;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: #000 .5px .5px 3px .5px;
+   z-index: 2;
+   font-size: 12px;
+   text-align: center;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 5px;
+}
+
+.right-cloud:nth-child(1){
+ top: 150px;
+}
+
+.right-cloud:nth-child(2){
+ top: 400px;
+ left: -100px;
+}
+
+.right-cloud:nth-child(3){
+ top: 250px;
+ left: 70px;
 }
 
 

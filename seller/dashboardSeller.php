@@ -25,7 +25,6 @@ session_start();
         <ul>
           <li>Registro gratuito</li>
           <li>Pagos seguros</li>
-          <li>Recibes 100.000 COP por publicar tus primeros 10 productos</li>
           <li>Pagas el 3% de comision los primeros 2 meses</li>
           <li>Creditos para Impulsar tus ventas</li>
         </ul>
@@ -51,7 +50,9 @@ session_start();
 
        </div>
        <div class="incentives-right">
-        
+        <div class="right-cloud"><span><img src="../SOURCES/ICONOS-LOGOS/Logotype-reward.png" width="30px" alt=""></span><p>Recibes 100.000 COP por publicar tus primeros 10 productos</p></div>
+        <div class="right-cloud"><span><img src="../SOURCES/ICONOS-LOGOS/Logotype-reward.png" width="30px" alt=""></span><p>No te cobramos comision tus primeras 5 ventas</p></div>
+        <div class="right-cloud"><span><img src="../SOURCES/ICONOS-LOGOS/Logotype-reward.png" width="30px" alt=""></span><p>Tokens para visibilizar productos</p></div>
        </div>
       </section>
     </div>

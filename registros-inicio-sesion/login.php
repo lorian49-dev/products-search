@@ -27,7 +27,7 @@
                 // Cookie opcional
                 setcookie("usuario_id", $usuario['id_usuario'], time() + (86400 * 30), "/");
 
-                echo "<script>alert('Inicio de sesion exitoso');</script>";
+                $_SESSION['flash_message'] = '✅ Haz Iniciado sesion correctamente';
                 header("Location: ../home.php");
                 exit();
                 
@@ -44,7 +44,6 @@
                 window.location.href='login.html';
             </script>";
         }
-
         $stmt->close();
         $connect->close();
     }

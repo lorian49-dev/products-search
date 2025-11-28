@@ -18,10 +18,13 @@ ScrollReveal().reveal('.scrolling', {
 // Efecto transicion al cargar la pagina en el contenido del slogan
 
 let slogan = document.querySelector('.slogan');
+let incentives = document.querySelector('.incentives')
 
 document.addEventListener('DOMContentLoaded', ()=>{
     setTimeout(()=>{
      slogan.style.transform = 'translateX(0)'
     slogan.style.opacity = '1'
+    incentives.style.transform = 'translateX(0)'
+    incentives.style.opacity = '1'
     }, 1000)
 })

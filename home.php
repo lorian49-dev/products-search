@@ -38,6 +38,14 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
 </head>
 
 <body>
+    <?php if(isset($_SESSION['flash_message'])): ?>
+    <div class="message-session">
+        <?php
+        echo $_SESSION['flash_message'];
+        unset($_SESSION['flash_message']);
+        ?>
+    </div>
+<?php endif; ?>
     <header>
         <div class="top">
             <span id="logo-hermes-home">
