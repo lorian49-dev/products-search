@@ -128,14 +128,6 @@ nav ul li span:hover{
     position: relative;
 }
 
-#input-search-product:focus{
-    outline: none;
-    border: 2px #0097b2 solid;
-}
-
-.input-search-product-box{
-    position: relative;
-}
 
 #results-container {
     position: absolute;
