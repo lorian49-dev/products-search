@@ -3,7 +3,7 @@ session_start();
 include('connect.php');
 
 if (isset($_SESSION['admin_logueado']) && $_SESSION['admin_logueado'] === true) {
-    header("Location: ../CRUD/Admin_CRUD.php");
+    header("Location: ../CRUD/admin-dashboard.php");
     exit();
 }
 
@@ -13,9 +13,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         $stmt = $connect->prepare("SELECT a.id_admin, a.username, a.email, a.password, a.activo, a.id_rol, r.nombre_rol 
-                                  FROM administradores a 
-                                  INNER JOIN rol r ON a.id_rol = r.id_rol 
-                                  WHERE (a.username = ? OR a.email = ?) AND a.activo = 1");
+                                    FROM administradores a 
+                                    INNER JOIN rol r ON a.id_rol = r.id_rol 
+                                    WHERE (a.username = ? OR a.email = ?) AND a.activo = 1");
         $stmt->bind_param("ss", $usuario, $usuario);
         $stmt->execute();
         $result = $stmt->get_result();

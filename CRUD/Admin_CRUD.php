@@ -1,9 +1,32 @@
 <?php
+// ==================== PROTECCIÓN DE ACCESO ====================
+session_start();
 include('../registros-inicio-sesion/connect.php');
 
+
+// Verificar si está logueado como ADMIN
+if (!isset($_SESSION['admin_logueado']) || $_SESSION['admin_logueado'] !== true) {
+    echo "<script>
+        alert('Acceso denegado. Debe iniciar sesión como administrador.');
+        window.location.href = '../registros-inicio-sesion/admin-login.php';  // ← CORREGIDO
+    </script>";
+    exit();
+}
+
+// Verificar rol de administrador (1 = administrador, 2 = admin_colaborador)
+$rolesPermitidos = [1, 2];
+if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPermitidos)) {
+    echo "<script>
+        alert('No tiene permisos de administrador.');
+        window.location.href = '../home.php';
+    </script>";
+    exit();
+}
+//  FIN PROTECCIÓN DE ACCESO 
+
+// TU CÓDIGO ORIGINAL SE MANTIENE INTACTO
 $query = "SELECT * FROM usuario";
 $ejec = mysqli_query($connect, $query);
-
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +47,14 @@ $ejec = mysqli_query($connect, $query);
         <span>
             <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO" width="200px">
         </span>
-        <h1>Bienvenido Administrador</h1>
+                 //bienvenida personalizada con rol
+            <h3>Bienvenido <?php echo $_SESSION['admin_nombre'] ?? 'Administrador'; ?> 
+            (<?php 
+                if ($_SESSION['admin_rol'] == 1) echo 'Administrador';
+                elseif ($_SESSION['admin_rol'] == 2) echo 'Colaborador'; 
+                else echo 'Administrador';
+            ?>)
+        </h3>
         <ul class="listMother">
             <li id="liSearch"><input type="text" name="search-profile" id="inputSearchProfile" placeholder="Buscar Usuario por Correo...">
                 <button id="btnSearch">Consultar</button>
@@ -58,6 +88,7 @@ $ejec = mysqli_query($connect, $query);
                 <li>Politicas de privacidad y uso</li>
                 <li>Terminos para vendedores</li>
             </ul>
+            <button actiion="admin_logout.php">Cerrar Sesion</button>
     </nav>
     <div id="container">
         <form action="create_user.php" method="POST"> <!--Correcion de ortografia en el metodo POST-->
