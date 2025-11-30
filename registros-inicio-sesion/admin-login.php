@@ -127,10 +127,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="contrasena">Contraseña:</label>
                 <input type="password" id="contrasena" name="contrasena" required>
             </div>
-            <button type="submit" class="btn-login">🔐 Ingresar al Panel Admin</button>
+            <button type="submit" class="btn-login">Ingresar al Panel Admin</button>
         </form>
-        <div style="text-align:center;margin-top:20px;">
-            <a href="../index.php">← Sitio Principal</a> | 
+        <div style="text-align:center;margin-top:20px;">| 
             <a href="login.html">Login Usuarios</a>
         </div>
     </div>
