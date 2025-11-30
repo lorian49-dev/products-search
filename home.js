@@ -83,7 +83,19 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
+    // Evento al aparecer el menSaje emergente sobre inicio de sesion correcto
 
+    const message_session = document.querySelector('.message-session')
+    const message_session_closed = document.querySelector('.message-session-closed')
+
+    if(message_session){
+        setTimeout(()=>{
+         message_session.style.transform = 'translateX(0)'
+         setTimeout(()=>{
+            message_session.style.transform = 'translateX(210px)'
+         }, 3000)
+        }, 500)
+    }
 
     // CARRUSEL----------------------------------------------------
 

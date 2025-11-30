@@ -27,7 +27,7 @@
                 // Cookie opcional
                 setcookie("usuario_id", $usuario['id_usuario'], time() + (86400 * 30), "/");
 
-                $_SESSION['flash_message'] = '✅ Haz Iniciado sesion correctamente';
+                $_SESSION['flash_message'] = 'Sesion Iniciada :)';
                 header("Location: ../home.php");
                 exit();
                 
