@@ -192,4 +192,74 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     }
+    document.addEventListener("DOMContentLoaded", () => {
+        const cards = document.querySelectorAll(".cards .card");
+        const overlay = document.getElementById("modal-overlay");
+        const modalInner = document.getElementById("modal-inner");
+        const closeBtn = document.getElementById("modal-close");
+
+        const contenidoModal = {
+            0: `
+            <h2>Editar tu información</h2>
+            <form action="editar_info.php" method="POST">
+                <label>Nombre:</label>
+                <input type="text" name="nombre" required>
+
+                <label>Correo:</label>
+                <input type="email" name="correo" required>
+
+                <button type="submit" class="guardar-btn">Guardar cambios</button>
+            </form>
+        `,
+            1: `
+            <h2>Datos de la cuenta</h2>
+            <form action="editar_cuenta.php" method="POST">
+                <label>Usuario:</label>
+                <input type="text" name="usuario" required>
+
+                <label>Contraseña:</label>
+                <input type="password" name="password">
+
+                <button type="submit" class="guardar-btn">Actualizar</button>
+            </form>
+        `,
+            2: `
+            <h2>Seguridad</h2>
+            <p>Configura tu seguridad:</p>
+            <button class="guardar-btn">Cambiar contraseña</button>
+            <button class="guardar-btn">Activar 2FA</button>
+        `,
+            3: `
+            <h2>Direcciones</h2>
+            <form action="editar_direccion.php" method="POST">
+                <label>Dirección principal:</label>
+                <input type="text" name="direccion" required>
+
+                <label>Ciudad:</label>
+                <input type="text" name="ciudad" required>
+
+                <button type="submit" class="guardar-btn">Guardar dirección</button>
+            </form>
+        `,
+        };
+
+        // Evento de clic en las tarjetas
+        cards.forEach((card, index) => {
+            card.addEventListener("click", () => {
+                modalInner.innerHTML = contenidoModal[index];
+                overlay.style.display = "flex";
+            });
+        });
+
+        // Cerrar modal
+        closeBtn.addEventListener("click", () => {
+            overlay.style.display = "none";
+        });
+
+        // Cerrar al hacer clic fuera del panel
+        overlay.addEventListener("click", (e) => {
+            if (e.target === overlay) overlay.style.display = "none";
+        });
+    });
+
 })
