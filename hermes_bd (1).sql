@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-11-2025 a las 03:01:18
+-- Tiempo de generación: 02-12-2025 a las 00:01:06
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.0.30
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,6 +39,16 @@ CREATE TABLE `administradores` (
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `administradores`
+--
+
+INSERT INTO `administradores` (`id_admin`, `username`, `password`, `email`, `id_rol`, `nombre_completo`, `activo`, `ultimo_acceso`, `fecha_creacion`) VALUES
+(1, 'admin_general', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin@hermes.com', 1, 'Administrador General', 1, NULL, '2025-11-28 05:39:28'),
+(2, 'admin_colaborador', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'colab@hermes.com', 2, 'Administrador Colaborador', 1, NULL, '2025-11-28 05:39:28'),
+(4, 'admin_general1', '$2y$10$MeeFFVwmBXRFc2FI4zwk0OIQPVQgcASj3rL6qrqYTGIvZvkktB5Oa', 'admin@hermes.com', 1, NULL, 1, '2025-12-01 17:53:32', '2025-11-28 06:49:44'),
+(5, 'Andres_David', '$2y$10$.Q7or1vzORZqi5m38IiWV.zZNlFqneaWuVp2ouexRETLj8YR.bt..', 'andr@gmail.com', 2, 'Andres David Carvajal Gutierrez', 1, '2025-11-29 01:58:38', '2025-11-28 18:16:14');
+
 -- --------------------------------------------------------
 
 --
@@ -52,6 +62,17 @@ CREATE TABLE `carrito` (
   `total` decimal(12,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `carrito`
+--
+
+INSERT INTO `carrito` (`id_carrito`, `id_cliente`, `fecha_creacion`, `total`) VALUES
+(1, 28, '2025-12-01 21:53:40', 0.00),
+(2, 29, '2025-12-01 21:53:40', 0.00),
+(3, 30, '2025-12-01 21:53:40', 0.00),
+(4, 31, '2025-12-01 21:53:40', 0.00),
+(5, 32, '2025-12-01 21:53:40', 0.00);
+
 -- --------------------------------------------------------
 
 --
@@ -63,6 +84,19 @@ CREATE TABLE `carrito_producto` (
   `id_producto` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `carrito_producto`
+--
+
+INSERT INTO `carrito_producto` (`id_carrito`, `id_producto`, `cantidad`) VALUES
+(1, 2, 1),
+(1, 100, 1),
+(2, 2, 1),
+(2, 100, 1),
+(3, 2, 2),
+(4, 2, 1),
+(5, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -112,6 +146,17 @@ CREATE TABLE `cliente` (
   `informacion_adicional` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `cliente`
+--
+
+INSERT INTO `cliente` (`id_cliente`, `wishlist_privada`, `informacion_adicional`) VALUES
+(28, 1, 'Cliente preferencial. Le gustan los productos electrónicos.'),
+(29, 0, 'Compra frecuente de ropa y accesorios.'),
+(30, 1, 'Prefiere envío express. Tiene alergia a frutos secos.'),
+(31, 0, 'Solicita factura electrónica siempre.'),
+(32, 1, 'Cliente empresarial. Contacto: departamento.compras@empresa.com');
+
 -- --------------------------------------------------------
 
 --
@@ -142,6 +187,15 @@ CREATE TABLE `direccion_envio` (
   `pais` varchar(100) DEFAULT NULL,
   `codigo_postal` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `direccion_envio`
+--
+
+INSERT INTO `direccion_envio` (`id_direccion`, `id_cliente`, `alias`, `direccion`, `ciudad`, `pais`, `codigo_postal`) VALUES
+(1, 28, 'Casa', 'Calle 123 #45-67, Bogotá', 'Bogotá', NULL, '110111'),
+(2, 28, 'Oficina', 'Carrera 15 #88-44, Piso 5', 'Bogotá', NULL, '110112'),
+(3, 29, 'Apartamento', 'Avenida Siempre Viva 742', 'Medellín', NULL, '050001');
 
 -- --------------------------------------------------------
 
@@ -196,7 +250,12 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`id_producto`, `nombre`, `descripcion`, `precio`, `stock`, `origen`, `id_vendedor`, `fecha_creacion`) VALUES
-(2, 'Camiseta Negra', 'Camiseta 100% algodón color negro', 35000.00, 20, 'Colombia', 1, '2025-11-23 17:06:13');
+(2, 'Camiseta Negra', 'Camiseta 100% algodón color negro', 35000.00, 20, 'Colombia', NULL, '2025-11-23 17:06:13'),
+(100, 'Laptop HP Pavilion TEST', 'Laptop 15.6\", Intel i5, 8GB RAM, 512GB SSD', 2500000.00, 10, NULL, NULL, '2025-12-01 21:53:40'),
+(101, 'Smartphone Samsung TEST', '6.5\", 128GB, 8GB RAM, Cámara Quad', 1800000.00, 15, NULL, NULL, '2025-12-01 21:53:40'),
+(102, 'Audífonos Sony TEST', 'Audífonos inalámbricos con cancelación de ruido', 350000.00, 25, NULL, NULL, '2025-12-01 21:53:40'),
+(103, 'Smartwatch Apple TEST', 'Series 7, GPS, 45mm, Resistente al agua', 2200000.00, 8, NULL, NULL, '2025-12-01 21:53:40'),
+(104, 'Tablet Amazon TEST', '10\", 32GB, HD, Alexa integrado', 800000.00, 20, NULL, NULL, '2025-12-01 21:53:40');
 
 -- --------------------------------------------------------
 
@@ -254,8 +313,22 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `correo`, `contrasena`, `fecha_nacimiento`, `telefono`, `direccion_principal`, `codigo_recuperacion`, `codigo_expira`) VALUES
-(1, 'Oscar', 'Vanegas', 'oscar.bustamante772@gmail.com', '$2y$10$Fr7xzRI3MDijiJNXH6G8h.H3exBBWSgPr.dhK6FMJe4jnXIx.Si16', '2007-10-18', '3209412125', NULL, NULL, NULL),
-(2, 'Oscar', 'asdad', 'oscar.vanegas772@gmail.com', '$2y$10$O7xH90JGWzknLOOEM.tWluXA8kvwbOqwTbTbKzW9ANvALgHjkeNWG', '1111-11-11', '121213131', NULL, '392943', '2025-11-19 21:43:45');
+(2, 'Oscar', 'asdad', 'oscar.vanegas772@gmail.com', '$2y$10$O7xH90JGWzknLOOEM.tWluXA8kvwbOqwTbTbKzW9ANvALgHjkeNWG', '1111-11-11', '121213131', NULL, '392943', '2025-11-19 21:43:45'),
+(3, 'Juan', 'Pérez', 'juan.perez@email.com', '$2y$10$TuHashDeContraseña', '1990-05-15', '3101234567', 'Calle 123 #45-67, Bogotá', NULL, NULL),
+(4, 'María', 'Gómez', 'maria.gomez@email.com', '$2y$10$TuHashDeContraseña', '1985-08-22', '3209876543', 'Avenida Siempre Viva 742, Medellín', NULL, NULL),
+(5, 'Carlos', 'Rodríguez', 'carlos.rod@email.com', '$2y$10$TuHashDeContraseña', '1995-02-10', '3155551234', 'Carrera 7 #23-45, Cali', NULL, NULL),
+(6, 'Ana', 'Martínez', 'ana.martinez@email.com', '$2y$10$TuHashDeContraseña', '1992-11-30', '3189998888', 'Diagonal 80 #12-34, Barranquilla', NULL, NULL),
+(7, 'Luis', 'Hernández', 'luis.hernandez@email.com', '$2y$10$TuHashDeContraseña', '1988-07-18', '3001112233', 'Transversal 45 #56-78, Cartagena', NULL, NULL),
+(23, 'Juan', 'Pérez', 'juan.perez2@email.com', '$2y$10$TuHashDeContraseña', '1990-05-15', '3101234567', 'Calle 123 #45-67, Bogotá', NULL, NULL),
+(24, 'María', 'Gómez', 'maria.gomez2@email.com', '$2y$10$TuHashDeContraseña', '1985-08-22', '3209876543', 'Avenida Siempre Viva 742, Medellín', NULL, NULL),
+(25, 'Carlos', 'Rodríguez', 'carlos.rod2@email.com', '$2y$10$TuHashDeContraseña', '1995-02-10', '3155551234', 'Carrera 7 #23-45, Cali', NULL, NULL),
+(26, 'Ana', 'Martínez', 'ana.martinez2@email.com', '$2y$10$TuHashDeContraseña', '1992-11-30', '3189998888', 'Diagonal 80 #12-34, Barranquilla', NULL, NULL),
+(27, 'Luis', 'Hernández', 'luis.hernandez2@email.com', '$2y$10$TuHashDeContraseña', '1988-07-18', '3001112233', 'Transversal 45 #56-78, Cartagena', NULL, NULL),
+(28, 'Juan', 'Pérez', 'juan.perez.test@email.com', '$2y$10$TuHashDeContraseña', '1990-05-15', '3101234567', 'Calle 123 #45-67, Bogotá', NULL, NULL),
+(29, 'María', 'Gómez', 'maria.gomez.test@email.com', '$2y$10$TuHashDeContraseña', '1985-08-22', '3209876543', 'Avenida Siempre Viva 742, Medellín', NULL, NULL),
+(30, 'Carlos', 'Rodríguez', 'carlos.rod.test@email.com', '$2y$10$TuHashDeContraseña', '1995-02-10', '3155551234', 'Carrera 7 #23-45, Cali', NULL, NULL),
+(31, 'Ana', 'Martínez', 'ana.martinez.test@email.com', '$2y$10$TuHashDeContraseña', '1992-11-30', '3189998888', 'Diagonal 80 #12-34, Barranquilla', NULL, NULL),
+(32, 'Luis', 'Hernández', 'luis.hernandez.test@email.com', '$2y$10$TuHashDeContraseña', '1988-07-18', '3001112233', 'Transversal 45 #56-78, Cartagena', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -290,7 +363,6 @@ CREATE TABLE `vendedor` (
 --
 
 INSERT INTO `vendedor` (`id_vendedor`, `nombre_empresa`, `nit`, `telefono_contacto`, `ubicacion`, `correo_contacto`, `fecha_registro`, `acepto_terminos`) VALUES
-(1, 'ajsjajajja', 'jajjajaj', '3131313131', 'as1d3a1d3a1', 'as31d3a1@gmail.com', '2025-11-19 05:00:00', 0),
 (2, 'sadadadad', 'asdasdadasd', '313132131', '31a3132131ads', '', '2025-11-19 05:00:00', 0);
 
 -- --------------------------------------------------------
@@ -441,13 +513,13 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT de la tabla `administradores`
 --
 ALTER TABLE `administradores`
-  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `carrito`
 --
 ALTER TABLE `carrito`
-  MODIFY `id_carrito` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_carrito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `catalogo`
@@ -471,7 +543,7 @@ ALTER TABLE `detalle_pedido`
 -- AUTO_INCREMENT de la tabla `direccion_envio`
 --
 ALTER TABLE `direccion_envio`
-  MODIFY `id_direccion` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_direccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `pasarela_pago`
@@ -489,7 +561,7 @@ ALTER TABLE `pedido`
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -501,7 +573,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- Restricciones para tablas volcadas
