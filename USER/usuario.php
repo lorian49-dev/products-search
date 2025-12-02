@@ -2,16 +2,19 @@
 session_start();
 include("../registros-inicio-sesion/connect.php");
 
-// Verificar sesión
+// Verificar que el usuario haya iniciado sesión
 if (!isset($_SESSION['usuario_id'])) {
-    die("Error: No hay sesión iniciada.");
+    die("Error: No hay sesión activa. Inicia sesión nuevamente.");
 }
 
-$usuario_id = $_SESSION['usuario_id'];
+$usuario_id = intval($_SESSION['usuario_id']); // seguridad
 
 // Obtener datos del usuario
 $sql = "SELECT * FROM usuario WHERE id_usuario = $usuario_id";
 $result = mysqli_query($connect, $sql);
+if (!$result) {
+    die("Error en la consulta: " . mysqli_error($connect));
+}
 $usuario = mysqli_fetch_assoc($result);
 ?>
 <!DOCTYPE html>
@@ -83,11 +86,9 @@ $usuario = mysqli_fetch_assoc($result);
             box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
             position: sticky;
             top: 20px;
-            /* queda pegada al hacer scroll */
             height: fit-content;
         }
 
-        /* Título sidebar */
         .sidebar-ml h3 {
             margin: 0 0 14px 0;
             font-size: 16px;
@@ -95,7 +96,6 @@ $usuario = mysqli_fetch_assoc($result);
             font-weight: 700;
         }
 
-        /* Lista */
         .sidebar-ml ul {
             list-style: none;
             padding: 0;
@@ -114,7 +114,6 @@ $usuario = mysqli_fetch_assoc($result);
             font-weight: 600;
         }
 
-        /* icono */
         .sidebar-ml li i {
             width: 20px;
             text-align: center;
@@ -122,7 +121,6 @@ $usuario = mysqli_fetch_assoc($result);
             font-size: 16px;
         }
 
-        /* hover y activo */
         .sidebar-ml li:hover {
             background: #fff3f1;
             color: #c84a2b;
@@ -133,14 +131,13 @@ $usuario = mysqli_fetch_assoc($result);
             color: #c84a2b;
         }
 
-        /* Badge desplegable pequeño */
         .sidebar-ml li .chev {
             margin-left: auto;
             font-size: 12px;
             color: #9a9a9a;
         }
 
-        /* PANEL DERECHO (contenido) */
+        /* PANEL DERECHO */
         .profile-panel {
             flex: 1;
             background: #ffffff;
@@ -151,7 +148,7 @@ $usuario = mysqli_fetch_assoc($result);
             min-height: 260px;
         }
 
-        /* Header del perfil (avatar + nombre) */
+        /* Header del perfil */
         .profile-header {
             display: flex;
             gap: 18px;
@@ -172,7 +169,7 @@ $usuario = mysqli_fetch_assoc($result);
             font-size: 26px;
         }
 
-        /* tarjetas resumen estilo ML */
+        /* Cards */
         .cards {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -186,9 +183,15 @@ $usuario = mysqli_fetch_assoc($result);
             border: 1px solid #f0e9e6;
             padding: 14px;
             box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
+            cursor: pointer;
+            transition: .2s;
         }
 
-        /* Texto de perfil */
+        .card:hover {
+            background: #f2f2f2;
+        }
+
+        /* Perfil */
         .perfil-container p {
             margin: 6px 0;
             font-size: 14px;
@@ -247,7 +250,6 @@ $usuario = mysqli_fetch_assoc($result);
             z-index: 9999;
         }
 
-        /* Panel */
         #modal-content {
             background: white;
             width: 480px;
@@ -257,7 +259,6 @@ $usuario = mysqli_fetch_assoc($result);
             position: relative;
         }
 
-        /* Botón cerrar */
         #modal-close {
             position: absolute;
             top: 8px;
@@ -265,20 +266,25 @@ $usuario = mysqli_fetch_assoc($result);
             background: transparent;
             border: none;
             font-size: 22px;
-            cursor: pointer;
+            cursor: pointer;    
         }
 
-        /* Efecto cards clickeables */
-        .cards .card {
-            cursor: pointer;
-            transition: .2s;
+        /* ⭐ AUMENTAR LETRA DE LA INFORMACIÓN DE LAS CARDS (FORZADO) */
+        .card strong {
+            font-size: 20px !important;
         }
 
-        .cards .card:hover {
-            background: #f2f2f2;
+        .card div {
+            font-size: 15px !important;
+            font-weight: bold;
+            color: #000;
+            margin-top: 4px;
         }
+
         
     </style>
+
+
 </head>
 
 <body>
@@ -299,6 +305,15 @@ $usuario = mysqli_fetch_assoc($result);
                                 value="" autocomplete="off">
                             <button type="submit" class="button-search"><i class="fa-solid fa-magnifying-glass"></i></button>
                             <div id="results-container"></div>
+                            <div id="user-data"
+                                data-nombre="<?php echo $usuario['nombre']; ?>"
+                                data-apellido="<?php echo $usuario['apellido']; ?>"
+                                data-correo="<?php echo $usuario['correo']; ?>"
+                                data-telefono="<?php echo $usuario['telefono']; ?>"
+                                data-fecha="<?php echo $usuario['fecha_nacimiento']; ?>"
+                                data-direccion="<?php echo $usuario['direccion_principal']; ?>">
+                            </div>
+
                         </li>
                     </form>
 
@@ -350,6 +365,7 @@ $usuario = mysqli_fetch_assoc($result);
                             <a href="../USER/usuario.php">Mi cuenta</a>
                             <a href="../registros-inicio-sesion/logout.php">Cerrar sesión</a>
                         </div>
+
                     </div>
                 <?php else: ?>
                     <a href="../registros-inicio-sesion/login.html"><span class="sisu-buttons"> Sign In</span></a>
@@ -411,58 +427,65 @@ $usuario = mysqli_fetch_assoc($result);
 
             <!-- tarjetas tipo resumen -->
             <div class="cards">
-                <div class="card"><strong>Tu información</strong>
-                    <div style="margin-top:8px; color:#6b6b6b; font-size:13px;">Nombre elegido y datos para identificarte.</div>
+
+                <!-- Card 1 - Tu Información -->
+                <div class="card">
+                    <strong>Tu información</strong>
+                    <div style="margin-top:8px; color:#6b6b6b; font-size:13px;">
+                        <?= htmlspecialchars($usuario['nombre'] . " " . $usuario['apellido']); ?>
+                    </div>
+                    <div style="color:#222; font-size:13px; margin-top:4px;">
+                        Fecha de nacimiento: <?= htmlspecialchars($usuario['fecha_nacimiento']); ?>
+                    </div>
                 </div>
-                <div class="card"><strong>Datos de la cuenta</strong>
-                    <div style="margin-top:8px; color:#6b6b6b; font-size:13px;">Datos que representan tu cuenta y Mercado Pago.</div>
+
+                <!-- Card 2 - Datos de la cuenta -->
+                <div class="card">
+                    <strong>Datos de la cuenta</strong>
+                    <div style="margin-top:8px; color:#6b6b6b; font-size:13px;">
+                        Correo: <?= htmlspecialchars($usuario['correo']); ?>
+                    </div>
+                    <div style="color:#222; font-size:13px; margin-top:4px;">
+                        Teléfono: <?= htmlspecialchars($usuario['telefono']); ?>
+                    </div>
                 </div>
-                <div class="card"><strong>Seguridad</strong>
-                    <div style="margin-top:8px; color:#6b6b6b; font-size:13px;">Tienes configuraciones pendientes.</div>
+
+                <!-- Card 3 - Seguridad -->
+                <div class="card">
+                    <strong>Seguridad</strong>
+                    <div style="margin-top:8px; color:#6b6b6b; font-size:13px;">
+                        Tu cuenta está protegida.
+                    </div>
+                    <div style="color:#222; font-size:13px; margin-top:4px;">
+                        Último cambio de contraseña: No disponible
+                    </div>
                 </div>
-                <div class="card"><strong>Direcciones</strong>
-                    <div style="margin-top:8px; color:#6b6b6b; font-size:13px;">Direcciones guardadas en tu cuenta.</div>
+
+                <!-- Card 4 - Direcciones -->
+                <div class="card">
+                    <strong>Direcciones</strong>
+                    <div style="margin-top:8px; color:#6b6b6b; font-size:13px;">
+                        Dirección principal:
+                    </div>
+                    <div style="color:#222; font-size:13px; margin-top:4px;">
+                        <?= htmlspecialchars($usuario['direccion_principal']); ?>
+                    </div>
                 </div>
+
             </div>
 
-
-            <!-- Contenido del perfil (datos detallados) -->
-            <div class="perfil-container">
-                <p><strong>Nombre:</strong> <?= htmlspecialchars($usuario['nombre'] . " " . $usuario['apellido']); ?></p>
-                <p><strong>Correo:</strong> <?= htmlspecialchars($usuario['correo']); ?></p>
-                <p><strong>Fecha de nacimiento:</strong> <?= htmlspecialchars($usuario['fecha_nacimiento']); ?></p>
-                <p><strong>Teléfono:</strong> <?= htmlspecialchars($usuario['telefono']); ?></p>
-                <p><strong>Dirección principal:</strong> <?= htmlspecialchars($usuario['direccion_principal']); ?></p>
-            </div>
 
             <div style="margin-top:16px;">
-                <button id="btnEdit" class="btn btn-edit">Editar Perfil</button>
                 <a href="../home.php" class="btn btn-back">← volver al inicio</a>
             </div>
 
             <!-- Modal ACTUAL DE EDITAR -->
-            <div class="modalWindow">
-                <div class="modalContainer">
-                    <span class="back-icon">⟵</span>
-                    <h2>Editar datos</h2>
-                    <form method="POST" action="editar_usuario.php">
-                        <input type="hidden" name="id_usuario" value="<?= $usuario['id_usuario'] ?>">
-                        <input type="text" name="name" value="<?= $usuario['nombre'] ?>">
-                        <input type="text" name="lastname" value="<?= $usuario['apellido'] ?>">
-                        <input type="email" name="email" value="<?= $usuario['correo'] ?>">
-                        <input type="password" name="password" value="<?= $usuario['contrasena'] ?>">
-                        <input type="date" name="birthday" value="<?= $usuario['fecha_nacimiento'] ?>">
-                        <input type="text" name="phone" value="<?= $usuario['telefono'] ?>">
-                        <input type="text" name="direction" value="<?= $usuario['direccion_principal'] ?>">
-                        <button type="submit">Guardar cambios</button>
-                    </form>
-                </div>
-            </div>
+
         </main>
     </div>
     <script src="usuario.js"></script>
 
-    
+
 </body>
 
 </html>

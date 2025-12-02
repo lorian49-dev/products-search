@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         listTriggerEvents(triggerHelp, divHelp) // igual aca, solo que este es para la lista de ayuda
     }
 
+    
     let btnProfile = document.getElementsByClassName('perfil-btn')[0]
     let btnProfileContainer = document.getElementsByClassName('dropdown-content')[0]
 
@@ -260,6 +261,79 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.addEventListener("click", (e) => {
             if (e.target === overlay) overlay.style.display = "none";
         });
+    });
+    const cards = document.querySelectorAll(".cards .card");
+    const overlay = document.getElementById("modal-overlay");
+    const modalInner = document.getElementById("modal-inner");
+    const closeBtn = document.getElementById("modal-close");
+
+    const userData = document.getElementById("user-data");
+
+    const contenidoModal = {
+        // INFORMACIÓN PERSONAL
+        0: () => `
+            <h2>Editar tu información</h2>
+            <form action="editar_usuario.php" method="POST">
+                <label>Nombre:</label>
+                <input type="text" name="name" value="${userData.dataset.nombre}" required>
+
+                <label>Apellido:</label>
+                <input type="text" name="lastname" value="${userData.dataset.apellido}" required>
+
+                <label>Fecha de nacimiento:</label>
+                <input type="date" name="birthday" value="${userData.dataset.fecha}">
+
+                <button type="submit" class="guardar-btn">Guardar cambios</button>
+            </form>
+        `,
+
+        // CUENTA
+        1: () => `
+            <h2>Datos de la cuenta</h2>
+            <form action="editar_usuario.php" method="POST">
+
+                <label>Correo:</label>
+                <input type="email" name="email" value="${userData.dataset.correo}" required>
+
+                <label>Nueva contraseña:</label>
+                <input type="password" name="password">
+
+                <button type="submit" class="guardar-btn">Actualizar</button>
+            </form>
+        `,
+
+        // SEGURIDAD
+        2: () => `
+            <h2>Seguridad</h2>
+            <p>Opciones de seguridad:</p>
+            <button class="guardar-btn">Cambiar contraseña</button>
+            <button class="guardar-btn">Activar 2FA</button>
+        `,
+
+        // DIRECCIONES
+        3: () => `
+            <h2>Direcciones</h2>
+            <form action="editar_usuario.php" method="POST">
+                <label>Dirección principal:</label>
+                <input type="text" name="direccion_principal" value="${userData.dataset.direccion}" required>
+
+                <button type="submit" class="guardar-btn">Guardar dirección</button>
+            </form>
+        `,
+    };
+
+    // ABRIR CARD
+    cards.forEach((card, index) => {
+        card.addEventListener("click", () => {
+            modalInner.innerHTML = contenidoModal[index]();
+            overlay.style.display = "flex";
+        });
+    });
+
+    // CERRAR
+    closeBtn.addEventListener("click", () => overlay.style.display = "none");
+    overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) overlay.style.display = "none";
     });
 
 })

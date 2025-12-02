@@ -411,20 +411,6 @@ $resultado = $connect->query($sql);
     <div class="container" style="display:flex; gap:20px;">
 
         <aside class="sidebar" style="width:250px; border:1px solid #ccc; padding:15px; background:#f9f9f9; border-radius:8px;">
-            <div class="ml-user-menu">
-                <h3>Mi cuenta</h3>
-                <ul>
-                    <li><a href="USER/usuario.php">Mis datos personales</a></li>
-                    <li><a href="USER/compras.php">Mis compras</a></li>
-                    <li><a href="USER/direcciones.php">Mis direcciones</a></li>
-                    <li><a href="USER/publicaciones.php">Mis publicaciones</a></li>
-                    <li><a href="USER/favoritos.php">Favoritos</a></li>
-                    <li><a href="USER/notificaciones.php">Notificaciones</a></li>
-                    <li><a href="USER/seguridad.php">Seguridad y privacidad</a></li>
-                    <li><a href="USER/configuracion.php">Configuración</a></li>
-                    <li><a href="registros-inicio-sesion/logout.php" style="color:#b30000;">Cerrar sesión</a></li>
-                </ul>
-            </div>
 
             <!-- Categorias -->
             <h3>Categorías</h3>

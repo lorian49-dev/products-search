@@ -26,10 +26,12 @@ $producto = $result->fetch_assoc();
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($producto['nombre']); ?></title>
 </head>
+
 <body>
 
     <h1><?php echo htmlspecialchars($producto['nombre']); ?></h1>
@@ -47,8 +49,8 @@ $producto = $result->fetch_assoc();
 
     <!-- BOTÓN PARA PASARELA DE PAGO (cambiar después) -->
     <a href="pago.php?id=<?php echo $producto['id_producto']; ?>"
-       style="padding:10px 20px; background:#8B4513; color:white; text-decoration:none; border-radius:5px;">
-       Comprar ahora
+        style="padding:10px 20px; background:#8B4513; color:white; text-decoration:none; border-radius:5px;">
+        Comprar ahora
     </a>
 
     <br><br>
@@ -58,4 +60,5 @@ $producto = $result->fetch_assoc();
 
 
 </body>
+
 </html>

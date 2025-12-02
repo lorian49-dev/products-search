@@ -14,6 +14,15 @@ $usuario_id = $_SESSION['usuario_id'];
 // ---------------------------
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    // Obtener datos actuales del usuario
+    $sql_actual = "SELECT * FROM usuario WHERE id_usuario = ?";
+    $q_actual = $connect->prepare($sql_actual);
+    $q_actual->bind_param("i", $usuario_id);
+    $q_actual->execute();
+    $actual = $q_actual->get_result()->fetch_assoc();
+    $q_actual->close();
+
+    // Datos enviados por el form
     $name      = trim($_POST['name']);
     $lastname  = trim($_POST['lastname']);
     $email     = trim($_POST['email']);
@@ -22,22 +31,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone     = trim($_POST['phone']);
     $direccion = trim($_POST['direccion_principal']);
 
-    // Generar nombre completo
-    $nombre_completo = $name . " " . $lastname;
+    // --------------- EVITAR QUE LOS VACÍOS BORREN DATOS ---------------
 
-    // Si NO cambia la contraseña, se conserva la actual
+    $name      = $name      !== "" ? $name      : $actual['nombre'];
+    $lastname  = $lastname  !== "" ? $lastname  : $actual['apellido'];
+    $email     = $email     !== "" ? $email     : $actual['correo'];
+    $birthday  = $birthday  !== "" ? $birthday  : $actual['fecha_nacimiento'];
+    $phone     = $phone     !== "" ? $phone     : $actual['telefono'];
+    $direccion = $direccion !== "" ? $direccion : $actual['direccion_principal'];
+
+    // Contraseña: si está vacía se conserva
     if ($password === "") {
-        $q = $connect->prepare("SELECT contrasena FROM usuario WHERE id_usuario = ?");
-        $q->bind_param("i", $usuario_id);
-        $q->execute();
-        $res = $q->get_result()->fetch_assoc();
-        $password_final = $res["contrasena"];
-        $q->close();
+        $password_final = $actual['contrasena'];
     } else {
-        $password_final = $password; // Puedes aplicar hashing si quieres
+        $password_final = $password; // Poner hashing si deseas
     }
 
-    // UPDATE seguro con prepared statements
+    // UPDATE seguro
     $sql = "UPDATE usuario SET 
                 nombre = ?, 
                 apellido = ?, 
@@ -63,8 +73,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     if ($stmt->execute()) {
-        // Guardar nombre completo en sesión (opcional, pero útil)
-        $_SESSION['nombre_completo'] = $nombre_completo;
+
+        // Nuevo nombre completo
+        $_SESSION['nombre_completo'] = $name . " " . $lastname;
 
         echo "<script>
                 alert('Perfil actualizado correctamente.');
@@ -74,7 +85,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         die("Error al actualizar: " . $stmt->error);
     }
-
 }
 
 // ---------------------------
@@ -84,7 +94,6 @@ $sql = "SELECT * FROM usuario WHERE id_usuario = $usuario_id";
 $r = mysqli_query($connect, $sql);
 $usuario = mysqli_fetch_assoc($r);
 
-// Crear nombre completo para mostrar
 $nombre_completo = $usuario["nombre"] . " " . $usuario["apellido"];
 
 ?>

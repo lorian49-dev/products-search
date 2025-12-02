@@ -187,4 +187,3 @@ switch ($action) {
             100% { transform: rotate(360deg); }
         }
         h2 { color: #333; margin-bottom: 10px; }
-        p { color: #

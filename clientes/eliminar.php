@@ -28,7 +28,7 @@ $query = "SELECT c.*, u.nombre, u.apellido, u.correo
           FROM cliente c
           INNER JOIN usuario u ON c.id_cliente = u.id_usuario
           WHERE c.id_cliente = $id_cliente";
-          
+
 $result = mysqli_query($connect, $query);
 if (mysqli_num_rows($result) === 0) {
     header('Location: index.php');
@@ -88,19 +88,19 @@ $estadisticas['total_gastado'] = mysqli_fetch_assoc($result_total)['total'] ?? 0
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confirmar_usuario = isset($_POST['eliminar_usuario']) ? 1 : 0;
     $password_confirm = trim($_POST['password_confirm']);
-    
+
     // Verificar contraseña del administrador
     $admin_id = $_SESSION['admin_id'];
     $query_admin = "SELECT password FROM administradores WHERE id_admin = $admin_id";
     $result_admin = mysqli_query($connect, $query_admin);
     $admin = mysqli_fetch_assoc($result_admin);
-    
+
     if (!password_verify($password_confirm, $admin['password'])) {
         $error = "Contraseña de administrador incorrecta";
     } else {
         // Iniciar transacción
         mysqli_begin_transaction($connect);
-        
+
         try {
             // 1. Eliminar productos en carrito (cascada manual)
             if ($estadisticas['carritos'] > 0) {
@@ -109,15 +109,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                  WHERE c.id_cliente = $id_cliente";
                 mysqli_query($connect, $query_delete_carrito_producto);
             }
-            
+
             // 2. Eliminar carritos
             $query_delete_carrito = "DELETE FROM carrito WHERE id_cliente = $id_cliente";
             mysqli_query($connect, $query_delete_carrito);
-            
+
             // 3. Eliminar direcciones de envío
             $query_delete_direcciones = "DELETE FROM direccion_envio WHERE id_cliente = $id_cliente";
             mysqli_query($connect, $query_delete_direcciones);
-            
+
             // 4. Eliminar detalles de pedido
             if ($estadisticas['pedidos'] > 0) {
                 $query_delete_detalles = "DELETE dp FROM detalle_pedido dp
@@ -125,41 +125,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                          WHERE p.id_cliente = $id_cliente";
                 mysqli_query($connect, $query_delete_detalles);
             }
-            
+
             // 5. Eliminar pedidos
             $query_delete_pedidos = "DELETE FROM pedido WHERE id_cliente = $id_cliente";
             mysqli_query($connect, $query_delete_pedidos);
-            
+
             // 6. Eliminar cliente
             $query_delete_cliente = "DELETE FROM cliente WHERE id_cliente = $id_cliente";
             mysqli_query($connect, $query_delete_cliente);
-            
+
             // 7. Eliminar usuario (si se seleccionó)
             if ($confirmar_usuario) {
                 $query_delete_usuario = "DELETE FROM usuario WHERE id_usuario = $id_cliente";
                 mysqli_query($connect, $query_delete_usuario);
-                
+
                 // Registrar log de eliminación completa
                 $log_message = "Cliente y usuario #$id_cliente eliminados completamente";
             } else {
                 $log_message = "Cliente #$id_cliente eliminado (usuario conservado)";
             }
-            
+
             // Registrar acción en logs
             $admin_nombre = $_SESSION['admin_nombre'];
             $query_log = "INSERT INTO logs_admin (admin_id, admin_nombre, accion, detalles, fecha) 
                          VALUES ($admin_id, '$admin_nombre', 'ELIMINAR_CLIENTE', '$log_message', NOW())";
             mysqli_query($connect, $query_log);
-            
+
             // Confirmar transacción
             mysqli_commit($connect);
-            
+
             // Redirigir con mensaje de éxito
-            $_SESSION['mensaje_eliminacion'] = "Cliente eliminado exitosamente. " . 
-                                               ($confirmar_usuario ? "Usuario también eliminado." : "Usuario conservado.");
+            $_SESSION['mensaje_eliminacion'] = "Cliente eliminado exitosamente. " .
+                ($confirmar_usuario ? "Usuario también eliminado." : "Usuario conservado.");
             header('Location: index.php');
             exit();
-            
         } catch (Exception $e) {
             mysqli_rollback($connect);
             $error = "Error durante la eliminación: " . $e->getMessage();
@@ -170,6 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -177,68 +177,290 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
     <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
-        .dashboard-container { max-width: 800px; margin: 0 auto; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
         /* Header */
-        .header { background: rgba(255, 255, 255, 0.95); padding: 25px 30px; border-radius: 20px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .header h1 { color: #333; font-size: 1.8em; margin-bottom: 5px; }
-        .user-role { background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; }
-        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px 30px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .user-role {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
         /* Contenedor principal */
-        .warning-container { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 25px; }
-        
+        .warning-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+
         /* Alerta de peligro */
-        .danger-alert { background: #f8d7da; color: #721c24; padding: 20px; border-radius: 10px; margin-bottom: 25px; border-left: 6px solid #dc3545; }
-        .danger-alert h3 { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
-        
+        .danger-alert {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 6px solid #dc3545;
+        }
+
+        .danger-alert h3 {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         /* Información del cliente */
-        .client-summary { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 25px; border: 1px solid #dee2e6; }
-        .client-header { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }
-        .client-avatar { width: 70px; height: 70px; background: #dc3545; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8em; font-weight: bold; }
-        .client-info h3 { color: #333; margin-bottom: 5px; }
-        
+        .client-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 1px solid #dee2e6;
+        }
+
+        .client-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .client-avatar {
+            width: 70px;
+            height: 70px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .client-info h3 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
         /* Estadísticas de eliminación */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .stat-item { background: white; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #dee2e6; }
-        .stat-item.warning { border-color: #ffc107; background: #fff3cd; }
-        .stat-item.danger { border-color: #dc3545; background: #f8d7da; }
-        .stat-number { font-size: 1.8em; font-weight: bold; margin: 5px 0; }
-        .stat-number.warning { color: #856404; }
-        .stat-number.danger { color: #721c24; }
-        .stat-label { font-size: 0.85em; color: #666; }
-        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+        }
+
+        .stat-item.warning {
+            border-color: #ffc107;
+            background: #fff3cd;
+        }
+
+        .stat-item.danger {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .stat-number.warning {
+            color: #856404;
+        }
+
+        .stat-number.danger {
+            color: #721c24;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            color: #666;
+        }
+
         /* Formulario */
-        .form-container { background: white; padding: 25px; border-radius: 10px; border: 2px solid #dee2e6; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
-        .form-control { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.95em; }
-        .form-check { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
-        .form-check input[type="checkbox"] { width: 20px; height: 20px; }
-        
+        .form-container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px solid #dee2e6;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95em;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .form-check input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+
         /* Botones */
-        .btn { padding: 12px 25px; border: none; border-radius: 25px; font-size: 1em; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
-        .btn-danger { background: #dc3545; color: white; } .btn-danger:hover { background: #c82333; transform: translateY(-2px); }
-        .btn-secondary { background: #6c757d; color: white; } .btn-secondary:hover { background: #5a6268; transform: translateY(-2px); }
-        .btn-success { background: #28a745; color: white; } .btn-success:hover { background: #218838; transform: translateY(-2px); }
-        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
         /* Lista de consecuencias */
-        .consequences-list { list-style: none; margin-left: 20px; }
-        .consequences-list li { margin-bottom: 10px; padding-left: 25px; position: relative; }
-        .consequences-list li:before { content: '⚠️'; position: absolute; left: 0; }
-        
+        .consequences-list {
+            list-style: none;
+            margin-left: 20px;
+        }
+
+        .consequences-list li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .consequences-list li:before {
+            content: '⚠️';
+            position: absolute;
+            left: 0;
+        }
+
         /* Mensaje de error */
-        .error-message { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #dc3545; }
-        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #dc3545;
+        }
+
         @media (max-width: 768px) {
-            .header-top { flex-direction: column; gap: 15px; text-align: center; }
-            .client-header { flex-direction: column; text-align: center; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .header-top {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .client-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="dashboard-container">
         <!-- Header -->
@@ -273,16 +495,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="client-info">
                     <h3><?php echo htmlspecialchars($cliente['nombre'] . ' ' . $cliente['apellido']); ?></h3>
-                    <p><strong>Cliente ID:</strong> #<?php echo $id_cliente; ?> | 
-                       <strong>Correo:</strong> <?php echo htmlspecialchars($cliente['correo']); ?></p>
+                    <p><strong>Cliente ID:</strong> #<?php echo $id_cliente; ?> |
+                        <strong>Correo:</strong> <?php echo htmlspecialchars($cliente['correo']); ?>
+                    </p>
                 </div>
             </div>
-            
+
             <div style="color: #666; font-size: 0.95em;">
-                <p><strong>Información adicional:</strong> <?php echo !empty($cliente['informacion_adicional']) ? 
-                    htmlspecialchars(substr($cliente['informacion_adicional'], 0, 100)) . 
-                    (strlen($cliente['informacion_adicional']) > 100 ? '...' : '') : 
-                    'No especificada'; ?></p>
+                <p><strong>Información adicional:</strong> <?php echo !empty($cliente['informacion_adicional']) ?
+                                                                htmlspecialchars(substr($cliente['informacion_adicional'], 0, 100)) .
+                                                                (strlen($cliente['informacion_adicional']) > 100 ? '...' : '') :
+                                                                'No especificada'; ?></p>
             </div>
         </div>
 
@@ -291,7 +514,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h3 style="color: #dc3545; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
                 <i class="fas fa-trash-alt"></i> Datos que serán ELIMINADOS:
             </h3>
-            
+
             <div class="stats-grid">
                 <div class="stat-item <?php echo $estadisticas['carritos'] > 0 ? 'danger' : ''; ?>">
                     <div class="stat-label">Carritos de Compra</div>
@@ -299,21 +522,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php echo $estadisticas['carritos']; ?>
                     </div>
                 </div>
-                
+
                 <div class="stat-item <?php echo $estadisticas['productos_carrito'] > 0 ? 'danger' : ''; ?>">
                     <div class="stat-label">Productos en Carrito</div>
                     <div class="stat-number <?php echo $estadisticas['productos_carrito'] > 0 ? 'danger' : ''; ?>">
                         <?php echo $estadisticas['productos_carrito']; ?>
                     </div>
                 </div>
-                
+
                 <div class="stat-item <?php echo $estadisticas['pedidos'] > 0 ? 'danger' : ''; ?>">
                     <div class="stat-label">Pedidos Realizados</div>
                     <div class="stat-number <?php echo $estadisticas['pedidos'] > 0 ? 'danger' : ''; ?>">
                         <?php echo $estadisticas['pedidos']; ?>
                     </div>
                 </div>
-                
+
                 <div class="stat-item <?php echo $estadisticas['direcciones'] > 0 ? 'danger' : ''; ?>">
                     <div class="stat-label">Direcciones de Envío</div>
                     <div class="stat-number <?php echo $estadisticas['direcciones'] > 0 ? 'danger' : ''; ?>">
@@ -321,20 +544,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
             </div>
-            
-            <?php if($estadisticas['total_gastado'] > 0): ?>
-            <div style="text-align: center; margin-top: 15px; padding: 10px; background: #e9ecef; border-radius: 8px;">
-                <strong>Total histórico gastado:</strong> 
-                <span style="color: #28a745; font-weight: bold;">$<?php echo number_format($estadisticas['total_gastado'], 2); ?></span>
-            </div>
+
+            <?php if ($estadisticas['total_gastado'] > 0): ?>
+                <div style="text-align: center; margin-top: 15px; padding: 10px; background: #e9ecef; border-radius: 8px;">
+                    <strong>Total histórico gastado:</strong>
+                    <span style="color: #28a745; font-weight: bold;">$<?php echo number_format($estadisticas['total_gastado'], 2); ?></span>
+                </div>
             <?php endif; ?>
         </div>
 
         <!-- Mensaje de error -->
-        <?php if(isset($error)): ?>
-        <div class="error-message">
-            <i class="fas fa-exclamation-circle"></i> <?php echo $error; ?>
-        </div>
+        <?php if (isset($error)): ?>
+            <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i> <?php echo $error; ?>
+            </div>
         <?php endif; ?>
 
         <!-- Formulario de confirmación -->
@@ -342,14 +565,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h3 style="color: #333; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #dee2e6;">
                 <i class="fas fa-shield-alt"></i> Confirmación de Seguridad
             </h3>
-            
+
             <div class="form-group">
                 <label for="password_confirm">Contraseña de Administrador *</label>
-                <input type="password" id="password_confirm" name="password_confirm" class="form-control" 
-                       placeholder="Ingrese su contraseña para confirmar" required>
+                <input type="password" id="password_confirm" name="password_confirm" class="form-control"
+                    placeholder="Ingrese su contraseña para confirmar" required>
                 <small style="color: #666; font-size: 0.85em;">Debe ingresar su contraseña de administrador para proceder</small>
             </div>
-            
+
             <div class="form-group">
                 <div class="form-check">
                     <input type="checkbox" id="eliminar_usuario" name="eliminar_usuario" value="1">
@@ -358,15 +581,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </label>
                 </div>
                 <small style="color: #666; font-size: 0.85em; margin-left: 30px;">
-                    Si marca esta opción, el usuario también será eliminado permanentemente. 
+                    Si marca esta opción, el usuario también será eliminado permanentemente.
                     El cliente no podrá volver a iniciar sesión.
                 </small>
             </div>
-            
+
             <h4 style="color: #721c24; margin: 25px 0 15px 0;">
                 <i class="fas fa-exclamation-triangle"></i> Consecuencias de esta acción:
             </h4>
-            
+
             <ul class="consequences-list">
                 <li>Todos los <strong>carritos de compra</strong> serán eliminados</li>
                 <li>Todos los <strong>productos en carrito</strong> serán removidos</li>
@@ -374,24 +597,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li>Todos los <strong>pedidos realizados</strong> serán eliminados</li>
                 <li>Los <strong>detalles de pedido</strong> serán removidos permanentemente</li>
                 <li>La <strong>información del cliente</strong> será borrada de la base de datos</li>
-                <?php if($estadisticas['total_gastado'] > 0): ?>
-                <li><strong>Estadísticas de ventas</strong> serán afectadas</li>
+                <?php if ($estadisticas['total_gastado'] > 0): ?>
+                    <li><strong>Estadísticas de ventas</strong> serán afectadas</li>
                 <?php endif; ?>
             </ul>
-            
+
             <!-- Botones de acción -->
             <div style="display: flex; gap: 15px; margin-top: 30px; justify-content: center;">
-                <button type="submit" class="btn btn-danger" 
-                        onclick="return confirmFinal()"
-                        style="padding: 15px 30px; font-size: 1.1em;">
+                <button type="submit" class="btn btn-danger"
+                    onclick="return confirmFinal()"
+                    style="padding: 15px 30px; font-size: 1.1em;">
                     <i class="fas fa-skull-crossbones"></i> CONFIRMAR ELIMINACIÓN
                 </button>
-                
+
                 <a href="ver.php?id=<?php echo $id_cliente; ?>" class="btn btn-success">
                     <i class="fas fa-times"></i> CANCELAR
                 </a>
             </div>
-            
+
             <div style="text-align: center; margin-top: 20px; color: #666; font-size: 0.9em;">
                 <i class="fas fa-info-circle"></i> Esta acción será registrada en los logs del sistema
             </div>
@@ -428,19 +651,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         function confirmFinal() {
             const eliminarUsuario = document.getElementById('eliminar_usuario').checked;
             const password = document.getElementById('password_confirm').value;
-            
+
             if (!password) {
                 alert('Debe ingresar su contraseña de administrador');
                 return false;
             }
-            
+
             let message = '⚠️ ⚠️ ⚠️ CONFIRMACIÓN FINAL ⚠️ ⚠️ ⚠️\n\n';
             message += '¿Está ABSOLUTAMENTE SEGURO de eliminar permanentemente:\n\n';
             message += '• ' + document.querySelector('.client-info h3').textContent + '\n';
             message += '• TODOS los carritos y productos en carrito\n';
             message += '• TODAS las direcciones de envío\n';
             message += '• TODOS los pedidos y detalles\n';
-            
+
             if (eliminarUsuario) {
                 message += '• EL USUARIO ASOCIADO (no podrá volver a iniciar sesión)\n\n';
                 message += '🚨 ESTA ACCIÓN ES COMPLETAMENTE IRREVERSIBLE 🚨';
@@ -448,11 +671,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 message += '\n⚠️ El usuario se conservará (podrá volver a iniciar sesión)\n\n';
                 message += '🚨 ESTA ACCIÓN NO SE PUEDE DESHACER 🚨';
             }
-            
+
             message += '\n\nEscriba "ELIMINAR" para confirmar:';
-            
+
             const confirmText = prompt(message);
-            
+
             if (confirmText === 'ELIMINAR') {
                 return true;
             } else {
@@ -460,7 +683,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 return false;
             }
         }
-        
+
         document.addEventListener('DOMContentLoaded', function() {
             // Prevenir envío accidental con Enter
             document.getElementById('password_confirm').addEventListener('keypress', function(e) {
@@ -468,7 +691,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     e.preventDefault();
                 }
             });
-            
+
             // Advertencia al marcar eliminar usuario
             document.getElementById('eliminar_usuario').addEventListener('change', function() {
                 if (this.checked) {
@@ -480,4 +703,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         });
     </script>
 </body>
+
 </html>
