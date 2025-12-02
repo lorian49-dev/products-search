@@ -47,7 +47,7 @@ $ejec = mysqli_query($connect, $query);
         <span>
             <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO" width="200px">
         </span>
-                 //bienvenida personalizada con rol
+                <!--bienvenida personalizada con rol-->
             <h3>Bienvenido <?php echo $_SESSION['admin_nombre'] ?? 'Administrador'; ?> 
             (<?php 
                 if ($_SESSION['admin_rol'] == 1) echo 'Administrador';
@@ -88,7 +88,9 @@ $ejec = mysqli_query($connect, $query);
                 <li>Politicas de privacidad y uso</li>
                 <li>Terminos para vendedores</li>
             </ul>
-            <button actiion="admin_logout.php">Cerrar Sesion</button>
+                <form action="../registros-inicio-sesion/logout.php" method="POST">
+                    <button type="submit">Cerrar sesión</button>
+                </form>
     </nav>
     <div id="container">
         <form action="create_user.php" method="POST"> <!--Correcion de ortografia en el metodo POST-->
