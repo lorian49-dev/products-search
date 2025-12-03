@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "registros-inicio-sesion/connect.php";
+require_once "shortCuts/connect.php";
 
 
 $productos = [];
@@ -32,7 +32,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
-    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="styles/home.css">
     <title>home</title>
     <link rel="stylesheet" href="SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
 </head>
@@ -53,7 +53,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
             </span>
             <ul style="list-style:none;">
                 <div class="input-search-product-box">
-                    <form action="buscar.php" method="GET" style="width:100%">
+                    <form action="CONTROLLERS/search-products.php" method="GET" style="width:100%">
                         <li class="input-search-product-li">
                             <input
                                 type="text"
@@ -111,7 +111,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                     <div class="perfil-menu">
                         <button class="perfil-btn"> <?php echo htmlspecialchars($_SESSION['usuario_nombre']); ?></button>
                         <div class="dropdown-content">
-                            <a href="USER/usuario.php">Mi cuenta</a>
+                            <a href="CONTROLLERS/user-apart-dashboard.php">Mi cuenta</a>
                             <a href="registros-inicio-sesion/logout.php">Cerrar sesión</a>
                         </div>
                     </div>
@@ -279,7 +279,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
             //1. HACER LA PETICION AL SERVIDOR PHP
             try {
                 //hacemos la llamada al php dandole el valor por medio del ?termn=
-                const respuesta_producto = await fetch(`buscar-productos.php?term=${textoDelUsuario}`);
+                const respuesta_producto = await fetch(`CONTROLLERS/search-products-bar.php?term=${textoDelUsuario}`);
                 //desempacamos la respuesta del server
                 const productos = await respuesta_producto.json(); // .json convierte la respuesta venida del servidor(texto Plano) y lo convierte en un array de oroducto listo para utilizar
                 if (productos.length > 0) {
@@ -313,7 +313,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
             }
         })
     </script>
-    <script src="home.js"></script>
+    <script src="scripts/home.js"></script> 
 </body>
 
 </html>

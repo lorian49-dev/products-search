@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('connect.php');
+include('../shortCuts/connect.php');
 // Eliminar solo variables de sesión ADMIN
 unset($_SESSION['admin_logueado']);
 unset($_SESSION['admin_id']);

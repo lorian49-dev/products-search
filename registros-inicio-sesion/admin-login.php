@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('connect.php');
+include('../shortCuts/connect.php');
 
 if (isset($_SESSION['admin_logueado']) && $_SESSION['admin_logueado'] === true) {
     header("Location: ../CRUD/admin-dashboard.php");

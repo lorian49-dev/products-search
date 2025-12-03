@@ -1,7 +1,7 @@
 <?php
 // PROTECCIÓN DE ACCESO - AGREGAR AL INICIO de admin.php
 session_start();
-include('../registros-inicio-sesion/connect.php');
+include('../shortCuts/connect.php');
 
 // Verificar si está logueado como ADMIN
 if (!isset($_SESSION['admin_logueado']) || $_SESSION['admin_logueado'] !== true) {

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('connect.php');
+include('../shortCuts/connect.php');
 
 // Si no hay sesión pero sí cookie, recrearla
 if (!isset($_SESSION['usuario_id']) && isset($_COOKIE['usuario_id'])) {
