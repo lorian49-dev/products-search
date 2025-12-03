@@ -1,6 +1,6 @@
 <?php
     // Traemos la conexión
-    include 'connect.php';
+    include '../shortCuts/connect.php';
     
     // Variables desde POST
     $nombre           = $_POST['name-user'];
