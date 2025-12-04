@@ -51,13 +51,13 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
     <title>Gestión de Clientes - Panel Administración</title>
     <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
     <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
+    <link rel="stylesheet" href="../styles/admin-user-crud.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
-        .dashboard-container { max-width: 1400px; margin: 0 auto; }
+        
+        .dashboard-container { width: 100%; margin-left:15%; display:flex; justify-content:center; flex-direction:column; align-items:center; padding-top:200px;}
         
         /* Header */
-        .header { background: rgba(255, 255, 255, 0.95); padding: 25px 30px; border-radius: 20px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .header { width: 70%;;background: rgba(255, 255, 255, 0.95); padding: 25px 30px; border-radius: 20px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .header h1 { color: #333; font-size: 1.8em; margin-bottom: 5px; }
         .user-role { background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; }
@@ -123,6 +123,71 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
     </style>
 </head>
 <body>
+
+<nav id="navegation">
+        <a href="#"><i class="fas fa-home" id="iconHome"></i></a>
+        <span>
+            <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO" width="200px">
+        </span>
+                <!--bienvenida personalizada con rol-->
+            <span class="welcome-admin">
+                Bienvenido <?php echo $_SESSION['admin_nombre'] ?? 'Administrador'; ?> 
+            (<?php 
+                if ($_SESSION['admin_rol'] == 1) echo 'Administrador';
+                elseif ($_SESSION['admin_rol'] == 2) echo 'Colaborador'; 
+                else echo 'Administrador';
+            ?>)
+            </span>
+        <ul class="listMother">
+            <li id="liSearch"><input type="text" name="search-profile" id="inputSearchProfile" placeholder="Buscar Usuario por Correo...">
+                <button id="btnSearch">Consultar</button>
+            </li>
+            <li id="liUsers">Consultar Usuarios<i class="fa-solid fa-caret-up"></i></li>
+            <ul class="sheetList">
+                <a href="user-dashboard-admin-index.php"><li>Usuarios</li></a>
+                <li class="current-page">Clientes</li>
+                <a href="seller-dashboard-admin-index.php"><li>Vendedores</li></a>
+            </ul>
+            <li id="liProducts">Consultar Productos<i class="fa-solid fa-caret-up"></i></li>
+            <ul class="sheetListProducts">
+                <li>Productos</li>
+                <li>Categorias</li>
+                <li>Variantes</li>
+            </ul>
+            <li id="liGets">Gestion de pedidos<i class="fa-solid fa-caret-up"></i></li>
+            <ul class="sheetListGets">
+                <li>Listado de ventas por vendedor</li>
+                <li>Disputas</li>
+                <li>Actualizar estados de pedidos</li>
+            </ul>
+            <li id="liStats">Reportes Generales<i class="fa-solid fa-caret-up"></i></li>
+            <ul class="sheetListStats">
+                <li>Mejores Vendedores</li>
+                <li>Mas Vendidos</li>
+                <li>Trafico de la plataforma</li>
+            </ul>
+            <li id="liAbout">Acerca de<i class="fa-solid fa-caret-up"></i></li>
+            <ul class="sheetListAbout">
+                <li>Politicas de privacidad y uso</li>
+                <li>Terminos para vendedores</li>
+            </ul>
+                <span class="btn-color-mode">
+                <form action="../registros-inicio-sesion/logout.php" method="POST">
+                    <button type="submit" class="btn-close-session">Cerrar sesión</button>
+                </form>
+                <div class="btn-color-mode-choices">
+                    <span class="background-modes"></span>
+                     <button class="light-mode">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-sun" viewBox="0 0 16 16">
+  <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/>
+</svg>
+</button>
+                <button class="dark-mode"><i class="fa-solid fa-moon"></i></button>
+                </div>
+                </span>
+    </nav>
+    <!--Aqui termina el Menu o barra de navegacion-->
+      <!--Aqui comienza el contenido de la pagina-->
     <div class="dashboard-container">
         <!-- Header -->
         <div class="header">
@@ -380,7 +445,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             <?php endif; ?>
         </div>
     </div>
-
+    <script src="../scripts/admin.js"></script>
     <script>
         function buscarClientes() {
             const busqueda = document.getElementById('busqueda').value.trim();

@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 setcookie("admin_id", $admin['id_admin'], time() + (86400 * 30), "/");
 
                 echo "<script>alert('Acceso administrativo exitoso');</script>";
-                header("Location: ../CRUD/Admin_CRUD.php");
+                header("Location: ../CONTROLLERS/user-dashboard-admin-index.php");
                 exit();
                 
             } else {

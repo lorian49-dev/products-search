@@ -11,16 +11,33 @@ body{
     background-color:#fff8f1;
     display: flex;
     font-weight: 300;
+    transition: background-color 1s ease;
 }
+
+/*Estilos para textos*/
 
 h2{
     font-family: 'roboto condensed', sans-serif;
     font-weight: 300;
+    transition: color 1s ease;
 }
 
 h1{
     font-family: 'roboto condensed', sans-serif;
     font-weight: 200;
+    color: #fff8f1;
+}
+
+a{
+    color: rgb(255, 255, 255);
+    font-family: 'roboto condensed', sans-serif;
+    font-weight: 300;
+}
+
+.welcome-admin{
+    font-size: 20px;
+    width: 200px;
+    text-align: center;
     color: #fff8f1;
 }
 
@@ -35,6 +52,9 @@ h1{
     flex-direction: column;
     overflow: auto;
     padding-bottom: 100px;
+    position: fixed;
+     box-shadow: 0 20px 30px rgba(0,0,0,0.4);
+     transition: background-color 1s ease;
 }
 
 #navegation::-webkit-scrollbar {
@@ -116,7 +136,7 @@ height: 0;
 overflow: hidden;
 }
 
-.sheetList li:nth-child(1){
+.current-page{
  font-weight: 700;
 }
 
@@ -141,6 +161,96 @@ overflow: hidden;
     cursor: pointer;
 }
 
+/*Contenedor de boton de logueo y modo de colores*/
+
+.btn-color-mode{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.btn-color-mode-choices{
+    width: 100px;
+    display: flex;
+    justify-content: space-around;
+    border: 2px solid #fff8f1;
+    border-radius: 20px;
+    padding: 0 10px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.background-modes{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50px;
+    height: 39px;
+    background-color: #fff8f1;
+    z-index: 0;
+    transition: all 1s ease;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    z-index: 0;
+}
+
+.background-modes.light-mode-active {
+  transform: translateX(0);
+  border-radius: 0;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.background-modes.dark-mode-active {
+  transform: translateX(50px);
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+
+
+.btn-color-mode-choices button{
+ padding: 7px;
+ border-style: none;
+ background-color: transparent;
+ font-size: 15px;
+ z-index: 2;
+}
+
+.btn-color-mode-choices button:nth-child(2){
+    color: #461d01;
+}
+
+.btn-color-mode-choices button:nth-child(3){
+    color: #fff8f1;
+}
+
+.bi-sun, .dark-mode{
+    transition: all .5s ease-in-out;
+    cursor: pointer;
+}
+
+.bi-sun:hover{
+    transform: scale(130%);
+}
+
+.dark-mode:hover{
+    transform: scale(130%);
+}
+
+/*Boton de logueo*/
+
+.btn-close-session{
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #ffb000;
+    color: #461d01;
+    border-style: none;
+}
+
 /*Estilos del formulario para agregar manualmente un nuevo usuario a la pagina*/
 
 #container{
@@ -148,6 +258,7 @@ overflow: hidden;
     height: 80vh;
     display: flex;
     justify-content: center;
+    margin-left: 15%;
 }
 
 #container>form{
@@ -191,11 +302,12 @@ input:focus {
     color: #fff8f1;
     cursor: pointer;
     transition: all .2s ease-in-out;
+     box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
 .buttonBox button:hover{
     transform: scale(1.2);
-    background-color: #0097b2;
+    background-color: #0097b2 !important;
     box-shadow: #0097b2 1px 1px 10px 1px;
 }
 
@@ -212,13 +324,30 @@ input:focus {
 }
 
 table {
+    background-color: #fff8f1;
     border-collapse: separate;
     border-spacing: 0;
     table-layout: fixed;
     text-align: center;
     border-radius: 25px;
     overflow: hidden;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.514);
+     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+     transition: all 1s ease;
+}
+
+table.table-dark{
+    background-color: #131313ff;
+    color: #fff8f1;
+}
+
+table.table-dark thead{
+    background-color: #0097b2;
+    transition: all 1s ease;
+
+}
+
+table a{
+    color: gray;
 }
 
 table input{
@@ -235,7 +364,8 @@ table input:focus{
 
 thead{
     background-color: #461d01;
-    color: #fff8f1;    
+    color: #fff8f1;  
+    transition: all 1s ease;
 }
 
 th{
@@ -257,10 +387,6 @@ td>button{
     cursor: pointer;
 }
 
-a{
-    color: gray;
-}
-
 /*Ventana modal*/
 
 .modalWindow{
@@ -271,7 +397,7 @@ a{
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    background-color: rgba(165, 165, 165, 0.356);
+    background-color: rgba(76, 76, 76, 0.356);
     backdrop-filter: blur(3px);
     justify-content: center;
     align-items: center;
@@ -288,7 +414,7 @@ a{
   padding: 20px;
   display: flex;
   justify-content: center;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.514);
+   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   position: relative;
   opacity: 0;
   pointer-events: none;
@@ -354,3 +480,5 @@ transform: translateX(-10px);
     box-shadow: black 1px 0px 0px;
 
 }
+
+/**/
