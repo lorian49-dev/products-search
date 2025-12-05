@@ -215,9 +215,7 @@ nav ul li span:hover{
 }
 
 .account-header span:nth-child(3n):hover, .account-header span:last-child:hover{
-    background-color: #0097b2;
-    color: #fff8f1;
-    box-shadow: #0097b2 1px 1px 25px;
+    background:linear-gradient(135deg, #0D47A1, #0097b2); box-shadow:1px 1px 40px 1px #12c0df; color:#fff8f1 ;transition:all .1s ease;
 }
 
 header a{

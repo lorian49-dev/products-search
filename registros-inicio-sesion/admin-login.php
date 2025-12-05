@@ -101,9 +101,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playwrite+NO:wght@100..400&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'roboto condensed', sans-serif; }
-        body { background: linear-gradient(180deg, #212121 0%, #461d01 100%); height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .login-container { background-color:#fff8f1; padding: 40px 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); width: 100%; max-width: 420px; display:flex; flex-direction:column; justify-content:center; align-items:center;}
+        body { background-image:url('../SOURCES/background-1-abstract.jpg'); height: 100vh; display: flex; align-items: center; justify-content: space-around; padding: 20px; }
+        h1{color:white; font-family: "Playwrite NO", cursive; font-optical-sizing: auto; font-weight: weight; font-style: normal; font-size:250px; transform:translate(400px, -200px); opacity:0; transition: all 1s ease; position: relative;}
+        h1::after{content: '';position: absolute; display: inline-block; width: 50px; height: 50px; border-radius: 50%; background-color: #fff8f1; bottom: 110px;
+        right: -80px; opacity: 0; transition: all 1s ease;}
+        h1.show-point::after{opacity: 1;}
+        .login-container { background-color:#fff8f1; padding: 40px 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); width: 100%; max-width: 420px; display:flex; flex-direction:column; justify-content:center; align-items:center;opacity:0; pointer-events:none; transition: all 2s ease; transform: translateX(-100px);}
         .login-header { text-align: center; margin-bottom: 35px; }
         .login-header img { width: 200px; margin-bottom: 20px; }
         .login-header h2 { color: #333; margin-bottom: 8px; font-size: 26px; }
@@ -122,6 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
+    <h1>Hello</h1>
     <div class="login-container">
         <div class="login-header">
             <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_BROWN.png" alt="HERMES">
@@ -137,8 +143,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="contrasena">Contraseña:</label>
                 <input type="password" id="contrasena" name="contrasena" required>
             </div>
-            <button type="submit" class="btn-login">Ingresar al Panel Admin</button>
+            <button type="submit" class="btn-login">Ingresar</button>
         </form>
     </div>
+    <script>
+     const tittle_hello = document.querySelector('h1')
+     const container_login = document.querySelector('.login-container')
+
+     setTimeout(()=>{
+        tittle_hello.style.opacity = '1'
+        tittle_hello.style.transform = 'translate(400px, 0)'
+     }, 1000)
+
+     setTimeout(()=>{
+        tittle_hello.style.transform = 'translate(0, 0)'
+        container_login.style.opacity = '1'
+        container_login.style.pointerEvents = 'auto'
+     }, 2000)
+
+     setTimeout(()=>{
+        document.querySelector('h1').classList.add('show-point')
+     }, 3500)
+
+    </script>
 </body>
 </html>
