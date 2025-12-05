@@ -54,38 +54,83 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
     <link rel="stylesheet" href="../styles/admin-user-crud.css">
     <style>
         
-        .dashboard-container { width: 100%; margin-left:15%; display:flex; justify-content:center; flex-direction:column; align-items:center; padding-top:200px;}
+        .dashboard-container { width: 100%; margin-left:15%; display:flex; justify-content:center; flex-direction:column; align-items:center; padding-top:150px;}
         
         /* Header */
         .header { width: 70%;;background: rgba(255, 255, 255, 0.95); padding: 25px 30px; border-radius: 20px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .header h1 { color: #333; font-size: 1.8em; margin-bottom: 5px; }
-        .user-role { background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; }
+        .user-role { background: linear-gradient(135deg, #0D47A1, #0097b2); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; }
         
         /* Botones */
         .btn { padding: 10px 20px; border: none; border-radius: 25px; font-size: 0.95em; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
-        .btn-primary { background: #667eea; color: white; } .btn-primary:hover { background: #5a6fd8; transform: translateY(-2px); }
+        .btn-primary { background: linear-gradient(135deg, #EF6C00, #ffb000); color: white; } .btn-primary:hover { background: linear-gradient(135deg, #0D47A1, #0097b2); transform: translateY(-2px); }
         .btn-danger { background: #dc3545; color: white; } .btn-danger:hover { background: #c82333; transform: translateY(-2px); }
-        .btn-secondary { background: #6c757d; color: white; } .btn-secondary:hover { background: #5a6268; transform: translateY(-2px); }
+        .btn-secondary { background: #461d01; color: white; } .btn-secondary:hover { background: #5a6268; transform: translateY(-2px); }
         .btn-warning { background: #ffc107; color: #212529; } .btn-warning:hover { background: #e0a800; transform: translateY(-2px); }
         .btn-success { background: #28a745; color: white; } .btn-success:hover { background: #218838; transform: translateY(-2px); }
         .btn-info { background: #17a2b8; color: white; } .btn-info:hover { background: #138496; transform: translateY(-2px); }
         
         /* Estadísticas */
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .stat-card { background: rgba(255, 255, 255, 0.95); padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
-        .stat-icon { font-size: 1.8em; color: #667eea; margin-bottom: 10px; }
+        .stats {width: 80%; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px;}
+        .stat-card { background: rgba(255, 255, 255, 0.95); padding: 20px; border-radius: 12px; text-align: center;box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .stat-icon { font-size: 1.8em; color: #461d01; margin-bottom: 10px; }
         .stat-number { font-size: 2em; font-weight: bold; color: #333; margin: 5px 0; }
         .stat-label { color: #666; font-size: 0.9em; }
         
         /* Tabla */
-        .table-container { background: rgba(255, 255, 255, 0.95); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 25px; }
-        .table-header { padding: 20px; border-bottom: 2px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .table-container { background: transparent; border-radius: 15px;margin-bottom: 25px; max-height: 800px; overflow-y: auto;}
+        /*Scrollbar para el contenedor de la tabla*/
+.table-container::-webkit-scrollbar {
+    width: 10px;
+}
+.table-container::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+    margin: 50px 0; 
+}
+.table-container::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: gray;
+}
+.table-container::-webkit-scrollbar-button {
+    display: none;
+}
+        .table-header {padding: 20px 20px 20px 100px; display: flex; justify-content: left; align-items: center; gap:50px;}
         .table-header h3 { color: #333; font-size: 1.2em; }
-        .data-table { width: 100%; border-collapse: collapse; }
-        .data-table th { background: #667eea; color: white; padding: 12px 15px; text-align: left; font-weight: 600; font-size: 0.9em; }
-        .data-table td { padding: 12px 15px; border-bottom: 1px solid #eee; font-size: 0.9em; }
-        .data-table tr:hover { background: #f8f9fa; }
+        .data-table { width: 90%; border-collapse: collapse; margin: 0 auto; table-layout: fixed;}
+        .data-table th { background: #461d01; color: white; padding: 12px 15px; text-align: left; font-weight: 600; font-size: 0.9em; text-align: center;
+}
+        .data-table td { padding: 12px 15px; ; font-size: 0.9em;             
+  overflow-x: auto;               /* oculta exceso */
+  /*text-overflow: ellipsis;*/       /* puntos suspensivos */
+  white-space: nowrap;           /* evita salto de línea */
+}
+        /*Tabla:scroll*/
+
+        .data-table td::-webkit-scrollbar {
+    height: 8px;
+}
+.data-table td::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+    margin: 0 10px; 
+}
+.data-table td::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+    
+.data-table td::-webkit-scrollbar-button {
+    display: none;
+}
         
         /* Badges */
         .badge { padding: 4px 10px; border-radius: 12px; font-size: 0.8em; font-weight: bold; }
@@ -102,9 +147,9 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
         .btn-delete { background: #dc3545; color: white; } .btn-delete:hover { background: #c82333; transform: translateY(-2px); }
         
         /* Búsqueda */
-        .search-container { background: rgba(255, 255, 255, 0.95); padding: 20px; border-radius: 15px; margin-bottom: 20px; display: flex; gap: 15px; align-items: center; }
-        .search-box { flex: 1; position: relative; }
-        .search-box input { width: 100%; padding: 12px 15px 12px 40px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.95em; }
+        .search-container { background: #fff8f1; padding: 20px; border-radius: 15px; margin-bottom: 20px; display: flex; gap: 15px; align-items: flex-start; flex-direction: column;}
+        .search-box { flex: 1; position: relative;}
+        .search-box input { width: 100%; padding: 12px 15px 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.70em; }
         .search-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999; }
         
         /* Responsive */
@@ -117,9 +162,9 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
         }
         
         /* Advertencia */
-        .advertencia { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #dc3545; }
-        .advertencia h4 { margin-bottom: 10px; }
-        .advertencia ul { margin-left: 20px; margin-bottom: 10px; }
+        .advertencia { width: 100%;background: #f8d7da; color: #721c24; padding: 15px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #dc3545; position: fixed; left: 0; bottom: 0; display: flex;}
+        .advertencia h4 { margin-bottom: 8px; }
+        .advertencia ul { margin-left: 20px; margin-bottom: 10px; font-size: 10px}
     </style>
 </head>
 <body>
@@ -139,13 +184,20 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             ?>)
             </span>
         <ul class="listMother">
-            <li id="liSearch"><input type="text" name="search-profile" id="inputSearchProfile" placeholder="Buscar Usuario por Correo...">
-                <button id="btnSearch">Consultar</button>
-            </li>
+                <!--Busqueda de clientes-->
+            <div class="search-container">
+            <div class="search-box"> <!--Input o entrada de datos-->
+                <input type="text" id="busqueda" placeholder="Buscar cliente por nombre, apellido o correo...">
+            </div><!--Aqui termina la caja que contiene el input o entrada de datos-->
+            <button class="btn btn-primary" onclick="buscarClientes()">
+                <i class="fas fa-search"></i> Consultar
+            </button>
+            <a href="dashboard-index.php" class="btn btn-secondary">Mostrar Todos</a>
+        </div>
             <li id="liUsers">Consultar Usuarios<i class="fa-solid fa-caret-up"></i></li>
             <ul class="sheetList">
                 <a href="user-dashboard-admin-index.php"><li>Usuarios</li></a>
-                <li class="current-page">Clientes</li>
+               <li  class="current-page">Clientes</li>
                 <a href="seller-dashboard-admin-index.php"><li>Vendedores</li></a>
             </ul>
             <li id="liProducts">Consultar Productos<i class="fa-solid fa-caret-up"></i></li>
@@ -246,18 +298,6 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             </div>
         </div>
 
-        <!-- Búsqueda -->
-        <div class="search-container">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="busqueda" placeholder="Buscar cliente por nombre, apellido o correo...">
-            </div>
-            <button class="btn btn-primary" onclick="buscarClientes()">
-                <i class="fas fa-search"></i> Buscar
-            </button>
-            <a href="dashboard-index.php" class="btn btn-secondary">Mostrar Todos</a>
-        </div>
-
         <!-- Tabla de Clientes -->
         <div class="table-container">
             <div class="table-header">
@@ -268,7 +308,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             </div>
             
             <?php if ($total_clientes > 0): ?>
-            <div style="overflow-x: auto;">
+            <div style="overflow-x: auto; padding-bottom: 50px;">
                 <table class="data-table">
                     <thead>
                         <tr>
@@ -417,7 +457,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
         <!-- Advertencia de Eliminación -->
         <?php if($_SESSION['admin_rol'] == 1): ?>
         <div class="advertencia">
-            <h4><i class="fas fa-exclamation-triangle"></i> ADVERTENCIA CRÍTICA - ELIMINACIÓN EN CASCADA</h4>
+            <div class="advise-left"><h4><i class="fas fa-exclamation-triangle"></i> Eliminaciones</h4>
             <p><strong>La eliminación de un cliente eliminará PERMANENTEMENTE:</strong></p>
             <ul>
                 <li><strong>Todos los carritos</strong> y productos en carrito asociados</li>
@@ -426,7 +466,8 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
                 <li><strong>Información del cliente</strong> en la tabla cliente</li>
                 <li><strong>Posiblemente el usuario asociado</strong> (se pedirá confirmación)</li>
             </ul>
-            <p><strong>Recomendación:</strong> Considere desactivar la cuenta en lugar de eliminar.</p>
+            <p><strong>Recomendación:</strong> Considere desactivar la cuenta en lugar de eliminar.</p></div>
+            <div class="advise-right"><button>De acuerdo</button><button>No mostrar nuevamente</button></div>
         </div>
         <?php endif; ?>
 

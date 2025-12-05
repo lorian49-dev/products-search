@@ -1,3 +1,7 @@
+// Carga suave de contenido
+
+window.addEventListener('load', ()=>{setTimeout(()=>{document.body.classList.add('active')},500)})
+
 // Este bloque de codigo es para mostrar y ocultar la contrasena del usuario en cuestion ------------------------------------------------------------------------------------
 function togglePass(id) {
   const input = document.getElementById(id);

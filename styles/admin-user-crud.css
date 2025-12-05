@@ -11,7 +11,12 @@ body{
     background-color:#fff8f1;
     display: flex;
     font-weight: 300;
-    transition: background-color 1s ease;
+    transition: all 1s ease;
+    opacity: 0;
+}
+
+body.active{
+    opacity: 1;
 }
 
 /*Estilos para textos*/
@@ -249,9 +254,16 @@ overflow: hidden;
 .btn-close-session{
     padding: 10px;
     border-radius: 20px;
-    background-color: #ffb000;
+    background:linear-gradient(135deg, #EF6C00, #ffb000);
     color: #461d01;
     border-style: none;
+    transition: all .5s ease;
+    cursor: pointer;
+}
+
+.btn-close-session:hover{
+ transform: translateY(-2px);
+ color: #fff8f1;
 }
 
 /*Estilos del formulario para agregar manualmente un nuevo usuario a la pagina*/
@@ -310,7 +322,7 @@ input:focus {
 
 .buttonBox button:hover{
     transform: scale(1.2);
-    background-color: #0097b2 !important;
+      background:linear-gradient(135deg, #0D47A1, #0097b2) !important;
     box-shadow: #0097b2 1px 1px 10px 1px;
 }
 

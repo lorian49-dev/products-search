@@ -33,7 +33,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
     <link rel="stylesheet" href="styles/home.css">
-    <title>home</title>
+    <title>HOME | HERMES CLICK&GO</title>
     <link rel="stylesheet" href="SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
 </head>
 

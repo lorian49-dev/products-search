@@ -156,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      }, 1000)
 
      setTimeout(()=>{
-        tittle_hello.style.transform = 'translate(0, 0)'
+        tittle_hello.style.transform = 'translate(50px, 0)'
         container_login.style.opacity = '1'
         container_login.style.pointerEvents = 'auto'
      }, 2000)
