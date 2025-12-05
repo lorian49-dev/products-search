@@ -68,9 +68,18 @@ $ejec = mysqli_query($connect, $query);
             </ul>
             <li id="liProducts">Consultar Productos<i class="fa-solid fa-caret-up"></i></li>
             <ul class="sheetListProducts">
-                <li>Productos</li>
-                <li>Categorias</li>
-                <li>Variantes</li>
+                <li>
+                    <a href="products-dashboard-admin-index.php">Productos</a>
+                    
+                </li>
+                 <li>
+                   
+                    <a href="products-dashboard-admin-index.php">Categorias</a>
+                </li>
+                      <li>
+                   
+                    <a href="orders-admin-index.php">Pedidos</a>
+                </li>
             </ul>
             <li id="liGets">Gestion de pedidos<i class="fa-solid fa-caret-up"></i></li>
             <ul class="sheetListGets">
