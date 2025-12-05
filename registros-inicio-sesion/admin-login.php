@@ -3,7 +3,7 @@ session_start();
 include('../shortCuts/connect.php');
 
 if (isset($_SESSION['admin_logueado']) && $_SESSION['admin_logueado'] === true) {
-    header("Location: ../CRUD/admin-dashboard.php");
+    header("Location: ../main-crud.php");
     exit();
 }
 

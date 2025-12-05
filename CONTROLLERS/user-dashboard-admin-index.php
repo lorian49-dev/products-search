@@ -43,7 +43,7 @@ $ejec = mysqli_query($connect, $query);
 
 <body>
     <nav id="navegation">
-        <a href="#"><i class="fas fa-home" id="iconHome"></i></a>
+        <a href="../main_crud.php"><i class="fas fa-home" id="iconHome"></i></a>
         <span>
             <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO" width="200px">
         </span>
