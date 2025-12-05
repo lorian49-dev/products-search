@@ -29,6 +29,7 @@ $ejec = mysqli_query($connect, $query);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,25 +45,25 @@ $ejec = mysqli_query($connect, $query);
         <span>
             <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO" width="200px">
         </span>
-        
+
         <!-- MODIFICADO: Mostrar info del admin según tus roles -->
-        <h1>Bienvenido <?php echo $_SESSION['admin_nombre']; ?> 
-            (<?php 
+        <h1>Bienvenido <?php echo $_SESSION['admin_nombre']; ?>
+            (<?php
                 if ($_SESSION['admin_rol'] == 1) echo 'Administrador';
-                elseif ($_SESSION['admin_rol'] == 2) echo 'Admin Colaborador'; 
+                elseif ($_SESSION['admin_rol'] == 2) echo 'Admin Colaborador';
                 else echo 'Usuario';
-            ?>)
+                ?>)
         </h1>
-        
+
         <ul class="listMother">
             <!-- TUS ELEMENTOS EXISTENTES... -->
-            
+
             <li id="liSearch"><input type="text" name="search-profile" id="inputSearchProfile" placeholder="Buscar Usuario por Correo...">
                 <button id="btnSearch">Consultar</button>
             </li>
             <li id="liUsers">Consultar Usuarios<i class="fa-solid fa-caret-up"></i></li>
             <!-- ... resto de tu código ... -->
-            
+
             <!-- AGREGAR BOTÓN DE CERRAR SESIÓN ADMIN -->
             <li id="liLogout" style="margin-left: auto;">
                 <a href="admin-logout.php" style="color: #ff4444; text-decoration: none; font-weight: bold;">
@@ -71,4 +72,3 @@ $ejec = mysqli_query($connect, $query);
             </li>
         </ul>
     </nav>
-    
