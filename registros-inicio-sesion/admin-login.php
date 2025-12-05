@@ -99,22 +99,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Acceso Administrativo - HERMES</title>
     <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .login-container { background: white; padding: 40px 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); width: 100%; max-width: 420px; }
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'roboto condensed', sans-serif; }
+        body { background: linear-gradient(180deg, #212121 0%, #461d01 100%); height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .login-container { background-color:#fff8f1; padding: 40px 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); width: 100%; max-width: 420px; display:flex; flex-direction:column; justify-content:center; align-items:center;}
         .login-header { text-align: center; margin-bottom: 35px; }
         .login-header img { width: 200px; margin-bottom: 20px; }
         .login-header h2 { color: #333; margin-bottom: 8px; font-size: 26px; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 6px; color: #333; font-weight: bold; }
-        input[type="text"], input[type="password"] { width: 100%; padding: 14px 16px; border: 2px solid #ddd; border-radius: 8px; font-size: 15px; }
-        .btn-login { width: 100%; padding: 14px; background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+        form{ display:flex;flex-direction:column; align-items:center;}
+        .form-group { margin-bottom: 20px;}
+        label { display: block; margin-bottom: 15px; color: #333; font-weight: bold; }
+        input[type="text"], input[type="password"] { box-shadow: 0 10px 30px rgba(0,0,0,0.3);width: 300px; padding: 14px 16px; border-style:none; border-radius: 8px; font-size: 15px; }
+        input:focus{
+            outline:none;
+            border:none;
+        }
+        .btn-login { width: 200px;margin-top:20px; padding: 14px; background: linear-gradient(135deg, #EF6C00, #ffb000); color: #461d01; border: none; border-radius: 25px; font-size: 16px; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.3);transition:all .1s ease;}
+        .btn-login:hover{
+            background:linear-gradient(135deg, #0D47A1, #0097b2); box-shadow:1px 1px 40px 1px #12c0df; color:#fff8f1 ;transition:all .1s ease;
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
         <div class="login-header">
-            <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES">
+            <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_BROWN.png" alt="HERMES">
             <h2>Acceso Administrativo</h2>
             <p>Panel exclusivo para administradores</p>
         </div>
@@ -129,9 +139,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <button type="submit" class="btn-login">Ingresar al Panel Admin</button>
         </form>
-        <div style="text-align:center;margin-top:20px;">| 
-            <a href="login.html">Login Usuarios</a>
-        </div>
     </div>
 </body>
 </html>
