@@ -27,6 +27,17 @@ $usuario = mysqli_fetch_assoc($result);
     <title>Usuario</title>
     <link rel="stylesheet" href="../styles/home.css">
     <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
+    <style>
+        #menu-usuario li a {
+            display: flex;
+            justify-content: space-between;
+            align-items: left;
+            color: inherit;
+            text-decoration: none;
+            padding: 10px;
+            width: 9%;
+        }
+    </style>
 </head>
 
 <body>
@@ -126,23 +137,46 @@ $usuario = mysqli_fetch_assoc($result);
 
         <!-- SIDEBAR -->
         <aside class="sidebar-ml" role="navigation" aria-label="Mi cuenta">
-            <h3>Mi cuenta</h3>
             <ul id="menu-usuario">
-                <li data-section="datos"><i class="fa-solid fa-user"></i> Datos personales <span class="chev"><i class="fa-solid fa-chevron-right"></i></span></li>
+                <li>
+                    <a href="user-apart-dashboard-datos-personales.php">
+                        <i class="fa-solid fa-user"></i> Datos personales
+                        <span class="chev"><i class="fa-solid fa-chevron-right"></i></span>
+                    </a>
+                </li>
 
-                <li data-section="compras"><i class="fa-solid fa-bag-shopping"></i> Mis compras <span class="chev"><i class="fa-solid fa-chevron-right"></i></span></li>
+                <li>
+                    <a href="user-apart-dashboard-compras.php">
+                        <i class="fa-solid fa-bag-shopping"></i> Mis compras
+                        <span class="chev"><i class="fa-solid fa-chevron-right"></i></span>
+                    </a>
+                </li>
 
-                <li data-section="direcciones"><i class="fa-solid fa-location-dot"></i> Mis direcciones <span class="chev"><i class="fa-solid fa-chevron-right"></i></span></li>
+                <li>
+                    <a href="pagos.html">
+                        <i class="fa-regular fa-credit-card"></i> Métodos de pago
+                        <span class="chev"><i class="fa-solid fa-chevron-right"></i></span>
+                    </a>
+                </li>
 
-                <li data-section="pagos"><i class="fa-regular fa-credit-card"></i> Métodos de pago <span class="chev"><i class="fa-solid fa-chevron-right"></i></span></li>
+                <li>
+                    <a href="seguridad.html">
+                        <i class="fa-solid fa-lock"></i> Seguridad y contraseña
+                        <span class="chev"><i class="fa-solid fa-chevron-right"></i></span>
+                    </a>
+                </li>
 
-                <li data-section="seguridad"><i class="fa-solid fa-lock"></i> Seguridad y contraseña <span class="chev"><i class="fa-solid fa-chevron-right"></i></span></li>
+                <li>
+                    <a href="configuracion.html">
+                        <i class="fa-solid fa-gear"></i> Configuración
+                        <span class="chev"><i class="fa-solid fa-chevron-right"></i></span>
+                    </a>
+                </li>
+            </ul>
 
-                <li data-section="configuracion"><i class="fa-solid fa-gear"></i> Configuración <span class="chev"><i class="fa-solid fa-chevron-right"></i></span></li>
-
-                <a href="../registros-inicio-sesion/logout.php" style="text-decoration:none;color:#b30000;">
-                    <li><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</li>
-                </a>
+            <a href="../registros-inicio-sesion/logout.php" style="text-decoration:none;color:#b30000;">
+                <li><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</li>
+            </a>
             </ul>
         </aside>
 

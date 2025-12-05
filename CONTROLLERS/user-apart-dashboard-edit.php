@@ -95,5 +95,3 @@ $r = mysqli_query($connect, $sql);
 $usuario = mysqli_fetch_assoc($r);
 
 $nombre_completo = $usuario["nombre"] . " " . $usuario["apellido"];
-
-?>
