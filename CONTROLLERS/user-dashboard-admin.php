@@ -292,7 +292,7 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
 
             <!-- Gestión de Productos -->
             <?php if ($_SESSION['admin_rol'] == 1): ?>
-            <a href="gestion_productos.php" class="feature-card admin-only"> <!--Ruta inexistente, utilizar otro nombre-->
+            <a href="products-admin-index.php" class="feature-card admin-only"> <!--Ruta inexistente, utilizar otro nombre-->
                 <i class="fas fa-boxes"></i>
                 <h3>Gestión de Productos</h3>
                 <p>Administrar catálogo de productos, categorías y variantes</p>
