@@ -108,7 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         h1::after{content: '';position: absolute; display: inline-block; width: 50px; height: 50px; border-radius: 50%; background-color: #fff8f1; bottom: 110px;
         right: -80px; opacity: 0; transition: all 1s ease;}
         h1.show-point::after{opacity: 1;}
-        .login-container { background-color:#fff8f1; padding: 40px 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); width: 100%; max-width: 420px; display:flex; flex-direction:column; justify-content:center; align-items:center;opacity:0; pointer-events:none; transition: all 2s ease; transform: translateX(-100px);}
+        .login-container { background-color:#fff8f1; padding: 40px 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); max-width: 420px;min-width: 350px;height: 80vh; display:flex; flex-direction:column; justify-content:center; align-items:center;opacity:0; pointer-events:none; transition: all 2s ease; transform: translateX(-100px);}
         .login-header { text-align: center; margin-bottom: 35px; }
         .login-header img { width: 200px; margin-bottom: 20px; }
         .login-header h2 { color: #333; margin-bottom: 8px; font-size: 26px; }
