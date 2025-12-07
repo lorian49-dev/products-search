@@ -103,31 +103,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Playwrite+NO:wght@100..400&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'roboto condensed', sans-serif; }
-        body { background-image:url('../SOURCES/background-1-abstract.jpg'); height: 100vh; display: flex; align-items: center; justify-content: space-around; padding: 20px; }
-        h1{color:white; font-family: "Playwrite NO", cursive; font-optical-sizing: auto; font-weight: weight; font-style: normal; font-size:250px; transform:translate(400px, -200px); opacity:0; transition: all 1s ease; position: relative;}
-        h1::after{content: '';position: absolute; display: inline-block; width: 50px; height: 50px; border-radius: 50%; background-color: #fff8f1; bottom: 110px;
-        right: -80px; opacity: 0; transition: all 1s ease;}
+        body { background-image:url('../SOURCES/background-1-abstract.jpg');background-position: center; background-repeat: no-repeat;background-size: cover; height: 100vh; display: flex; align-items: center; justify-content: space-around; padding: 20px; }
+        html{font-size: 1vw;}
+
+        h1{color:white; font-family: "Playwrite NO", cursive; font-optical-sizing: auto; font-weight: weight; font-style: normal; font-size:12.5rem; transform:translate(400px, -200px); opacity:0; transition: all 1s ease; position: relative;}
+        h1::after{content: '';position: absolute; display: inline-block; width: 2.5rem; height: 2.5rem; border-radius: 50%; background-color: #fff8f1; bottom: 5.5rem;opacity: 0; transition: all 1s ease;}
         h1.show-point::after{opacity: 1;}
         .login-container { background-color:#fff8f1; padding: 40px 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); max-width: 420px;min-width: 350px;height: 80vh; display:flex; flex-direction:column; justify-content:center; align-items:center;opacity:0; pointer-events:none; transition: all 2s ease; transform: translateX(-100px);}
-        .login-header { text-align: center; margin-bottom: 35px; }
-        .login-header img { width: 200px; margin-bottom: 20px; }
+        .login-header { text-align: center; margin-bottom: 2rem; }
+        .login-header img { width: 10rem}
         .login-header h2 { color: #333; margin-bottom: 8px; font-size: 26px; }
         form{ display:flex;flex-direction:column; align-items:center;}
         .form-group { margin-bottom: 20px;}
-        label { display: block; margin-bottom: 15px; color: #333; font-weight: bold; }
-        input[type="text"], input[type="password"] { box-shadow: 0 10px 30px rgba(0,0,0,0.3);width: 300px; padding: 14px 16px; border-style:none; border-radius: 8px; font-size: 15px; }
-        input:focus{
+        label { display: block; margin-bottom: 15px; color: #333; font-weight: bold; font-size: clamp(1rem, 1.4vw, 1.8rem);}
+        input[type="text"], input[type="password"] { box-shadow: 0 10px 30px rgba(0,0,0,0.3);width: 17rem; padding: 14px 16px; border-style:none; border-radius: 8px; font-size: 15px; }
+        input:focus{    
             outline:none;
             border:none;
         }
-        .btn-login { width: 200px;margin-top:20px; padding: 14px; background: linear-gradient(135deg, #EF6C00, #ffb000); color: #461d01; border: none; border-radius: 25px; font-size: 16px; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.3);transition:all .1s ease;}
+        .btn-login { width: 10rem;margin-top:20px; padding: .8rem; background: linear-gradient(135deg, #EF6C00, #ffb000); color: #461d01; border: none; border-radius: 25px; font-size: .9rem; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.3);transition:all .1s ease;}
         .btn-login:hover{
             background:linear-gradient(135deg, #0D47A1, #0097b2); box-shadow:1px 1px 40px 1px #12c0df; color:#fff8f1 ;transition:all .1s ease;
         }
     </style>
 </head>
 <body>
-    <h1>Hello</h1>
+    <div class="regard-container"><h1>Hello</h1></div>
     <div class="login-container">
         <div class="login-header">
             <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_BROWN.png" alt="HERMES">

@@ -44,8 +44,8 @@ $ejec = mysqli_query($connect, $query);
 <body>
     <nav id="navegation">
         <a href="#"><i class="fas fa-home" id="iconHome"></i></a>
-        <span>
-            <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO" width="200px">
+        <span class="img-logo">
+            <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO">
         </span>
                 <!--bienvenida personalizada con rol-->
             <span class="welcome-admin">
@@ -135,7 +135,7 @@ $ejec = mysqli_query($connect, $query);
     </div>
     <div id="view">
         <h2>Usuarios Registrados</h2>
-        <table>
+        <table id="user-table">
             <thead>
                 <tr>
                     <th>Nombres</th>
