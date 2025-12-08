@@ -18,12 +18,30 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
     </script>";
     exit();
 }
+// =========================
+// BUSCADOR DE VENDEDORES
+// =========================
+$busqueda = $_GET['busqueda'] ?? '';
+$where = '';
+
+if (!empty($busqueda)) {
+    $busqueda = mysqli_real_escape_string($connect, $busqueda);
+    $where = "WHERE 
+        u.nombre LIKE '%$busqueda%' OR 
+        u.apellido LIKE '%$busqueda%' OR
+        u.correo LIKE '%$busqueda%' OR
+        v.nombre_empresa LIKE '%$busqueda%' OR
+        v.nit LIKE '%$busqueda%'";
+}
+
 
 // Consulta de vendedores con información de usuario
 $query = "SELECT v.*, u.nombre, u.apellido, u.correo, u.telefono
           FROM vendedor v
           INNER JOIN usuario u ON v.id_vendedor = u.id_usuario
+          $where
           ORDER BY v.id_vendedor DESC";
+
 
 $result = mysqli_query($connect, $query);
 if (!$result) {
