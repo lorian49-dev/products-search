@@ -164,6 +164,8 @@ const text_h2 = document.querySelectorAll('h2')
 const buttonsToColorModes = document.querySelectorAll('.toChangeColor')
 const table = document.querySelectorAll('table')
 
+const advise = document.querySelector('.advertencia')
+
 // Define la propiedad de transición que deseas aplicar con los clics
 const TRANSITION_STYLE = 'all 1s ease'; 
 
@@ -193,8 +195,7 @@ function enableTransitions() {
 }
 
 /**
- * Aplica los estilos de modo claro u oscuro y guarda la preferencia.
- * ⚠️ Importante: setMode NO debe tocar la propiedad 'transition'.
+ Aplica los estilos de modo claro u oscuro y guarda la preferencia.
  */
 function setMode(dark) {
     if (dark) {
@@ -208,6 +209,7 @@ function setMode(dark) {
         text_h2.forEach(h2 => h2.style.color = '#fff8f1') 
         if(buttonsToColorModes){buttonsToColorModes.forEach(button => button.style.backgroundColor = '#131313ff') }
         if(table){table.forEach(tb => tb.classList.add('table-dark'))}
+        if(advise){advise.classList.add('dark-mode-active-advise')}
     } else {
         // --- Lógica para Modo Claro ---
         background.classList.add('light-mode-active');
@@ -219,6 +221,7 @@ function setMode(dark) {
         text_h2.forEach(h2 => h2.style.color = '#131313ff')
         if(buttonsToColorModes){buttonsToColorModes.forEach(button => button.style.backgroundColor = '#461d01') }
         if(table){table.forEach(tb => tb.classList.remove('table-dark'))}
+        if(advise){advise.classList.remove('dark-mode-active-advise')}
     }
     
     // 💾 GUARDAR la preferencia en Local Storage

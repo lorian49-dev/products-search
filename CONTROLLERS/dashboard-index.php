@@ -162,9 +162,31 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
         }
         
         /* Advertencia */
-        .advertencia { width: 100%;background: #f8d7da; color: #721c24; padding: 15px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #dc3545; position: fixed; left: 0; bottom: 0; display: flex;}
+        .advertencia { width: 50%;background: #ffffffff; color: #721c24; padding: 1rem; border-radius: 10px; margin-top: 20px; border-left: 4px solid #dc3545; position: fixed; bottom: 0; display: flex;
+        justify-content: space-between; right: 0;box-shadow: 0 10px 40px 10px rgba(0,0,0,0.2); transition: all .7s ease;}
         .advertencia h4 { margin-bottom: 8px; }
         .advertencia ul { margin-left: 20px; margin-bottom: 10px; font-size: 10px}
+        .advise-left{}
+        .advise-right{ display: flex;; justify-content: flex-end; gap: .5rem; }
+        .advise-right button{
+            height: 2rem;
+            padding: .5rem;
+            border-radius: .7rem;
+            border-style: none;
+            cursor: pointer;
+            background-color: #721c24;
+            transition: all .7s ease;
+            color: white;
+        }
+
+        .advise-right button:hover{
+            background-color: #c2c2c2ff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.49);
+            transform: translateY(-2px);
+        }
+
+        .advertencia.dark-mode-active-advise{color: #131313ff; border-color: #131313ff;}
+        .advertencia.dark-mode-active-advise button{background-color: #2f2f2fff;}
     </style>
 </head>
 <body>
@@ -467,7 +489,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
                 <li><strong>Posiblemente el usuario asociado</strong> (se pedirá confirmación)</li>
             </ul>
             <p><strong>Recomendación:</strong> Considere desactivar la cuenta en lugar de eliminar.</p></div>
-            <div class="advise-right"><button>De acuerdo</button><button>No mostrar nuevamente</button></div>
+            <div class="advise-right"><button id="allow-btn">De acuerdo</button><button id="dont-show-btn">No mostrar nuevamente</button></div>
         </div>
         <?php endif; ?>
 
@@ -513,6 +535,8 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
                 });
             });
         });
+
+
     </script>
 </body>
 </html>

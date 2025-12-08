@@ -447,8 +447,8 @@ td>button{
 }
 
 .modalContainer{
-  width: 500px;
-  height: 600px;
+  width: 25rem;
+  height: 60vh;
   background-color: #fff8f1;
   border-radius: 30px;
   padding: 20px;
@@ -472,12 +472,13 @@ td>button{
 }
 
 .formUpdateUser input{
-    padding: 15px 10px;
+    padding: .9rem .5rem;
     border-radius: 10px;
     border-style: none;
-    width: 200px;
+    width: 11rem;
     box-shadow: #2b2b2b7e 1px 1px 5px;
     font-family: 'roboto condensed', sans-serif;
+    font-size: .7rem;
 }
 
 .formUpdateUser button{
