@@ -265,3 +265,8 @@ if (btnDark && btnLight) {
     btnDark.addEventListener('click', () => setMode(true));
     btnLight.addEventListener('click', () => setMode(false));
 }
+
+       const btn_allow = document.getElementById('allow-btn')
+       btn_allow.addEventListener('click', ()=>{
+       if(advise){advise.style.display = 'none'}
+       })

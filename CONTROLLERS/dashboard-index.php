@@ -536,7 +536,6 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             });
         });
 
-
     </script>
 </body>
 </html>
