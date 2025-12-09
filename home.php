@@ -2,6 +2,7 @@
 session_start();
 require_once "shortCuts/connect.php";
 
+use Cloudinary\Transformation\Resize;
 
 $productos = [];
 
@@ -35,6 +36,69 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
     <link rel="stylesheet" href="styles/home.css">
     <title>HOME | HERMES CLICK&GO</title>
     <link rel="stylesheet" href="SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
+    <style>
+        .carousel-container {
+            position: relative;
+            max-width: 100%;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .offerts-carousel {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 20px 0;
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        .offerts-carousel::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari */
+        }
+
+        .carousel-card {
+            min-width: 250px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            font-size: 36px;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 10;
+            transition: 0.3s;
+        }
+
+        .prev-btn {
+            left: 10px;
+        }
+
+        .next-btn {
+            right: 10px;
+        }
+
+        .carousel-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .preview-image {
+            height: 280px;
+            background-size: cover !important;
+            background-position: center !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -161,93 +225,66 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                 <div class="slides-box"></div>
             </div>
         </div>
+        <!-- SOLO POR HOY - Carrusel deslizable -->
         <div class="offerts-box">
             <div class="offerts-box-targets">
                 <div class="offerts-text">
                     <h2>SOLO POR HOY !</h2>
                 </div>
-                <div class="offerts-box-targets-cards">
-                    <div class="card">
-                        <div class="card-preview">
-                            <div class="preview-description">
-                                <span><strong>NIKE</strong></span>
-                                <span>Air Force One Supreme</span>
-                            </div>
-                            <div class="preview-image">
 
-                            </div>
-                            <div class="preview-color">
+                <div class="carousel-container">
+                    <!-- Flecha izquierda -->
+                    <button class="carousel-btn prev-btn">&#8249;</button>
 
-                            </div>
-                        </div>
-                        <div class="card-info">
+                    <div class="offerts-carousel" id="offertsCarousel">
+                        <?php
+                        $cloudinary = require_once "shortCuts/cloudinary-config.php";
 
-                        </div>
+                        $sql = "SELECT id_producto, nombre, precio, stock, imagen_principal 
+                        FROM producto 
+                        WHERE stock > 0
+                        ORDER BY RAND() 
+                        LIMIT 12"; // 12 para que se vea el scroll
+
+                        $resultado = $connect->query($sql);
+
+                        if ($resultado && $resultado->num_rows > 0):
+                            while ($p = $resultado->fetch_assoc()):
+                                $imagen = !empty($p['imagen_principal']) && strpos($p['imagen_principal'], 'cloudinary.com') !== false
+                                    ? $cloudinary->image($p['imagen_principal'])->resize(Resize::fill(280, 280))->quality("auto")->format("auto")->toUrl()
+                                    : "https://via.placeholder.com/280x280/f0f0f0/999?text=Sin+Foto";
+
+                                $nombre_corto = strlen($p['nombre']) > 35 ? substr($p['nombre'], 0, 32) . '...' : $p['nombre'];
+                        ?>
+                                <a href="CONTROLLERS/search-products-product.php?id=<?php echo $p['id_producto']; ?>"
+                                    class="carousel-card">
+                                    <div class="card">
+                                        <div class="card-preview">
+                                            <div class="preview-image" style="background-image: url('<?php echo $imagen; ?>');"></div>
+                                            <div class="preview-description">
+                                                <strong><?php echo htmlspecialchars($nombre_corto); ?></strong><br>
+                                                <span style="color:#e74c3c; font-size:16px; font-weight:bold;">
+                                                    $<?php echo number_format($p['precio'], 0, ',', '.'); ?>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="card-info">
+                                            <small style="color:<?php echo $p['stock'] < 10 ? '#e74c3c' : '#27ae60'; ?>">
+                                                <?php echo $p['stock'] < 10 ? "¡Solo {$p['stock']}!" : "En stock"; ?>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </a>
+                        <?php
+                            endwhile;
+                        else:
+                            echo "<p style='color:#999; padding:40px;'>No hay ofertas hoy</p>";
+                        endif;
+                        ?>
                     </div>
-                    <div class="card">
-                        <div class="card-preview">
-                            <div class="preview-description">
 
-                            </div>
-                            <div class="preview-image">
-
-                            </div>
-                            <div class="preview-color">
-
-                            </div>
-                        </div>
-                        <div class="card-info">
-
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-preview">
-                            <div class="preview-description">
-
-                            </div>
-                            <div class="preview-image">
-
-                            </div>
-                            <div class="preview-color">
-
-                            </div>
-                        </div>
-                        <div class="card-info">
-
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-preview">
-                            <div class="preview-description">
-
-                            </div>
-                            <div class="preview-image">
-
-                            </div>
-                            <div class="preview-color">
-
-                            </div>
-                        </div>
-                        <div class="card-info">
-
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-preview">
-                            <div class="preview-description">
-
-                            </div>
-                            <div class="preview-image">
-
-                            </div>
-                            <div class="preview-color">
-
-                            </div>
-                        </div>
-                        <div class="card-info">
-
-                        </div>
-                    </div>
+                    <!-- Flecha derecha -->
+                    <button class="carousel-btn next-btn">&#8250;</button>
                 </div>
             </div>
         </div>
@@ -312,6 +349,37 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                 box_result.style.display = 'none'
             }
         })
+        document.addEventListener('DOMContentLoaded', function() {
+            const carousel = document.getElementById('offertsCarousel');
+            if (!carousel) return;
+
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+
+            const cardWidth = 270; // Ancho aproximado de cada tarjeta + gap (ajústalo si cambias el diseño)
+
+            // Mover a la derecha
+            nextBtn.addEventListener('click', () => {
+                carousel.scrollBy({
+                    left: cardWidth,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Mover a la izquierda
+            prevBtn.addEventListener('click', () => {
+                carousel.scrollBy({
+                    left: -cardWidth,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Opcional: ocultar flechas cuando llegas al final
+            carousel.addEventListener('scroll', () => {
+                prevBtn.style.display = carousel.scrollLeft <= 0 ? 'none' : 'block';
+                nextBtn.style.display = (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) ? 'none' : 'block';
+            });
+        });
     </script>
     <script src="scripts/home.js"></script>
 </body>

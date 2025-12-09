@@ -1,28 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body{
-    background-color:#fff8f1;
+body {
+    background-color: #fff8f1;
     font-family: 'roboto condensed', sans-serif;
     overflow-x: hidden;
 }
 
 /*Mensaje de sesion inicio*/
 
-.message-session{
+.message-session {
     position: absolute;
     width: 200px;
-    background-color: #ffffff; 
-    color: #284e23; 
+    background-color: #ffffff;
+    color: #284e23;
     transform: translateX(210px);
-    padding: 15px; 
-    margin-bottom: 20px; 
+    padding: 15px;
+    margin-bottom: 20px;
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
     right: 0px;
@@ -30,18 +30,18 @@ body{
     transition: all 1s ease;
 }
 
-header{
+header {
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; 
-    align-items: center; 
+    justify-content: space-between;
+    align-items: center;
     padding: 0 2rem 2rem 2rem;
     background-color: #461d01;
 
 }
 
-.top{
+.top {
     width: 50%;
     display: flex;
     align-items: center;
@@ -49,7 +49,7 @@ header{
     gap: 30px;
 }
 
-.bottom{
+.bottom {
     display: flex;
     align-items: center;
     gap: 30px;
@@ -57,15 +57,15 @@ header{
 
 /*Logo*/
 
-#logo-hermes-home{
-    width: auto; 
+#logo-hermes-home {
+    width: auto;
     height: 100%;
     text-align: center;
     display: flex;
     align-items: center;
 }
 
-h1{
+h1 {
     font-family: 'Anton', sans-serif;
     font-optical-sizing: auto;
     font-size: 2.5rem;
@@ -78,16 +78,16 @@ h1{
 
 /*Barra de navegacion y demas*/
 
-nav{
-    width: auto; 
+nav {
+    width: auto;
     height: 100%;
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
-    flex-grow: 1; 
+    flex-grow: 1;
 }
 
-nav > ul{
+nav>ul {
     list-style: none;
     display: flex;
     align-items: center;
@@ -95,11 +95,11 @@ nav > ul{
     gap: 1rem;
 }
 
-nav ul li{
+nav ul li {
     position: relative;
 }
 
-nav ul li span{
+nav ul li span {
     font-size: 1rem;
     color: #fff8f1;
     cursor: pointer;
@@ -110,23 +110,23 @@ nav ul li span{
     transition: background-color 0.7s ease, transform 0.7s ease;
 }
 
-nav ul li span:hover{
- background-color: #fff8f1;
- transition: 0.7s;
- color: #461d01;
+nav ul li span:hover {
+    background-color: #fff8f1;
+    transition: 0.7s;
+    color: #461d01;
 }
 
 /*Estilos de la barra de Busqueda*/
 
-#input-search-product{
+#input-search-product {
     height: 40px;
     border: 2px solid #461d01;
-    border-radius:25px;
+    border-radius: 25px;
     padding-left: 10px;
     font-family: 'roboto condensed', sans-serif;
     font-weight: 100;
     min-width: 400px;
-    max-width: 700px; 
+    max-width: 700px;
     position: relative;
 }
 
@@ -141,7 +141,7 @@ nav ul li span:hover{
     border: 1px solid #eee;
     border-radius: 10px;
     z-index: 100;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     display: none;
     max-height: 250px;
     overflow-y: auto;
@@ -156,16 +156,17 @@ nav ul li span:hover{
     transition: background 0.2s;
     border-radius: 10px;
 }
+
 .result-item:hover {
     background: #461d01;
     color: #fff8f1;
 }
 
-.input-search-product-li{
+.input-search-product-li {
     position: relative;
 }
 
-.button-search{
+.button-search {
     right: 10px;
     padding: 10px;
     background: none;
@@ -178,15 +179,16 @@ nav ul li span:hover{
 
 /*Iconos a la derecha del header*/
 
-.icons-header{
-    width: auto; 
+.icons-header {
+    width: auto;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
 }
-.account-header{    
+
+.account-header {
     height: 100%;
     display: flex;
     justify-content: center;
@@ -194,17 +196,18 @@ nav ul li span:hover{
     gap: 1rem;
 }
 
-.icons-header span{
+.icons-header span {
     cursor: pointer;
     width: 20px;
 }
 
-.icons-header span:hover{
-    filter: brightness(0) saturate(100%) invert(60%) sepia(30%) saturate(500%) hue-rotate(160deg);  
+.icons-header span:hover {
+    filter: brightness(0) saturate(100%) invert(60%) sepia(30%) saturate(500%) hue-rotate(160deg);
     transition: .5s;
 }
 
-.account-header span:nth-child(3n), .account-header span:last-child{
+.account-header span:nth-child(3n),
+.account-header span:last-child {
     width: 80px;
     filter: none;
     background-color: #ffb000;
@@ -214,17 +217,21 @@ nav ul li span:hover{
     transition: all .5s ease;
 }
 
-.account-header span:nth-child(3n):hover, .account-header span:last-child:hover{
-    background:linear-gradient(135deg, #0D47A1, #0097b2); box-shadow:1px 1px 40px 1px #12c0df; color:#fff8f1 ;transition:all .1s ease;
+.account-header span:nth-child(3n):hover,
+.account-header span:last-child:hover {
+    background: linear-gradient(135deg, #0D47A1, #0097b2);
+    box-shadow: 1px 1px 40px 1px #12c0df;
+    color: #fff8f1;
+    transition: all .1s ease;
 }
 
-header a{
- text-decoration: none;
- color: #461d01;
+header a {
+    text-decoration: none;
+    color: #461d01;
 }
 
 /*Menu desplegable de las categorias*/
-.menu-categoria{
+.menu-categoria {
     width: 10rem;
     position: absolute;
     top: 50px;
@@ -243,12 +250,12 @@ header a{
     pointer-events: none;
 }
 
-.menu-categoria ul{
+.menu-categoria ul {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    list-style:  none;
+    list-style: none;
     font-size: .8rem;
     text-align: center;
     padding: 1rem 0 1rem 0;
@@ -260,32 +267,36 @@ header a{
 .menu-categoria::-webkit-scrollbar {
     width: 8px;
 }
+
 .menu-categoria::-webkit-scrollbar-track {
     background: transparent;
     border-radius: 10px;
-    margin: 50px 0; 
+    margin: 50px 0;
 }
+
 .menu-categoria::-webkit-scrollbar-thumb {
     background: #461d01;
     border-radius: 10px;
     border: 2px solid transparent;
     background-clip: content-box;
 }
+
 .menu-categoria::-webkit-scrollbar-thumb:hover {
     background: #6a2c02;
 }
+
 .menu-categoria::-webkit-scrollbar-button {
     display: none;
 }
 
-.menu-categoria ul li{
+.menu-categoria ul li {
     width: 60%;
- padding-bottom: 1rem;
- padding-top: 1rem;
- cursor: pointer;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    cursor: pointer;
 }
 
-.menu-categoria ul li:hover{
+.menu-categoria ul li:hover {
     width: 80%;
     background-color: #461d01;
     border-radius: 1rem;
@@ -294,7 +305,7 @@ header a{
 }
 
 /*Menu de ayuda*/
-#menu-ayuda{
+#menu-ayuda {
     min-height: 180px !important;
     max-height: 200px !important;
     overflow: hidden !important;
@@ -303,45 +314,48 @@ header a{
 
 /*CONTENEDOR DE IMAGENES Y CARRUSEL*/
 
-.header-box{
+.header-box {
     width: 100vw;
     height: 60vh;
     background-color: #eee;
     overflow: hidden;
 }
 
-.slides{
+.slides {
     width: 100%;
     height: 100%;
     display: flex;
     transition: all 1s ease-in-out;
 }
 
-.slides-box{
+.slides-box {
     width: 100%;
     height: 100%;
     flex-shrink: 0;
 }
 
-.slides-box:nth-child(1){
+.slides-box:nth-child(1) {
     background-image: url(../SOURCES/IMAGENES/header-S-s25.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
-.slides-box:nth-child(2){
+
+.slides-box:nth-child(2) {
     background-image: url(../SOURCES/IMAGENES/header-S-Z-fold-7.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
-.slides-box:nth-child(3){
+
+.slides-box:nth-child(3) {
     background-image: url(../SOURCES/IMAGENES/header-nintendo-switch-2.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
-.slides-box:nth-child(4){
+
+.slides-box:nth-child(4) {
     background-image: url(../SOURCES/IMAGENES/header-lenovo.png);
     background-position: center;
     background-repeat: no-repeat;
@@ -350,12 +364,12 @@ header a{
 
 /*Contenedor de ofertas*/
 
-.offerts-box{
+.offerts-box {
     width: 100%;
     position: relative;
 }
 
-.offerts-box-targets{
+.offerts-box-targets {
     min-width: 800px;
     max-width: 900px;
     height: 700px;
@@ -369,13 +383,13 @@ header a{
     transform: translateX(-50%);
 }
 
-.offerts-text{
+.offerts-text {
     width: 100%;
     padding: 100px 0 20px 0;
     text-align: center;
 }
 
-.offerts-text>h2{
+.offerts-text>h2 {
     font-size: 1.8rem;
     font-family: 'roboto condensed', sans-serif;
     font-weight: 200;
@@ -383,23 +397,23 @@ header a{
     cursor: pointer;
 }
 
-.offerts-text>h2::after{
+.offerts-text>h2::after {
     content: '';
- width: 100px;
- height: 3px;
- position: absolute;
- background-color: #461d01;
- bottom: -10px;
- left: calc(50% - 50px);
- border-radius: 3px;
- transition: all .5s ease-in-out;
+    width: 100px;
+    height: 3px;
+    position: absolute;
+    background-color: #461d01;
+    bottom: -10px;
+    left: calc(50% - 50px);
+    border-radius: 3px;
+    transition: all .5s ease-in-out;
 }
 
-.offerts-text>h2:hover::after{
+.offerts-text>h2:hover::after {
     transform: scaleX(2);
 }
 
-.offerts-box-targets-cards{
+.offerts-box-targets-cards {
     width: 100%;
     display: flex;
     gap: 10px;
@@ -407,7 +421,7 @@ header a{
     padding: 20px 20px;
 }
 
-.card{
+.card {
     width: 250px;
     height: 450px;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.514);
@@ -418,7 +432,7 @@ header a{
     cursor: pointer;
 }
 
-.card-preview{
+.card-preview {
     width: 100%;
     height: 370px;
     background-color: #fff8f1;
@@ -430,14 +444,14 @@ header a{
     border-bottom-right-radius: 30px;
 }
 
-.preview-description{
+.preview-description {
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
-    color: #461d01;   
+    color: #461d01;
 }
 
-.preview-image{
+.preview-image {
     border-radius: 25px;
     width: 200px;
     height: 200px;
@@ -452,23 +466,26 @@ header a{
 /* -------------------- */
 
 .perfil-menu {
-    position: relative; /* // Permite que el desplegable se posicione respecto al botón */
+    position: relative;
+    /* // Permite que el desplegable se posicione respecto al botón */
     display: inline-block;
     margin-left: 15px;
 }
 
 .perfil-btn {
-    background-color: transparent; /* // Sin fondo */
+    background-color: transparent;
+    /* // Sin fondo */
     border: none;
     cursor: pointer;
     font-size: 16px;
-    color: #ffffff; /* // Texto claro sobre fondo oscuro */
+    color: #ffffff;
+    /* // Texto claro sobre fondo oscuro */
     padding: 10px 20px;
     border-radius: 20px;
     transition: all .5s ease;
 }
 
-.perfil-btn.active{
+.perfil-btn.active {
     background-color: #0097b2;
     box-shadow: #0097b2 1px 1px 25px;
 }
@@ -484,7 +501,7 @@ header a{
     left: 0;
     background-color: #fff;
     min-width: 150px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 10;
     border-radius: 8px;
     transition: all .5s ease-in-out;
@@ -502,9 +519,11 @@ header a{
 }
 
 .dropdown-content a:hover {
-    background-color: #ffb000; /* // Efecto hover */
+    background-color: #ffb000;
+    /* // Efecto hover */
     color: white;
 }
+
 .resultados {
     position: absolute;
     background: white;
@@ -524,4 +543,60 @@ header a{
 
 .resultados div:hover {
     background: #f0f0f0;
+}
+
+.carousel-container {
+    position: relative;
+    max-width: 100%;
+    margin: 20px auto;
+    overflow: hidden;
+}
+
+.offerts-carousel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 20px 0;
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.offerts-carousel::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari */
+}
+
+.carousel-card {
+    min-width: 250px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    font-size: 36px;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 10;
+    transition: 0.3s;
+}
+
+.prev-btn {
+    left: 10px;
+}
+
+.next-btn {
+    right: 10px;
+}
+
+.carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
 }
