@@ -110,3 +110,4 @@ $negocio = $result->fetch_assoc();
 
 </body>
 </html>
+

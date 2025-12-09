@@ -63,7 +63,7 @@ $ejec = mysqli_query($connect, $query);
             <li id="liUsers">Consultar Usuarios<i class="fa-solid fa-caret-up"></i></li>
             <ul class="sheetList">
                 <li class="current-page">Usuarios</li>
-               <a href="dashboard-index.php"><li>Clientes</li></a>
+               <a href="client-dashboard-index.php"><li>Clientes</li></a>
                 <a href="seller-dashboard-admin-index.php"><li>Vendedores</li></a>
             </ul>
             <li id="liProducts">Consultar Productos<i class="fa-solid fa-caret-up"></i></li>

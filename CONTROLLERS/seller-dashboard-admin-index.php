@@ -160,7 +160,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             <li id="liUsers">Consultar Usuarios<i class="fa-solid fa-caret-up"></i></li>
             <ul class="sheetList">
                 <a href="user-dashboard-admin-index.php"><li>Usuarios</li></a>
-               <a href="dashboard-index.php"><li>Clientes</li></a>
+               <a href="client-dashboard-index.php"><li>Clientes</li></a>
                 <li class="current-page">Vendedores</li>
             </ul>
             <li id="liProducts">Consultar Productos<i class="fa-solid fa-caret-up"></i></li>
@@ -410,7 +410,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
                 <i class="fas fa-store-slash" style="font-size: 3em; margin-bottom: 20px; color: #ddd;"></i>
                 <h3>No hay vendedores registrados</h3>
                 <p style="margin-top: 10px;">No se encontraron vendedores en el sistema.</p>
-                <a href="dashboard-index.php" class="btn btn-primary" style="margin-top: 20px;">
+                <a href="client-dashboard-index.php" class="btn btn-primary" style="margin-top: 20px;">
                     <i class="fas fa-users"></i> Ver Clientes
                 </a>
             </div>
@@ -438,7 +438,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             <a href="../index.php" class="btn btn-primary"> <!--Ruta inexistente, cambiar el nombre de la ruta-->
                 <i class="fas fa-home"></i> Volver al Dashboard
             </a>
-            <a href="dashboard-index.php" class="btn btn-success">
+            <a href="client-dashboard-index.php" class="btn btn-success">
                 <i class="fas fa-users"></i> Gestionar Clientes
             </a>
             <?php if($_SESSION['admin_rol'] == 1): ?>

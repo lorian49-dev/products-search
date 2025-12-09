@@ -21,7 +21,7 @@ $action = $_GET['action'] ?? '';
 $id_cliente = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if (!$id_cliente || !$action) {
-    header('Location: dashboard-index.php');
+    header('Location: client-dashboard-index.php');
     exit();
 }
 
@@ -35,7 +35,7 @@ $result_check = mysqli_query($connect, $query_check);
 if (mysqli_num_rows($result_check) === 0) {
     echo "<script>
         alert('Cliente no encontrado.');
-        window.location.href = 'dashboard-index.php';
+        window.location.href = 'client-dashboard-index.php';
     </script>";
     exit();
 }
@@ -71,20 +71,20 @@ switch ($action) {
                 
                 echo "<script>
                     alert('✅ Se vaciaron $total_carritos carrito(s) del cliente $nombre_cliente');
-                    window.location.href = 'dashboard-index-watch.php?id=$id_cliente';
+                    window.location.href = 'client-dashboard-index-watch.php?id=$id_cliente';
                 </script>";
                 
             } catch (Exception $e) {
                 mysqli_rollback($connect);
                 echo "<script>
                     alert('Error al vaciar carritos: " . addslashes($e->getMessage()) . "');
-                    window.location.href = 'dashboard-index-watch.php?id=$id_cliente';
+                    window.location.href = 'client-dashboard-index-watch.php?id=$id_cliente';
                 </script>";
             }
         } else {
             echo "<script>
                 alert('El cliente no tiene carritos activos.');
-                window.location.href = 'dashboard-index-watch.php?id=$id_cliente';
+                window.location.href = 'client-dashboard-index-watch.php?id=$id_cliente';
             </script>";
         }
         break;
@@ -93,7 +93,7 @@ switch ($action) {
         // Activar cliente (si tuviera estado)
         echo "<script>
             alert('Función de activación pendiente de implementar');
-            window.location.href = 'dashboard-index-watch.php?id=$id_cliente';
+            window.location.href = 'client-dashboard-index-watch.php?id=$id_cliente';
         </script>";
         break;
         
@@ -101,7 +101,7 @@ switch ($action) {
         // Desactivar cliente (si tuviera estado)
         echo "<script>
             alert('Función de desactivación pendiente de implementar');
-            window.location.href = 'dashboard-index-watch.php?id=$id_cliente';
+            window.location.href = 'client-dashboard-index-watch.php?id=$id_cliente';
         </script>";
         break;
         
@@ -123,18 +123,18 @@ switch ($action) {
                 
                 echo "<script>
                     alert('✅ Contraseña reseteada para $nombre_cliente\\nNueva contraseña: $nueva_password\\n\\nGuarde esta contraseña temporal.');
-                    window.location.href = 'dashboard-index-watch.php?id=$id_cliente';
+                    window.location.href = 'client-dashboard-index-watch.php?id=$id_cliente';
                 </script>";
             } else {
                 echo "<script>
                     alert('Error al resetear contraseña');
-                    window.location.href = 'dashboard-index-watch.php?id=$id_cliente';
+                    window.location.href = 'client-dashboard-index-watch.php?id=$id_cliente';
                 </script>";
             }
         } else {
             echo "<script>
                 alert('Solo el Administrador General puede resetear contraseñas.');
-                window.location.href = 'dashboard-index-watch.php?id=$id_cliente';
+                window.location.href = 'client-dashboard-index-watch.php?id=$id_cliente';
             </script>";
         }
         break;
@@ -142,7 +142,7 @@ switch ($action) {
     default:
         echo "<script>
             alert('Acción no válida.');
-            window.location.href = 'dashboard-index.php';
+            window.location.href = 'client-dashboard-index.php';
         </script>";
         break;
 }

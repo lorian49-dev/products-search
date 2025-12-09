@@ -284,7 +284,7 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
         <!-- Panel de funcionalidades -->
         <div class="features-grid">
             <!-- Gestión de Usuarios -->
-            <a href="dashboard-index.php" class="feature-card">
+            <a href="client-dashboard-index.php" class="feature-card">
                 <i class="fas fa-user-cog"></i>
                 <h3>Gestión de Usuarios</h3>
                 <p>Administrar usuarios del sistema, crear, editar y eliminar cuentas</p>

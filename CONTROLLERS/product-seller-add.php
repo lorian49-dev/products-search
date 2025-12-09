@@ -43,3 +43,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <a href="product-seller-index.php">⬅️ Volver</a>
 </body>
 </html>
+

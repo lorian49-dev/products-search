@@ -11,13 +11,13 @@ if (!isset($_SESSION['admin_logueado']) || $_SESSION['admin_logueado'] !== true)
 if ($_SESSION['admin_rol'] != 1) {
     echo "<script>
         alert('Solo el Administrador General puede eliminar clientes.');
-        window.location.href = 'dashboard-index.php';
+        window.location.href = 'client-dashboard-index.php';
     </script>";
     exit();
 }
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    header('Location: dashboard-index.php');
+    header('Location: client-dashboard-index.php');
     exit();
 }
 
@@ -31,7 +31,7 @@ $query = "SELECT c.*, u.nombre, u.apellido, u.correo
 
 $result = mysqli_query($connect, $query);
 if (mysqli_num_rows($result) === 0) {
-    header('Location: dashboard-index.php');
+    header('Location: client-dashboard-index.php');
     exit();
 }
 
@@ -157,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Redirigir con mensaje de éxito
             $_SESSION['mensaje_eliminacion'] = "Cliente eliminado exitosamente. " .
                 ($confirmar_usuario ? "Usuario también eliminado." : "Usuario conservado.");
-            header('Location: dashboard-index.php');
+            header('Location: client-dashboard-index.php');
             exit();
         } catch (Exception $e) {
             mysqli_rollback($connect);
@@ -472,7 +472,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         Administrador General
                     </div>
                 </div>
-                <a href="dashboard-index-watch.php?id=<?php echo $id_cliente; ?>" class="btn btn-secondary">
+                <a href="client-dashboard-index-watch.php?id=<?php echo $id_cliente; ?>" class="btn btn-secondary">
                     <i class="fas fa-arrow-left"></i> Cancelar y Volver
                 </a>
             </div>
@@ -610,7 +610,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <i class="fas fa-skull-crossbones"></i> CONFIRMAR ELIMINACIÓN
                 </button>
 
-                <a href="dashboard-index-watch.php?id=<?php echo $id_cliente; ?>" class="btn btn-success">
+                <a href="client-dashboard-index-watch.php?id=<?php echo $id_cliente; ?>" class="btn btn-success">
                     <i class="fas fa-times"></i> CANCELAR
                 </a>
             </div>
@@ -630,7 +630,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li><strong>Archivar la información</strong> en lugar de borrarla</li>
             </ul>
             <div style="margin-top: 15px;">
-                <a href="dashboard-index-edit.php?id=<?php echo $id_cliente; ?>" class="btn btn-secondary" style="padding: 8px 15px;">
+                <a href="client-dashboard-index-edit.php?id=<?php echo $id_cliente; ?>" class="btn btn-secondary" style="padding: 8px 15px;">
                     <i class="fas fa-edit"></i> Editar en lugar de Eliminar
                 </a>
             </div>
@@ -638,10 +638,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Navegación -->
         <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #dee2e6;">
-            <a href="dashboard-index.php" class="btn btn-secondary">
+            <a href="client-dashboard-index.php" class="btn btn-secondary">
                 <i class="fas fa-list"></i> Volver a la Lista
             </a>
-            <a href="dashboard-index.php" class="btn btn-secondary">
+            <a href="client-dashboard-index.php" class="btn btn-secondary">
                 <i class="fas fa-home"></i> Dashboard Principal
             </a>
         </div>

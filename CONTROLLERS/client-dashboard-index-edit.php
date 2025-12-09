@@ -14,7 +14,7 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
 }
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    header('Location: dashboard-index.php');
+    header('Location: client-dashboard-index.php');
     exit();
 }
 
@@ -31,7 +31,7 @@ $query = "SELECT c.*, u.nombre, u.apellido, u.correo, u.telefono, u.fecha_nacimi
 
 $result = mysqli_query($connect, $query);
 if (mysqli_num_rows($result) === 0) {
-    header('Location: dashboard-index.php');
+    header('Location: client-dashboard-index.php');
     exit();
 }
 
@@ -374,10 +374,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
                 <div>
-                    <a href="dashboard-index-watch.php?id=<?php echo $id_cliente; ?>" class="btn btn-secondary">
+                    <a href="client-dashboard-index-watch.php?id=<?php echo $id_cliente; ?>" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Cancelar
                     </a>
-                    <a href="dashboard-index.php" class="btn btn-primary">
+                    <a href="client-dashboard-index.php" class="btn btn-primary">
                         <i class="fas fa-list"></i> Lista de Clientes
                     </a>
                 </div>
@@ -521,10 +521,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <button type="submit" class="btn btn-success" style="padding: 12px 30px;">
                         <i class="fas fa-save"></i> Guardar Cambios
                     </button>
-                    <a href="dashboard-index-watch.php?id=<?php echo $id_cliente; ?>" class="btn btn-secondary">
+                    <a href="client-dashboard-index-watch.php?id=<?php echo $id_cliente; ?>" class="btn btn-secondary">
                         <i class="fas fa-times"></i> Cancelar
                     </a>
-                    <a href="dashboard-index-delete.php?id=<?php echo $id_cliente; ?>" class="btn btn-danger">
+                    <a href="client-dashboard-index-delete.php?id=<?php echo $id_cliente; ?>" class="btn btn-danger">
                         <i class="fas fa-trash"></i> Eliminar Cliente
                     </a>
                 </div>
@@ -544,10 +544,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Navegación -->
         <div style="text-align: center; margin-top: 30px;">
-            <a href="dashboard-index.php" class="btn btn-primary">
+            <a href="client-dashboard-index.php" class="btn btn-primary">
                 <i class="fas fa-arrow-left"></i> Volver a la Lista de Clientes
             </a>
-            <a href="dashboard-index" class="btn btn-secondary">
+            <a href="client-dashboard-index" class="btn btn-secondary">
                 <i class="fas fa-home"></i> Dashboard Principal
             </a>
         </div>

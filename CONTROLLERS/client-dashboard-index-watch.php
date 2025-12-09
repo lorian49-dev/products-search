@@ -14,7 +14,7 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
 }
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    header('Location: dashboard-index.php');
+    header('Location: client-dashboard-index.php');
     exit();
 }
 
@@ -29,7 +29,7 @@ $query = "SELECT c.*, u.nombre, u.apellido, u.correo, u.telefono, u.fecha_nacimi
           
 $result = mysqli_query($connect, $query);
 if (mysqli_num_rows($result) === 0) {
-    header('Location: dashboard-index.php');
+    header('Location: client-dashboard-index.php');
     exit();
 }
 
@@ -160,14 +160,14 @@ $estadisticas['total_gastado'] = mysqli_fetch_assoc($result_total)['total'] ?? 0
                     </div>
                 </div>
                 <div style="display: flex; gap: 10px;">
-                    <a href="dashboard-index.php" class="btn btn-secondary">
+                    <a href="client-dashboard-index.php" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Volver
                     </a>
-                    <a href="dashboard-index-edit.php?id=<?php echo $id_cliente; ?>" class="btn btn-primary">
+                    <a href="client-dashboard-index-edit.php?id=<?php echo $id_cliente; ?>" class="btn btn-primary">
                         <i class="fas fa-edit"></i> Editar
                     </a>
                     <?php if($_SESSION['admin_rol'] == 1): ?>
-                    <a href="dashboard-index-delete.php?id=<?php echo $id_cliente; ?>" class="btn btn-danger">
+                    <a href="client-dashboard-index-delete.php?id=<?php echo $id_cliente; ?>" class="btn btn-danger">
                         <i class="fas fa-trash"></i> Eliminar
                     </a>
                     <?php endif; ?>
@@ -395,18 +395,18 @@ $estadisticas['total_gastado'] = mysqli_fetch_assoc($result_total)['total'] ?? 0
         <div class="section">
             <h3><i class="fas fa-bolt"></i> Acciones Rápidas</h3>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="dashboard-index-edit.php?id=<?php echo $id_cliente; ?>" class="btn btn-primary">
+                <a href="client-dashboard-index-edit.php?id=<?php echo $id_cliente; ?>" class="btn btn-primary">
                     <i class="fas fa-edit"></i> Editar Información
                 </a>
                 <?php if($estadisticas['carritos'] > 0): ?>
-                <a href="dashboard-index-actions.php?action=limpiar_carrito&id=<?php echo $id_cliente; ?>" 
+                <a href="client-dashboard-index-actions.php?action=limpiar_carrito&id=<?php echo $id_cliente; ?>" 
                    class="btn btn-warning"
                    onclick="return confirm('¿Vaciar todos los carritos de este cliente?')">
                     <i class="fas fa-trash-alt"></i> Vaciar Carritos
                 </a>
                 <?php endif; ?>
                 <?php if($_SESSION['admin_rol'] == 1): ?>
-                <a href="dashboard-index-delete.php?id=<?php echo $id_cliente; ?>" class="btn btn-danger">
+                <a href="client-dashboard-index-delete.php?id=<?php echo $id_cliente; ?>" class="btn btn-danger">
                     <i class="fas fa-trash"></i> Eliminar Cliente
                 </a>
                 <?php endif; ?>
@@ -418,10 +418,10 @@ $estadisticas['total_gastado'] = mysqli_fetch_assoc($result_total)['total'] ?? 0
 
         <!-- Navegación -->
         <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
-            <a href="dashboard-index.php" class="btn btn-primary">
+            <a href="client-dashboard-index.php" class="btn btn-primary">
                 <i class="fas fa-arrow-left"></i> Volver a la Lista
             </a>
-            <a href="dashboard-index.php" class="btn btn-secondary">
+            <a href="client-dashboard-index.php" class="btn btn-secondary">
                 <i class="fas fa-home"></i> Dashboard Principal
             </a>
         </div>

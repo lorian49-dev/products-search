@@ -116,3 +116,4 @@ session_start();
     <script src="../scripts/seller-main-view.js"></script>
 </body>
 </html>
+
