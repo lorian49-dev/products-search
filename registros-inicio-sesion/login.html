@@ -1,28 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio de Sesion</title>
+    <title>Inicio de Sesión</title>
     <link rel="stylesheet" href="login.css">
     <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
 </head>     
 <body>
     <main>
         <div class="contenedor">
-             <span class="back-icon"><a href="../home.php"><img src="../SOURCES/ICONOS-LOGOS/return.svg"></a></span>
+            <span class="back-icon"><a href="../home.php"><img src="../SOURCES/ICONOS-LOGOS/return.svg"></a></span>
             <div class="tittle-text">
-                <h1>Inicio de Sesion</h1>
-                <p>No tienes una cuenta?<a href="register.html"> Registrarse</a></p>
+                <h1>Inicio de Sesión</h1>
+                <p>¿No tienes una cuenta? <a href="register.html">Registrarse</a></p>
             </div>
-            <form method="post" action="login.php">
-            <input type="email" name="email-user" id="email-user-id" placeholder="Correo electronico" required>
-            <input type="password" name="pass" id="password" placeholder="contraseña" required>
-            <button type="submit" class="send-info"><span>Iniciar Sesión</span></button>
-        </form>
-        </div>
 
+            <form method="post" action="login.php">
+                <!-- ESTA ES LA LÍNEA MÁGICA -->
+                <input type="hidden" name="return" 
+                       value="<?php echo isset($_GET['return']) ? htmlspecialchars($_GET['return']) : (isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : '../home.php'); ?>">
+
+                <input type="email" name="email-user" id="email-user-id" placeholder="Correo electrónico" required>
+                <input type="password" name="pass" id="password" placeholder="Contraseña" required>
+                <button type="submit" class="send-info"><span>Iniciar Sesión</span></button>
+            </form>
+        </div>
     </main>
 </body>
 </html>
-

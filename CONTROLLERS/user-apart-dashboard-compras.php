@@ -237,12 +237,12 @@ if (!$resultPedidos) {
                         <button class="perfil-btn"> <?php echo htmlspecialchars($_SESSION['usuario_nombre']); ?></button>
                         <div class="dropdown-content">
                             <a href="user-apart-dashboard.php">Mi cuenta</a>
-                            <a href="../registros-inicio-sesion/logout.php">Cerrar sesión</a>
+                            <a href="../registros-inicio-sesion/logout-user.php">Cerrar sesión</a>
                         </div>
 
                     </div>
                 <?php else: ?>
-                    <a href="../registros-inicio-sesion/login.html"><span class="sisu-buttons"> Sign In</span></a>
+                    <a href="../registros-inicio-sesion/login.php"><span class="sisu-buttons"> Sign In</span></a>
                     <a href="../registros-inicio-sesion/register.html"><span class="sisu-buttons"> Sign Up</span></a>
                 <?php endif; ?>
                 <!-- fin del menu despegable -->

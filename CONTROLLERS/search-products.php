@@ -395,7 +395,7 @@ $resultado = $connect->query($sql);
                         </div>
                     </div>
                 <?php else: ?>
-                    <a href="../registros-inicio-sesion/login.html"><span class="sisu-buttons"> Sign In</span></a>
+                    <a href="../registros-inicio-sesion/login.php"><span class="sisu-buttons"> Sign In</span></a>
                     <a href="../registros-inicio-sesion/register.html"><span class="sisu-buttons"> Sign Up</span></a>
                 <?php endif; ?>
                 <!-- fin del menu despegable -->
