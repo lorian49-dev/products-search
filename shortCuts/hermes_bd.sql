@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-12-2025 a las 00:01:06
+-- Tiempo de generación: 09-12-2025 a las 02:54:31
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -44,7 +44,7 @@ CREATE TABLE `administradores` (
 --
 
 INSERT INTO `administradores` (`id_admin`, `username`, `password`, `email`, `id_rol`, `nombre_completo`, `activo`, `ultimo_acceso`, `fecha_creacion`) VALUES
-(1, 'admin_general', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin@hermes.com', 1, 'Administrador General', 1, NULL, '2025-11-28 05:39:28'),
+(1, 'admin_general', '$2y$10$hg..y..k54aNhnGsfQfWsuYAQrPNkKc/ZcDdDuqB6HFXIIH1ynOu2', 'admin@hermes.com', 1, 'Administrador General', 1, '2025-12-09 01:53:25', '2025-11-28 05:39:28'),
 (2, 'admin_colaborador', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'colab@hermes.com', 2, 'Administrador Colaborador', 1, NULL, '2025-11-28 05:39:28'),
 (4, 'admin_general1', '$2y$10$MeeFFVwmBXRFc2FI4zwk0OIQPVQgcASj3rL6qrqYTGIvZvkktB5Oa', 'admin@hermes.com', 1, NULL, 1, '2025-12-01 17:53:32', '2025-11-28 06:49:44'),
 (5, 'Andres_David', '$2y$10$.Q7or1vzORZqi5m38IiWV.zZNlFqneaWuVp2ouexRETLj8YR.bt..', 'andr@gmail.com', 2, 'Andres David Carvajal Gutierrez', 1, '2025-11-29 01:58:38', '2025-11-28 18:16:14');
@@ -143,19 +143,20 @@ CREATE TABLE `categoria` (
 CREATE TABLE `cliente` (
   `id_cliente` int(11) NOT NULL,
   `wishlist_privada` tinyint(1) DEFAULT 1,
-  `informacion_adicional` text DEFAULT NULL
+  `informacion_adicional` text DEFAULT NULL,
+  `direccion` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `cliente`
 --
 
-INSERT INTO `cliente` (`id_cliente`, `wishlist_privada`, `informacion_adicional`) VALUES
-(28, 1, 'Cliente preferencial. Le gustan los productos electrónicos.'),
-(29, 0, 'Compra frecuente de ropa y accesorios.'),
-(30, 1, 'Prefiere envío express. Tiene alergia a frutos secos.'),
-(31, 0, 'Solicita factura electrónica siempre.'),
-(32, 1, 'Cliente empresarial. Contacto: departamento.compras@empresa.com');
+INSERT INTO `cliente` (`id_cliente`, `wishlist_privada`, `informacion_adicional`, `direccion`) VALUES
+(28, 1, 'Cliente preferencial. Le gustan los productos electrónicos.', NULL),
+(29, 0, 'Compra frecuente de ropa y accesorios.', NULL),
+(30, 1, 'Prefiere envío express. Tiene alergia a frutos secos.', NULL),
+(31, 0, 'Solicita factura electrónica siempre.', NULL),
+(32, 1, 'Cliente empresarial. Contacto: departamento.compras@empresa.com', NULL);
 
 -- --------------------------------------------------------
 
@@ -240,22 +241,24 @@ CREATE TABLE `producto` (
   `descripcion` varchar(500) DEFAULT NULL,
   `precio` decimal(12,2) NOT NULL,
   `stock` int(11) NOT NULL DEFAULT 0,
+  `estado` enum('activo','inactivo') DEFAULT 'activo',
   `origen` varchar(100) DEFAULT NULL,
   `id_vendedor` int(11) DEFAULT NULL,
-  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `imagen_principal` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `producto`
 --
 
-INSERT INTO `producto` (`id_producto`, `nombre`, `descripcion`, `precio`, `stock`, `origen`, `id_vendedor`, `fecha_creacion`) VALUES
-(2, 'Camiseta Negra', 'Camiseta 100% algodón color negro', 35000.00, 20, 'Colombia', NULL, '2025-11-23 17:06:13'),
-(100, 'Laptop HP Pavilion TEST', 'Laptop 15.6\", Intel i5, 8GB RAM, 512GB SSD', 2500000.00, 10, NULL, NULL, '2025-12-01 21:53:40'),
-(101, 'Smartphone Samsung TEST', '6.5\", 128GB, 8GB RAM, Cámara Quad', 1800000.00, 15, NULL, NULL, '2025-12-01 21:53:40'),
-(102, 'Audífonos Sony TEST', 'Audífonos inalámbricos con cancelación de ruido', 350000.00, 25, NULL, NULL, '2025-12-01 21:53:40'),
-(103, 'Smartwatch Apple TEST', 'Series 7, GPS, 45mm, Resistente al agua', 2200000.00, 8, NULL, NULL, '2025-12-01 21:53:40'),
-(104, 'Tablet Amazon TEST', '10\", 32GB, HD, Alexa integrado', 800000.00, 20, NULL, NULL, '2025-12-01 21:53:40');
+INSERT INTO `producto` (`id_producto`, `nombre`, `descripcion`, `precio`, `stock`, `estado`, `origen`, `id_vendedor`, `fecha_creacion`, `imagen_principal`) VALUES
+(2, 'Camiseta Negra', 'Camiseta 100% algodón color negro', 35000.00, 20, 'activo', 'Colombia', NULL, '2025-11-23 17:06:13', NULL),
+(100, 'Laptop HP Pavilion TEST', 'Laptop 15.6\", Intel i5, 8GB RAM, 512GB SSD', 2500000.00, 10, 'activo', NULL, NULL, '2025-12-01 21:53:40', NULL),
+(101, 'Smartphone Samsung TEST', '6.5\", 128GB, 8GB RAM, Cámara Quad', 1800000.00, 15, 'activo', NULL, NULL, '2025-12-01 21:53:40', NULL),
+(102, 'Audífonos Sony TEST', 'Audífonos inalámbricos con cancelación de ruido', 350000.00, 25, 'activo', NULL, NULL, '2025-12-01 21:53:40', NULL),
+(103, 'Smartwatch Apple TEST', 'Series 7, GPS, 45mm, Resistente al agua', 2200000.00, 8, 'activo', NULL, NULL, '2025-12-01 21:53:40', NULL),
+(104, 'Tablet Amazon TEST', '10\", 32GB, HD, Alexa integrado', 800000.00, 20, 'activo', NULL, NULL, '2025-12-01 21:53:40', NULL);
 
 -- --------------------------------------------------------
 
@@ -313,7 +316,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `correo`, `contrasena`, `fecha_nacimiento`, `telefono`, `direccion_principal`, `codigo_recuperacion`, `codigo_expira`) VALUES
-(2, 'Oscar', 'asdad', 'oscar.vanegas772@gmail.com', '$2y$10$O7xH90JGWzknLOOEM.tWluXA8kvwbOqwTbTbKzW9ANvALgHjkeNWG', '1111-11-11', '121213131', NULL, '392943', '2025-11-19 21:43:45'),
+(2, 'Oscar', 'asdad', 'oscar.vanegas772@gmail.com', '$2y$10$O7xH90JGWzknLOOEM.tWluXA8kvwbOqwTbTbKzW9ANvALgHjkeNWG', '1111-11-11', '121213131', 'asdadasdas', '392943', '2025-11-19 21:43:45'),
 (3, 'Juan', 'Pérez', 'juan.perez@email.com', '$2y$10$TuHashDeContraseña', '1990-05-15', '3101234567', 'Calle 123 #45-67, Bogotá', NULL, NULL),
 (4, 'María', 'Gómez', 'maria.gomez@email.com', '$2y$10$TuHashDeContraseña', '1985-08-22', '3209876543', 'Avenida Siempre Viva 742, Medellín', NULL, NULL),
 (5, 'Carlos', 'Rodríguez', 'carlos.rod@email.com', '$2y$10$TuHashDeContraseña', '1995-02-10', '3155551234', 'Carrera 7 #23-45, Cali', NULL, NULL),
@@ -673,5 +676,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-ALTER TABLE 'cliente' 
-ADD 'COLUMN direccion' VARCHAR(255) NULL;
