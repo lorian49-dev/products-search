@@ -38,14 +38,14 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
 </head>
 
 <body>
-    <?php if(isset($_SESSION['flash_message'])): ?>
-    <div class="message-session">
-        <?php
-        echo $_SESSION['flash_message'];
-        unset($_SESSION['flash_message']);
-        ?>
-    </div>
-<?php endif; ?>
+    <?php if (isset($_SESSION['flash_message'])): ?>
+        <div class="message-session">
+            <?php
+            echo $_SESSION['flash_message'];
+            unset($_SESSION['flash_message']);
+            ?>
+        </div>
+    <?php endif; ?>
     <header>
         <div class="top">
             <span id="logo-hermes-home">
@@ -61,7 +61,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                                 id="input-search-product"
                                 placeholder="Buscar producto..."
                                 value="" autocomplete="off">
-                                <button type="submit" class="button-search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            <button type="submit" class="button-search"><i class="fa-solid fa-magnifying-glass"></i></button>
                             <div id="results-container"></div>
                         </li>
                     </form>
@@ -116,7 +116,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                         </div>
                     </div>
                 <?php else: ?>
-                    <a href="registros-inicio-sesion/login.html"><span class="sisu-buttons"> Sign In</span></a>
+                    <a href="registros-inicio-sesion/login.php"><span class="sisu-buttons"> Sign In</span></a>
                     <a href="registros-inicio-sesion/register.html"><span class="sisu-buttons"> Sign Up</span></a>
                 <?php endif; ?>
                 <!-- fin del menu despegable -->
@@ -313,7 +313,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
             }
         })
     </script>
-    <script src="scripts/home.js"></script> 
+    <script src="scripts/home.js"></script>
 </body>
 
 </html>
