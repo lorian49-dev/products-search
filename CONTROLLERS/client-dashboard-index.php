@@ -254,7 +254,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             font-size: 1.2em;
         }
 
-        .data-table {
+        .data-table { /*La tabla en cuestion*/
             width: 90%;
             border-collapse: collapse;
             margin: 0 auto;
@@ -262,13 +262,22 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
         }
 
         .data-table th {
-            background: #461d01;
             color: white;
             padding: 12px 15px;
             text-align: left;
             font-weight: 600;
             font-size: 0.9em;
             text-align: center;
+        }
+
+        .data-table.data-table.table-dark thead{
+    background:linear-gradient(135deg, #0D47A1, #0097b2);
+
+        }
+
+        .data-table.table-dark th {
+            transition: all 1s ease;
+            
         }
 
         .data-table td {
@@ -282,6 +291,8 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             white-space: nowrap;
             /* evita salto de línea */
         }
+
+.data-table a{text-decoration: none;}
 
         /*Tabla:scroll*/
 
@@ -509,7 +520,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
 <body>
 
     <nav id="navegation">
-        <a href="#"><i class="fas fa-home" id="iconHome"></i></a>
+        <a href="user-dashboard-admin.php"><i class="fas fa-home" id="iconHome"></i></a>
         <span>
             <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO" width="200px">
         </span>
@@ -545,13 +556,17 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             </ul>
             <li id="liProducts">Consultar Productos<i class="fa-solid fa-caret-up"></i></li>
             <ul class="sheetListProducts">
-                <li>Productos</li>
+                <a href="products-dashboard-admin-index.php">
+                    <li>Productos</li>
+                </a>
                 <li>Categorias</li>
-                <li>Variantes</li>
+                <li>Listado de ventas por vendedor</li>
             </ul>
             <li id="liGets">Gestion de pedidos<i class="fa-solid fa-caret-up"></i></li>
             <ul class="sheetListGets">
-                <li>Listado de ventas por vendedor</li>
+                <a href="orders-admin-index.php">
+                    <li>Pedidos</li>
+                </a>
                 <li>Disputas</li>
                 <li>Actualizar estados de pedidos</li>
             </ul>
@@ -598,7 +613,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
                     </div>
                 </div>
                 <div>
-                    <a href="client-dashboard-index.php" class="btn btn-secondary">
+                    <a href="user-dashboard-admin.php" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Dashboard
                     </a>
                     <a href="client-dashboard-index-watch.php?action=estadisticas" class="btn btn-primary">
@@ -645,7 +660,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
         <div class="table-container">
             <div class="table-header">
                 <h3>Lista de Clientes Registrados</h3>
-                <span style="color: #666; font-size: 0.9em;">
+                <span style="color: #adadadff; font-size: 0.9em;">
                     Total: <?php echo $total_clientes; ?> cliente(s)
                 </span>
             </div>
@@ -694,7 +709,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
                                     </td>
                                     <td>
                                         <?php if (!empty($cliente['correo'])): ?>
-                                            <a href="mailto:<?php echo $cliente['correo']; ?>" style="color: #667eea; text-decoration: none;">
+                                            <a href="mailto:<?php echo $cliente['correo']; ?>" style="text-decoration: none;">
                                                 <?php echo htmlspecialchars($cliente['correo']); ?>
                                             </a>
                                         <?php else: ?>
@@ -703,7 +718,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
                                     </td>
                                     <td>
                                         <?php if (!empty($cliente['telefono'])): ?>
-                                            <a href="tel:<?php echo $cliente['telefono']; ?>" style="text-decoration: none; color: #333;">
+                                            <a href="tel:<?php echo $cliente['telefono']; ?>" style="text-decoration: none;">
                                                 <?php echo htmlspecialchars($cliente['telefono']); ?>
                                             </a>
                                         <?php else: ?>
@@ -815,21 +830,6 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
                 <div class="advise-right"><button id="allow-btn">De acuerdo</button><button id="dont-show-btn">No mostrar nuevamente</button></div>
             </div>
         <?php endif; ?>
-
-        <!-- Navegación -->
-        <div style="text-align: center; margin-top: 30px;">
-            <a href="client-dashboard-index.php" class="btn btn-primary">
-                <i class="fas fa-home"></i> Volver al Dashboard
-            </a>
-            <a href="seller-dashboard-admin-index.php" class="btn btn-success">
-                <i class="fas fa-store"></i> Gestionar Vendedores
-            </a>
-            <?php if ($_SESSION['admin_rol'] == 1): ?>
-                <a href="../usuarios/index.php" class="btn btn-info"> <!--Ruta NO EXISTE-->
-                    <i class="fas fa-users-cog"></i> Gestionar Usuarios
-                </a>
-            <?php endif; ?>
-        </div>
     </div>
     <script src="../scripts/admin.js"></script>
     <script>

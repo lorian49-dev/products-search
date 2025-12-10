@@ -284,7 +284,7 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
         <!-- Panel de funcionalidades -->
         <div class="features-grid">
             <!-- Gestión de Usuarios -->
-            <a href="client-dashboard-index.php" class="feature-card">
+            <a href="user-dashboard-admin-index.php" class="feature-card">
                 <i class="fas fa-user-cog"></i>
                 <h3>Gestión de Usuarios</h3>
                 <p>Administrar usuarios del sistema, crear, editar y eliminar cuentas</p>
@@ -292,7 +292,7 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
 
             <!-- Gestión de Productos -->
             <?php if ($_SESSION['admin_rol'] == 1): ?>
-            <a href="products-admin-index.php" class="feature-card admin-only"> <!--Ruta inexistente, utilizar otro nombre-->
+            <a href="products-dashboard-admin-index.php" class="feature-card admin-only"> <!--Ruta inexistente, utilizar otro nombre-->
                 <i class="fas fa-boxes"></i>
                 <h3>Gestión de Productos</h3>
                 <p>Administrar catálogo de productos, categorías y variantes</p>
@@ -301,7 +301,7 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
 
             <!-- Gestión de Pedidos -->
             <?php if ($_SESSION['admin_rol'] == 1): ?> 
-            <a href="gestion_pedidos.php" class="feature-card admin-only"> <!--Ruta inexistente, utilizar otro nombre-->
+            <a href="orders-admin-index.php" class="feature-card admin-only"> <!--Ruta inexistente, utilizar otro nombre-->
                 <i class="fas fa-clipboard-list"></i>
                 <h3>Gestión de Pedidos</h3>
                 <p>Ver y administrar pedidos, estados y disputas</p>
@@ -309,7 +309,7 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
             <?php endif; ?>
 
             <!-- Reportes y Estadísticas -->
-            <a href="reportes.php" class="feature-card"> <!--Ruta inexistente, utilizar otro nombre-->
+            <a href="#" class="feature-card"> <!--Ruta inexistente, utilizar otro nombre-->
                 <i class="fas fa-chart-bar"></i>
                 <h3>Reportes y Estadísticas</h3>
                 <p>Ver reportes de ventas, tráfico y métricas importantes</p>
@@ -317,7 +317,7 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
 
             <!-- Configuración del Sistema -->
             <?php if ($_SESSION['admin_rol'] == 1): ?>
-            <a href="configuracion.php" class="feature-card admin-only"> <!--Ruta inexistente, utilizar otro nombre-->
+            <a href="#" class="feature-card admin-only"> <!--Ruta inexistente, utilizar otro nombre-->
                 <i class="fas fa-cogs"></i>
                 <h3>Configuración del Sistema</h3>
                 <p>Configuraciones generales de la plataforma</p>
@@ -336,8 +336,7 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
 
         <!-- Botones de navegación -->
         <div class="navigation-buttons">
-            <a href="user-dashboard-admin-index.php" class="btn-primary">Ir al CRUD Completo</a>
-            <a href="../home.php" class="btn-secondary">Volver al Sitio Principal</a>
+            <a href="../home.php" class="btn-secondary">Hermes Click&Go</a>
         </div>
     </div>
 

@@ -139,16 +139,36 @@ btnEdit.forEach(promise =>{
 })
 }
 
-const buttonBack = document.querySelector('.back-icon')
+const buttonBack = document.querySelectorAll('.back-icon')
+const container_create = document.getElementById('container')
+const btn_add_new_user = document.querySelector('.btn_add-new-user')
+const form_create_user = document.getElementById('form-create-user')
+
+if(btn_add_new_user){
+  btn_add_new_user.addEventListener('click', ()=>{
+    container_create.style.opacity = '1'
+    container_create.style.pointerEvents = 'auto'
+    setTimeout(()=>{
+      form_create_user.style.transform = 'translateY(0)'
+    }, 500)
+  })
+}
 
 if(buttonBack){
-  buttonBack.addEventListener('click', ()=>{
+ buttonBack.forEach(promise =>{
+   promise.addEventListener('click', ()=>{
     modalWindow.style.opacity = '0'
     modalWindow.style.pointerEvents = 'none'
     modalContainer.style.opacity = '0'
     modalContainer.style.pointerEvents = 'none'
     modalContainer.style.transform = 'translateY(-100%)'
+    if (container_create){
+      container_create.style.opacity = '0'
+      container_create.style.pointerEvents = 'none'
+      form_create_user.style.transform = 'translateY(-200%)'
+    }
 })
+ })
 }
 
 // Eventos para el cambio de color o modo de color visual Dark o light
@@ -204,7 +224,7 @@ function setMode(dark) {
         background.classList.remove('light-mode-active');
         btnLight.style.color = '#fff8f1';
         btnDark.style.color = '#131313ff';
-        body.style.backgroundColor = '#2f2f2fff'
+        body.classList.add('body-its-dark')
         navegation_bar.style.backgroundColor = '#131313ff'
         text_h2.forEach(h2 => h2.style.color = '#fff8f1') 
         if(buttonsToColorModes){buttonsToColorModes.forEach(button => button.style.backgroundColor = '#131313ff') }
@@ -216,7 +236,7 @@ function setMode(dark) {
         background.classList.remove('dark-mode-active');
         btnLight.style.color = '#461d01';
         btnDark.style.color = '#fff8f1';
-        body.style.backgroundColor = '#fff8f1'
+        body.classList.remove('body-its-dark')
         navegation_bar.style.backgroundColor = '#461d01'
         text_h2.forEach(h2 => h2.style.color = '#131313ff')
         if(buttonsToColorModes){buttonsToColorModes.forEach(button => button.style.backgroundColor = '#461d01') }
@@ -266,7 +286,27 @@ if (btnDark && btnLight) {
     btnLight.addEventListener('click', () => setMode(false));
 }
 
+/*Eventos para la advertencia*/
        const btn_allow = document.getElementById('allow-btn')
-       btn_allow.addEventListener('click', ()=>{
-       if(advise){advise.style.display = 'none'}
+       const dont_show_btn = document.getElementById('dont-show-btn')
+       
+       if(btn_allow){
+        btn_allow.addEventListener('click', ()=>{
+        advise.style.display = 'none'
        })
+       }
+
+       if(dont_show_btn){
+        dont_show_btn.addEventListener('click', ()=>{
+          advise.style.display = 'none'
+          localStorage.setItem('adviceStatus', 'none')
+        })
+        function keepAdviceStatus(){
+          const keepAdviceStatusVar = localStorage.getItem('adviceStatus')
+          if(keepAdviceStatus){
+            advise.style.display = keepAdviceStatusVar
+          }
+        }
+
+        keepAdviceStatus()
+       }

@@ -43,7 +43,7 @@ $ejec = mysqli_query($connect, $query);
 
 <body>
     <nav id="navegation">
-        <a href="#"><i class="fas fa-home" id="iconHome"></i></a>
+        <a href="user-dashboard-admin.php"><i class="fas fa-home" id="iconHome"></i></a>
         <span class="img-logo">
             <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO">
         </span>
@@ -114,18 +114,20 @@ $ejec = mysqli_query($connect, $query);
                 </span>
     </nav>
     <div id="container">
-        <form action="user-dashboard-admin-create.php" method="POST"> <!--Correcion de ortografia en el metodo POST-->
+        <form action="user-dashboard-admin-create.php" method="POST" id="form-create-user">
+            <span class="back-icon"><img src="../SOURCES/ICONOS-LOGOS/return.svg"></span>
+             <!--Correcion de ortografia en el metodo POST-->
             <h2>Crear Usuario</h2>
 
-            <input type="text" name="name" placeholder="Nombres" class="inputCreate">
-            <input type="text" name="lastname" placeholder="Apellidos" class="inputCreate">
-            <input type="text" name="email" placeholder="Correo Electronico" class="inputCreate">
-            <input type="text" name="password" placeholder="Contraseña" class="inputCreate">
+            <input type="text" name="name" placeholder="Nombres" class="inputCreate" autocomplete="off">
+            <input type="text" name="lastname" placeholder="Apellidos" class="inputCreate" autocomplete="off">
+            <input type="text" name="email" placeholder="Correo Electronico" class="inputCreate" autocomplete="off">
+            <input type="text" name="password" placeholder="Contraseña" class="inputCreate" autocomplete="off">
             <input type="text" name="birthday" placeholder="Fecha de nacimiento"
                 onfocus="(this.type='date')"
-                onblur="if(!this.value)this.type='text'" class="inputCreate">
+                onblur="if(!this.value)this.type='text'" class="inputCreate" autocomplete="off">
 
-            <input type="text" name="phone" placeholder="Telefono" class="inputCreate">
+            <input type="text" name="phone" placeholder="Telefono" class="inputCreate" autocomplete="off">
 
             <div class="buttonBox">
                 <button id="submitButton" type="submit" class="toChangeColor">Enviar</button>
@@ -134,7 +136,10 @@ $ejec = mysqli_query($connect, $query);
         </form>
     </div>
     <div id="view">
+        <div class="view-header">
         <h2>Usuarios Registrados</h2>
+        <button class="btn_add-new-user">Añadir usuario<i class="fa-solid fa-plus"></i></button>
+        </div>
         <table id="user-table">
             <thead>
                 <tr>

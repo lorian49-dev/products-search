@@ -140,7 +140,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
 </head>
 <body>
     <nav id="navegation">
-        <a href="#"><i class="fas fa-home" id="iconHome"></i></a>
+        <a href="user-dashboard-admin.php"><i class="fas fa-home" id="iconHome"></i></a>
         <span>
             <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO" width="200px">
         </span>
