@@ -633,7 +633,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
                 <input type="text" id="busqueda" placeholder="Buscar cliente por nombre o correo...">
             </div>
             <div class="search-box-button">
-                <button class="btn btn-primary" onclick="buscarClientes()" id="btn-search-seller">
+                <button class="btn btn-primary" id="btn-search-seller">
                 <i class="fas fa-search"></i>
             </button>
             </div>
@@ -665,7 +665,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="resultados-clientes-body">
                             <?php while ($cliente = mysqli_fetch_assoc($result)):
                                 $id_cliente = $cliente['id_cliente'];
 
@@ -816,19 +816,6 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
     </div>
     <script src="../scripts/admin.js"></script>
     <script>
-        function buscarClientes() {
-            const busqueda = document.getElementById('busqueda').value.trim();
-            if (busqueda) {
-                window.location.href = 'client-dashboard-index.php?busqueda=' + encodeURIComponent(busqueda);
-            }
-        }
-
-        // Búsqueda con Enter
-        document.getElementById('busqueda').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                buscarClientes();
-            }
-        });
 
         // Confirmación para eliminación
         document.addEventListener('DOMContentLoaded', function() {

@@ -31,6 +31,10 @@ body.body-its-dark h3{
     color: #fff8f1;
 }
 
+body.body-its-dark h1{
+    color: #fff8f1;
+}
+
 /*Estilos para textos*/
 
 h2{
@@ -301,6 +305,7 @@ overflow: hidden;
     opacity: 0;
     pointer-events: none;
     transition: all .5s ease;
+    z-index: 5;
 }
 
 #container>form{
@@ -319,6 +324,7 @@ overflow: hidden;
     transition: all .5s ease;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     transform: translateY(-200%);
+    z-index: 6;
 }
 
 body.body-its-dark #container>form{
@@ -433,7 +439,7 @@ table {
 table.table-dark{
     background-color: transparent;
     color: #fff8f1;
-    box-shadow:  -5px -5px 10px rgba(255, 255, 255, 0.1),
+    box-shadow:  -5px 0px 5px rgba(255, 255, 255, 0.1),
                          10px 10px 10px rgba(0, 0, 0, 0.3),
                          inset -3px -3px 5px rgba(255, 255, 255, 0.1),
                          inset 5px 5px 10px rgba(0, 0, 0, 0.3);
@@ -651,6 +657,7 @@ body.body-its-dark .stat-label {
 
 body.body-its-dark .search-box input{
  background-color: #2f2f2fff;
+ color: #fff8f1;
 }
 
 body.body-its-dark .search-box input::placeholder{

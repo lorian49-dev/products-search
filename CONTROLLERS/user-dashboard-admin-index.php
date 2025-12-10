@@ -39,6 +39,41 @@ $ejec = mysqli_query($connect, $query);
     <link rel="stylesheet" href="../styles/admin-user-crud.css">
     <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
     <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
+    <style>
+        /* Búsqueda */
+
+        .search-container { width: 80%;background:linear-gradient(135deg, #0D47A1, #0097b2); padding: 1.5rem; border-radius: 1rem; margin-bottom: 20px; display: flex; gap: 1rem; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.4);}
+        .search-box { flex: 1; position: relative; }
+        .search-box input { width: 90%; padding: .8rem .9rem .8rem 3rem;border-style: none; border-radius: 1.5rem; font-size: 0.85em;box-shadow:  1px 1px hsl(0deg 0% 0% / 0.075),
+      0 2px 2px hsl(0deg 0% 0% / 0.075),
+      0 4px 4px hsl(0deg 0% 0% / 0.075),
+      0 8px 8px hsl(0deg 0% 0% / 0.075),
+      0 16px 16px hsl(0deg 0% 0% / 0.075); transition: background .5s ease;}
+        .search-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999; }
+/* Botones */
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 0.95em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #EF6C00, #ffb000);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0D47A1, #0097b2);
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 
 <body>
@@ -57,9 +92,6 @@ $ejec = mysqli_query($connect, $query);
             ?>)
             </span>
         <ul class="listMother">
-            <li id="liSearch"><input type="text" name="search-profile" id="inputSearchProfile" placeholder="Buscar Usuario por Correo...">
-                <button id="btnSearch">Consultar</button>
-            </li>
             <li id="liUsers">Consultar Usuarios<i class="fa-solid fa-caret-up"></i></li>
             <ul class="sheetList">
                 <li class="current-page">Usuarios</li>
@@ -134,6 +166,18 @@ $ejec = mysqli_query($connect, $query);
         <h2>Usuarios Registrados</h2>
         <button class="btn_add-new-user">Añadir usuario<i class="fa-solid fa-plus"></i></button>
         </div>
+    <!--BUSQUEDA-->
+         <div class="search-container">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="busqueda" placeholder="Buscar usuario por correo electronico o nombre">
+            </div>
+            <div class="search-box-button">
+                <button class="btn btn-primary" id="btn-search-seller">
+                <i class="fas fa-search"></i>
+            </button>
+            </div>
+        </div>
         <table id="user-table">
             <thead>
                 <tr>
@@ -147,7 +191,7 @@ $ejec = mysqli_query($connect, $query);
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="resultados-tabla-body">
                 <?php while ($row = mysqli_fetch_array($ejec)): ?>
                     <tr>
 

@@ -85,20 +85,88 @@ if (!empty($msg) && isset($messages[$msg])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Productos - Bodega HERMES</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+     <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css"> 
+    <link rel="stylesheet" href="../styles/admin-user-crud.css">
     <style>
         /* Estilos Generales y del Contenedor */
-        body { font-family: sans-serif; background-color: #f4f7f6; }
-        .dashboard-container { max-width: 1400px; margin: 20px auto; padding: 0 20px; }
-        h1 { color: #667eea; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
+        .dashboard-container { width: 100%; margin: 20px auto 20px 15%; padding: 0 20px; display: flex; flex-direction: column; justify-content: center; align-items: center;}
+        h1 {color: #414141ff; padding-bottom: 10px; margin-bottom: 20px; }
 
         /* Estilos de Botones */
-        .btn { padding: 8px 15px; border: none; border-radius: 6px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.3s; font-size: 0.9em; }
-        .btn-primary { background: #4caf50; color: white; } .btn-primary:hover { background: #43a047; }
-        .btn-warning { background: #ff9800; color: white; } .btn-warning:hover { background: #fb8c00; }
-        .btn-danger { background: #f44336; color: white; } .btn-danger:hover { background: #e53935; }
-        .btn-info { background: #2196f3; color: white; } .btn-info:hover { background: #1e88e5; }
-        .btn-secondary { background: #6c757d; color: white; } .btn-secondary:hover { background: #5a6268; }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 0.95em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #EF6C00, #ffb000);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0D47A1, #0097b2);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #461d01;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #138496;
+            transform: translateY(-2px);
+        }
 
         /* Estilos de Alertas */
         .alert { padding: 15px; margin-bottom: 20px; border-radius: 8px; font-weight: bold; }
@@ -107,18 +175,22 @@ if (!empty($msg) && isset($messages[$msg])) {
         .alert.info { background-color: #d1ecf1; color: #0c5460; border-left: 5px solid #2196F3; }
 
         /* Estilos de Tabla */
-        .table-container { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 25px; }
         .data-table { width: 100%; border-collapse: collapse; }
         .data-table th { background: #667eea; color: white; padding: 12px 15px; text-align: left; font-weight: 600; font-size: 0.9em; }
-        .data-table td { padding: 10px 15px; border-bottom: 1px solid #eee; font-size: 0.9em; vertical-align: middle; }
+        .data-table td { padding: 10px 15px; font-size: 0.9em; vertical-align: middle; }
         .data-table img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; }
         .acciones { display: flex; gap: 5px; flex-wrap: wrap; }
         
-        /* Estilos de Búsqueda */
-        .search-container { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
-        .search-container input[type="text"] { 
-            padding: 10px; border: 1px solid #ddd; border-radius: 6px; flex-grow: 1; 
-        }
+        /*Busqueda*/
+
+        .search-container { width: 80%;background:linear-gradient(135deg, #0D47A1, #0097b2); padding: 1.5rem; border-radius: 1rem; margin-bottom: 20px; display: flex; gap: 1rem; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.4);}
+        .search-box { flex: 1; position: relative; }
+        .search-box input { width: 90%; padding: .8rem .9rem .8rem 3rem;border-style: none; border-radius: 1.5rem; font-size: 0.85em;box-shadow:  1px 1px hsl(0deg 0% 0% / 0.075),
+      0 2px 2px hsl(0deg 0% 0% / 0.075),
+      0 4px 4px hsl(0deg 0% 0% / 0.075),
+      0 8px 8px hsl(0deg 0% 0% / 0.075),
+      0 16px 16px hsl(0deg 0% 0% / 0.075); transition: background .5s ease;}
+        .search-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999; }
 
         /* Estilos de Modal */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); }
@@ -127,6 +199,72 @@ if (!empty($msg) && isset($messages[$msg])) {
     </style>
 </head>
 <body>
+     <nav id="navegation">
+        <a href="user-dashboard-admin.php"><i class="fas fa-home" id="iconHome"></i></a>
+        <span>
+            <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO" width="200px">
+        </span>
+        <!--bienvenida personalizada con rol-->
+        <span class="welcome-admin">
+            Bienvenido <?php echo $_SESSION['admin_nombre'] ?? 'Administrador'; ?>
+            (<?php
+                if ($_SESSION['admin_rol'] == 1) echo 'Administrador';
+                elseif ($_SESSION['admin_rol'] == 2) echo 'Colaborador';
+                else echo 'Administrador';
+                ?>)
+        </span>
+        <ul class="listMother">
+            <li id="liUsers">Consultar Usuarios<i class="fa-solid fa-caret-up"></i></li>
+            <ul class="sheetList">
+                <a href="user-dashboard-admin-index.php">
+                    <li>Usuarios</li>
+                </a>
+                <a href="client-dashboard-index.php">
+                    <li>Clientes</li>
+                </a>
+                <a href="seller-dashboard-admin-index.php">
+                    <li>Vendedores</li>
+                </a>
+            </ul>
+            <li id="liProducts">Consultar Productos<i class="fa-solid fa-caret-up"></i></li>
+            <ul class="sheetListProducts">
+                <li class="current-page">Productos</li>
+                <li>Categorias</li>
+                <li>Listado de ventas por vendedor</li>
+            </ul>
+            <li id="liGets">Gestion de pedidos<i class="fa-solid fa-caret-up"></i></li>
+            <ul class="sheetListGets">
+                <a href="orders-admin-index.php">
+                    <li>Pedidos</li>
+                </a>
+                <li>Actualizar estados de pedidos</li>
+            </ul>
+            <li id="liStats">Reportes Generales<i class="fa-solid fa-caret-up"></i></li>
+            <ul class="sheetListStats">
+                <li>Mejores Vendedores</li>
+                <li>Mas Vendidos</li>
+                <li>Trafico de la plataforma</li>
+            </ul>
+            <li id="liAbout">Acerca de<i class="fa-solid fa-caret-up"></i></li>
+            <ul class="sheetListAbout">
+                <li>Politicas de privacidad y uso</li>
+                <li>Terminos para vendedores</li>
+            </ul>
+            <span class="btn-color-mode">
+                <form action="../registros-inicio-sesion/logout.php" method="POST">
+                    <button type="submit" class="btn-close-session">Cerrar sesión</button>
+                </form>
+                <div class="btn-color-mode-choices">
+                    <span class="background-modes"></span>
+                    <button class="light-mode">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-sun" viewBox="0 0 16 16">
+                            <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
+                        </svg>
+                    </button>
+                    <button class="dark-mode"><i class="fa-solid fa-moon"></i></button>
+                </div>
+            </span>
+    </nav>
     <div class="dashboard-container">
         <h1>Gestión de Productos 📦</h1>
         
@@ -135,14 +273,19 @@ if (!empty($msg) && isset($messages[$msg])) {
                 <?php echo $alert_text; ?>
             </div>
         <?php endif; ?>
-        
-        <form action="admin_productos_index.php" method="GET" class="search-container">
-            <input type="text" name="busqueda" placeholder="Buscar por producto, descripción o categoría..." value="<?php echo htmlspecialchars($busqueda); ?>">
-            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Buscar</button>
-            <?php if (!empty($busqueda)): ?>
+
+         <form action="admin_productos_index.php" method="GET" class="search-container">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                 <input type="text" name="busqueda" placeholder="Buscar por producto, descripción o categoría..." value="<?php echo htmlspecialchars($busqueda); ?>">
+            </div>
+            <button class="btn btn-primary" id="btn-search-seller">
+                <i class="fas fa-search"></i>
+            </button>
+             <?php if (!empty($busqueda)): ?>
                 <a href="admin_productos_index.php" class="btn btn-secondary">Mostrar Todos</a>
             <?php endif; ?>
-        </form>
+            </form>
 
         <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
             <a href="admin_productos_form.php" class="btn btn-primary">
@@ -159,7 +302,7 @@ if (!empty($msg) && isset($messages[$msg])) {
             </div>
             
             <?php if ($total_productos > 0): ?>
-            <div style="overflow-x: auto;">
+            <div style="overflow-x: auto; padding:2rem 02rem;">
                 <table class="data-table">
                    <thead>
                         <tr>
@@ -283,5 +426,6 @@ if (!empty($msg) && isset($messages[$msg])) {
             }
         }
     </script>
+    <script src="../scripts/admin.js"></script>
 </body>
 </html>
