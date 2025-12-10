@@ -71,38 +71,270 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
     <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
     <link rel="stylesheet" href="../styles/admin-user-crud.css">
     <style>
-        .dashboard-container { max-width: 1400px; margin: 0 auto; }
+        .dashboard-container { width: 100%; margin-left: 15%; padding: 5rem; display: flex; flex-direction: column; align-items: center;}
         
         /* Header */
-        .header { background: rgba(255, 255, 255, 0.95); padding: 25px 30px; border-radius: 20px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .header h1 { color: #333; font-size: 1.8em; margin-bottom: 5px; }
-        .user-role { background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; }
-        
+        .header {
+            width: 70%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px 30px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2),
+            inset 0 0 15px rgba(91, 91, 91, 0.1);
+            transition: all .5s ease;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .user-role {
+            background: linear-gradient(135deg, #0D47A1, #0097b2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
         /* Botones */
-        .btn { padding: 10px 20px; border: none; border-radius: 25px; font-size: 0.95em; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
-        .btn-primary { background: #667eea; color: white; } .btn-primary:hover { background: #5a6fd8; transform: translateY(-2px); }
-        .btn-danger { background: #dc3545; color: white; } .btn-danger:hover { background: #c82333; transform: translateY(-2px); }
-        .btn-secondary { background: #6c757d; color: white; } .btn-secondary:hover { background: #5a6268; transform: translateY(-2px); }
-        .btn-success { background: #28a745; color: white; } .btn-success:hover { background: #218838; transform: translateY(-2px); }
-        .btn-warning { background: #ffc107; color: #212529; } .btn-warning:hover { background: #e0a800; transform: translateY(-2px); }
-        .btn-info { background: #17a2b8; color: white; } .btn-info:hover { background: #138496; transform: translateY(-2px); }
-        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 0.95em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #EF6C00, #ffb000);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0D47A1, #0097b2);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #461d01;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #138496;
+            transform: translateY(-2px);
+        }
+
         /* Estadísticas */
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .stat-card { background: rgba(255, 255, 255, 0.95); padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
-        .stat-icon { font-size: 1.8em; color: #667eea; margin-bottom: 10px; }
-        .stat-number { font-size: 2em; font-weight: bold; color: #333; margin: 5px 0; }
-        .stat-label { color: #666; font-size: 0.9em; }
+        .stats {
+            width: 80%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: .9rem;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow:  1px 1px hsl(0deg 0% 0% / 0.075),
+      0 2px 2px hsl(0deg 0% 0% / 0.075),
+      0 4px 4px hsl(0deg 0% 0% / 0.075),
+      0 8px 8px hsl(0deg 0% 0% / 0.075),
+      0 16px 16px hsl(0deg 0% 0% / 0.075),
+      inset 0 0 15px rgba(91, 91, 91, 0.1);
+            transition: all .5s ease;
+        }
+
+        .stat-icon {
+            font-size: 1.8em;
+            color: #461d01;
+            margin-bottom: 10px;
+            transition: all .5s ease;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+            margin: 5px 0;
+            transition: all .5s ease;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            transition: all .5s ease;
+        }
         
-        /* Tabla */
-        .table-container { background: rgba(255, 255, 255, 0.95); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 25px; }
-        .table-header { padding: 20px; border-bottom: 2px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        .table-header h3 { color: #333; font-size: 1.2em; }
-        .data-table { width: 100%; border-collapse: collapse; }
-        .data-table th { background: #667eea; color: white; padding: 12px 15px; text-align: left; font-weight: 600; font-size: 0.9em; }
-        .data-table td { padding: 12px 15px; border-bottom: 1px solid #eee; font-size: 0.9em; }
-        .data-table tr:hover { background: #f8f9fa; }
+         /* Tabla */
+        .table-container {
+            background: transparent;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            max-height: 800px;
+            overflow-y: auto;
+        }
+
+        /*Scrollbar para el contenedor de la tabla*/
+        .table-container::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 10px;
+            margin: 50px 0;
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: gray;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: gray;
+        }
+
+        .table-container::-webkit-scrollbar-button {
+            display: none;
+        }
+
+        .table-header {
+            padding: 20px 20px 20px 100px;
+            display: flex;
+            justify-content: left;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .table-header h3 {
+            color: #333;
+            font-size: 1.2em;
+        }
+
+        .data-table { /*La tabla en cuestion*/
+            width: 90%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            table-layout: fixed;
+        }
+
+        .data-table th {
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        .data-table.data-table.table-dark thead{
+    background:linear-gradient(135deg, #0D47A1, #0097b2);
+
+        }
+
+        .data-table.table-dark th {
+            transition: all 1s ease;
+            
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            ;
+            font-size: 0.9em;
+            overflow-x: auto;
+            /* oculta exceso */
+            /*text-overflow: ellipsis;*/
+            /* puntos suspensivos */
+            white-space: nowrap;
+            /* evita salto de línea */
+        }
+
+.data-table a{text-decoration: none;}
+
+        /*Tabla:scroll*/
+
+        .data-table td::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .data-table td::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 10px;
+            margin: 0 10px;
+        }
+
+        .data-table td::-webkit-scrollbar-thumb {
+            background: gray;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+
+        .data-table td::-webkit-scrollbar-button {
+            display: none;
+        }
         
         /* Badges */
         .badge { padding: 4px 10px; border-radius: 12px; font-size: 0.8em; font-weight: bold; }
@@ -119,9 +351,13 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
         .btn-delete { background: #dc3545; color: white; } .btn-delete:hover { background: #c82333; transform: translateY(-2px); }
         
         /* Búsqueda */
-        .search-container { background: rgba(255, 255, 255, 0.95); padding: 20px; border-radius: 15px; margin-bottom: 20px; display: flex; gap: 15px; align-items: center; }
+        .search-container { width: 80%;background:linear-gradient(135deg, #0D47A1, #0097b2); padding: 1.5rem; border-radius: 1rem; margin-bottom: 20px; display: flex; gap: 1rem; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.4);}
         .search-box { flex: 1; position: relative; }
-        .search-box input { width: 100%; padding: 12px 15px 12px 40px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.95em; }
+        .search-box input { width: 90%; padding: .8rem .9rem .8rem 3rem;border-style: none; border-radius: 1.5rem; font-size: 0.85em;box-shadow:  1px 1px hsl(0deg 0% 0% / 0.075),
+      0 2px 2px hsl(0deg 0% 0% / 0.075),
+      0 4px 4px hsl(0deg 0% 0% / 0.075),
+      0 8px 8px hsl(0deg 0% 0% / 0.075),
+      0 16px 16px hsl(0deg 0% 0% / 0.075); transition: background .5s ease;}
         .search-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999; }
         
         /* Responsive */
@@ -154,9 +390,6 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             ?>)
             </span>
         <ul class="listMother">
-            <li id="liSearch"><input type="text" name="search-profile" id="inputSearchProfile" placeholder="Buscar Usuario por Correo...">
-                <button id="btnSearch">Consultar</button>
-            </li>
             <li id="liUsers">Consultar Usuarios<i class="fa-solid fa-caret-up"></i></li>
             <ul class="sheetList">
                 <a href="user-dashboard-admin-index.php"><li>Usuarios</li></a>
@@ -165,14 +398,17 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             </ul>
             <li id="liProducts">Consultar Productos<i class="fa-solid fa-caret-up"></i></li>
             <ul class="sheetListProducts">
-                <li>Productos</li>
+                <a href="products-dashboard-admin-index.php">
+                    <li>Productos</li>
+                </a>
                 <li>Categorias</li>
-                <li>Variantes</li>
+                <li>Listado de ventas por vendedor</li>
             </ul>
             <li id="liGets">Gestion de pedidos<i class="fa-solid fa-caret-up"></i></li>
             <ul class="sheetListGets">
-                <li>Listado de ventas por vendedor</li>
-                <li>Disputas</li>
+                <a href="orders-admin-index.php">
+                    <li>Pedidos</li>
+                </a>
                 <li>Actualizar estados de pedidos</li>
             </ul>
             <li id="liStats">Reportes Generales<i class="fa-solid fa-caret-up"></i></li>
@@ -186,20 +422,20 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
                 <li>Politicas de privacidad y uso</li>
                 <li>Terminos para vendedores</li>
             </ul>
-               <span class="btn-color-mode">
+            <span class="btn-color-mode">
                 <form action="../registros-inicio-sesion/logout.php" method="POST">
                     <button type="submit" class="btn-close-session">Cerrar sesión</button>
                 </form>
                 <div class="btn-color-mode-choices">
                     <span class="background-modes"></span>
-                     <button class="light-mode">
+                    <button class="light-mode">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-sun" viewBox="0 0 16 16">
-  <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/>
-</svg>
-</button>
-                <button class="dark-mode"><i class="fa-solid fa-moon"></i></button>
+                            <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
+                        </svg>
+                    </button>
+                    <button class="dark-mode"><i class="fa-solid fa-moon"></i></button>
                 </div>
-                </span>
+            </span>
     </nav>
     <div class="dashboard-container">
         <!-- Header -->
@@ -265,10 +501,11 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
                 <i class="fas fa-search"></i>
                 <input type="text" id="busqueda" placeholder="Buscar vendedor por nombre, empresa o NIT...">
             </div>
-            <button class="btn btn-primary" onclick="buscarVendedores()">
-                <i class="fas fa-search"></i> Buscar
+            <div class="search-box-button">
+                <button class="btn btn-primary" onclick="buscarVendedores()" id="btn-search-seller">
+                <i class="fas fa-search"></i>
             </button>
-            <a href="seller-dashboard-admin-index.php" class="btn btn-secondary">Mostrar Todos</a>
+            </div>
         </div>
 
         <!-- Tabla de Vendedores -->
@@ -281,7 +518,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             </div>
             
             <?php if ($total_vendedores > 0): ?>
-            <div style="overflow-x: auto;">
+            <div style="overflow-x: auto; padding-bottom: 2rem; padding-top:2rem;">
                 <table class="data-table">
                     <thead>
                         <tr>
@@ -418,35 +655,23 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
         </div>
 
         <!-- Advertencia de Eliminación -->
-        <?php if($_SESSION['admin_rol'] == 1): ?>
-        <div class="advertencia">
-            <h4><i class="fas fa-exclamation-triangle"></i> ADVERTENCIA CRÍTICA - ELIMINACIÓN EN CASCADA</h4>
-            <p><strong>La eliminación de un vendedor eliminará PERMANENTEMENTE:</strong></p>
-            <ul style="margin-left: 20px; margin-top: 10px;">
-                <li><strong>TODOS los productos</strong> creados por este vendedor</li>
+        <?php if ($_SESSION['admin_rol'] == 1): ?>
+            <div class="advertencia">
+                <div class="advise-left">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Eliminaciones</h4>
+                    <p><strong>La eliminación de un Venedor eliminará PERMANENTEMENTE:</strong></p>
+                    <ul>
+                        <li><strong>TODOS los productos</strong> creados por este vendedor</li>
                 <li><strong>TODOS los catálogos</strong> asociados al vendedor</li>
                 <li><strong>Relaciones catalogo_producto</strong> correspondientes</li>
                 <li><strong>Información del vendedor</strong> en la tabla vendedor</li>
                 <li><strong>Posiblemente el usuario asociado</strong> (se pedirá confirmación)</li>
-            </ul>
-            <p style="margin-top: 10px;"><strong>Recomendación:</strong> Considere desactivar la cuenta en lugar de eliminar.</p>
-        </div>
+                    </ul>
+                    <p><strong>Recomendación:</strong> Considere desactivar la cuenta en lugar de eliminar.</p>
+                </div>
+                <div class="advise-right"><button id="allow-btn">De acuerdo</button><button id="dont-show-btn">No mostrar nuevamente</button></div>
+            </div>
         <?php endif; ?>
-
-        <!-- Navegación -->
-        <div style="text-align: center; margin-top: 30px;">
-            <a href="../index.php" class="btn btn-primary"> <!--Ruta inexistente, cambiar el nombre de la ruta-->
-                <i class="fas fa-home"></i> Volver al Dashboard
-            </a>
-            <a href="client-dashboard-index.php" class="btn btn-success">
-                <i class="fas fa-users"></i> Gestionar Clientes
-            </a>
-            <?php if($_SESSION['admin_rol'] == 1): ?>
-            <a href="../usuarios/index.php" class="btn btn-info"> <!--Ruta inexistente, utilizar otros nombres-->
-                <i class="fas fa-users-cog"></i> Gestionar Usuarios
-            </a>
-            <?php endif; ?>
-        </div>
     </div>
     <script src="../scripts/admin.js"></script>
     <script>

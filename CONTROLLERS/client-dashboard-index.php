@@ -61,18 +61,18 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             justify-content: center;
             flex-direction: column;
             align-items: center;
-            padding-top: 150px;
+            padding:5rem;
         }
 
         /* Header */
         .header {
             width: 70%;
-            ;
             background: rgba(255, 255, 255, 0.95);
             padding: 25px 30px;
             border-radius: 20px;
             margin-bottom: 25px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all .5s ease;
         }
 
         .header-top {
@@ -186,12 +186,15 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             border-radius: 12px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all .5s ease;
         }
 
         .stat-icon {
             font-size: 1.8em;
             color: #461d01;
             margin-bottom: 10px;
+            transition: all .5s ease;
+
         }
 
         .stat-number {
@@ -210,7 +213,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
         .table-container {
             background: transparent;
             border-radius: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 1.5rem;
             max-height: 800px;
             overflow-y: auto;
         }
@@ -396,37 +399,15 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
         }
 
         /* Búsqueda */
-        .search-container {
-            background: #fff8f1;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            display: flex;
-            gap: 15px;
-            align-items: flex-start;
-            flex-direction: column;
-        }
 
-        .search-box {
-            flex: 1;
-            position: relative;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 12px 15px 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 0.70em;
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-        }
+        .search-container { width: 80%;background:linear-gradient(135deg, #0D47A1, #0097b2); padding: 1.5rem; border-radius: 1rem; margin-bottom: 20px; display: flex; gap: 1rem; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.4);}
+        .search-box { flex: 1; position: relative; }
+        .search-box input { width: 90%; padding: .8rem .9rem .8rem 3rem;border-style: none; border-radius: 1.5rem; font-size: 0.85em;box-shadow:  1px 1px hsl(0deg 0% 0% / 0.075),
+      0 2px 2px hsl(0deg 0% 0% / 0.075),
+      0 4px 4px hsl(0deg 0% 0% / 0.075),
+      0 8px 8px hsl(0deg 0% 0% / 0.075),
+      0 16px 16px hsl(0deg 0% 0% / 0.075); transition: background .5s ease;}
+        .search-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999; }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -534,16 +515,6 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
                 ?>)
         </span>
         <ul class="listMother">
-            <!--Busqueda de clientes-->
-            <div class="search-container">
-                <div class="search-box"> <!--Input o entrada de datos-->
-                    <input type="text" id="busqueda" placeholder="Buscar cliente por nombre, apellido o correo...">
-                </div><!--Aqui termina la caja que contiene el input o entrada de datos-->
-                <button class="btn btn-primary" onclick="buscarClientes()">
-                    <i class="fas fa-search"></i> Consultar
-                </button>
-                <a href="client-dashboard-index.php" class="btn btn-secondary">Mostrar Todos</a>
-            </div>
             <li id="liUsers">Consultar Usuarios<i class="fa-solid fa-caret-up"></i></li>
             <ul class="sheetList">
                 <a href="user-dashboard-admin-index.php">
@@ -567,7 +538,6 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
                 <a href="orders-admin-index.php">
                     <li>Pedidos</li>
                 </a>
-                <li>Disputas</li>
                 <li>Actualizar estados de pedidos</li>
             </ul>
             <li id="liStats">Reportes Generales<i class="fa-solid fa-caret-up"></i></li>
@@ -656,6 +626,19 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             </div>
         </div>
 
+            <!-- Búsqueda -->
+        <div class="search-container">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="busqueda" placeholder="Buscar cliente por nombre o correo...">
+            </div>
+            <div class="search-box-button">
+                <button class="btn btn-primary" onclick="buscarClientes()" id="btn-search-seller">
+                <i class="fas fa-search"></i>
+            </button>
+            </div>
+        </div>
+
         <!-- Tabla de Clientes -->
         <div class="table-container">
             <div class="table-header">
@@ -666,7 +649,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             </div>
 
             <?php if ($total_clientes > 0): ?>
-                <div style="overflow-x: auto; padding-bottom: 50px;">
+                <div style="overflow-x: auto; padding-bottom: 2rem; padding-top: 2rem;">
                     <table class="data-table">
                         <thead>
                             <tr>

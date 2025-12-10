@@ -431,8 +431,12 @@ table {
 
 
 table.table-dark{
-    background-color: #131313ff;
+    background-color: transparent;
     color: #fff8f1;
+    box-shadow:  -5px -5px 10px rgba(255, 255, 255, 0.1),
+                         10px 10px 10px rgba(0, 0, 0, 0.3),
+                         inset -3px -3px 5px rgba(255, 255, 255, 0.1),
+                         inset 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
 table.table-dark thead{
@@ -598,4 +602,84 @@ body.body-its-dark .back-icon:hover{
 
 }
 
-/**/
+/*Estilos al estar en modo oscuro poara cards y header*/
+
+body.body-its-dark .header{
+            background: #2f2f2fff;
+            box-shadow:  -5px -5px 10px rgba(255, 255, 255, 0.1),
+                         10px 10px 10px rgba(0, 0, 0, 0.3),
+                         inset -3px -3px 5px rgba(255, 255, 255, 0.1),
+                         inset 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+body.body-its-dark .header h1 {
+            color: #fff8f1;
+        }
+
+body.body-its-dark .stat-card{
+            background: #2f2f2fff;
+            box-shadow:  -5px -5px 10px rgba(255, 255, 255, 0.1),
+                         10px 10px 10px rgba(0, 0, 0, 0.3),
+                         inset -3px -3px 5px rgba(255, 255, 255, 0.1),
+                         inset 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+body.body-its-dark .stat-icon{
+            color: #fff8f1;
+}
+
+body.body-its-dark .stat-number {
+            color: #fff8f1;
+        }
+
+body.body-its-dark .stat-label {
+            color: #fff8f1;
+        }
+
+.search-container{
+            width: 80%;
+            background:linear-gradient(135deg, #0D47A1, #0097b2);
+            padding: 1.5rem;
+             border-radius: 1rem;
+              margin-bottom: 20px;
+               display: flex;
+                gap: 1rem;
+                 align-items: center;
+                  justify-content: center;
+                   box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+body.body-its-dark .search-box input{
+ background-color: #2f2f2fff;
+}
+
+body.body-its-dark .search-box input::placeholder{
+ color: #fff8f1;
+ font-size: .8rem;
+}
+
+body.body-its-dark .search-box i{
+ color: #fff8f1;
+}
+
+body.body-its-dark #btn-search-seller{
+    background: #2f2f2fff !important;
+ color: #fff8f1;
+}
+
+/*Estilo de BOTON general de busqueda de usuarios, clientes o vendedores*/
+ #btn-search-seller{
+            background: none;
+            background-color: #fff8f1 !important;
+            color: #2f2f2fff;
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            box-shadow:  1px 1px hsl(0deg 0% 0% / 0.075),
+      0 2px 2px hsl(0deg 0% 0% / 0.075),
+      0 4px 4px hsl(0deg 0% 0% / 0.075),
+      0 8px 8px hsl(0deg 0% 0% / 0.075),
+      0 16px 16px hsl(0deg 0% 0% / 0.075);
+            display: flex;
+            justify-content: center;
+        }
