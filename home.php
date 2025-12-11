@@ -240,7 +240,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                         <?php
                         $cloudinary = require __DIR__ . '/shortCuts/cloudinary-config.php';
 
-                        $sql = "SELECT id_producto, nombre, precio, stock, imagen_principal 
+                        $sql = "SELECT id_producto, nombre, precio, stock, imagen_url 
                         FROM producto 
                         WHERE stock > 0
                         ORDER BY RAND() 
@@ -251,7 +251,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                         if ($resultado && $resultado->num_rows > 0):
                             while ($p = $resultado->fetch_assoc()):
                                 $imagen = !empty($p['imagen_principal']) && strpos($p['imagen_principal'], 'cloudinary.com') !== false
-                                    ? $cloudinary->image($p['imagen_principal'])->resize(Resize::fill(280, 280))->quality("auto")->format("auto")->toUrl()
+                                    ? $cloudinary->image($p['imagen_url'])->resize(Resize::fill(280, 280))->quality("auto")->format("auto")->toUrl()
                                     : "https://via.placeholder.com/280x280/f0f0f0/999?text=Sin+Foto";
 
                                 $nombre_corto = strlen($p['nombre']) > 35 ? substr($p['nombre'], 0, 32) . '...' : $p['nombre'];

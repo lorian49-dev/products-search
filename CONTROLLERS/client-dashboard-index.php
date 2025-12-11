@@ -594,7 +594,7 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             <p style="color: #666; font-size: 0.95em;">
                 Administra los clientes registrados en el sistema.
                 <span class="badge badge-success">
-                    <i class="fas fa-link"></i> Relación: cliente.id_cliente = usuario.id_usuario
+                    <i class="fas fa-link"></i> 
                 </span>
             </p>
         </div>
