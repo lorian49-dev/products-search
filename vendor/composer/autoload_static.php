@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit2b2371e62020873bfb28857c28cf7fef
+class ComposerStaticInitd751713988987e9331980363e24189ce
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -179,7 +179,9 @@ class ComposerStaticInit2b2371e62020873bfb28857c28cf7fef
         'Cloudinary\\JsonUtils' => __DIR__ . '/..' . '/cloudinary/transformation-builder-sdk/src/Utils/JsonUtils.php',
         'Cloudinary\\Log\\Logger' => __DIR__ . '/..' . '/cloudinary/cloudinary_php/src/Log/Logger.php',
         'Cloudinary\\Log\\LoggerDecorator' => __DIR__ . '/..' . '/cloudinary/cloudinary_php/src/Log/LoggerDecorator.php',
-        'Cloudinary\\Log\\LoggerDecoratorTrait' => __DIR__ . '/..' . '/cloudinary/cloudinary_php/src/Log/LoggerDecoratorTrait.php',
+        'Cloudinary\\Log\\LoggerDecoratorTrait' => __DIR__ . '/..' . '/cloudinary/cloudinary_php/src/Log/LoggerDecorator.php',
+        'Cloudinary\\Log\\LoggerDecoratorV1Trait' => __DIR__ . '/..' . '/cloudinary/cloudinary_php/src/Log/LoggerDecoratorV1Trait.php',
+        'Cloudinary\\Log\\LoggerDecoratorV3Trait' => __DIR__ . '/..' . '/cloudinary/cloudinary_php/src/Log/LoggerDecoratorV3Trait.php',
         'Cloudinary\\Log\\LoggerTrait' => __DIR__ . '/..' . '/cloudinary/cloudinary_php/src/Log/LoggerTrait.php',
         'Cloudinary\\Log\\LoggersList' => __DIR__ . '/..' . '/cloudinary/cloudinary_php/src/Log/LoggersList.php',
         'Cloudinary\\StringUtils' => __DIR__ . '/..' . '/cloudinary/transformation-builder-sdk/src/Utils/StringUtils.php',
@@ -350,8 +352,6 @@ class ComposerStaticInit2b2371e62020873bfb28857c28cf7fef
         'Cloudinary\\Transformation\\Crop' => __DIR__ . '/..' . '/cloudinary/transformation-builder-sdk/src/Transformation/Resize/Crop/Crop.php',
         'Cloudinary\\Transformation\\CropMode' => __DIR__ . '/..' . '/cloudinary/transformation-builder-sdk/src/Transformation/Resize/Parameter/CropMode.php',
         'Cloudinary\\Transformation\\CropModeTrait' => __DIR__ . '/..' . '/cloudinary/transformation-builder-sdk/src/Transformation/Resize/Parameter/CropModeTrait.php',
-        'Cloudinary\\Transformation\\CropPad' => __DIR__ . '/..' . '/cloudinary/transformation-builder-sdk/src/Transformation/Resize/Crop/CropPad.php',
-        'Cloudinary\\Transformation\\CropPadTrait' => __DIR__ . '/..' . '/cloudinary/transformation-builder-sdk/src/Transformation/Resize/Crop/CropPadTrait.php',
         'Cloudinary\\Transformation\\CropTrait' => __DIR__ . '/..' . '/cloudinary/transformation-builder-sdk/src/Transformation/Resize/Crop/CropTrait.php',
         'Cloudinary\\Transformation\\CustomFunction' => __DIR__ . '/..' . '/cloudinary/transformation-builder-sdk/src/Transformation/CustomFunction/CustomFunction.php',
         'Cloudinary\\Transformation\\CustomFunctionQualifierTrait' => __DIR__ . '/..' . '/cloudinary/transformation-builder-sdk/src/Transformation/CustomFunction/CustomFunctionQualifierTrait.php',
@@ -716,9 +716,9 @@ class ComposerStaticInit2b2371e62020873bfb28857c28cf7fef
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit2b2371e62020873bfb28857c28cf7fef::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit2b2371e62020873bfb28857c28cf7fef::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit2b2371e62020873bfb28857c28cf7fef::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitd751713988987e9331980363e24189ce::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitd751713988987e9331980363e24189ce::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitd751713988987e9331980363e24189ce::$classMap;
 
         }, null, ClassLoader::class);
     }
