@@ -61,31 +61,74 @@ if (!$result_categorias) {
     <title><?php echo $titulo_pagina; ?> - HERMES</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
         /* Estilos Básicos */
-        body { font-family: Arial, sans-serif; background-color: #f4f7f6; color: #333; }
-        .container { max-width: 800px; margin: 30px auto; padding: 30px; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        h1 { color: #667eea; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; }
-        input[type="text"], input[type="number"], textarea, input[type="file"] {
+        body { font-family: 'roboto condensed', sans-serif; background-color: #2f2f2fff; color: #fff8f1; }
+        .container { max-width: 800px; margin: 30px auto; padding: 3rem; background: #2f2f2fff; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); box-shadow:  -5px -5px 10px rgba(255, 255, 255, 0.1),
+                         10px 10px 10px rgba(0, 0, 0, 0.3),
+                         inset -3px -3px 5px rgba(255, 255, 255, 0.1),
+                         inset 5px 5px 10px rgba(0, 0, 0, 0.3);}
+        h1 {border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; text-align: center;}
+        form{
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            box-sizing: border-box;
         }
-        textarea { resize: vertical; min-height: 100px; }
-        .button-group { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; }
+        .form-group { margin-bottom: 20px; width: 100%; display: flex; flex-direction: column; align-items: flex-start; text-align: center;}
+        label { display: block; margin-bottom: 8px; font-weight: bold;text-align: center; }
+        input[type="text"], input[type="number"], textarea, input[type="file"] {
+            width: 80%;
+            padding: 12px;
+            border-style: none;
+            border-radius: 2rem;
+            box-sizing: border-box;
+            background-color: #fff8f1;
+        }
+        textarea { resize: vertical; min-height: 5rem; }
+        .button-group { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; width: 80%;}
         .btn { padding: 12px 25px; border: none; border-radius: 25px; font-size: 1em; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
-        .btn-success { background: #28a745; color: white; } .btn-success:hover { background: #218838; }
-        .btn-secondary { background: #6c757d; color: white; } .btn-secondary:hover { background: #5a6268; }
+        .btn-success { padding: .5rem 1rem;
+    border-style: none;
+    border-radius: 1.3rem;
+     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    cursor: pointer;
+    font-family: 'roboto condensed', sans-serif;
+    background:linear-gradient(135deg, #0D47A1, #0097b2);
+    transition: all .5s ease;
+    color: #fff8f1;
+    cursor: pointer;}
+    .btn-success:hover{
+         background:linear-gradient(135deg, #0D47A1, #0097b2);
+    transform: translateY(-2px);
+     box-shadow:  -5px -5px 10px rgba(255, 255, 255, 0.1),
+                         10px 10px 10px rgba(0, 0, 0, 0.3),
+                         inset -3px -3px 5px rgba(255, 255, 255, 0.1),
+                         inset 5px 5px 10px rgba(0, 0, 0, 0.3);
+                         background: transparent;
+    }
+        .btn-secondary { padding: .5rem 1rem;
+    border-style: none;
+    border-radius: 1.3rem;
+     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    cursor: pointer;
+    font-family: 'roboto condensed', sans-serif;
+    background:linear-gradient(135deg, #0D47A1, #0097b2);
+    transition: all .5s ease;
+    color: #fff8f1;
+    cursor: pointer; } 
+        .btn-secondary:hover { background:linear-gradient(135deg, #0D47A1, #0097b2);
+    transform: translateY(-2px);
+     box-shadow:  -5px -5px 10px rgba(255, 255, 255, 0.1),
+                         10px 10px 10px rgba(0, 0, 0, 0.3),
+                         inset -3px -3px 5px rgba(255, 255, 255, 0.1),
+                         inset 5px 5px 10px rgba(0, 0, 0, 0.3);
+                         background: transparent; }
         .image-preview { margin-top: 10px; border: 1px solid #ddd; padding: 10px; border-radius: 6px; text-align: center;}
         .image-preview img { max-width: 150px; height: auto; display: block; margin: 0 auto; border-radius: 4px; }
         .category-box {
             border: 1px solid #ddd;
             padding: 15px;
             border-radius: 8px;
-            max-height: 200px;
+            width: 80%;
             overflow-y: auto;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -97,13 +140,17 @@ if (!$result_categorias) {
             align-items: center;
             gap: 5px;
         }
+
+        #precio, #stock{
+            width: 100%;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1><?php echo $titulo_pagina; ?></h1>
         
-        <form action="producto_logic.php?action=<?php echo $es_edicion ? 'update' : 'create'; ?>" 
+        <form action="producto-logic.php?action=<?php echo $es_edicion ? 'update' : 'create'; ?>" 
               method="POST" 
               enctype="multipart/form-data">
 
