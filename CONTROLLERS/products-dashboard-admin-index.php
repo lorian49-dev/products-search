@@ -452,7 +452,7 @@ if (!empty($msg) && isset($messages[$msg])) {
                             <td><?php echo htmlspecialchars($cat['nombre_categoria']); ?></td>
                             <td>
                                 <?php if ($_SESSION['admin_rol'] == 1): ?>
-                                <a href="producto_logic.php?action=delete_cat&id_categoria=<?php echo $cat['id_categoria']; ?>"
+                                <a href="producto-logic.php?action=delete_cat&id_categoria=<?php echo $cat['id_categoria']; ?>"
                                    onclick="return confirm('¿Seguro que desea eliminar la categoría <?php echo htmlspecialchars($cat['nombre_categoria']); ?>? \n\nADVERTENCIA: Esto fallará si la categoría está en uso por algún producto.');"
                                    class="btn btn-danger" style="padding: 5px 10px;">
                                     <i class="fas fa-trash"></i>
@@ -471,7 +471,7 @@ if (!empty($msg) && isset($messages[$msg])) {
         function confirmDelete(id, nombre) {
             if (confirm(`ADVERTENCIA: ¿Está seguro de ELIMINAR PERMANENTEMENTE el producto "${nombre}" (#${id})?\n\nSi el producto tiene pedidos asociados, la eliminación fallará.`)) {
                 // Redirige al script de lógica para el borrado.
-                window.location.href = 'producto_logic.php?action=delete&id=' + id;
+                window.location.href = 'producto-logic.php?action=delete&id=' + id;
             }
         }
     </script>

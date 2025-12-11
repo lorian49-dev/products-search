@@ -250,7 +250,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
 
                         if ($resultado && $resultado->num_rows > 0):
                             while ($p = $resultado->fetch_assoc()):
-                                $imagen = !empty($p['imagen_principal']) && strpos($p['imagen_principal'], 'cloudinary.com') !== false
+                                $imagen = !empty($p['imagen_url']) && strpos($p['imagen_url'], 'cloudinary.com') !== false
                                     ? $cloudinary->image($p['imagen_url'])->resize(Resize::fill(280, 280))->quality("auto")->format("auto")->toUrl()
                                     : "https://via.placeholder.com/280x280/f0f0f0/999?text=Sin+Foto";
 

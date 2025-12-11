@@ -109,6 +109,11 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
+            box-shadow:  1px 1px hsl(0deg 0% 0% / 0.075),
+      0 2px 2px hsl(0deg 0% 0% / 0.075),
+      0 4px 4px hsl(0deg 0% 0% / 0.075),
+      0 8px 8px hsl(0deg 0% 0% / 0.075),
+      0 16px 16px hsl(0deg 0% 0% / 0.075);
         }
 
         .btn-primary {
@@ -132,12 +137,12 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
         }
 
         .btn-secondary {
-            background: #461d01;
+             background: linear-gradient(135deg, #EF6C00, #ffb000);
             color: white;
         }
 
         .btn-secondary:hover {
-            background: #5a6268;
+             background: linear-gradient(135deg, #0D47A1, #0097b2);
             transform: translateY(-2px);
         }
 
@@ -586,9 +591,9 @@ $estadisticas = mysqli_fetch_assoc($result_estadisticas);
                     <a href="user-dashboard-admin.php" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Dashboard
                     </a>
-                    <a href="client-dashboard-index-watch.php?action=estadisticas" class="btn btn-primary">
-                        <i class="fas fa-chart-pie"></i> Estadísticas
-                    </a>
+                   <!-- <a href="client-dashboard-index-watch.php?action=estadisticas" class="btn btn-primary">
+                        <i class="fas fa-chart-pie"></i> Estadísticas 
+                    </a> -->
                 </div>
             </div>
             <p style="color: #666; font-size: 0.95em;">
