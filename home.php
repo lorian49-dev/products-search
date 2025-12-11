@@ -238,7 +238,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
 
                     <div class="offerts-carousel" id="offertsCarousel">
                         <?php
-                        $cloudinary = require_once "shortCuts/cloudinary-config.php";
+                        $cloudinary = require __DIR__ . '/shortCuts/cloudinary-config.php';
 
                         $sql = "SELECT id_producto, nombre, precio, stock, imagen_principal 
                         FROM producto 
@@ -299,6 +299,37 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
 
     </footer>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const carousel = document.getElementById('offertsCarousel');
+            if (!carousel) return;
+
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+
+            const cardWidth = 270; // Ancho aproximado de cada tarjeta + gap (ajústalo si cambias el diseño)
+
+            // Mover a la derecha
+            nextBtn.addEventListener('click', () => {
+                carousel.scrollBy({
+                    left: cardWidth,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Mover a la izquierda
+            prevBtn.addEventListener('click', () => {
+                carousel.scrollBy({
+                    left: -cardWidth,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Opcional: ocultar flechas cuando llegas al final
+            carousel.addEventListener('scroll', () => {
+                prevBtn.style.display = carousel.scrollLeft <= 0 ? 'none' : 'block';
+                nextBtn.style.display = (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) ? 'none' : 'block';
+            });
+        });
         //Script de peticion al servidor para busqueda en el buscador
 
         const input_request = document.getElementById('input-search-product');
@@ -349,37 +380,6 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                 box_result.style.display = 'none'
             }
         })
-        document.addEventListener('DOMContentLoaded', function() {
-            const carousel = document.getElementById('offertsCarousel');
-            if (!carousel) return;
-
-            const prevBtn = document.querySelector('.prev-btn');
-            const nextBtn = document.querySelector('.next-btn');
-
-            const cardWidth = 270; // Ancho aproximado de cada tarjeta + gap (ajústalo si cambias el diseño)
-
-            // Mover a la derecha
-            nextBtn.addEventListener('click', () => {
-                carousel.scrollBy({
-                    left: cardWidth,
-                    behavior: 'smooth'
-                });
-            });
-
-            // Mover a la izquierda
-            prevBtn.addEventListener('click', () => {
-                carousel.scrollBy({
-                    left: -cardWidth,
-                    behavior: 'smooth'
-                });
-            });
-
-            // Opcional: ocultar flechas cuando llegas al final
-            carousel.addEventListener('scroll', () => {
-                prevBtn.style.display = carousel.scrollLeft <= 0 ? 'none' : 'block';
-                nextBtn.style.display = (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) ? 'none' : 'block';
-            });
-        });
     </script>
     <script src="scripts/home.js"></script>
 </body>
