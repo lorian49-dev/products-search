@@ -93,6 +93,7 @@ if (!empty($msg) && isset($messages[$msg])) {
         /* Estilos Generales y del Contenedor */
         .dashboard-container { width: 100%; margin: 20px auto 20px 15%; padding: 0 20px; display: flex; flex-direction: column; justify-content: center; align-items: center;}
         h1 {color: #414141ff; padding-bottom: 10px; margin-bottom: 20px; }
+        h4{font-weight: 400;}
 
         /* Estilos de Botones */
         .btn {
@@ -158,14 +159,45 @@ if (!empty($msg) && isset($messages[$msg])) {
             transform: translateY(-2px);
         }
 
-        .btn-info {
-            background: #17a2b8;
-            color: white;
+        .btn-info{
+            position: absolute;
+            left: 39rem;
+            font-size: .6rem;
+            width: 2rem;
+            height: 2rem;
+            padding-left: .5rem;
+            padding-top: .6rem;
+            background-color: #461d01;
+            color: #fff8f1;
+            transition: all .5s ease;
+            overflow: hidden;
         }
 
-        .btn-info:hover {
-            background: #138496;
-            transform: translateY(-2px);
+        .btn-info:hover{
+            width: 10rem;
+        }
+
+        .btn-info i{
+            font-size: 1rem !important;
+        }
+
+        .btn-info .texto{
+            opacity: 0;
+            white-space: nowrap;
+             transition: opacity 0.5s ease;
+
+        }
+
+        .btn-info:hover .texto{
+            opacity: 1;
+        }
+
+        body.body-its-dark .btn-info{
+            background-color: transparent;
+            box-shadow:  -5px -5px 10px rgba(255, 255, 255, 0.1),
+                         10px 10px 10px rgba(0, 0, 0, 0.3),
+                         inset -3px -3px 5px rgba(255, 255, 255, 0.1),
+                         inset 5px 5px 10px rgba(0, 0, 0, 0.3);
         }
 
         /* Estilos de Alertas */
@@ -176,7 +208,7 @@ if (!empty($msg) && isset($messages[$msg])) {
 
         /* Estilos de Tabla */
         .data-table { width: 100%; border-collapse: collapse; }
-        .data-table th { background: #667eea; color: white; padding: 12px 15px; text-align: left; font-weight: 600; font-size: 0.9em; }
+        .data-table th { padding: 12px 15px; text-align: left; font-weight: 400; font-size: 0.9em; text-align: center;}
         .data-table td { padding: 10px 15px; font-size: 0.9em; vertical-align: middle; }
         .data-table img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; }
         .acciones { display: flex; gap: 5px; flex-wrap: wrap; }
@@ -193,9 +225,15 @@ if (!empty($msg) && isset($messages[$msg])) {
         .search-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999; }
 
         /* Estilos de Modal */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); }
-        .modal-content { background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 600px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); backdrop-filter: blur(5px);}
+        .modal-content { background-color: #fefefe; margin: 15% auto; padding: 20px; width: 80%; max-width: 600px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
         .close { float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        #nombre_categoria{width: 90%; padding: .8rem .9rem .8rem 3rem;border-style: none; border-radius: 2rem; font-size: 0.85em;box-shadow:  1px 1px hsl(0deg 0% 0% / 0.075),
+      0 2px 2px hsl(0deg 0% 0% / 0.075),
+      0 4px 4px hsl(0deg 0% 0% / 0.075),
+      0 8px 8px hsl(0deg 0% 0% / 0.075),
+      0 16px 16px hsl(0deg 0% 0% / 0.075); transition: background .5s ease; background: #2f2f2fff; color: #fff8f1; margin-top: 1rem;}
+      #nombre_categoria::placeholder{font-size: .7rem; color: #fff8f1;}
     </style>
 </head>
 <body>
@@ -272,9 +310,18 @@ if (!empty($msg) && isset($messages[$msg])) {
             <div class="alert <?php echo $alert_class; ?>">
                 <?php echo $alert_text; ?>
             </div>
+             <script>
+        // Limpia la URL después de 50 ms
+        setTimeout(() => {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('msg');
+            url.searchParams.delete('error');
+            window.history.replaceState({}, document.title, url.pathname);
+        }, 50);
+    </script>
         <?php endif; ?>
 
-         <form action="admin_productos_index.php" method="GET" class="search-container">
+         <form action="products-dashboard-admin-index.php" method="GET" class="search-container">
             <div class="search-box">
                 <i class="fas fa-search"></i>
                  <input type="text" name="busqueda" placeholder="Buscar por producto, descripción o categoría..." value="<?php echo htmlspecialchars($busqueda); ?>">
@@ -283,16 +330,18 @@ if (!empty($msg) && isset($messages[$msg])) {
                 <i class="fas fa-search"></i>
             </button>
              <?php if (!empty($busqueda)): ?>
-                <a href="admin_productos_index.php" class="btn btn-secondary">Mostrar Todos</a>
+                <a href="products-dashboard-admin-index.php" class="btn btn-secondary">Mostrar Todos</a>
             <?php endif; ?>
             </form>
 
-        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-            <a href="admin_productos_form.php" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Crear Producto (Bodega)
+        <div style="width:80%;display: flex; justify-content: center; margin-bottom: 20px; gap:1rem; position:relative;">
+            <a href="admin-product-form.php">
+                <button class="btn_add-new-user">
+                    Crear Producto (Bodega)<i class="fas fa-plus"></i>
+                </button> 
             </a>
             <button type="button" class="btn btn-info" onclick="document.getElementById('CategoryManagementModal').style.display='block'">
-                <i class="fas fa-tags"></i> Gestionar Categorías
+                <i class="fas fa-tags"></i><span class="texto">Gestionar Categorías</span> 
             </button>
         </div>
 
@@ -375,25 +424,25 @@ if (!empty($msg) && isset($messages[$msg])) {
                 <p style="padding: 20px; text-align: center; color: #999;">No se encontraron productos registrados (o no coinciden con la búsqueda).</p>
             <?php endif; ?>
         </div>
-
+            <!--Manejo de la ventana modal para gestionar categorias-->
     <div id="CategoryManagementModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="document.getElementById('CategoryManagementModal').style.display='none'">&times;</span>
             <h2>Gestión de Categorías</h2>
             
-            <form action="producto_logic.php?action=create_cat" method="POST" style="margin-bottom: 20px;">
-                <label for="nombre_categoria" style="font-weight: bold;">Nueva Categoría:</label>
+            <form action="producto-logic.php?action=create_cat" method="POST" style="margin-bottom: 20px;">
+                <label for="nombre_categoria">Nueva Categoría:</label>
                 <div style="display: flex; gap: 10px;">
-                    <input type="text" id="nombre_categoria" name="nombre_categoria" required placeholder="Ej: Electrónica, Ropa, etc." style="padding: 8px; flex-grow: 1; border-radius: 4px; border: 1px solid #ddd;">
-                    <button type="submit" class="btn btn-primary" style="padding: 8px 15px;"><i class="fas fa-plus"></i> Crear</button>
+                    <input type="text" id="nombre_categoria" name="nombre_categoria" required placeholder="Ej: Electrónica, Ropa, etc." autocomplete="off" style=" flex-grow: 1;">
+                    <button type="submit" class="btn_add-new-user"><i class="fas fa-plus"></i> Crear</button>
                 </div>
             </form>
 
-            <h4 style="margin-top: 20px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Categorías Existentes</h4>
-            <div style="max-height: 200px; overflow-y: auto;">
+            <h4 style="margin-top: 20px;">Categorías Existentes</h4>
+            <div style="max-height: 200px; overflow-y: auto; padding:2rem;">
                 <table class="data-table" style="width: 100%;">
                     <thead>
-                        <tr><th style="background: #ccc; color: #333;">ID</th><th style="background: #ccc; color: #333;">Nombre</th><th style="background: #ccc; color: #333;">Acciones</th></tr>
+                        <tr><th>ID</th><th>Nombre</th><th>Acciones</th></tr>
                     </thead>
                     <tbody>
                         <?php mysqli_data_seek($result_cats, 0); ?>
@@ -417,7 +466,7 @@ if (!empty($msg) && isset($messages[$msg])) {
             </div>
         </div>
     </div>
-    
+                                <!--Fin del manejo de las categorias-->
     <script>
         function confirmDelete(id, nombre) {
             if (confirm(`ADVERTENCIA: ¿Está seguro de ELIMINAR PERMANENTEMENTE el producto "${nombre}" (#${id})?\n\nSi el producto tiene pedidos asociados, la eliminación fallará.`)) {
@@ -429,3 +478,4 @@ if (!empty($msg) && isset($messages[$msg])) {
     <script src="../scripts/admin.js"></script>
 </body>
 </html>
+

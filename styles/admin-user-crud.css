@@ -396,7 +396,7 @@ input:focus {
     gap: 1rem;
 }
 
-.view-header .btn_add-new-user{ /*Estilos del boton para adicionar usuarios*/
+    .btn_add-new-user{ /*Estilos del boton para adicionar usuarios*/
     padding: .5rem 1rem;
     border-style: none;
     border-radius: 1.3rem;
@@ -408,9 +408,14 @@ input:focus {
     color: #fff8f1;
     cursor: pointer;
 }
-.btn_add-new-user:hover{
+body.body-its-dark .btn_add-new-user:hover{
     background:linear-gradient(135deg, #0D47A1, #0097b2);
-    box-shadow: #0097b2 1px 1px 10px 1px;
+    transform: translateY(-2px);
+     box-shadow:  -5px -5px 10px rgba(255, 255, 255, 0.1),
+                         10px 10px 10px rgba(0, 0, 0, 0.3),
+                         inset -3px -3px 5px rgba(255, 255, 255, 0.1),
+                         inset 5px 5px 10px rgba(0, 0, 0, 0.3);
+                         background: transparent;
 }
 
 .btn_add-new-user i{
@@ -690,3 +695,19 @@ body.body-its-dark #btn-search-seller{
             display: flex;
             justify-content: center;
         }
+
+/*Estilos para el contenedor de una modal con la clase especificada al estar en modo oscuro*/
+
+body.body-its-dark  .modal-content{
+    background-color:#2f2f2fff;
+    color: #fff8f1;
+}
+
+body.body-its-dark  .modal-content input{
+    background-color:#fff8f1 !important;
+    color: #2f2f2fff !important;
+}
+
+body.body-its-dark  .modal-content input::placeholder{
+    color: #2f2f2fff !important;
+}
