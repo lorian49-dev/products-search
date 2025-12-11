@@ -40,7 +40,7 @@ if ($es_edicion) {
             $categorias_asignadas[] = $row['id_categoria'];
         }
     } else {
-        header('Location: admin_productos_index.php?error=ProductoNoEncontrado');
+        header('Location: products-dashboard-admin-index.php?error=ProductoNoEncontrado');
         exit();
     }
 }
@@ -175,7 +175,7 @@ if (!$result_categorias) {
             </div>
 
             <div class="button-group">
-                <a href="admin_productos_index.php" class="btn btn-secondary">
+                <a href="products-dashboard-admin-index.php" class="btn btn-secondary">
                     <i class="fas fa-arrow-left"></i> Volver al Listado
                 </a>
                 <button type="submit" class="btn btn-success">
@@ -187,3 +187,4 @@ if (!$result_categorias) {
 </body>
 </html>
 <?php ob_end_flush(); ?>
+

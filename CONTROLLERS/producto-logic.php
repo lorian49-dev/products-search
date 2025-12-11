@@ -39,7 +39,7 @@ function handleImageUpload($file_array, $current_image_path, $connect) {
     if (!is_dir($upload_dir)) {
         // Intentar crear la carpeta con permisos recursivos
         if (!mkdir($upload_dir, 0777, true)) {
-            header("Location: admin_productos_index.php?error=ErrorSubida");
+            header("Location: products-dashboard-admin-index.php?error=ErrorSubida");
             exit();
         }
     }
@@ -47,7 +47,7 @@ function handleImageUpload($file_array, $current_image_path, $connect) {
     if (isset($file_array) && $file_array['error'] == 0) {
         // Validación de tamaño
         if ($file_array['size'] > $max_size) {
-            header("Location: admin_productos_index.php?error=ErrorSubida");
+            header("Location: products-dashboard-admin-index.php?error=ErrorSubida");
             exit();
         }
 
@@ -59,7 +59,7 @@ function handleImageUpload($file_array, $current_image_path, $connect) {
         // Validación de tipo (extensión)
         $allowed_types = ["jpg", "png", "jpeg", "gif"];
         if (!in_array($imageFileType, $allowed_types)) {
-            header("Location: admin_productos_index.php?error=TipoInvalido");
+            header("Location: products-dashboard-admin-index.php?error=TipoInvalido");
             exit();
         }
         
@@ -72,7 +72,7 @@ function handleImageUpload($file_array, $current_image_path, $connect) {
             return $target_file; // Retorna la nueva ruta
         } else {
             // Error en move_uploaded_file
-            header("Location: admin_productos_index.php?error=ErrorSubida");
+            header("Location: products-dashboard-admin-index.php?error=ErrorSubida");
             exit();
         }
     }
@@ -126,14 +126,14 @@ switch ($action) {
                 $msg = 'producto_creado';
             } else {
                 // Redirecciona en caso de fallo de BD
-                header("Location: admin_productos_index.php?error=ErrorBD");
+                header("Location: products-dashboard-admin-index.php?error=ErrorBD");
                 exit();
             }
             
         } else { // update
             // --- ACTUALIZAR PRODUCTO (UPDATE) ---
             if (empty($id_producto)) {
-                 header("Location: admin_productos_index.php?error=ProductoIDVacio");
+                 header("Location: products-dashboard-admin-index.php?error=ProductoIDVacio");
                  exit();
             }
             
@@ -147,7 +147,7 @@ switch ($action) {
                       WHERE id_producto = '$id_producto'";
             
             if (!mysqli_query($connect, $query)) {
-                header("Location: admin_productos_index.php?error=ErrorBD");
+                header("Location: products-dashboard-admin-index.php?error=ErrorBD");
                 exit();
             }
             $msg = 'producto_actualizado';
@@ -172,20 +172,20 @@ switch ($action) {
             }
         }
         
-        header("Location: admin_productos_index.php?msg=$msg");
+        header("Location: products-dashboard-admin-index.php?msg=$msg");
         exit();
 
     case 'delete':
         // --- ELIMINAR PRODUCTO (DELETE) ---
         if ($_SESSION['admin_rol'] != 1) { // Solo Admin General puede eliminar
-            header("Location: admin_productos_index.php?error=NoPermisos");
+            header("Location: products-dashboard-admin-index.php?error=NoPermisos");
             exit();
         }
         
         $id_producto = mysqli_real_escape_string($connect, $_GET['id'] ?? null);
         
         if (empty($id_producto)) {
-            header("Location: admin_productos_index.php");
+            header("Location: products-dashboard-admin-index.php");
             exit();
         }
         
@@ -216,12 +216,12 @@ switch ($action) {
                 unlink($image_to_delete);
             }
 
-            header("Location: admin_productos_index.php?msg=producto_eliminado");
+            header("Location: products-dashboard-admin-index.php?msg=producto_eliminado");
             exit();
             
         } catch (Exception $e) {
             mysqli_rollback($connect);
-            header("Location: admin_productos_index.php?error=error_fk");
+            header("Location: products-dashboard-admin-index.php?error=error_fk");
             exit();
         }
 
@@ -236,9 +236,9 @@ switch ($action) {
         if (!empty($nombre_categoria)) {
             $query = "INSERT INTO categoria (nombre_categoria) VALUES ('$nombre_categoria')";
             if (mysqli_query($connect, $query)) {
-                header("Location: admin_productos_index.php?msg=categoria_creada");
+                header("Location: products-dashboard-admin-index.php?msg=categoria_creada");
             } else {
-                header("Location: admin_productos_index.php?error=ErrorBD");
+                header("Location: products-dashboard-admin-index.php?error=ErrorBD");
             }
         }
         exit();
@@ -246,7 +246,7 @@ switch ($action) {
     case 'delete_cat':
         // --- ELIMINAR CATEGORÍA ---
         if ($_SESSION['admin_rol'] != 1) { 
-            header("Location: admin_productos_index.php?error=NoPermisos");
+            header("Location: products-dashboard-admin-index.php?error=NoPermisos");
             exit();
         }
 
@@ -260,18 +260,19 @@ switch ($action) {
         $query_del_cat = "DELETE FROM categoria WHERE id_categoria = '$id_categoria'";
         
         if (mysqli_query($connect, $query_del_cat)) {
-            header("Location: admin_productos_index.php?msg=categoria_eliminada");
+            header("Location: products-dashboard-admin-index.php?msg=categoria_eliminada");
         } else {
             // Si falla, es posible que haya otra FK (menos común, pero posible)
-            header("Location: admin_productos_index.php?error=categoria_en_uso");
+            header("Location: products-dashboard-admin-index.php?error=categoria_en_uso");
         }
         exit();
         
     default:
         // Si se accede sin una acción válida, redirigir al listado
-        header("Location: admin_productos_index.php");
+        header("Location: products-dashboard-admin-index.php");
         exit();
 }
 
 ob_end_flush();
 ?>
+
