@@ -69,7 +69,7 @@ if (!$result_categorias) {
                          10px 10px 10px rgba(0, 0, 0, 0.3),
                          inset -3px -3px 5px rgba(255, 255, 255, 0.1),
                          inset 5px 5px 10px rgba(0, 0, 0, 0.3);}
-        h1 {border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; text-align: center;}
+        h1 {border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; text-align: center; font-weight: 300;}
         form{
             width: 100%;
         }
