@@ -2,3 +2,7 @@
 /vendor.bak/
 /composer.lock.bak
 /.env
+/vendor/
+/vendor.bak/
+/composer.lock.bak
+/.env
