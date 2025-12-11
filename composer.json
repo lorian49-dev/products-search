@@ -1,6 +1,8 @@
 {
     "require": {
         "php": "^8.0",
-        "cloudinary/cloudinary_php": "^2.11.0"
+        "cloudinary/cloudinary_php": "^2.11.0",
+        "monolog/monolog": "^2.0",
+        "symfony/deprecation-contracts": "^2.0"
     }
 }
