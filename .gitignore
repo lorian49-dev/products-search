@@ -1,0 +1,4 @@
+/vendor/
+/vendor.bak/
+/composer.lock.bak
+/.env
