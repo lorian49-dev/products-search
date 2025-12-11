@@ -1,2 +1,10 @@
-# Auto detect text files and perform LF normalization
 * text=auto
+*.php text
+*.json text
+*.md text
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.zip binary
+/vendor/** text eol=lf
