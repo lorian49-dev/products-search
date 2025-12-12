@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-12-2025 a las 18:17:53
+-- Tiempo de generación: 12-12-2025 a las 01:21:01
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -44,7 +44,7 @@ CREATE TABLE `administradores` (
 --
 
 INSERT INTO `administradores` (`id_admin`, `username`, `password`, `email`, `id_rol`, `nombre_completo`, `activo`, `ultimo_acceso`, `fecha_creacion`) VALUES
-(1, 'admin_general', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin@hermes.com', 1, 'Administrador General', 1, NULL, '2025-11-28 05:39:28'),
+(1, 'admin_general', '$2y$10$BkiBc1f.PLPLYbo/pi3rbu65od3i/4UUtZAG1eR0Ci69YK3xzio.y', 'admin@hermes.com', 1, 'Administrador General', 1, '2025-12-12 00:02:09', '2025-11-28 05:39:28'),
 (2, 'admin_colaborador', '$2y$10$gj/0iBf8jrU2M.mLt7GbKuYqCD7eDjbGULCCplVK2X46l901kI/8K', 'colab@hermes.com', 2, 'Administrador Colaborador', 1, '2025-12-02 15:36:39', '2025-11-28 05:39:28'),
 (4, 'admin_general1', '$2y$10$U80eW8ZldM9Cvujb55Kl8OdHaXefmzHaozKxn2ppzpjKUiUqWm8Ki', 'admin@hermes.com', 1, NULL, 1, '2025-12-08 22:53:12', '2025-11-28 06:49:44'),
 (5, 'Andres_David', '$2y$10$XP/d7usLEKm440y21xLp..nHpA/FXBhYq3rSGQW2t5pRW7x7h6Z0O', 'andr@gmail.com', 2, 'Andres David Carvajal Gutierrez', 1, '2025-12-02 15:28:25', '2025-11-28 18:16:14'),
@@ -166,19 +166,20 @@ INSERT INTO `categoria` (`id_categoria`, `nombre_categoria`) VALUES
 CREATE TABLE `cliente` (
   `id_cliente` int(11) NOT NULL,
   `wishlist_privada` tinyint(1) DEFAULT 1,
-  `informacion_adicional` text DEFAULT NULL
+  `informacion_adicional` text DEFAULT NULL,
+  `direccion` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `cliente`
 --
 
-INSERT INTO `cliente` (`id_cliente`, `wishlist_privada`, `informacion_adicional`) VALUES
-(28, 1, 'Cliente preferencial. Le gustan los productos electrónicos.'),
-(29, 0, 'Compra frecuente de ropa y accesorios.'),
-(30, 1, 'Prefiere envío express. Tiene alergia a frutos secos.'),
-(31, 0, 'Solicita factura electrónica siempre.'),
-(32, 1, 'Cliente empresarial. Contacto: departamento.compras@empresa.com');
+INSERT INTO `cliente` (`id_cliente`, `wishlist_privada`, `informacion_adicional`, `direccion`) VALUES
+(28, 1, 'Cliente preferencial. Le gustan los productos electrónicos.', ''),
+(29, 0, 'Compra frecuente de ropa y accesorios.', ''),
+(30, 1, 'Prefiere envío express. Tiene alergia a frutos secos.', ''),
+(31, 0, 'Solicita factura electrónica siempre.', ''),
+(32, 1, 'Cliente empresarial. Contacto: departamento.compras@empresa.com', '');
 
 -- --------------------------------------------------------
 
@@ -286,7 +287,8 @@ INSERT INTO `producto` (`id_producto`, `nombre`, `descripcion`, `imagen_url`, `p
 (101, 'Smartphone Samsung TEST', '6.5\", 128GB, 8GB RAM, Cámara Quad', NULL, 1800000.00, 15, NULL, NULL, '2025-12-01 21:53:40'),
 (102, 'Audífonos Sony TEST', 'Audífonos inalámbricos con cancelación de ruido', NULL, 350000.00, 25, NULL, NULL, '2025-12-01 21:53:40'),
 (103, 'Smartwatch Apple TEST', 'Series 7, GPS, 45mm, Resistente al agua', NULL, 2200000.00, 8, NULL, NULL, '2025-12-01 21:53:40'),
-(104, 'Tablet Amazon TEST', '10\", 32GB, HD, Alexa integrado', NULL, 800000.00, 20, NULL, NULL, '2025-12-01 21:53:40');
+(104, 'Tablet Amazon TEST', '10\", 32GB, HD, Alexa integrado', NULL, 800000.00, 20, NULL, NULL, '2025-12-01 21:53:40'),
+(105, 'teclado', 'teclado para huevadas', '../uploads/productos/1765497873_693b5c1182194.jpg', 20000.00, 50, 'logitech', NULL, '2025-12-12 00:04:33');
 
 -- --------------------------------------------------------
 
@@ -298,6 +300,13 @@ CREATE TABLE `producto_categoria` (
   `id_producto` int(11) NOT NULL,
   `id_categoria` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `producto_categoria`
+--
+
+INSERT INTO `producto_categoria` (`id_producto`, `id_categoria`) VALUES
+(105, 9);
 
 -- --------------------------------------------------------
 
@@ -592,7 +601,7 @@ ALTER TABLE `pedido`
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`

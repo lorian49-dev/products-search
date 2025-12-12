@@ -61,89 +61,176 @@ if (!$result_categorias) {
     <title><?php echo $titulo_pagina; ?> - HERMES</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
-        /* Estilos Básicos */
-        body { font-family: 'roboto condensed', sans-serif; background-color: #2f2f2fff; color: #fff8f1; }
-        .container { max-width: 800px; margin: 30px auto; padding: 3rem; background: #2f2f2fff; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); box-shadow:  -5px -5px 10px rgba(255, 255, 255, 0.1),
-                         10px 10px 10px rgba(0, 0, 0, 0.3),
-                         inset -3px -3px 5px rgba(255, 255, 255, 0.1),
-                         inset 5px 5px 10px rgba(0, 0, 0, 0.3);}
-        h1 {border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; text-align: center; font-weight: 300;}
-        form{
-            width: 100%;
-        }
-        .form-group { margin-bottom: 20px; width: 100%; display: flex; flex-direction: column; align-items: flex-start; text-align: center;}
-        label { display: block; margin-bottom: 8px; font-weight: bold;text-align: center; }
-        input[type="text"], input[type="number"], textarea, input[type="file"] {
-            width: 80%;
-            padding: 12px;
-            border-style: none;
-            border-radius: 2rem;
-            box-sizing: border-box;
-            background-color: #fff8f1;
-        }
-        textarea { resize: vertical; min-height: 5rem; }
-        .button-group { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; width: 80%;}
-        .btn { padding: 12px 25px; border: none; border-radius: 25px; font-size: 1em; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
-        .btn-success { padding: .5rem 1rem;
-    border-style: none;
-    border-radius: 1.3rem;
-     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    cursor: pointer;
-    font-family: 'roboto condensed', sans-serif;
-    background:linear-gradient(135deg, #0D47A1, #0097b2);
-    transition: all .5s ease;
-    color: #fff8f1;
-    cursor: pointer;}
-    .btn-success:hover{
-         background:linear-gradient(135deg, #0D47A1, #0097b2);
-    transform: translateY(-2px);
-     box-shadow:  -5px -5px 10px rgba(255, 255, 255, 0.1),
-                         10px 10px 10px rgba(0, 0, 0, 0.3),
-                         inset -3px -3px 5px rgba(255, 255, 255, 0.1),
-                         inset 5px 5px 10px rgba(0, 0, 0, 0.3);
-                         background: transparent;
-    }
-        .btn-secondary { padding: .5rem 1rem;
-    border-style: none;
-    border-radius: 1.3rem;
-     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    cursor: pointer;
-    font-family: 'roboto condensed', sans-serif;
-    background:linear-gradient(135deg, #0D47A1, #0097b2);
-    transition: all .5s ease;
-    color: #fff8f1;
-    cursor: pointer; } 
-        .btn-secondary:hover { background:linear-gradient(135deg, #0D47A1, #0097b2);
-    transform: translateY(-2px);
-     box-shadow:  -5px -5px 10px rgba(255, 255, 255, 0.1),
-                         10px 10px 10px rgba(0, 0, 0, 0.3),
-                         inset -3px -3px 5px rgba(255, 255, 255, 0.1),
-                         inset 5px 5px 10px rgba(0, 0, 0, 0.3);
-                         background: transparent; }
-        .image-preview { margin-top: 10px; border: 1px solid #ddd; padding: 10px; border-radius: 6px; text-align: center;}
-        .image-preview img { max-width: 150px; height: auto; display: block; margin: 0 auto; border-radius: 4px; }
-        .category-box {
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 8px;
-            width: 80%;
-            overflow-y: auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 10px;
-        }
-        .category-box label {
-            font-weight: normal;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+/* ============================
+   Importación de Fuentes
+================================ */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
 
-        #precio, #stock{
-            width: 100%;
-        }
+/* ============================
+   Estilos Globales
+================================ */
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+    background-color: #2f2f2fff;
+    color: #fff8f1;
+}
+
+.container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 3rem;
+    background: #2f2f2fff;
+    border-radius: 1rem;
+    box-shadow:
+        -5px -5px 10px rgba(255, 255, 255, 0.1),
+        10px 10px 10px rgba(0, 0, 0, 0.3),
+        inset -3px -3px 5px rgba(255, 255, 255, 0.1),
+        inset 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 300;
+}
+
+form {
+    width: 100%;
+}
+
+/* ============================
+   Formularios
+================================ */
+.form-group {
+    margin-bottom: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    text-align: center;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+input[type="file"] {
+    width: 80%;
+    padding: 12px;
+    border-style: none;
+    border-radius: 2rem;
+    box-sizing: border-box;
+    background-color: #fff8f1;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 5rem;
+}
+
+#precio,
+#stock {
+    width: 100%;
+}
+
+/* ============================
+   Botones
+================================ */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    width: 80%;
+}
+
+.btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+/* ---- Botón Principal ---- */
+.btn-success,
+.btn-secondary {
+    padding: .5rem 1rem;
+    border-style: none;
+    border-radius: 1.3rem;
+    background: linear-gradient(135deg, #0D47A1, #0097b2);
+    color: #fff8f1;
+    font-family: 'Roboto Condensed', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transition: all .5s ease;
+}
+
+.btn-success:hover,
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    background: transparent;
+    box-shadow:
+        -5px -5px 10px rgba(255, 255, 255, 0.1),
+        10px 10px 10px rgba(0, 0, 0, 0.3),
+        inset -3px -3px 5px rgba(255, 255, 255, 0.1),
+        inset 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================
+   Previsualización de Imágenes
+================================ */
+.image-preview {
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.image-preview img {
+    max-width: 150px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 4px;
+}
+
+/* ============================
+   Caja de Categorías
+================================ */
+.category-box {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    width: 80%;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.category-box label {
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
     </style>
 </head>
 <body>
