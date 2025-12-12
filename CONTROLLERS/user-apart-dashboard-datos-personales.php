@@ -22,7 +22,7 @@ $usuario = mysqli_fetch_assoc($result);
 // Aquí asumimos que en `cliente` tienes un campo `direccion`
 $sqlDirecciones = "SELECT direccion FROM cliente WHERE id_cliente= $usuario_id";
 $resultDirecciones = mysqli_query($connect, $sqlDirecciones);
-
+    
 $direcciones = [];
 if ($resultDirecciones && mysqli_num_rows($resultDirecciones) > 0) {
     while ($row = mysqli_fetch_assoc($resultDirecciones)) {
