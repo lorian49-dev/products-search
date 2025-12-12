@@ -60,16 +60,25 @@ if (!$result_categorias) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $titulo_pagina; ?> - HERMES</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <style>
+        *{
+            padding:0;
+            margin:0;
+            box-sizing:border-box;
+        }
 /* ============================
    Importación de Fuentes
 ================================ */
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
 
 /* ============================
    Estilos Globales
 ================================ */
+html{
+    font-size: 1vw;
+}
+
 body {
     font-family: 'Roboto Condensed', sans-serif;
     background-color: #2f2f2fff;
@@ -77,11 +86,11 @@ body {
 }
 
 .container {
-    max-width: 800px;
+    width: 50%;
     margin: 30px auto;
     padding: 3rem;
     background: #2f2f2fff;
-    border-radius: 1rem;
+    border-radius: 2rem;
     box-shadow:
         -5px -5px 10px rgba(255, 255, 255, 0.1),
         10px 10px 10px rgba(0, 0, 0, 0.3),
@@ -89,48 +98,105 @@ body {
         inset 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
+aside{
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    box-shadow:
+        -5px -5px 10px rgba(255, 255, 255, 0.1),
+        10px 10px 10px rgba(0, 0, 0, 0.3),
+        inset -3px -3px 5px rgba(255, 255, 255, 0.1),
+        inset 5px 5px 10px rgba(0, 0, 0, 0.3);
+        border-radius:2rem;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        padding-top:1rem;
+        gap:1rem;
+}
+
+
 h1 {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: normal;
     border-bottom: 2px solid #eee;
     padding-bottom: 10px;
     margin-bottom: 20px;
     text-align: center;
-    font-weight: 300;
 }
 
 form {
     width: 100%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:repeat(3, 1fr);
+    gap:1rem;
+    height :90vh;
 }
 
 /* ============================
    Formularios
 ================================ */
-.form-group {
-    margin-bottom: 20px;
+.main-form{
+    background:linear-gradient(135deg, #0D47A1, #0097b2);
+    padding:2rem;
+    border-radius:1rem;
+    width: 100;
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    box-shadow:1px 1px hsl(0deg 0% 0% / 0.075),
+      0 2px 2px hsl(0deg 0% 0% / 0.075),
+      0 4px 4px hsl(0deg 0% 0% / 0.075),
+      0 8px 8px hsl(0deg 0% 0% / 0.075),
+      0 16px 16px hsl(0deg 0% 0% / 0.075);
+    overflow:hidden;
+}
+
+.main-form input[type="text"], textarea{
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: center;
+    padding: .5rem 1rem;
+    border-radius:1.5rem;
+    border-style: none;
+    margin: 1rem 0;
+    box-shadow:1px 1px hsl(0deg 0% 0% / 0.075),
+      0 2px 2px hsl(0deg 0% 0% / 0.075),
+      0 4px 4px hsl(0deg 0% 0% / 0.075),
+      0 8px 8px hsl(0deg 0% 0% / 0.075),
+      0 16px 16px hsl(0deg 0% 0% / 0.075);
+      background-color:#2f2f2fff;
+      color:#fff8f1;
+     font-family: "Roboto Condensed", sans-serif;
+}
+
+input:focus{
+    outline:none;
+}
+
+.main-image label{
+ font-size:.8rem;
+ margin-bottom:1rem;
+}
+
+#imagen{
+    width: 100%;
+    background-color:#2f2f2fff;
+    padding:1rem;
+    border-radius:1rem;
+    overflow:hidden;
+    box-shadow:1px 1px hsl(0deg 0% 0% / 0.075),
+      0 2px 2px hsl(0deg 0% 0% / 0.075),
+      0 4px 4px hsl(0deg 0% 0% / 0.075),
+      0 8px 8px hsl(0deg 0% 0% / 0.075),
+      0 16px 16px hsl(0deg 0% 0% / 0.075);
 }
 
 label {
     display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
     text-align: center;
+     font-family: "Roboto Condensed", sans-serif;
 }
 
-input[type="text"],
-input[type="number"],
-textarea,
-input[type="file"] {
-    width: 80%;
-    padding: 12px;
-    border-style: none;
-    border-radius: 2rem;
-    box-sizing: border-box;
-    background-color: #fff8f1;
-}
+
 
 textarea {
     resize: vertical;
@@ -139,7 +205,11 @@ textarea {
 
 #precio,
 #stock {
-    width: 100%;
+    width: 50%;
+    padding:.5rem;
+    border-radius:2rem;
+    border-style:none;
+    background-color:#fff8f1;
 }
 
 /* ============================
@@ -147,10 +217,12 @@ textarea {
 ================================ */
 .button-group {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     margin-top: 2rem;
-    width: 80%;
+    width: 100%;
+    grid-column: 1 / 3;
+    grid-row: 3 / 4;
 }
 
 .btn {
@@ -213,22 +285,70 @@ textarea {
 /* ============================
    Caja de Categorías
 ================================ */
-.category-box {
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 8px;
-    width: 80%;
-    overflow-y: auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
+.category-box-parent{
+  grid-column: 2 / 3;
+    grid-row: 2 / 3;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:2rem 0 0 2rem;
 }
 
+.category-box {
+  box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.1),
+              10px 10px 10px rgba(0, 0, 0, 0.3),
+              inset -3px -3px 5px rgba(255, 255, 255, 0.1),
+              inset 5px 5px 10px rgba(0, 0, 0, 0.3);
+  padding:1rem;
+  border-radius: 1rem;
+  width: 90%;
+  max-height: 15rem;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+
+.category-box::-webkit-scrollbar {
+    width: 8px; /* Un poco más de ancho para que sea más fácil de usar */
+  }
+
+  /* Fondo de la barra de desplazamiento (la pista) */
+.category-box::-webkit-scrollbar-track {
+    background: transparent; /* Fondo transparente */
+    border-radius: 10px;
+    /* El margen superior e inferior creará el espacio que buscabas */
+    margin: 50px 0; 
+  }
+  
+  /* El "pulgar" o la parte móvil de la barra de desplazamiento */
+.category-box::-webkit-scrollbar-thumb {
+    background: #fff8f1; /* Color del pulgar */
+    border-radius: 10px;
+    border: 2px solid transparent; /* Crea un padding visual alrededor del pulgar */
+    background-clip: content-box;
+  }
+  
+  /* Estilos para cuando el mouse está sobre la barra */
+.category-box::-webkit-scrollbar-thumb:hover {
+    background-color: #ffb000; /* Un color ligeramente más claro al pasar el mouse */
+  }
+  
+  /* Ocultamos las flechas (esto generalmente no es necesario, pero lo mantenemos por si acaso) */
+.category-box::-webkit-scrollbar-button {
+    display: none;
+  }
+
 .category-box label {
-    font-weight: normal;
+    font-weight: 100;
     display: flex;
+    justify-content:flex-start;
+    text-align:left;
     align-items: center;
     gap: 5px;
+    font-size:.7rem;
+    margin-bottom:.5rem;
 }
 
     </style>
@@ -242,25 +362,16 @@ textarea {
               enctype="multipart/form-data">
 
             <?php if ($es_edicion): ?>
-                <input type="hidden" name="id_producto" value="<?php echo htmlspecialchars($id_producto); ?>">
+                <input type="hidden" name="id_producto" value="<?php echo htmlspecialchars($id_producto); ?>" autocomplete="off">
             <?php endif; ?>
+<main class="main-form">
 
-            <div class="form-group">
-                <label for="nombre">Nombre del Producto *</label>
-                <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($producto['nombre'] ?? ''); ?>" required>
-            </div>
+                <label for="nombre">Nombre del Producto <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($producto['nombre'] ?? ''); ?>" required autocomplete="off"></label>
+                <label for="origen">Marca/Fabricante <input type="text" id="origen" name="origen" value="<?php echo htmlspecialchars($producto['origen'] ?? ''); ?>" autocomplete="off"></label>
 
-            <div class="form-group">
-                <label for="origen">Marca/Fabricante</label>
-                <input type="text" id="origen" name="origen" value="<?php echo htmlspecialchars($producto['origen'] ?? ''); ?>">
-            </div>
-
-            <div class="form-group">
                 <label for="descripcion">Descripción</label>
                 <textarea id="descripcion" name="descripcion"><?php echo htmlspecialchars($producto['descripcion'] ?? ''); ?></textarea>
-            </div>
-
-            <div class="form-group">
+<section class="main-image">
                 <label for="imagen">Imagen del Producto (JPG, PNG, GIF - Max 2MB)</label>
                 <input type="file" id="imagen" name="imagen" accept="image/*" class="form-control">
                 
@@ -280,20 +391,17 @@ textarea {
                         <input type="hidden" name="imagen_actual" value="">
                     </div>
                 <?php endif; ?>
-            </div>
-
-            <div class="form-group" style="display: flex; gap: 20px;">
-                <div style="flex: 1;">
+</section>
+</main>
+<aside>
                     <label for="precio">Precio *</label>
                     <input type="number" id="precio" name="precio" step="0.01" min="0" value="<?php echo htmlspecialchars($producto['precio'] ?? '0.00'); ?>" required>
-                </div>
-                <div style="flex: 1;">
+
+ 
                     <label for="stock">Stock *</label>
                     <input type="number" id="stock" name="stock" min="0" value="<?php echo htmlspecialchars($producto['stock'] ?? '0'); ?>" required>
-                </div>
-            </div>
-            
-            <div class="form-group">
+</aside>
+<section class="category-box-parent">
                 <label>Categorías (Seleccione una o varias)</label>
                 <div class="category-box">
                     <?php while ($cat = mysqli_fetch_assoc($result_categorias)): ?>
@@ -306,8 +414,7 @@ textarea {
                         </label>
                     <?php endwhile; ?>
                 </div>
-            </div>
-
+</section>
             <div class="button-group">
                 <a href="products-dashboard-admin-index.php" class="btn btn-secondary">
                     <i class="fas fa-arrow-left"></i> Volver al Listado
@@ -317,7 +424,9 @@ textarea {
                 </button>
             </div>
         </form>
-    </div>
+        </div>
+
+</div>  
 </body>
 </html>
 <?php ob_end_flush(); ?>
