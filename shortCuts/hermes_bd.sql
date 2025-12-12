@@ -57,7 +57,7 @@ INSERT INTO `administradores` (`id_admin`, `username`, `password`, `email`, `id_
 --
 
 CREATE TABLE `carrito` (
-  `id_carrito` int(11) NOT NULL AUTO_INCREMENT,
+  `id_carrito` int(11) NOT NULL,
   `id_cliente` int(11) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `total` decimal(12,2) NOT NULL DEFAULT 0.00
@@ -81,7 +81,7 @@ INSERT INTO `carrito` (`id_carrito`, `id_cliente`, `fecha_creacion`, `total`) VA
 --
 
 CREATE TABLE `carrito_producto` (
-  `id_carrito` int(11) NOT NULL AUTO_INCREMENT,
+  `id_carrito` int(11) NOT NULL,
   `id_producto` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -106,7 +106,7 @@ INSERT INTO `carrito_producto` (`id_carrito`, `id_producto`, `cantidad`) VALUES
 --
 
 CREATE TABLE `catalogo` (
-  `id_catalogo` int(11) NOT NULL AUTO_INCREMENT,
+  `id_catalogo` int(11) NOT NULL,
   `id_vendedor` int(11) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_actualizacion` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
@@ -131,7 +131,7 @@ CREATE TABLE `catalogo_producto` (
 --
 
 CREATE TABLE `categoria` (
-  `id_categoria` int(11) NOT NULL AUTO_INCREMENT,
+  `id_categoria` int(11) NOT NULL,
   `nombre_categoria` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -164,7 +164,7 @@ INSERT INTO `categoria` (`id_categoria`, `nombre_categoria`) VALUES
 --
 
 CREATE TABLE `cliente` (
-  `id_cliente` int(11) NOT NULL AUTO_INCREMENT,
+  `id_cliente` int(11) NOT NULL,
   `wishlist_privada` tinyint(1) DEFAULT 1,
   `informacion_adicional` text DEFAULT NULL,
   `direccion` varchar(50) NOT NULL
@@ -188,7 +188,7 @@ INSERT INTO `cliente` (`id_cliente`, `wishlist_privada`, `informacion_adicional`
 --
 
 CREATE TABLE `detalle_pedido` (
-  `id_detalle` int(11) NOT NULL AUTO_INCREMENT,
+  `id_detalle` int(11) NOT NULL,
   `id_pedido` int(11) NOT NULL,
   `id_producto` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL DEFAULT 1,
@@ -203,7 +203,7 @@ CREATE TABLE `detalle_pedido` (
 --
 
 CREATE TABLE `direccion_envio` (
-  `id_direccion` int(11) NOT NULL AUTO_INCREMENT,
+  `id_direccion` int(11) NOT NULL,
   `id_cliente` int(11) NOT NULL,
   `alias` varchar(80) DEFAULT NULL,
   `direccion` varchar(255) NOT NULL,
@@ -228,7 +228,7 @@ INSERT INTO `direccion_envio` (`id_direccion`, `id_cliente`, `alias`, `direccion
 --
 
 CREATE TABLE `pasarela_pago` (
-  `id_pasarela` int(11) NOT NULL AUTO_INCREMENT,
+  `id_pasarela` int(11) NOT NULL ,
   `id_carrito` int(11) NOT NULL,
   `metodo_pago` varchar(100) NOT NULL,
   `estado_pago` enum('Pendiente','Completado','Fallido') DEFAULT 'Pendiente',
@@ -242,7 +242,7 @@ CREATE TABLE `pasarela_pago` (
 --
 
 CREATE TABLE `pedido` (
-  `id_pedido` int(11) NOT NULL AUTO_INCREMENT,
+  `id_pedido` int(11) NOT NULL,
   `id_usuario` int(11) DEFAULT NULL,
   `id_cliente` int(11) DEFAULT NULL,
   `fecha_pedido` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -266,7 +266,7 @@ INSERT INTO `pedido` (`id_pedido`, `id_usuario`, `id_cliente`, `fecha_pedido`, `
 --
 
 CREATE TABLE `producto` (
-  `id_producto` int(11) NOT NULL AUTO_INCREMENT,
+  `id_producto` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `descripcion` varchar(500) DEFAULT NULL,
   `imagen_url` varchar(255) DEFAULT NULL,
@@ -315,7 +315,7 @@ INSERT INTO `producto_categoria` (`id_producto`, `id_categoria`) VALUES
 --
 
 CREATE TABLE `rol` (
-  `id_rol` int(11) NOT NULL AUTO_INCREMENT,
+  `id_rol` int(11) NOT NULL,
   `nombre_rol` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -336,7 +336,7 @@ INSERT INTO `rol` (`id_rol`, `nombre_rol`) VALUES
 --
 
 CREATE TABLE `usuario` (
-  `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
+  `id_usuario` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `apellido` varchar(50) NOT NULL,
   `correo` varchar(100) NOT NULL,
@@ -388,7 +388,7 @@ CREATE TABLE `usuario_rol` (
 --
 
 CREATE TABLE `vendedor` (
-  `id_vendedor` int(11) NOT NULL AUTO_INCREMENT,
+  `id_vendedor` int(11) NOT NULL,
   `nombre_empresa` varchar(150) DEFAULT NULL,
   `nit` varchar(50) DEFAULT NULL,
   `telefono_contacto` varchar(20) DEFAULT NULL,
