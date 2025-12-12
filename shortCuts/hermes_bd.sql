@@ -228,7 +228,7 @@ INSERT INTO `direccion_envio` (`id_direccion`, `id_cliente`, `alias`, `direccion
 --
 
 CREATE TABLE `pasarela_pago` (
-  `id_pasarela` int(11) NOT NULL,
+  `id_pasarela` int(11) NOT NULL ,
   `id_carrito` int(11) NOT NULL,
   `metodo_pago` varchar(100) NOT NULL,
   `estado_pago` enum('Pendiente','Completado','Fallido') DEFAULT 'Pendiente',
