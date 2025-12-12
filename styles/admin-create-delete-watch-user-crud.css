@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
+
 :root{
 
     /*Colores primarios*/
@@ -26,9 +29,6 @@
                          inset 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
-
 *{
     padding: 0;
     margin: 0;
@@ -47,6 +47,23 @@ body {
     font-weight: 300;
     transition: all 1s ease;
     background-color: var(--pastel-blanco);
+    opacity: 0;
+    }
+
+    body.active{
+    opacity: 1;
+}
+
+body.body-its-dark{
+  background-color: var(--fondo-negro);
+}
+
+    .dashboard-container{
+      width: 80%;
+      display: grid;
+      grid-template-rows: auto;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
     }
 
 /* Header */
@@ -56,6 +73,14 @@ body {
   border-radius: 20px;
   margin-bottom: 25px;
   box-shadow: var(--main-shadow);
+  grid-column: span 2;
+  grid-row: 1 / 2;
+}
+
+body.body-its-dark .header{
+  background-color: transparent;
+  box-shadow: var(--dark-z-shadow);
+  color: var(--pastel-blanco);
 }
 
 .header-top {
@@ -63,6 +88,11 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+  margin-bottom: .7rem;
+}
+
+.header-bot{
+  font-size: .9rem;
 }
 
 .header h1 {
@@ -70,6 +100,11 @@ body {
   font-size: 1.8em;
   margin-bottom: 5px;
 }
+
+body.body-its-dark h1{
+  color:var(--pastel-blanco);
+}
+
 
 .user-role {
   background: var(--fade-blue);
@@ -82,7 +117,7 @@ body {
 
 /* Botones */
 .btn {
-  padding: 10px 20px;
+    padding: .5rem 1rem;
   border: none;
   border-radius: 25px;
   font-size: 0.95em;
@@ -92,6 +127,13 @@ body {
   align-items: center;
   gap: 8px;
   transition: all 0.3s ease;
+    font-size: .8rem;
+  box-shadow: var(--main-shadow);
+}
+
+body.body-its-dark .btn:hover{
+  background: transparent;
+  box-shadow: var(--dark-z-shadow);
 }
 
 .btn-primary {
@@ -115,6 +157,12 @@ body {
   background: var(--chocolate-marron);
   color: white;
 }
+
+
+body.body-its-dark .btn-secondary{
+  background: var(--fade-yellow);
+}
+
 .btn-secondary:hover {
   background: var(--fondo-negro);
   transform: translateY(-2px);
@@ -140,6 +188,8 @@ body {
 
 /* Tarjetas de información */
 .info-grid {
+    grid-column: span 2;
+  grid-row: 3 / 4;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
@@ -147,7 +197,7 @@ body {
 }
 
 .info-card {
-  background: rgba(255, 255, 255, 0.95);
+   background: var(--pastel-blanco);
   padding: 1.2rem;
   border-radius: 1rem;
   box-shadow: var(--main-shadow);
@@ -158,6 +208,7 @@ body {
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: 2px solid #eee;
+  border-bottom: 2px solid var(--chocolate-marron);
 }
 
 .info-row {
@@ -180,6 +231,8 @@ body {
 
 /* Estadísticas */
 .stats-grid {
+   grid-column: span 2;
+  grid-row: 2 / 3;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
@@ -188,10 +241,15 @@ body {
 
 .stat-mini {
   background: var(--chocolate-marron);
-  padding: 15px;
-  border-radius: 10px;
+  padding: .5rem;
+  border-radius: 1rem;
   text-align: center;
   box-shadow: var(--main-shadow);
+}
+
+body.body-its-dark .stat-mini{
+  background-color: transparent;
+  box-shadow: var(--dark-z-shadow);
 }
 
 .stat-mini .number {
@@ -207,13 +265,72 @@ body {
 }
 
 /* Secciones */
+.section-a{
+  grid-column: span 2;
+  grid-row: 4 / 5;
+}
+
+.section-b{
+  grid-column: 1 / 2;
+  grid-row: 5 / 6;
+  overflow-y: auto;
+  max-height: 10rem;
+}
+
+.section-b::-webkit-scrollbar {
+    width: 8px; /* Un poco más de ancho para que sea más fácil de usar */
+  }
+
+  /* Fondo de la barra de desplazamiento (la pista) */
+.section-b::-webkit-scrollbar-track {
+    background: transparent; /* Fondo transparente */
+    border-radius: 10px;
+    /* El margen superior e inferior creará el espacio que buscabas */
+    margin: 50px 0; 
+  }
+  
+  /* El "pulgar" o la parte móvil de la barra de desplazamiento */
+.section-b::-webkit-scrollbar-thumb {
+    background: #fff8f1; /* Color del pulgar */
+    border-radius: 10px;
+    border: 2px solid transparent; /* Crea un padding visual alrededor del pulgar */
+    background-clip: content-box;
+  }
+  
+  /* Estilos para cuando el mouse está sobre la barra */
+.section-b::-webkit-scrollbar-thumb:hover {
+    background-color: #ffb000; /* Un color ligeramente más claro al pasar el mouse */
+  }
+  
+  /* Ocultamos las flechas (esto generalmente no es necesario, pero lo mantenemos por si acaso) */
+.section-b::-webkit-scrollbar-button {
+    display: none;
+  }
+
+.section-c{
+  grid-column: 2 / 3;
+  grid-row: 5 / 6;
+  height: auto;
+}
+
+.section-d{
+  grid-column: span 2;
+  grid-row: 6 / 7;
+}
+
 .section {
-  background: var(--chocolate-marron);
+  background-color: var(--chocolate-marron);
   padding: 25px;
   border-radius: 15px;
   margin-bottom: 25px;
   box-shadow: var(--main-shadow);
 }
+
+body.body-its-dark .section{
+  background: transparent;
+  box-shadow: var(--dark-z-shadow);
+}
+
 
 .section h3 {
   color: var(--pastel-blanco);
@@ -271,9 +388,9 @@ body {
 
 /* Avatar */
 .avatar-large {
-  width: 80px;
-  height: 80px;
-  background: #667eea;
+   width: 4rem;
+  height: 4rem;
+  background: var(--chocolate-marron);
   color: white;
   border-radius: 50%;
   display: flex;
@@ -284,17 +401,6 @@ body {
   margin-right: 20px;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .header-top {
-    flex-direction: column;
-    gap: 15px;
-    text-align: center;
-  }
-  .info-grid {
-    grid-template-columns: 1fr;
-  }
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+body.body-its-dark .avatar-large{
+  background: var(--fade-blue);
 }

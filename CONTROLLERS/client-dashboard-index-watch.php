@@ -116,9 +116,11 @@ $estadisticas['total_gastado'] = mysqli_fetch_assoc($result_total)['total'] ?? 0
                     <?php endif; ?>
                 </div>
             </div>
-            <p style="color: #666; font-size: 0.95em;">
+            <div class="header-bot">
+             <p style="color: #666; font-size: 0.95em;">
                 Información detallada del cliente y estadísticas de actividad
-            </p>
+               </p>
+            </div>
         </div>
 
         <!-- Estadísticas rápidas -->
@@ -234,7 +236,7 @@ $estadisticas['total_gastado'] = mysqli_fetch_assoc($result_total)['total'] ?? 0
 
         <!-- Información Adicional -->
         <?php if(!empty($cliente['informacion_adicional'])): ?>
-        <div class="section">
+        <div class="section section-a">
             <h3><i class="fas fa-info-circle"></i> Información Adicional</h3>
             <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #667eea;">
                 <?php echo nl2br(htmlspecialchars($cliente['informacion_adicional'])); ?>
@@ -244,7 +246,7 @@ $estadisticas['total_gastado'] = mysqli_fetch_assoc($result_total)['total'] ?? 0
 
         <!-- Carritos Activos -->
         <?php if($estadisticas['carritos'] > 0): ?>
-        <div class="section">
+        <div class="section section-b">
             <h3><i class="fas fa-shopping-cart"></i> Carritos Activos (<?php echo $estadisticas['carritos']; ?>)</h3>
             <?php 
                 $query_carritos_detalle = "SELECT c.*, COUNT(cp.id_producto) as productos, SUM(cp.cantidad) as total_items
@@ -335,7 +337,7 @@ $estadisticas['total_gastado'] = mysqli_fetch_assoc($result_total)['total'] ?? 0
         <?php endif; ?>
 
         <!-- Acciones Rápidas -->
-        <div class="section">
+        <div class="section section-c">
             <h3><i class="fas fa-bolt"></i> Acciones Rápidas</h3>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                 <a href="client-dashboard-index-edit.php?id=<?php echo $id_cliente; ?>" class="btn btn-primary">
@@ -360,11 +362,11 @@ $estadisticas['total_gastado'] = mysqli_fetch_assoc($result_total)['total'] ?? 0
         </div>
 
         <!-- Navegación -->
-        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;" class="section-d">
             <a href="client-dashboard-index.php" class="btn btn-primary">
                 <i class="fas fa-arrow-left"></i> Volver a la Lista
             </a>
-            <a href="client-dashboard-index.php" class="btn btn-secondary">
+            <a href="user-dashboard-admin.php" class="btn btn-secondary">
                 <i class="fas fa-home"></i> Dashboard Principal
             </a>
         </div>
@@ -388,5 +390,6 @@ $estadisticas['total_gastado'] = mysqli_fetch_assoc($result_total)['total'] ?? 0
             });
         });
     </script>
+    <script src="../scripts/admin.js"></script>
 </body>
 </html>

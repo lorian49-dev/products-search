@@ -165,12 +165,11 @@ if (!empty($msg) && isset($messages[$msg])) {
             font-size: .6rem;
             width: 2rem;
             height: 2rem;
-            padding-left: .5rem;
-            padding-top: .6rem;
             background-color: #461d01;
             color: #fff8f1;
             transition: all .5s ease;
             overflow: hidden;
+            padding-left: .5rem;
         }
 
         .btn-info:hover{
@@ -179,6 +178,7 @@ if (!empty($msg) && isset($messages[$msg])) {
 
         .btn-info i{
             font-size: 1rem !important;
+            margin-right: .5rem;
         }
 
         .btn-info .texto{
