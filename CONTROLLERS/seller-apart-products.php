@@ -10,9 +10,7 @@ if (!isset($_SESSION['usuario_id'])) {
 $idUsuario = $_SESSION['usuario_id'];
 
 // Verificar si es vendedor
-$sqlVendedor = "SELECT v.*, u.nombre, u.apellido FROM vendedor v 
-                JOIN usuario u ON v.id_vendedor = u.id_usuario 
-                WHERE v.id_vendedor = ?";
+$sqlVendedor = "SELECT * FROM vendedor WHERE id_vendedor = ?";
 $stmtVendedor = $connect->prepare($sqlVendedor);
 $stmtVendedor->bind_param("i", $idUsuario);
 $stmtVendedor->execute();
@@ -75,7 +73,6 @@ if (isset($_GET['eliminar'])) {
                 alert('Producto eliminado exitosamente');
                 window.location.href = 'productos-vendedor.php';
             </script>";
-            exit;
         }
     }
 }
@@ -100,86 +97,50 @@ if (isset($_GET['eliminar'])) {
             color: #333;
         }
 
-        .dashboard-container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 250px;
-            background: white;
-            padding: 25px 0;
-            box-shadow: 3px 0 10px rgba(0,0,0,0.05);
-            position: fixed;
-            height: 100vh;
-        }
-
-        .logo {
-            text-align: center;
-            padding: 0 20px 25px;
-            border-bottom: 1px solid #e5e7eb;
-            margin-bottom: 20px;
-        }
-
-        .logo h2 {
-            color: #1f2937;
-            font-size: 1.3rem;
-        }
-
-        .logo span {
-            color: #3b82f6;
-        }
-
-        .nav-menu {
-            list-style: none;
-            padding: 0 15px;
-        }
-
-        .nav-menu li {
-            margin-bottom: 8px;
-        }
-
-        .nav-menu a {
-            color: #4b5563;
-            text-decoration: none;
-            padding: 12px 15px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s;
-        }
-
-        .nav-menu a:hover, .nav-menu a.active {
-            background: #eff6ff;
-            color: #1d4ed8;
-        }
-
-        .nav-menu i {
-            width: 20px;
-            text-align: center;
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            margin-left: 250px;
-            padding: 30px;
-        }
-
-        .section-header {
+        .header {
+            background: linear-gradient(135deg, #1f2937, #374151);
+            color: white;
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f3f4f6;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .section-header h2 {
-            color: #1f2937;
+        .header-left h1 {
             font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .header-left p {
+            color: #d1d5db;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.1rem;
         }
 
         .btn {
@@ -202,14 +163,6 @@ if (isset($_GET['eliminar'])) {
             transform: translateY(-2px);
         }
 
-        .btn-success {
-            background: #10b981;
-        }
-
-        .btn-success:hover {
-            background: #059669;
-        }
-
         .btn-outline {
             background: transparent;
             color: #3b82f6;
@@ -219,6 +172,14 @@ if (isset($_GET['eliminar'])) {
         .btn-outline:hover {
             background: #3b82f6;
             color: white;
+        }
+
+        .btn-success {
+            background: #10b981;
+        }
+
+        .btn-success:hover {
+            background: #059669;
         }
 
         .btn-danger {
@@ -234,32 +195,27 @@ if (isset($_GET['eliminar'])) {
             font-size: 0.8rem;
         }
 
-        /* Stats Bar */
-        .stats-bar {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 25px;
-        }
-
-        .stat-item {
+            padding: 20px;
             background: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: bold;
+        .section-header h2 {
             color: #1f2937;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: #6b7280;
-            margin-top: 5px;
+            font-size: 1.5rem;
         }
 
         /* Products Grid */
@@ -405,168 +361,202 @@ if (isset($_GET['eliminar'])) {
             color: #6b7280;
             margin-bottom: 20px;
         }
+
+        /* Stats */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
-    <div class="dashboard-container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="logo">
-                <h2>Hermes<span>Seller</span></h2>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <h1>Mis Productos</h1>
+            <p><?php echo htmlspecialchars($vendedor['nombre_empresa']); ?> | Total: <?php echo $totalProductos; ?> productos</p>
+        </div>
+        <div class="header-right">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <?php 
+                    $nombre = $vendedor['nombre_empresa'];
+                    echo strtoupper(substr($nombre, 0, 1)); 
+                    ?>
+                </div>
+                <div>
+                    <strong><?php echo htmlspecialchars($vendedor['nombre_empresa']); ?></strong>
+                    <p style="font-size: 0.8rem; color: #d1d5db;">Vendedor</p>
+                </div>
             </div>
-            <ul class="nav-menu">
-                <li><a href="seller-apart-main-view.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                <li><a href="crear-producto.php"><i class="fas fa-plus-circle"></i> Crear Producto</a></li>
-                <li><a href="productos-vendedor.php" class="active"><i class="fas fa-box"></i> Mis Productos</a></li>
-                <li><a href="categorias-vendedor.php"><i class="fas fa-tags"></i> Mis Categorías</a></li>
-                <li><a href="catalogos-vendedor.php"><i class="fas fa-book"></i> Mis Catálogos</a></li>
-                <li><a href="pedidos-vendedor.php"><i class="fas fa-shopping-cart"></i> Pedidos</a></li>
-                <li><a href="editar-negocio.php"><i class="fas fa-store"></i> Editar Negocio</a></li>
-                <li><a href="../home.php"><i class="fas fa-home"></i> Volver al Inicio</a></li>
-            </ul>
+            <a href="seller-apart-main-view.php" class="btn">
+                <i class="fas fa-arrow-left"></i> Volver al Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value"><?php echo $totalProductos; ?></div>
+                <div class="stat-label">Productos Totales</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value"><?php 
+                    $sqlActivos = "SELECT COUNT(*) as activos FROM producto WHERE id_vendedor = ? AND stock > 0";
+                    $stmtActivos = $connect->prepare($sqlActivos);
+                    $stmtActivos->bind_param("i", $idUsuario);
+                    $stmtActivos->execute();
+                    $activos = $stmtActivos->get_result()->fetch_assoc()['activos'];
+                    echo $activos;
+                ?></div>
+                <div class="stat-label">Con Stock</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value"><?php 
+                    $sqlSinStock = "SELECT COUNT(*) as sin_stock FROM producto WHERE id_vendedor = ? AND stock = 0";
+                    $stmtSinStock = $connect->prepare($sqlSinStock);
+                    $stmtSinStock->bind_param("i", $idUsuario);
+                    $stmtSinStock->execute();
+                    $sinStock = $stmtSinStock->get_result()->fetch_assoc()['sin_stock'];
+                    echo $sinStock;
+                ?></div>
+                <div class="stat-label">Sin Stock</div>
+            </div>
         </div>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Stats Bar -->
-            <div class="stats-bar">
-                <div class="stat-item">
-                    <div class="stat-value"><?php echo $totalProductos; ?></div>
-                    <div class="stat-label">Productos Totales</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value"><?php 
-                        $sqlActivos = "SELECT COUNT(*) as activos FROM producto WHERE id_vendedor = ? AND stock > 0";
-                        $stmtActivos = $connect->prepare($sqlActivos);
-                        $stmtActivos->bind_param("i", $idUsuario);
-                        $stmtActivos->execute();
-                        $activos = $stmtActivos->get_result()->fetch_assoc()['activos'];
-                        echo $activos;
-                    ?></div>
-                    <div class="stat-label">Con Stock</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value"><?php 
-                        $sqlSinStock = "SELECT COUNT(*) as sin_stock FROM producto WHERE id_vendedor = ? AND stock = 0";
-                        $stmtSinStock = $connect->prepare($sqlSinStock);
-                        $stmtSinStock->bind_param("i", $idUsuario);
-                        $stmtSinStock->execute();
-                        $sinStock = $stmtSinStock->get_result()->fetch_assoc()['sin_stock'];
-                        echo $sinStock;
-                    ?></div>
-                    <div class="stat-label">Sin Stock</div>
-                </div>
+        <!-- Section Header -->
+        <div class="section-header">
+            <h2><i class="fas fa-box"></i> Mis Productos (<?php echo $totalProductos; ?>)</h2>
+            <div>
+                <a href="seller-apart-product-create.php" class="btn btn-success">
+                    <i class="fas fa-plus"></i> Nuevo Producto
+                </a>
             </div>
+        </div>
 
-            <!-- Section Header -->
-            <div class="section-header">
-                <h2><i class="fas fa-box"></i> Mis Productos (<?php echo $totalProductos; ?>)</h2>
-                <div>
-                    <a href="crear-producto.php" class="btn btn-success">
-                        <i class="fas fa-plus"></i> Nuevo Producto
-                    </a>
-                </div>
-            </div>
-
-            <?php if ($productos->num_rows > 0): ?>
-                <!-- Products Grid -->
-                <div class="products-grid">
-                    <?php while($producto = $productos->fetch_assoc()): 
-                        // Determinar clase de stock
-                        $stockClass = '';
-                        if ($producto['stock'] > 20) {
-                            $stockClass = 'stock-high';
-                        } elseif ($producto['stock'] > 5) {
-                            $stockClass = 'stock-medium';
-                        } elseif ($producto['stock'] > 0) {
-                            $stockClass = 'stock-low';
-                        } else {
-                            $stockClass = 'stock-out';
-                        }
-                    ?>
-                    <div class="product-card">
-                        <div class="product-image">
-                            <?php if (!empty($producto['imagen_url'])): ?>
-                                <img src="<?php echo $producto['imagen_url']; ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
-                            <?php else: ?>
-                                <div class="no-image">
-                                    <i class="fas fa-box"></i>
-                                </div>
-                            <?php endif; ?>
+        <?php if ($productos->num_rows > 0): ?>
+            <!-- Products Grid -->
+            <div class="products-grid">
+                <?php while($producto = $productos->fetch_assoc()): 
+                    // Determinar clase de stock
+                    $stockClass = '';
+                    if ($producto['stock'] > 20) {
+                        $stockClass = 'stock-high';
+                    } elseif ($producto['stock'] > 5) {
+                        $stockClass = 'stock-medium';
+                    } elseif ($producto['stock'] > 0) {
+                        $stockClass = 'stock-low';
+                    } else {
+                        $stockClass = 'stock-out';
+                    }
+                ?>
+                <div class="product-card">
+                    <div class="product-image">
+                        <?php if (!empty($producto['imagen_url'])): ?>
+                            <img src="<?php echo $producto['imagen_url']; ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
+                        <?php else: ?>
+                            <div class="no-image">
+                                <i class="fas fa-box"></i>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <div class="product-info">
+                        <h3 class="product-name" title="<?php echo htmlspecialchars($producto['nombre']); ?>">
+                            <?php echo htmlspecialchars($producto['nombre']); ?>
+                        </h3>
+                        
+                        <div class="product-price">
+                            $<?php echo number_format($producto['precio'], 0, ',', '.'); ?>
                         </div>
                         
-                        <div class="product-info">
-                            <h3 class="product-name" title="<?php echo htmlspecialchars($producto['nombre']); ?>">
-                                <?php echo htmlspecialchars($producto['nombre']); ?>
-                            </h3>
-                            
-                            <div class="product-price">
-                                $<?php echo number_format($producto['precio'], 0, ',', '.'); ?>
+                        <div class="product-meta">
+                            <div>
+                                <i class="fas fa-tag"></i> 
+                                <?php echo $producto['nombre_categoria'] ? htmlspecialchars($producto['nombre_categoria']) : 'Sin categoría'; ?>
                             </div>
-                            
-                            <div class="product-meta">
-                                <div>
-                                    <i class="fas fa-tag"></i> 
-                                    <?php echo $producto['nombre_categoria'] ? htmlspecialchars($producto['nombre_categoria']) : 'Sin categoría'; ?>
-                                </div>
-                                <div>
-                                    <span class="product-stock <?php echo $stockClass; ?>">
-                                        <i class="fas fa-cubes"></i> <?php echo $producto['stock']; ?> unidades
-                                    </span>
-                                </div>
-                            </div>
-                            
-                            <div class="product-actions">
-                                <a href="editar-producto.php?id=<?php echo $producto['id_producto']; ?>" class="btn btn-sm">
-                                    <i class="fas fa-edit"></i> Editar
-                                </a>
-                                <a href="?eliminar=<?php echo $producto['id_producto']; ?>" 
-                                   class="btn btn-sm btn-danger"
-                                   onclick="return confirm('¿Estás seguro de eliminar este producto?')">
-                                    <i class="fas fa-trash"></i> Eliminar
-                                </a>
+                            <div>
+                                <span class="product-stock <?php echo $stockClass; ?>">
+                                    <i class="fas fa-cubes"></i> <?php echo $producto['stock']; ?> unidades
+                                </span>
                             </div>
                         </div>
+                        
+                        <div class="product-actions">
+                            <a href="editar-producto.php?id=<?php echo $producto['id_producto']; ?>" class="btn btn-sm">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            <a href="?eliminar=<?php echo $producto['id_producto']; ?>" 
+                               class="btn btn-sm btn-danger"
+                               onclick="return confirm('¿Estás seguro de eliminar este producto?')">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </a>
+                        </div>
                     </div>
-                    <?php endwhile; ?>
                 </div>
+                <?php endwhile; ?>
+            </div>
 
-                <!-- Pagination -->
-                <?php if ($totalPaginas > 1): ?>
-                <div class="pagination">
-                    <?php if ($pagina > 1): ?>
-                        <a href="?pagina=<?php echo $pagina - 1; ?>">
-                            <i class="fas fa-chevron-left"></i> Anterior
-                        </a>
-                    <?php endif; ?>
-                    
-                    <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
-                        <?php if ($i == $pagina): ?>
-                            <span class="active"><?php echo $i; ?></span>
-                        <?php else: ?>
-                            <a href="?pagina=<?php echo $i; ?>"><?php echo $i; ?></a>
-                        <?php endif; ?>
-                    <?php endfor; ?>
-                    
-                    <?php if ($pagina < $totalPaginas): ?>
-                        <a href="?pagina=<?php echo $pagina + 1; ?>">
-                            Siguiente <i class="fas fa-chevron-right"></i>
-                        </a>
-                    <?php endif; ?>
-                </div>
-                <?php endif; ?>
-            <?php else: ?>
-                <!-- Empty State -->
-                <div class="empty-state">
-                    <i class="fas fa-box-open"></i>
-                    <h3>No tienes productos registrados</h3>
-                    <p>Aún no has creado ningún producto. ¡Comienza ahora!</p>
-                    <a href="crear-producto.php" class="btn btn-success" style="margin-top: 20px;">
-                        <i class="fas fa-plus"></i> Crear Primer Producto
+            <!-- Pagination -->
+            <?php if ($totalPaginas > 1): ?>
+            <div class="pagination">
+                <?php if ($pagina > 1): ?>
+                    <a href="?pagina=<?php echo $pagina - 1; ?>">
+                        <i class="fas fa-chevron-left"></i> Anterior
                     </a>
-                </div>
+                <?php endif; ?>
+                
+                <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
+                    <?php if ($i == $pagina): ?>
+                        <span class="active"><?php echo $i; ?></span>
+                    <?php else: ?>
+                        <a href="?pagina=<?php echo $i; ?>"><?php echo $i; ?></a>
+                    <?php endif; ?>
+                <?php endfor; ?>
+                
+                <?php if ($pagina < $totalPaginas): ?>
+                    <a href="?pagina=<?php echo $pagina + 1; ?>">
+                        Siguiente <i class="fas fa-chevron-right"></i>
+                    </a>
+                <?php endif; ?>
+            </div>
             <?php endif; ?>
-        </div>
+        <?php else: ?>
+            <!-- Empty State -->
+            <div class="empty-state">
+                <i class="fas fa-box-open"></i>
+                <h3>No tienes productos registrados</h3>
+                <p>Aún no has creado ningún producto. ¡Comienza ahora!</p>
+                <a href="seller-apart-product-create.php" class="btn btn-success" style="margin-top: 20px;">
+                    <i class="fas fa-plus"></i> Crear Primer Producto
+                </a>
+            </div>
+        <?php endif; ?>
     </div>
 
     <script>
@@ -585,13 +575,4 @@ if (isset($_GET['eliminar'])) {
             const productCards = document.querySelectorAll('.product-card');
             productCards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-5px)';
-                });
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+                    this.style.transform = 'translateY(-5px)
