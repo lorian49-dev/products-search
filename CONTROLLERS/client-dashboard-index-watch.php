@@ -116,11 +116,9 @@ $estadisticas['total_gastado'] = mysqli_fetch_assoc($result_total)['total'] ?? 0
                     <?php endif; ?>
                 </div>
             </div>
-            <div class="header-bot">
-             <p style="color: #666; font-size: 0.95em;">
+            <p style="color: #666; font-size: 0.95em;">
                 Información detallada del cliente y estadísticas de actividad
-             </p>
-            </div>
+            </p>
         </div>
 
         <!-- Estadísticas rápidas -->
@@ -236,7 +234,7 @@ $estadisticas['total_gastado'] = mysqli_fetch_assoc($result_total)['total'] ?? 0
 
         <!-- Información Adicional -->
         <?php if(!empty($cliente['informacion_adicional'])): ?>
-        <div class="section section-a">
+        <div class="section">
             <h3><i class="fas fa-info-circle"></i> Información Adicional</h3>
             <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #667eea;">
                 <?php echo nl2br(htmlspecialchars($cliente['informacion_adicional'])); ?>
@@ -246,7 +244,7 @@ $estadisticas['total_gastado'] = mysqli_fetch_assoc($result_total)['total'] ?? 0
 
         <!-- Carritos Activos -->
         <?php if($estadisticas['carritos'] > 0): ?>
-        <div class="section section-b">
+        <div class="section">
             <h3><i class="fas fa-shopping-cart"></i> Carritos Activos (<?php echo $estadisticas['carritos']; ?>)</h3>
             <?php 
                 $query_carritos_detalle = "SELECT c.*, COUNT(cp.id_producto) as productos, SUM(cp.cantidad) as total_items
@@ -337,7 +335,7 @@ $estadisticas['total_gastado'] = mysqli_fetch_assoc($result_total)['total'] ?? 0
         <?php endif; ?>
 
         <!-- Acciones Rápidas -->
-        <div class="section section-c">
+        <div class="section">
             <h3><i class="fas fa-bolt"></i> Acciones Rápidas</h3>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                 <a href="client-dashboard-index-edit.php?id=<?php echo $id_cliente; ?>" class="btn btn-primary">
@@ -362,42 +360,17 @@ $estadisticas['total_gastado'] = mysqli_fetch_assoc($result_total)['total'] ?? 0
         </div>
 
         <!-- Navegación -->
-        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;" class="section-d">
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
             <a href="client-dashboard-index.php" class="btn btn-primary">
                 <i class="fas fa-arrow-left"></i> Volver a la Lista
             </a>
-            <a href="user-dashboard-admin.php" class="btn btn-secondary">
+            <a href="client-dashboard-index.php" class="btn btn-secondary">
                 <i class="fas fa-home"></i> Dashboard Principal
             </a>
         </div>
     </div>
 
     <script>
-        function initializeMode() {
-    // 1. Deshabilitar la transición para que la carga sea instantánea
-    transitionableElements.forEach(element => {
-        element.style.transition = 'none';
-    });
-    
-    // 2. Aplicar el modo guardado (instantáneamente)
-    const savedMode = localStorage.getItem('darkMode');
-
-    if (savedMode !== null) {
-        const shouldBeDark = savedMode === 'true'; 
-        // Llama a setMode, que aplica los estilos sin animación
-        setMode(shouldBeDark); 
-    } else {
-        // Si no hay preferencia, puedes establecer el modo por defecto (ej: claro)
-        // setMode(false);
-    }
-
-    // 3. ⚠️ Reactivar la transición después de un pequeño retraso (50ms)
-    // Esto es crucial para que la transición solo se aplique en clics futuros.
-    setTimeout(enableTransitions, 50);
-}
-
-// 🚀 Inicializar el modo y controlar la transición al cargar la página
-initializeMode();
         // Confirmación para acciones peligrosas
         document.addEventListener('DOMContentLoaded', function() {
             const dangerousLinks = document.querySelectorAll('a[href*="eliminar"], a[href*="limpiar"]');
@@ -415,6 +388,5 @@ initializeMode();
             });
         });
     </script>
-    <script src="../scripts/admin.js"></script>
 </body>
 </html>

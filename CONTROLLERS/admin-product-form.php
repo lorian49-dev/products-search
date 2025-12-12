@@ -149,38 +149,8 @@ form {
       0 4px 4px hsl(0deg 0% 0% / 0.075),
       0 8px 8px hsl(0deg 0% 0% / 0.075),
       0 16px 16px hsl(0deg 0% 0% / 0.075);
-    overflow-y:auto;
+    overflow:hidden;
 }
-
-.main-form::-webkit-scrollbar {
-    width: 8px; /* Un poco más de ancho para que sea más fácil de usar */
-  }
-
-  /* Fondo de la barra de desplazamiento (la pista) */
-.main-form::-webkit-scrollbar-track {
-    background: transparent; /* Fondo transparente */
-    border-radius: 10px;
-    /* El margen superior e inferior creará el espacio que buscabas */
-    margin: 50px 0; 
-  }
-  
-  /* El "pulgar" o la parte móvil de la barra de desplazamiento */
-.main-form::-webkit-scrollbar-thumb {
-    background: #fff8f1; /* Color del pulgar */
-    border-radius: 10px;
-    border: 2px solid transparent; /* Crea un padding visual alrededor del pulgar */
-    background-clip: content-box;
-  }
-  
-  /* Estilos para cuando el mouse está sobre la barra */
-.main-form::-webkit-scrollbar-thumb:hover {
-    background-color: #ffb000; /* Un color ligeramente más claro al pasar el mouse */
-  }
-  
-  /* Ocultamos las flechas (esto generalmente no es necesario, pero lo mantenemos por si acaso) */
-.main-form::-webkit-scrollbar-button {
-    display: none;
-  }
 
 .main-form input[type="text"], textarea{
     width: 100%;

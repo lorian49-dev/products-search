@@ -220,36 +220,33 @@ function enableTransitions() {
 function setMode(dark) {
     if (dark) {
         // --- Lógica para Modo Oscuro ---
-        if (background) {
-            background.classList.add('dark-mode-active');
-            background.classList.remove('light-mode-active');
-        }
-        if (btnLight) btnLight.style.color = '#fff8f1';
-        if (btnDark) btnDark.style.color = '#131313ff';
-        if (body) body.classList.add('body-its-dark');
-        if (navegation_bar) navegation_bar.style.backgroundColor = '#131313ff';
-        if (text_h2) text_h2.forEach(h2 => h2.style.color = '#fff8f1');
-        if (buttonsToColorModes) buttonsToColorModes.forEach(button => button.style.backgroundColor = '#131313ff');
-        if (table) table.forEach(tb => tb.classList.add('table-dark'));
-        if (advise) advise.classList.add('dark-mode-active-advise');
+        background.classList.add('dark-mode-active');
+        background.classList.remove('light-mode-active');
+        btnLight.style.color = '#fff8f1';
+        btnDark.style.color = '#131313ff';
+        body.classList.add('body-its-dark')
+        navegation_bar.style.backgroundColor = '#131313ff'
+        text_h2.forEach(h2 => h2.style.color = '#fff8f1') 
+        if(buttonsToColorModes){buttonsToColorModes.forEach(button => button.style.backgroundColor = '#131313ff') }
+        if(table){table.forEach(tb => tb.classList.add('table-dark'))}
+        if(advise){advise.classList.add('dark-mode-active-advise')}
     } else {
         // --- Lógica para Modo Claro ---
-        if (background) {
-            background.classList.add('light-mode-active');
-            background.classList.remove('dark-mode-active');
-        }
-        if (btnLight) btnLight.style.color = '#461d01';
-        if (btnDark) btnDark.style.color = '#fff8f1';
-        if (body) body.classList.remove('body-its-dark');
-        if (navegation_bar) navegation_bar.style.backgroundColor = '#461d01';
-        if (text_h2) text_h2.forEach(h2 => h2.style.color = '#131313ff');
-        if (buttonsToColorModes) buttonsToColorModes.forEach(button => button.style.backgroundColor = '#461d01');
-        if (table) table.forEach(tb => tb.classList.remove('table-dark'));
-        if (advise) advise.classList.remove('dark-mode-active-advise');
+        background.classList.add('light-mode-active');
+        background.classList.remove('dark-mode-active');
+        btnLight.style.color = '#461d01';
+        btnDark.style.color = '#fff8f1';
+        body.classList.remove('body-its-dark')
+        navegation_bar.style.backgroundColor = '#461d01'
+        text_h2.forEach(h2 => h2.style.color = '#131313ff')
+        if(buttonsToColorModes){buttonsToColorModes.forEach(button => button.style.backgroundColor = '#461d01') }
+        if(table){table.forEach(tb => tb.classList.remove('table-dark'))}
+        if(advise){advise.classList.remove('dark-mode-active-advise')}
     }
-
-    // 💾 Guardar preferencia
+    
+    // 💾 GUARDAR la preferencia en Local Storage
     localStorage.setItem('darkMode', dark);
+    
     isDarkMode = dark;
 }
 
