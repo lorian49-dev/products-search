@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Playwrite+NO:wght@100..400&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
 :root{
 
     /*Colores primarios*/
@@ -26,12 +28,11 @@
                          inset 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /*font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;*/
 }
 
 html{
@@ -39,7 +40,7 @@ html{
 }
 
 body{
-    font-family: 'roboto condensed', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
     background-color:#fff8f1;
     display: flex;
     font-weight: 300;
@@ -66,20 +67,20 @@ body.body-its-dark h1{
 /*Estilos para textos*/
 
 h2{
-    font-family: 'roboto condensed', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
     font-weight: 300;
     transition: color 1s ease;
 }
 
 h1{
-    font-family: 'roboto condensed', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
     font-weight: 200;
     color: #fff8f1;
 }
 
 a{
     color: rgb(255, 255, 255);
-    font-family: 'roboto condensed', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
     font-weight: 300;
 }
 
@@ -193,7 +194,8 @@ overflow: hidden;
 }
 
 .current-page{
- font-weight: 700;
+ font-weight: bold;
+ color: #0097b2;
 }
 
 .fa-caret-up{
@@ -430,11 +432,13 @@ input:focus {
     border-radius: 1.3rem;
      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     cursor: pointer;
-    font-family: 'roboto condensed', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
     background:linear-gradient(135deg, #0D47A1, #0097b2);
     transition: all .5s ease;
     color: #fff8f1;
     cursor: pointer;
+    width: 11rem;
+    font-size: .7rem;
 }
 body.body-its-dark .btn_add-new-user:hover{
     background:linear-gradient(135deg, #0D47A1, #0097b2);
@@ -481,7 +485,6 @@ table.table-dark{
 table.table-dark thead{
     background:linear-gradient(135deg, #0D47A1, #0097b2);
     transition: all 1s ease;
-
 }
 
 .table-dark td>button{
@@ -513,7 +516,6 @@ thead{
 }
 
 th{
-  font-family: 'roboto condensed';
   font-weight: 300;
   padding: .8rem;
 }
@@ -587,7 +589,7 @@ body.body-its-dark .modalContainer{
     border-style: none;
     width: 11rem;
     box-shadow: #2b2b2b7e 1px 1px 5px;
-    font-family: 'roboto condensed', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
     font-size: .7rem;
 }
 
@@ -597,7 +599,7 @@ body.body-its-dark .modalContainer{
     border-radius: 25px;
     border-style: none;
     box-shadow: #2b2b2b7e 1px 1px 5px;
-    font-family: 'roboto condensed', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
     background:linear-gradient(135deg, #0D47A1, #0097b2);
     transition: all .2s ease;
     color: #fff8f1;
