@@ -120,7 +120,7 @@ CREATE TABLE `catalogo` (
 --
 
 CREATE TABLE `catalogo_producto` (
-  `id_catalogo` int(11) NOT NULL AUTO_INCREMENT,
+  `id_catalogo` int(11) NOT NULL,
   `id_producto` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -297,7 +297,7 @@ INSERT INTO `producto` (`id_producto`, `nombre`, `descripcion`, `imagen_url`, `p
 --
 
 CREATE TABLE `producto_categoria` (
-  `id_producto` int(11) NOT NULL AUTO_INCREMENT,
+  `id_producto` int(11) NOT NULL,
   `id_categoria` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -377,7 +377,7 @@ INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `correo`, `contrasena
 --
 
 CREATE TABLE `usuario_rol` (
-  `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
+  `id_usuario` int(11) NOT NULL,
   `id_rol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -412,7 +412,7 @@ INSERT INTO `vendedor` (`id_vendedor`, `nombre_empresa`, `nit`, `telefono_contac
 --
 
 CREATE TABLE `wishlist` (
-  `id_cliente` int(11) NOT NULL AUTO_INCREMENT,
+  `id_cliente` int(11) NOT NULL,
   `id_producto` int(11) NOT NULL,
   `fecha_agregado` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
