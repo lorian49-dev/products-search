@@ -156,68 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Confirmar Eliminación - Vendedor #<?php echo $id_vendedor; ?></title>
     <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
     <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
-        .dashboard-container { max-width: 800px; margin: 0 auto; }
-        
-        /* Header */
-        .header { background: rgba(255, 255, 255, 0.95); padding: 25px 30px; border-radius: 20px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .header h1 { color: #333; font-size: 1.8em; margin-bottom: 5px; }
-        .user-role { background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; }
-        
-        /* Contenedor principal */
-        .warning-container { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 25px; }
-        
-        /* Alerta de peligro */
-        .danger-alert { background: #f8d7da; color: #721c24; padding: 20px; border-radius: 10px; margin-bottom: 25px; border-left: 6px solid #dc3545; }
-        .danger-alert h3 { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
-        
-        /* Información del vendedor */
-        .vendor-summary { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 25px; border: 1px solid #dee2e6; }
-        .vendor-header { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }
-        .vendor-avatar { width: 70px; height: 70px; background: #dc3545; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8em; font-weight: bold; }
-        .vendor-info h3 { color: #333; margin-bottom: 5px; }
-        
-        /* Estadísticas de eliminación */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .stat-item { background: white; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #dee2e6; }
-        .stat-item.warning { border-color: #ffc107; background: #fff3cd; }
-        .stat-item.danger { border-color: #dc3545; background: #f8d7da; }
-        .stat-number { font-size: 1.8em; font-weight: bold; margin: 5px 0; }
-        .stat-number.warning { color: #856404; }
-        .stat-number.danger { color: #721c24; }
-        .stat-label { font-size: 0.85em; color: #666; }
-        
-        /* Formulario */
-        .form-container { background: white; padding: 25px; border-radius: 10px; border: 2px solid #dee2e6; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
-        .form-control { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.95em; }
-        .form-check { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
-        .form-check input[type="checkbox"] { width: 20px; height: 20px; }
-        
-        /* Botones */
-        .btn { padding: 12px 25px; border: none; border-radius: 25px; font-size: 1em; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
-        .btn-danger { background: #dc3545; color: white; } .btn-danger:hover { background: #c82333; transform: translateY(-2px); }
-        .btn-secondary { background: #6c757d; color: white; } .btn-secondary:hover { background: #5a6268; transform: translateY(-2px); }
-        .btn-success { background: #28a745; color: white; } .btn-success:hover { background: #218838; transform: translateY(-2px); }
-        
-        /* Lista de consecuencias */
-        .consequences-list { list-style: none; margin-left: 20px; }
-        .consequences-list li { margin-bottom: 10px; padding-left: 25px; position: relative; }
-        .consequences-list li:before { content: '⚠️'; position: absolute; left: 0; }
-        
-        /* Mensaje de error */
-        .error-message { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #dc3545; }
-        
-        @media (max-width: 768px) {
-            .header-top { flex-direction: column; gap: 15px; text-align: center; }
-            .vendor-header { flex-direction: column; text-align: center; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-    </style>
+    <link rel="stylesheet" href="../styles/admin-create-delete-watch-user-crud.css">
 </head>
 <body>
     <div class="dashboard-container">
@@ -230,7 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         Administrador General
                     </div>
                 </div>
-                <a href="ver.php?id=<?php echo $id_vendedor; ?>" class="btn btn-secondary">
+                <a href="seller-dashboard-admin-edit.php?id=<?php echo $id_vendedor; ?>" class="btn btn-secondary">
                     <i class="fas fa-arrow-left"></i> Cancelar y Volver
                 </a>
             </div>
@@ -370,7 +309,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <i class="fas fa-skull-crossbones"></i> CONFIRMAR ELIMINACIÓN
                 </button>
                 
-                <a href="ver.php?id=<?php echo $id_vendedor; ?>" class="btn btn-success">
+                <a href="seller-dashboard-admin-watch.php?id=<?php echo $id_vendedor; ?>" class="btn btn-success">
                     <i class="fas fa-times"></i> CANCELAR
                 </a>
             </div>
@@ -394,10 +333,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Navegación -->
         <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #dee2e6;">
-            <a href="index.php" class="btn btn-secondary">
+            <a href="seller-dashboard-admin-index.php" class="btn btn-secondary">
                 <i class="fas fa-list"></i> Volver a la Lista
             </a>
-            <a href="../index.php" class="btn btn-secondary"> <!--Ruta no existente, debe llamarse de otra forma-->
+            <a href="user-dashboard-admin.php" class="btn btn-secondary"> <!--Ruta no existente, debe llamarse de otra forma-->
                 <i class="fas fa-home"></i> Dashboard Principal
             </a>
         </div>
@@ -474,5 +413,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             });
         });
     </script>
+    <script src="../scripts/admin.js"></script>
 </body>
 </html>

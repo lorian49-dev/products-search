@@ -121,120 +121,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
     <link rel="stylesheet" href="../styles/admin-create-delete-watch-user-crud.css">
     <style>
-        /* Formulario */
-        .form-container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 25px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
-            font-size: 0.9em;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 0.95em;
-            transition: border 0.3s ease;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .form-check {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .form-check input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-        }
-
-        /* Alertas */
-        .alert {
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .alert-danger {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        /* Información del cliente */
-        .client-info {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #eee;
-        }
-
-        .client-avatar {
-            width: 60px;
-            height: 60px;
-            background: #667eea;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-
-        .client-details h3 {
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .client-details p {
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        /* Campos requeridos */
-        .required {
-            color: #dc3545;
-            margin-left: 3px;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .form-row {
@@ -257,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <div class="dashboard-container">
+    <div class="dashboard-container-edit">
         <!-- Header -->
         <div class="header">
             <div class="header-top">
@@ -280,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </a>
                 </div>
             </div>
-            <p style="color: #666; font-size: 0.95em;">
+            <p style="font-size: 0.95em;">
                 Modifique la información del cliente #<?php echo $id_cliente; ?>
             </p>
         </div>
@@ -312,7 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <!-- Formulario de edición -->
             <form method="POST" action="">
-                <h3 style="color: #667eea; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #eee;">
+                <h3>
                     <i class="fas fa-user-edit"></i> Información Personal
                 </h3>
 
@@ -338,7 +224,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input type="email" id="correo" name="correo" class="form-control"
                             value="<?php echo htmlspecialchars($cliente['correo']); ?>"
                             required maxlength="100">
-                        <small style="color: #666; font-size: 0.85em;">El correo es único para cada usuario</small>
+                        <small>El correo es único para cada usuario</small>
                     </div>
 
                     <div class="form-group">
@@ -364,7 +250,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
 
-                <h3 style="color: #667eea; margin: 30px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid #eee;">
+                <h3>
                     <i class="fas fa-cog"></i> Configuración del Cliente
                 </h3>
 
@@ -374,9 +260,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             value="1" <?php echo ($cliente['wishlist_privada'] == 1) ? 'checked' : ''; ?>>
                         <label for="wishlist_privada">Wishlist Privada</label>
                     </div>
-                    <small style="color: #666; font-size: 0.85em; margin-left: 28px;">
-                        Si está activada, la lista de deseos del cliente será privada
-                    </small>
+                    <small>Si está activada, la lista de deseos del cliente será privada</small>
                 </div>
 
                 <div class="form-group">
@@ -384,11 +268,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <textarea id="informacion_adicional" name="informacion_adicional"
                         class="form-control" rows="4" maxlength="1000"
                         placeholder="Notas adicionales sobre el cliente..."><?php echo htmlspecialchars($cliente['informacion_adicional'] ?? ''); ?></textarea>
-                    <small style="color: #666; font-size: 0.85em;">Información adicional para uso interno</small>
+                    <small>Información adicional para uso interno</small>
                 </div>
 
                 <!-- Información de sistema (solo lectura) -->
-                <h3 style="color: #667eea; margin: 30px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid #eee;">
+                <h3>
                     <i class="fas fa-info-circle"></i> Información del Sistema
                 </h3>
 
@@ -397,7 +281,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label>Código de Recuperación</label>
                         <input type="text" class="form-control"
                             value="<?php echo htmlspecialchars($cliente['codigo_recuperacion'] ?? 'No generado'); ?>"
-                            readonly style="background: #f8f9fa;">
+                            readonly>
                     </div>
 
                     <div class="form-group">
@@ -410,7 +294,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         echo 'No aplica';
                                     }
                                     ?>"
-                            readonly style="background: #f8f9fa;">
+                            readonly>
                     </div>
                 </div>
 
@@ -430,7 +314,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <!-- Advertencia -->
-        <div style="background: #fff3cd; color: #856404; padding: 15px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #ffc107;">
+        <div style="background: #fff3cd; color: #856404; padding: 15px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #ffc107;" class="div-notes">
             <h4><i class="fas fa-exclamation-triangle"></i> Notas importantes</h4>
             <ul style="margin-left: 20px; margin-top: 10px; font-size: 0.9em;">
                 <li>Los cambios se aplicarán inmediatamente después de guardar</li>
@@ -441,7 +325,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <!-- Navegación -->
-        <div style="text-align: center; margin-top: 30px;">
+        <div style="text-align: center; margin-top: 30px;" class="buttons-div">
             <a href="client-dashboard-index.php" class="btn btn-primary">
                 <i class="fas fa-arrow-left"></i> Volver a la Lista de Clientes
             </a>

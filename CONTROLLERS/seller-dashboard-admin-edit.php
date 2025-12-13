@@ -133,55 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Editar Vendedor #<?php echo $id_vendedor; ?> - Panel Administración</title>
     <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
     <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
-        .dashboard-container { max-width: 900px; margin: 0 auto; }
-        
-        /* Header */
-        .header { background: rgba(255, 255, 255, 0.95); padding: 25px 30px; border-radius: 20px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .header h1 { color: #333; font-size: 1.8em; margin-bottom: 5px; }
-        .user-role { background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; }
-        
-        /* Botones */
-        .btn { padding: 10px 20px; border: none; border-radius: 25px; font-size: 0.95em; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
-        .btn-primary { background: #667eea; color: white; } .btn-primary:hover { background: #5a6fd8; transform: translateY(-2px); }
-        .btn-success { background: #28a745; color: white; } .btn-success:hover { background: #218838; transform: translateY(-2px); }
-        .btn-secondary { background: #6c757d; color: white; } .btn-secondary:hover { background: #5a6268; transform: translateY(-2px); }
-        .btn-danger { background: #dc3545; color: white; } .btn-danger:hover { background: #c82333; transform: translateY(-2px); }
-        
-        /* Formulario */
-        .form-container { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 25px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; font-size: 0.9em; }
-        .form-control { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.95em; transition: border 0.3s ease; }
-        .form-control:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .form-check { display: flex; align-items: center; gap: 10px; }
-        .form-check input[type="checkbox"] { width: 18px; height: 18px; }
-        
-        /* Alertas */
-        .alert { padding: 15px; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .alert-danger { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        
-        /* Información del vendedor */
-        .client-info { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid #eee; }
-        .client-avatar { width: 60px; height: 60px; background: #28a745; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5em; font-weight: bold; }
-        .client-details h3 { color: #333; margin-bottom: 5px; }
-        .client-details p { color: #666; font-size: 0.9em; }
-        
-        /* Campos requeridos */
-        .required { color: #dc3545; margin-left: 3px; }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .form-row { grid-template-columns: 1fr; gap: 0; }
-            .header-top { flex-direction: column; gap: 15px; text-align: center; }
-            .client-info { flex-direction: column; text-align: center; }
-        }
-    </style>
+    <link rel="stylesheet" href="../styles/admin-create-delete-watch-user-crud.css">
 </head>
 <body>
     <div class="dashboard-container">
@@ -207,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </a>
                 </div>
             </div>
-            <p style="color: #666; font-size: 0.95em;">
+            <p style="font-size: 0.95em;">
                 Modifique la información del vendedor #<?php echo $id_vendedor; ?>
             </p>
         </div>
@@ -239,7 +191,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <!-- Formulario de edición -->
             <form method="POST" action="">
-                <h3 style="color: #667eea; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #eee;">
+                <h3 style="margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #eee;">
                     <i class="fas fa-user"></i> Información Personal
                 </h3>
                 
@@ -291,7 +243,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
 
-                <h3 style="color: #667eea; margin: 30px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid #eee;">
+                <h3 style="margin: 30px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid #eee;">
                     <i class="fas fa-building"></i> Información de la Empresa
                 </h3>
 
@@ -346,7 +298,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <!-- Información de sistema (solo lectura) -->
-                <h3 style="color: #667eea; margin: 30px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid #eee;">
+                <h3 style="margin: 30px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid #eee;">
                     <i class="fas fa-info-circle"></i> Información del Sistema
                 </h3>
                 
@@ -361,14 +313,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                        echo 'No registrada';
                                    }
                                ?>" 
-                               readonly style="background: #f8f9fa;">
+                               readonly>
                     </div>
                     
                     <div class="form-group">
                         <label>Última Actualización</label>
                         <input type="text" class="form-control" 
                                value="<?php echo date('d/m/Y H:i'); ?>" 
-                               readonly style="background: #f8f9fa;">
+                               readonly>
                     </div>
                 </div>
 
@@ -403,7 +355,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="seller-dashboard-admin-index.php" class="btn btn-primary">
                 <i class="fas fa-arrow-left"></i> Volver a la Lista de Vendedores
             </a>
-            <a href="../index.php" class="btn btn-secondary"> <!--Ruta inexistente, el archivo no se puede llamar de esa forma-->
+            <a href="user-dashboard-admin.php" class="btn btn-secondary"> <!--Ruta inexistente, el archivo no se puede llamar de esa forma-->
                 <i class="fas fa-home"></i> Dashboard Principal
             </a>
         </div>
@@ -472,5 +424,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         });
     </script>
+        <script src="../scripts/admin.js"></script>
 </body>
 </html>
