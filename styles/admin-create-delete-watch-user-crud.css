@@ -185,6 +185,10 @@ body.body-its-dark .btn-secondary{
   transform: translateY(-2px);
 }
 
+body.body-its-dark .btn-warning:hover{
+  color: var(--pastel-blanco);
+}
+
 /* Tarjetas de información */
 .info-grid {
     grid-column: span 2;
@@ -594,3 +598,13 @@ body.body-its-dark .form-control{
           display: flex;
           gap: 1rem;
         }
+
+        /*Navegacion de la vista para ver los vendedores*/
+
+  .navegation-content-seller{
+    grid-column: span 2;
+    text-align: center;
+     margin-top: 30px; 
+     padding-top: 20px;
+      border-top: 1px solid #eee;
+  }

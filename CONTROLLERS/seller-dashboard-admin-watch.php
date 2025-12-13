@@ -306,7 +306,7 @@ $estadisticas['total_valor_inventario'] = mysqli_fetch_assoc($result_inventario)
             </div>
             <?php endif; ?>
             <?php else: ?>
-            <p style="color: #666; text-align: center; padding: 20px;">No hay productos registrados</p>
+            <p style="text-align: center; padding: 20px;">No hay productos registrados</p>
             <?php endif; ?>
         </div>
         <?php endif; ?>
@@ -349,19 +349,19 @@ $estadisticas['total_valor_inventario'] = mysqli_fetch_assoc($result_inventario)
             </div>
             <?php endif; ?>
             <?php else: ?>
-            <p style="color: #666; text-align: center; padding: 20px;">No hay catálogos registrados</p>
+            <p style=" text-align: center; padding: 20px;">No hay catálogos registrados</p>
             <?php endif; ?>
         </div>
         <?php endif; ?>
 
         <!-- Acciones Rápidas -->
-        <div class="section">
+        <div class="section section-a">
             <h3><i class="fas fa-bolt"></i> Acciones Rápidas</h3>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                 <a href="editar.php?id=<?php echo $id_vendedor; ?>" class="btn btn-primary">
                     <i class="fas fa-edit"></i> Editar Información
                 </a>
-                <a href="../productos/index.php?vendedor=<?php echo $id_vendedor; ?>" class="btn btn-info"> <!--RUTAS INEXISTENTES-->
+                <a href="../productos/index.php?vendedor=<?php echo $id_vendedor; ?>" class="btn btn-warning"> <!--RUTAS INEXISTENTES-->
                     <i class="fas fa-boxes"></i> Ver Productos
                 </a>
                 <a href="../catalogo/index.php?vendedor=<?php echo $id_vendedor; ?>" class="btn btn-warning"> <!--RUTAS INEXISTENTES-->
@@ -376,7 +376,7 @@ $estadisticas['total_valor_inventario'] = mysqli_fetch_assoc($result_inventario)
         </div>
 
         <!-- Navegación -->
-        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+        <div class="navegation-content-seller">
             <a href="index.php" class="btn btn-primary">
                 <i class="fas fa-arrow-left"></i> Volver a la Lista
             </a>
