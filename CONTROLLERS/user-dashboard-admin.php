@@ -29,29 +29,73 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración - Inicio</title>
-    <button>
-         <a href="../registros-inicio-sesion/admin_logout.php" class="logout-btn">
-        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-    </button>
-    <link rel="stylesheet" href="../crud-styles-events/admin-dashboard.css">
     <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
     <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
 
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
+:root{
+
+    /*Colores primarios*/
+    --pastel-blanco:#fff8f1;
+    --chocolate-marron:#461d01;
+    --cielo-turqueza:#0097b2;
+    --mostaza-amarillo:#ffb000;
+    --fondo-negro:#2f2f2fff;
+
+    /*Degradados principales*/
+
+    --fade-blue:linear-gradient(135deg, #0D47A1, #0097b2);
+    --fade-yellow:linear-gradient(135deg, #EF6C00, #ffb000);
+
+    /*Sombras*/
+
+    --main-shadow: 1px 1px hsl(0deg 0% 0% / 0.075),
+      0 2px 2px hsl(0deg 0% 0% / 0.075),
+      0 4px 4px hsl(0deg 0% 0% / 0.075),
+      0 8px 8px hsl(0deg 0% 0% / 0.075),
+      0 16px 16px hsl(0deg 0% 0% / 0.075);
+
+    --dark-z-shadow:-5px -5px 10px rgba(255, 255, 255, 0.1),
+                         10px 10px 10px rgba(0, 0, 0, 0.3),
+                         inset -3px -3px 5px rgba(255, 255, 255, 0.1),
+                         inset 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 1vw;
+}
+
+body {
+    padding: 2rem;
+    font-family: 'roboto condensed', sans-serif;
+    font-weight: 300;
+    transition: all 1s ease;
+    background-color: var(--pastel-blanco);
+    opacity: 0;
+    }
+
+    body.body-its-dark{
+        background-color:var(--fondo-negro);
+    }
+
+    body.active{
+    opacity: 1;
+}
+
+a{
+    text-decoration:none;
+}
 
         .dashboard-container {
-            max-width: 1200px;
+            width: 80%;
             margin: 0 auto;
         }
 
@@ -64,14 +108,22 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
             text-align: center;
         }
 
+        body.body-its-dark .header{
+            background-color:transparent;
+            box-shadow:var(--dark-z-shadow);
+        }
+
         .welcome-message h1 {
-            color: #333;
+            color: var(--fondo-negro);
             font-size: 2.5em;
             margin-bottom: 10px;
         }
+body.body-its-dark .welcome-message h1{
+            color:var(--pastel-blanco) !important;
+}
 
         .user-role {
-            background: #667eea;
+            background: var(--fade-blue);
             color: white;
             padding: 8px 20px;
             border-radius: 25px;
@@ -85,6 +137,7 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
+            transform:scale(.8, .8);
         }
 
         .stat-card {
@@ -92,8 +145,15 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
             padding: 25px;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            color:var(--chocolate-marron);
             text-align: center;
             transition: transform 0.3s ease;
+        }
+
+        body.body-its-dark .stat-card{
+            background-color:transparent;
+            box-shadow:var(--dark-z-shadow);
+            color:var(--pastel-blanco) !important;
         }
 
         .stat-card:hover {
@@ -102,14 +162,17 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
 
         .stat-card i {
             font-size: 2.5em;
-            color: #667eea;
+            color: var(--chocolate-marron);
             margin-bottom: 15px;
+        }
+
+        body.body-its-dark .stat-card i{
+                        color: #c5c5c5ff;
         }
 
         .stat-number {
             font-size: 2em;
             font-weight: bold;
-            color: #333;
             margin: 10px 0;
         }
 
@@ -118,7 +181,13 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
             font-size: 0.9em;
         }
 
+        body.body-its-dark .stat-label{
+                        color: #c5c5c5ff;
+        }
+
         .features-grid {
+            margin: 0 auto;
+            width: 80%;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
@@ -136,15 +205,19 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
             border: 2px solid transparent;
         }
 
+        body.body-its-dark .feature-card{
+                background-color: var(--pastel-blanco);
+        }
+
         .feature-card:hover {
             transform: translateY(-5px);
-            border-color: #667eea;
+            border-color: var(--chocolate-marron);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 
         .feature-card i {
             font-size: 3em;
-            color: #667eea;
+            color: var(--chocolate-marron);
             margin-bottom: 20px;
         }
 
@@ -154,7 +227,7 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
         }
 
         .feature-card p {
-            color: #666;
+            color: var(--fondo-negro);
             line-height: 1.5;
         }
 
@@ -167,7 +240,7 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
             position: absolute;
             top: 10px;
             right: 10px;
-            background: #ff6b6b;
+            background: var(--fondo-negro);
             color: white;
             padding: 4px 8px;
             border-radius: 12px;
@@ -181,50 +254,61 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
         }
 
         .btn-primary {
-            background: #667eea;
+            background: var(--fade-blue);
             color: white;
             padding: 15px 30px;
             border: none;
             border-radius: 25px;
-            font-size: 1.1em;
+            font-size: .65rem;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
             margin: 0 10px;
             transition: background 0.3s ease;
+            transition:all .3s ease;
+        }
+
+        .btn-primary a{
+            color:var(--pastel-blanco);
         }
 
         .btn-primary:hover {
-            background: #5a6fd8;
+            box-shadow:0 0 40px #00a2ffff;
+            transform:scale(1.1, 1.1);
         }
 
         .btn-secondary {
-            background: #6c757d;
+            background: var(--fade-yellow);
             color: white;
             padding: 15px 30px;
             border: none;
             border-radius: 25px;
-            font-size: 1.1em;
+            font-size: .7rem;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
             margin: 0 10px;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .btn-secondary:hover {
-            background: #5a6268;
+            background: var(--fade-blue);
+            box-shadow:0 0 40px #00a2ffff;
+            transform:scale(1.1, 1.1);
         }
     </style>
     
 </head>
 <body>
+        <button class="btn-primary">
+         <a href="../registros-inicio-sesion/admin_logout.php" class="logout-btn">
+        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+    </button>
     <div class="dashboard-container">
         <!-- Header con información del usuario -->
         <div class="header">
             <div class="welcome-message">
                 <h1>¡Bienvenido, <?php echo $_SESSION['admin_nombre'] ?? 'Administrador'; ?>!</h1>
-                <a href="../registros-inicio-sesion/admin_logout.php"></a>
                 <div class="user-role">
                     <?php 
                         if ($_SESSION['admin_rol'] == 1) echo 'Administrador General';
@@ -308,13 +392,6 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
             </a>
             <?php endif; ?>
 
-            <!-- Reportes y Estadísticas -->
-            <a href="#" class="feature-card"> <!--Ruta inexistente, utilizar otro nombre-->
-                <i class="fas fa-chart-bar"></i>
-                <h3>Reportes y Estadísticas</h3>
-                <p>Ver reportes de ventas, tráfico y métricas importantes</p>
-            </a>
-
             <!-- Configuración del Sistema -->
             <?php if ($_SESSION['admin_rol'] == 1): ?>
             <a href="#" class="feature-card admin-only"> <!--Ruta inexistente, utilizar otro nombre-->
@@ -354,5 +431,6 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
             });
         });
     </script>
+    <script src="../scripts/admin.js"></script>
 </body>
 </html>
