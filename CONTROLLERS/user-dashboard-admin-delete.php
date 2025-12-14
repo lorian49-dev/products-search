@@ -20,14 +20,14 @@
 
         // Mostramos resultado y redireccionamos
         if ($result) {
-            echo "✅ Usuario eliminado correctamente.";
+            echo "Usuario eliminado correctamente.";
             echo '<script>
                 setTimeout(function() {
                     window.location.href = "user-dashboard-admin-index.php";
                 }, 2000);
             </script>';
         } else {
-            echo "❌ Error al eliminar: " . mysqli_error($connect);
+            echo "Error al eliminar: " . mysqli_error($connect);
         }
     } else {
         echo "⚠️ ID de usuario inválido o no proporcionado.";

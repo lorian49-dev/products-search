@@ -219,160 +219,367 @@ foreach ($direcciones as $dir) {
             margin-right: 5px;
         }
     </style>
+    <style>
+        /* NUEVOS ESTILOS PARA EL DASHBOARD */
+        .dashboard-container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+            gap: 30px;
+        }
+
+        /* Menú lateral */
+        .dashboard-sidebar {
+            width: 250px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 0 10px #ccc;
+            padding: 20px;
+            height: fit-content;
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-title i {
+            color: #1976d2;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #555;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            gap: 12px;
+        }
+
+        .sidebar-menu a i {
+            width: 20px;
+            text-align: center;
+            color: #666;
+        }
+
+        .sidebar-menu a:hover {
+            background: #f5f5f5;
+            color: #1976d2;
+        }
+
+        .sidebar-menu a:hover i {
+            color: #1976d2;
+        }
+
+        .sidebar-menu a.active {
+            background: #e3f2fd;
+            color: #1976d2;
+            font-weight: 500;
+        }
+
+        .sidebar-menu a.active i {
+            color: #1976d2;
+        }
+
+        /* Separador para cerrar sesión */
+        .menu-divider {
+            height: 1px;
+            background: #eee;
+            margin: 15px 0;
+        }
+
+        /* Logout link styling */
+        .logout-link {
+            color: #dc3545 !important;
+        }
+
+        .logout-link:hover {
+            background: #f8d7da !important;
+            color: #c82333 !important;
+        }
+
+        .logout-link i {
+            color: #dc3545 !important;
+        }
+
+        /* Contenido principal */
+        .dashboard-content {
+            flex: 1;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 0 10px #ccc;
+            padding: 30px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+            .dashboard-sidebar {
+                width: 100%;
+            }
+        }
+
+        /* Estilo para la página actual */
+        .current-page-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .current-page-title i {
+            color: #1976d2;
+        }
+    </style>
 </head>
 
 <body>
     <?php include '../TEMPLATES/header.php' ?>
 
-    <section class="dashboard-menu">
-        <ul>
-            <li>
-                <a href="user-apart-dashboard.php">
-                    <i class="fa-solid fa-user"></i> Mi perfil
-                    <span class="chev"><i class="fa-solid fa-chevron-right"></i></span>
-                </a>
-            </li>
-        </ul>
-    </section>
+    <div class="dashboard-container">
+        <!-- MENÚ LATERAL -->
+        <div class="dashboard-sidebar">
+            <div class="sidebar-title">
+                <i class="fa-solid fa-user-circle"></i>
+                Mi Cuenta
+            </div>
 
-    <div class="perfil-container">
-        <h2><i class="fa-solid fa-user-circle"></i> Datos personales</h2>
-        <div class="personal-info">
-            <p><strong><i class="fa-solid fa-user"></i> Nombre completo:</strong> <?= htmlspecialchars($usuario['nombre'] . " " . $usuario['apellido']) ?></p>
-            <p><strong><i class="fa-solid fa-envelope"></i> Correo:</strong> <?= htmlspecialchars($usuario['correo']) ?></p>
-            <p><strong><i class="fa-solid fa-phone"></i> Teléfono:</strong> <?= htmlspecialchars($usuario['telefono']) ?></p>
-            <p><strong><i class="fa-solid fa-cake-candles"></i> Fecha de nacimiento:</strong> <?= htmlspecialchars($usuario['fecha_nacimiento']) ?></p>
+            <ul class="sidebar-menu">
+                <!-- Volver al Home -->
+                <li>
+                    <a href="../home.php">
+                        <i class="fa-solid fa-home"></i>
+                        Volver al Home
+                    </a>
+                </li>
 
-            <?php if ($direccionPrincipal): ?>
-                <p><strong><i class="fa-solid fa-home"></i> Dirección principal:</strong>
-                    <span class="principal"><?= htmlspecialchars($direccionPrincipal['direccion']) ?></span>
-                    <?php if ($direccionPrincipal['ciudad']): ?>
-                        <br><small class="text-muted"><?= htmlspecialchars($direccionPrincipal['ciudad'] . ', ' . $direccionPrincipal['departamento']) ?></small>
-                    <?php endif; ?>
-                </p>
-            <?php else: ?>
-                <p><strong><i class="fa-solid fa-home"></i> Dirección principal:</strong>
-                    <span class="text-muted">No hay dirección principal configurada</span>
-                </p>
-            <?php endif; ?>
+                <!-- dashboard principal -->
+                <li>
+                    <a href="user-apart-dashboard.php">
+                        <i class="fa-solid fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                </li>
+
+                <!-- Datos Personales (Activo actualmente) -->
+                <li>
+                    <a href="user-apart-dashboard-datos-personales.php" class="active">
+                        <i class="fa-solid fa-user"></i>
+                        Datos Personales
+                    </a>
+                </li>
+
+                <!-- Mis Compras -->
+                <li>
+                    <a href="user-apart-dashboard-compras.php">
+                        <i class="fa-solid fa-shopping-bag"></i>
+                        Mis Compras
+                    </a>
+                </li>
+
+                <!-- Métodos de Pago -->
+                <li>
+                    <a href="user-apart-dashboard-metodos-pago.php">
+                        <i class="fa-solid fa-credit-card"></i>
+                        Métodos de Pago
+                    </a>
+                </li>
+
+                <!-- Seguridad y Contraseña -->
+                <li>
+                    <a href="user-apart-dashboard-seguridad.php">
+                        <i class="fa-solid fa-shield-alt"></i>
+                        Seguridad y Contraseña
+                    </a>
+                </li>
+
+                <!-- Configuración -->
+                <li>
+                    <a href="user-apart-dashboard-configuracion.php">
+                        <i class="fa-solid fa-cog"></i>
+                        Configuración
+                    </a>
+                </li>
+
+                <!-- Separador -->
+                <li class="menu-divider"></li>
+
+                <!-- Cerrar Sesión -->
+                <li>
+                    <a href="../registros-inicio-sesion/logout-user.php" class="logout-link">
+                        <i class="fa-solid fa-sign-out-alt"></i>
+                        Cerrar Sesión
+                    </a>
+                </li>
+            </ul>
         </div>
 
-        <h3><i class="fa-solid fa-map-location-dot"></i> Todas tus direcciones</h3>
-        <div class="direcciones-lista">
-            <?php if (count($direcciones) > 0): ?>
-                <?php foreach ($direcciones as $dir): ?>
-                    <div class="direccion-card <?php echo $dir['es_principal'] == 1 ? 'primary' : ''; ?>">
-                        <div class="address-info">
-                            <p><strong><?php echo htmlspecialchars($dir['direccion']); ?></strong></p>
-                            <?php if (!empty($dir['ciudad'])): ?>
-                                <p><i class="fa-solid fa-city"></i> <?php echo htmlspecialchars($dir['ciudad'] . ', ' . $dir['departamento']); ?></p>
-                            <?php endif; ?>
 
-                            <?php if (!empty($dir['codigo_postal'])): ?>
-                                <p><i class="fa-solid fa-mail-bulk"></i> Código Postal: <?php echo htmlspecialchars($dir['codigo_postal']); ?></p>
-                            <?php endif; ?>
+        <div class="perfil-container">
+            <h2><i class="fa-solid fa-user-circle"></i> Datos personales</h2>
+            <div class="personal-info">
+                <p><strong><i class="fa-solid fa-user"></i> Nombre completo:</strong> <?= htmlspecialchars($usuario['nombre'] . " " . $usuario['apellido']) ?></p>
+                <p><strong><i class="fa-solid fa-envelope"></i> Correo:</strong> <?= htmlspecialchars($usuario['correo']) ?></p>
+                <p><strong><i class="fa-solid fa-phone"></i> Teléfono:</strong> <?= htmlspecialchars($usuario['telefono']) ?></p>
+                <p><strong><i class="fa-solid fa-cake-candles"></i> Fecha de nacimiento:</strong> <?= htmlspecialchars($usuario['fecha_nacimiento']) ?></p>
 
-                            <?php if (!empty($dir['telefono'])): ?>
-                                <p><i class="fa-solid fa-phone"></i> <?php echo htmlspecialchars($dir['telefono']); ?></p>
-                            <?php endif; ?>
+                <?php if ($direccionPrincipal): ?>
+                    <p><strong><i class="fa-solid fa-home"></i> Dirección principal:</strong>
+                        <span class="principal"><?= htmlspecialchars($direccionPrincipal['direccion']) ?></span>
+                        <?php if ($direccionPrincipal['ciudad']): ?>
+                            <br><small class="text-muted"><?= htmlspecialchars($direccionPrincipal['ciudad'] . ', ' . $direccionPrincipal['departamento']) ?></small>
+                        <?php endif; ?>
+                    </p>
+                <?php else: ?>
+                    <p><strong><i class="fa-solid fa-home"></i> Dirección principal:</strong>
+                        <span class="text-muted">No hay dirección principal configurada</span>
+                    </p>
+                <?php endif; ?>
+            </div>
 
-                            <?php if (!empty($dir['referencia'])): ?>
-                                <p class="reference-text"><i class="fa-solid fa-info-circle"></i> <?php echo htmlspecialchars($dir['referencia']); ?></p>
+            <h3><i class="fa-solid fa-map-location-dot"></i> Todas tus direcciones</h3>
+            <div class="direcciones-lista">
+                <?php if (count($direcciones) > 0): ?>
+                    <?php foreach ($direcciones as $dir): ?>
+                        <div class="direccion-card <?php echo $dir['es_principal'] == 1 ? 'primary' : ''; ?>">
+                            <div class="address-info">
+                                <p><strong><?php echo htmlspecialchars($dir['direccion']); ?></strong></p>
+                                <?php if (!empty($dir['ciudad'])): ?>
+                                    <p><i class="fa-solid fa-city"></i> <?php echo htmlspecialchars($dir['ciudad'] . ', ' . $dir['departamento']); ?></p>
+                                <?php endif; ?>
+
+                                <?php if (!empty($dir['codigo_postal'])): ?>
+                                    <p><i class="fa-solid fa-mail-bulk"></i> Código Postal: <?php echo htmlspecialchars($dir['codigo_postal']); ?></p>
+                                <?php endif; ?>
+
+                                <?php if (!empty($dir['telefono'])): ?>
+                                    <p><i class="fa-solid fa-phone"></i> <?php echo htmlspecialchars($dir['telefono']); ?></p>
+                                <?php endif; ?>
+
+                                <?php if (!empty($dir['referencia'])): ?>
+                                    <p class="reference-text"><i class="fa-solid fa-info-circle"></i> <?php echo htmlspecialchars($dir['referencia']); ?></p>
+                                <?php endif; ?>
+                            </div>
+
+                            <?php if ($dir['es_principal'] == 1): ?>
+                                <span class="badge-primary"><i class="fa-solid fa-star"></i> Principal</span>
+                            <?php else: ?>
+                                <div class="mt-3">
+                                    <form action="user-apart-dashboard-cambiar-principal.php" method="POST" style="display: inline;">
+                                        <input type="hidden" name="direccion_id" value="<?php echo $dir['id_direccion']; ?>">
+                                        <button type="submit" class="btn btn-sm btn-set-primary">
+                                            <i class="fa-solid fa-star"></i> Establecer como principal
+                                        </button>
+                                    </form>
+                                    <form action="user-apart-dashboard-eliminar-direccion.php" method="POST" style="display: inline;"
+                                        onsubmit="return confirm('¿Estás seguro de eliminar esta dirección?');">
+                                        <input type="hidden" name="direccion_id" value="<?php echo $dir['id_direccion']; ?>">
+                                        <button type="submit" class="btn btn-sm btn-delete">
+                                            <i class="fa-solid fa-trash"></i> Eliminar
+                                        </button>
+                                    </form>
+                                </div>
                             <?php endif; ?>
                         </div>
-
-                        <?php if ($dir['es_principal'] == 1): ?>
-                            <span class="badge-primary"><i class="fa-solid fa-star"></i> Principal</span>
-                        <?php else: ?>
-                            <div class="mt-3">
-                                <form action="user-apart-dashboard-cambiar-principal.php" method="POST" style="display: inline;">
-                                    <input type="hidden" name="direccion_id" value="<?php echo $dir['id_direccion']; ?>">
-                                    <button type="submit" class="btn btn-sm btn-set-primary">
-                                        <i class="fa-solid fa-star"></i> Establecer como principal
-                                    </button>
-                                </form>
-                                <form action="user-apart-dashboard-eliminar-direccion.php" method="POST" style="display: inline;"
-                                    onsubmit="return confirm('¿Estás seguro de eliminar esta dirección?');">
-                                    <input type="hidden" name="direccion_id" value="<?php echo $dir['id_direccion']; ?>">
-                                    <button type="submit" class="btn btn-sm btn-delete">
-                                        <i class="fa-solid fa-trash"></i> Eliminar
-                                    </button>
-                                </form>
-                            </div>
-                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="empty-state">
+                        <i class="fa-solid fa-map-marker-alt fa-3x text-muted mb-3"></i>
+                        <p>No tienes direcciones almacenadas.</p>
                     </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <div class="empty-state">
-                    <i class="fa-solid fa-map-marker-alt fa-3x text-muted mb-3"></i>
-                    <p>No tienes direcciones almacenadas.</p>
-                </div>
-            <?php endif; ?>
-        </div>
-
-        <h3><i class="fa-solid fa-plus-circle"></i> Agregar nueva dirección</h3>
-        <form class="form-direccion" action="user-apart-dashboard-agregar-direccion.php" method="POST">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="direccion">Dirección completa *</label>
-                        <input type="text" id="direccion" name="direccion" placeholder="Calle, número, colonia" required>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="ciudad">Ciudad *</label>
-                        <input type="text" id="ciudad" name="ciudad" required>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="departamento">Departamento/Estado *</label>
-                        <input type="text" id="departamento" name="departamento" required>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="codigo_postal">Código Postal</label>
-                        <input type="text" id="codigo_postal" name="codigo_postal">
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="telefono">Teléfono de contacto</label>
-                        <input type="tel" id="telefono" name="telefono">
-                    </div>
-                </div>
-
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="referencias">Referencias adicionales</label>
-                        <textarea id="referencias" name="referencias" rows="2"
-                            placeholder="Ej: Casa color blanco, portón negro, entre calles..."></textarea>
-                    </div>
-                </div>
-
-                <div class="col-md-12">
-                    <div class="form-check mb-3">
-                        <input type="checkbox" class="form-check-input" id="es_principal" name="es_principal" value="1">
-                        <label class="form-check-label" for="es_principal">
-                            <i class="fa-solid fa-star check-icon"></i> Establecer como dirección principal
-                        </label>
-                    </div>
-                </div>
-
-                <div class="col-md-12">
-                    <button type="submit" class="btn-submit">
-                        <i class="fa-solid fa-save"></i> Guardar Dirección
-                    </button>
-                </div>
+                <?php endif; ?>
             </div>
-        </form>
-    </div>
+
+            <h3><i class="fa-solid fa-plus-circle"></i> Agregar nueva dirección</h3>
+            <form class="form-direccion" action="user-apart-dashboard-agregar-direccion.php" method="POST">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="direccion">Dirección completa *</label>
+                            <input type="text" id="direccion" name="direccion" placeholder="Calle, número, colonia" required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="ciudad">Ciudad *</label>
+                            <input type="text" id="ciudad" name="ciudad" required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="departamento">Departamento/Estado *</label>
+                            <input type="text" id="departamento" name="departamento" required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="codigo_postal">Código Postal</label>
+                            <input type="text" id="codigo_postal" name="codigo_postal">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="telefono">Teléfono de contacto</label>
+                            <input type="tel" id="telefono" name="telefono">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="referencias">Referencias adicionales</label>
+                            <textarea id="referencias" name="referencias" rows="2"
+                                placeholder="Ej: Casa color blanco, portón negro, entre calles..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="es_principal" name="es_principal" value="1">
+                            <label class="form-check-label" for="es_principal">
+                                <i class="fa-solid fa-star check-icon"></i> Establecer como dirección principal
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <button type="submit" class="btn-submit">
+                            <i class="fa-solid fa-save"></i> Guardar Dirección
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
 
 </body>
 
