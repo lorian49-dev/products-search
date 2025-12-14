@@ -34,6 +34,68 @@ $producto = $result->fetch_assoc();
     <link rel="stylesheet" href="../styles/home.css">
     <title>HOME | HERMES CLICK&GO</title>
     <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
+    
+        <style>
+    .btn-volver:hover {
+        background: #5a6268;
+        transform: translateX(-3px);
+        transition: all 0.3s;
+    }
+    
+    .product-image-gallery {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    
+    .thumbnail {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 5px;
+        border: 2px solid transparent;
+        cursor: pointer;
+    }
+    
+    .thumbnail:hover {
+        border-color: #8B4513;
+    }
+    
+    .product-info-section {
+        margin-bottom: 30px;
+    }
+    
+    .product-info-section h3 {
+        color: #495057;
+        border-bottom: 2px solid #8B4513;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+    }
+    
+    .stock-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+    
+    .stock-available {
+        background: #d4edda;
+        color: #155724;
+    }
+    
+    .stock-low {
+        background: #fff3cd;
+        color: #856404;
+    }
+    
+    .stock-out {
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+    </style>
 
 </head>
 
@@ -119,30 +181,90 @@ $producto = $result->fetch_assoc();
             </div>
         </div>
     </header>
-    <h1><?php echo htmlspecialchars($producto['nombre']); ?></h1>
-
-    <div style="width:300px; height:300px; background-size:cover; background-position:center;
-         background-image:url('../SOURCES/PRODUCTOS/<?php echo $producto['imagen'] ?? "default.png"; ?>');">
+   <div style="max-width:1200px; margin:0 auto; padding:20px;">
+    <div style="display:flex; flex-wrap:wrap; gap:40px; margin-bottom:30px;">
+        <!-- Sección de imagen -->
+        <div style="flex:1; min-width:300px;">
+            <?php
+            // Determinar la URL de la imagen
+            if (!empty($producto['imagen_url'])) {
+                $imagen_url = $producto['imagen_url'];
+            } elseif (!empty($producto['imagen'])) {
+                $imagen_url = '../SOURCES/PRODUCTOS/' . $producto['imagen'];
+            } else {
+                $imagen_url = '../SOURCES/PRODUCTOS/default.png';
+            }
+            ?>
+            
+            <div style="width:100%; max-width:500px; height:400px; margin:0 auto;">
+                <img src="<?php echo $imagen_url; ?>" 
+                     alt="<?php echo htmlspecialchars($producto['nombre']); ?>"
+                     style="width:100%; height:100%; object-fit:contain; border-radius:10px; border:1px solid #eee; padding:10px; background:#f9f9f9;"
+                     onerror="this.src='../SOURCES/PRODUCTOS/default.png'; this.style.objectFit='cover';">
+            </div>
+        </div>
+        
+        <!-- Sección de información -->
+        <div style="flex:1; min-width:300px;">
+            <h1 style="color:#333; margin-bottom:15px; font-size:2rem;"><?php echo htmlspecialchars($producto['nombre']); ?></h1>
+            
+            <div style="margin-bottom:20px;">
+                <span style="font-size:1.8rem; color:#8B4513; font-weight:bold;">$<?php echo number_format($producto['precio'], 0, ',', '.'); ?></span>
+                <span style="margin-left:10px; color:#28a745; font-weight:bold;">
+                    <?php echo $producto['stock'] > 0 ? '✓ Disponible' : '✗ Agotado'; ?>
+                </span>
+            </div>
+            
+            <div style="margin-bottom:25px;">
+                <p style="color:#666; line-height:1.6;"><?php echo nl2br(htmlspecialchars($producto['descripcion'])); ?></p>
+            </div>
+            
+            <div style="background:#f8f9fa; padding:15px; border-radius:8px; margin-bottom:25px;">
+                <h3 style="margin-top:0; color:#495057;">Detalles del producto</h3>
+                <p><strong>Stock disponible:</strong> <?php echo $producto['stock']; ?> unidades</p>
+                <p><strong>Origen/Marca:</strong> <?php echo htmlspecialchars($producto['origen']); ?></p>
+                
+                <?php if (isset($producto['nombre_empresa'])): ?>
+                    <p><strong>Vendedor:</strong> <?php echo htmlspecialchars($producto['nombre_empresa']); ?></p>
+                <?php endif; ?>
+                
+                <?php if (isset($producto['categorias'])): ?>
+                    <p><strong>Categorías:</strong> <?php echo htmlspecialchars($producto['categorias']); ?></p>
+                <?php endif; ?>
+            </div>
+            
+            <!-- Botones de acción -->
+            <div style="display:flex; gap:15px; flex-wrap:wrap;">
+                <?php if ($producto['stock'] > 0): ?>
+                    <a href="product-compra.php?id=<?php echo $producto['id_producto']; ?>"
+                        style="padding:15px 30px; background:#8B4513; color:white; text-decoration:none; border-radius:5px; font-weight:bold; display:inline-flex; align-items:center; gap:8px;">
+                        <i class="fas fa-shopping-bag"></i> Comprar ahora
+                    </a>
+                    
+                    <a href="agregar-carrito.php?id=<?php echo $producto['id_producto']; ?>&cantidad=1"
+                        style="padding:15px 30px; background:#28a745; color:white; text-decoration:none; border-radius:5px; font-weight:bold; display:inline-flex; align-items:center; gap:8px;">
+                        <i class="fas fa-cart-plus"></i> Agregar al carrito
+                    </a>
+                <?php else: ?>
+                    <button style="padding:15px 30px; background:#6c757d; color:white; border:none; border-radius:5px; font-weight:bold; cursor:not-allowed;">
+                        <i class="fas fa-times-circle"></i> Producto agotado
+                    </button>
+                    <button style="padding:15px 30px; background:#17a2b8; color:white; border:none; border-radius:5px; font-weight:bold;">
+                        <i class="fas fa-bell"></i> Notificarme cuando esté disponible
+                    </button>
+                <?php endif; ?>
+            </div>
+        </div>
     </div>
-
-    <p><strong>Descripción:</strong> <?php echo htmlspecialchars($producto['descripcion']); ?></p>
-    <p><strong>Precio:</strong> $<?php echo number_format($producto['precio']); ?></p>
-    <p><strong>Stock disponible:</strong> <?php echo $producto['stock']; ?></p>
-    <p><strong>Origen:</strong> <?php echo htmlspecialchars($producto['origen']); ?></p>
-
-    <br>
-
-    <!-- BOTÓN PARA PASARELA DE PAGO (cambiar después) -->
-    <a href="product-compra.php?id=<?php echo $producto['id_producto']; ?>"
-        style="padding:10px 20px; background:#8B4513; color:white; text-decoration:none; border-radius:5px;"> <!--CAMBIAR RUTAS-->
-        Comprar ahora
-    </a>
-
-    <br><br>
-
-    <a class="btn-volver" href="search-products.php?search-product=<?php echo urlencode($_GET['search-product'] ?? ''); ?>">← Volver a resultados</a>
-
-
+    
+    <!-- Botón volver -->
+    <div style="margin-top:40px;">
+        <a class="btn-volver" href="search-products.php?search-product=<?php echo urlencode($_GET['search-product'] ?? ''); ?>"
+           style="display:inline-flex; align-items:center; gap:8px; padding:10px 20px; background:#6c757d; color:white; text-decoration:none; border-radius:5px;">
+            <i class="fas fa-arrow-left"></i> Volver a resultados
+        </a>
+    </div>
+</div>
     <script src="../scripts/search-product.js" ;></script>
 </body>
 

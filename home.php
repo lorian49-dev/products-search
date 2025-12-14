@@ -98,6 +98,63 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
             background-size: cover !important;
             background-position: center !important;
         }
+
+        /* Estilos para el carrusel - IMAGEN COMPLETA */
+        .preview-image {
+            width: 100%;
+            height: 180px;
+            /* Altura fija para todas las imágenes */
+            background-size: contain;
+            /* Muestra la imagen completa */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #f9f9f9;
+            /* Fondo neutro para imágenes con transparencia */
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        /* Para mantener la proporción de las imágenes */
+        .card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: white;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hsover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card:hover .preview-image {
+            transform: scale(1.05);
+            /* Efecto sutil al hacer hover */
+        }
+
+        .card-preview {
+            flex: 1;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-description {
+            padding: 15px 10px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .card-info {
+            padding: 10px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -119,13 +176,10 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                 <div class="input-search-product-box">
                     <form action="CONTROLLERS/search-products.php" method="GET" style="width:100%">
                         <li class="input-search-product-li">
-                            <input
-                                type="text"
-                                name="search-product"
-                                id="input-search-product"
-                                placeholder="Buscar producto..."
-                                value="" autocomplete="off">
-                            <button type="submit" class="button-search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            <input type="text" name="search-product" id="input-search-product"
+                                placeholder="Buscar producto..." value="" autocomplete="off">
+                            <button type="submit" class="button-search"><i
+                                    class="fa-solid fa-magnifying-glass"></i></button>
                             <div id="results-container"></div>
                         </li>
                     </form>
@@ -201,7 +255,8 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                     <div class="lista-resultados" style="display:flex; flex-wrap:wrap; gap:20px;">
                         <?php while ($row = $resultadoBusqueda->fetch_assoc()): ?>
 
-                            <div class="producto-card" style="width:200px; border:1px solid #ccc; border-radius:10px; padding:10px;">
+                            <div class="producto-card"
+                                style="width:200px; border:1px solid #ccc; border-radius:10px; padding:10px;">
                                 <h3><?php echo $row['nombre']; ?></h3>
                                 <p><?php echo $row['descripcion']; ?></p>
                                 <p><strong>$<?php echo $row['precio']; ?></strong></p>
@@ -238,29 +293,40 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
 
                     <div class="offerts-carousel" id="offertsCarousel">
                         <?php
-                        $cloudinary = require __DIR__ . '/shortCuts/cloudinary-config.php';
-
                         $sql = "SELECT id_producto, nombre, precio, stock, imagen_url 
                         FROM producto 
                         WHERE stock > 0
                         ORDER BY RAND() 
-                        LIMIT 12"; // 12 para que se vea el scroll
+                        LIMIT 12";
 
                         $resultado = $connect->query($sql);
 
                         if ($resultado && $resultado->num_rows > 0):
                             while ($p = $resultado->fetch_assoc()):
-                                $imagen = !empty($p['imagen_url']) && strpos($p['imagen_url'], 'cloudinary.com') !== false
-                                    ? $cloudinary->image($p['imagen_url'])->resize(Resize::fill(280, 280))->quality("auto")->format("auto")->toUrl()
-                                    : "https://via.placeholder.com/280x280/f0f0f0/999?text=Sin+Foto";
+                                // URL de la imagen
+                                if (!empty($p['imagen_url'])) {
+                                    $imagen = $p['imagen_url'];
+                                }
+                                // Compatibilidad con imágenes locales antiguas
+                                elseif (!empty($p['imagen']) && file_exists('../SOURCES/PRODUCTOS/' . $p['imagen'])) {
+                                    $imagen = '../SOURCES/PRODUCTOS/' . $p['imagen'];
+                                }
+                                // Imagen por defecto
+                                else {
+                                    $imagen = "https://via.placeholder.com/280x280/f0f0f0/999?text=Sin+Foto";
+                                }
 
                                 $nombre_corto = strlen($p['nombre']) > 35 ? substr($p['nombre'], 0, 32) . '...' : $p['nombre'];
-                        ?>
+                                ?>
                                 <a href="CONTROLLERS/search-products-product.php?id=<?php echo $p['id_producto']; ?>"
                                     class="carousel-card">
                                     <div class="card">
                                         <div class="card-preview">
-                                            <div class="preview-image" style="background-image: url('<?php echo $imagen; ?>');"></div>
+                                            <div class="preview-image" style="background-image: url('<?php echo htmlspecialchars($imagen); ?>'); 
+                                                background-size: contain; /* CAMBIADO: de cover a contain */
+                                                background-position: center;
+                                                background-repeat: no-repeat;
+                                                background-color: #f9f9f9;"></div>
                                             <div class="preview-description">
                                                 <strong><?php echo htmlspecialchars($nombre_corto); ?></strong><br>
                                                 <span style="color:#e74c3c; font-size:16px; font-weight:bold;">
@@ -275,7 +341,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                                         </div>
                                     </div>
                                 </a>
-                        <?php
+                                <?php
                             endwhile;
                         else:
                             echo "<p style='color:#999; padding:40px;'>No hay ofertas hoy</p>";
@@ -299,7 +365,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
 
     </footer>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const carousel = document.getElementById('offertsCarousel');
             if (!carousel) return;
 

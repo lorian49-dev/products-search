@@ -8,7 +8,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 // ---------------------------------
 
-// Ruta de conexión (Asegúrate que esta ruta sea correcta)
+// Ruta de conexión a la base de datos
 if (!include('../shortCuts/connect.php')) {
     die("Error Fatal: No se pudo encontrar o incluir el archivo de conexión.");
 }
@@ -19,9 +19,8 @@ if (!isset($_SESSION['admin_logueado']) || $_SESSION['admin_logueado'] !== true)
     exit();
 }
 
-// ----------------------------------------------------
 // 1. FUNCIÓN DE MANEJO DE IMAGENES
-// ----------------------------------------------------
+
 
 /**
  * Procesa la subida de una imagen al servidor.
@@ -82,17 +81,17 @@ function handleImageUpload($file_array, $current_image_path, $connect) {
 }
 
 
-// ----------------------------------------------------
+
 // 2. LÓGICA DEL CONTROLADOR (ACTIONS)
-// ----------------------------------------------------
+
 
 $action = $_GET['action'] ?? null;
 
 switch ($action) {
     
-    // ------------------------------------------------
+
     // CRUD DE PRODUCTOS
-    // ------------------------------------------------
+
     
     case 'create':
     case 'update':
@@ -119,7 +118,7 @@ switch ($action) {
         if ($action == 'create') {
             // --- CREAR PRODUCTO (INSERT) ---
             $query = "INSERT INTO producto (nombre, descripcion, origen, precio, stock, imagen_url, id_vendedor, fecha_creacion) 
-                      VALUES ('$nombre', '$descripcion', '$origen', $precio, $stock, $image_sql_value, $id_vendedor, NOW())";
+                        VALUES ('$nombre', '$descripcion', '$origen', $precio, $stock, $image_sql_value, $id_vendedor, NOW())";
             
             if (mysqli_query($connect, $query)) {
                 $id_producto = mysqli_insert_id($connect); 
@@ -133,8 +132,8 @@ switch ($action) {
         } else { // update
             // --- ACTUALIZAR PRODUCTO (UPDATE) ---
             if (empty($id_producto)) {
-                 header("Location: products-dashboard-admin-index.php?error=ProductoIDVacio");
-                 exit();
+                header("Location: products-dashboard-admin-index.php?error=ProductoIDVacio");
+                exit();
             }
             
             $query = "UPDATE producto SET 

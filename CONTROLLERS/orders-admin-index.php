@@ -27,9 +27,9 @@ if ($conn->connect_error) {
     die("Error de conexión");
 }
 
-/* ========================= */
+
 /*      BUSCADOR VENTAS      */
-/* ========================= */
+
 $busqueda = $_GET['busqueda'] ?? '';
 $where = '';
 
@@ -103,7 +103,7 @@ if (!empty($busqueda)) {
     background-color: #ffb000; /* Un color ligeramente más claro al pasar el mouse */
   }
   
-  /* Ocultamos las flechas (esto generalmente no es necesario, pero lo mantenemos por si acaso) */
+  /* Oculte las flechas (esto generalmente no es necesario, pero lo mantenemos por si acaso) */
 #navegation::-webkit-scrollbar-button {
     display: none;
   }

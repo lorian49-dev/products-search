@@ -20,7 +20,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
-     echo "<script>
+    echo "<script>
         window.location.href = 'seller-apart-main-view.php';
     </script>";
     exit;
@@ -84,6 +84,7 @@ $ventas = $stmtVentas->get_result()->fetch_assoc();
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -110,7 +111,7 @@ $ventas = $stmtVentas->get_result()->fetch_assoc();
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .header-left h1 {
@@ -160,7 +161,7 @@ $ventas = $stmtVentas->get_result()->fetch_assoc();
             width: 250px;
             background: white;
             padding: 25px 0;
-            box-shadow: 3px 0 10px rgba(0,0,0,0.05);
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.05);
             position: sticky;
             top: 0;
             height: 100vh;
@@ -202,7 +203,8 @@ $ventas = $stmtVentas->get_result()->fetch_assoc();
             transition: all 0.3s;
         }
 
-        .nav-menu a:hover, .nav-menu a.active {
+        .nav-menu a:hover,
+        .nav-menu a.active {
             background: #eff6ff;
             color: #1d4ed8;
         }
@@ -250,7 +252,7 @@ $ventas = $stmtVentas->get_result()->fetch_assoc();
             background: white;
             padding: 25px;
             border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             display: flex;
             align-items: center;
             gap: 20px;
@@ -272,10 +274,21 @@ $ventas = $stmtVentas->get_result()->fetch_assoc();
             color: white;
         }
 
-        .icon-1 { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
-        .icon-2 { background: linear-gradient(135deg, #10b981, #059669); }
-        .icon-3 { background: linear-gradient(135deg, #f59e0b, #d97706); }
-        .icon-4 { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .icon-1 {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+
+        .icon-2 {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .icon-3 {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .icon-4 {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
 
         .stat-info h3 {
             font-size: 1.8rem;
@@ -293,7 +306,7 @@ $ventas = $stmtVentas->get_result()->fetch_assoc();
             background: white;
             border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             margin-bottom: 30px;
         }
 
@@ -343,9 +356,20 @@ $ventas = $stmtVentas->get_result()->fetch_assoc();
             font-weight: 500;
         }
 
-        .status-pendiente { background: #fef3c7; color: #92400e; }
-        .status-enviado { background: #dbeafe; color: #1e40af; }
-        .status-entregado { background: #dcfce7; color: #166534; }
+        .status-pendiente {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-enviado {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-entregado {
+            background: #dcfce7;
+            color: #166534;
+        }
 
         .btn {
             display: inline-flex;
@@ -442,15 +466,18 @@ $ventas = $stmtVentas->get_result()->fetch_assoc();
             .dashboard-container {
                 flex-direction: column;
             }
+
             .sidebar {
                 width: 100%;
                 height: auto;
                 position: relative;
                 margin-bottom: 20px;
             }
+
             .stats-grid {
                 grid-template-columns: 1fr;
             }
+
             .header {
                 flex-direction: column;
                 gap: 15px;
@@ -459,6 +486,7 @@ $ventas = $stmtVentas->get_result()->fetch_assoc();
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <div class="header">
@@ -473,7 +501,8 @@ $ventas = $stmtVentas->get_result()->fetch_assoc();
                 </div>
                 <div>
                     <strong><?php echo htmlspecialchars($negocio['nombre'] . ' ' . $negocio['apellido']); ?></strong>
-                    <p style="font-size: 0.8rem; color: #d1d5db;"><?php echo htmlspecialchars($negocio['correo']); ?></p>
+                    <p style="font-size: 0.8rem; color: #d1d5db;"><?php echo htmlspecialchars($negocio['correo']); ?>
+                    </p>
                 </div>
             </div>
             <a href="../registros-inicio-sesion/logout.php" class="btn btn-danger">
@@ -491,7 +520,7 @@ $ventas = $stmtVentas->get_result()->fetch_assoc();
             </div>
             <ul class="nav-menu">
                 <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                <li><a href="crear-producto.php"><i class="fas fa-plus-circle"></i> Crear Producto</a></li>
+                <li><a href="seller-apart-product-create.php"><i class="fas fa-plus-circle"></i> Crear Producto</a></li>
                 <li><a href="seller-apart-products.php"><i class="fas fa-box"></i> Mis Productos</a></li>
                 <li><a href="categorias-vendedor.php"><i class="fas fa-tags"></i> Mis Categorías</a></li>
                 <li><a href="catalogos-vendedor.php"><i class="fas fa-book"></i> Mis Catálogos</a></li>
@@ -562,47 +591,48 @@ $ventas = $stmtVentas->get_result()->fetch_assoc();
                     <h3><i class="fas fa-box"></i> Últimos Productos</h3>
                     <a href="productos-vendedor.php" class="btn btn-outline">Ver Todos</a>
                 </div>
-                
+
                 <?php if ($productos->num_rows > 0): ?>
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Precio</th>
-                                <th>Stock</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while($producto = $productos->fetch_assoc()): ?>
-                            <tr>
-                                <td>#<?php echo $producto['id_producto']; ?></td>
-                                <td><?php echo htmlspecialchars($producto['nombre']); ?></td>
-                                <td>$<?php echo number_format($producto['precio'], 0, ',', '.'); ?></td>
-                                <td><?php echo $producto['stock']; ?></td>
-                                <td>
-                                    <a href="editar-producto.php?id=<?php echo $producto['id_producto']; ?>" class="btn btn-sm">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="eliminar-producto.php?id=<?php echo $producto['id_producto']; ?>" 
-                                       class="btn btn-sm btn-danger"
-                                       onclick="return confirm('¿Eliminar este producto?')">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php while ($producto = $productos->fetch_assoc()): ?>
+                                    <tr>
+                                        <td>#<?php echo $producto['id_producto']; ?></td>
+                                        <td><?php echo htmlspecialchars($producto['nombre']); ?></td>
+                                        <td>$<?php echo number_format($producto['precio'], 0, ',', '.'); ?></td>
+                                        <td><?php echo $producto['stock']; ?></td>
+                                        <td>
+                                            <a href="editar-producto.php?id=<?php echo $producto['id_producto']; ?>"
+                                                class="btn btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="eliminar-producto.php?id=<?php echo $producto['id_producto']; ?>"
+                                                class="btn btn-sm btn-danger"
+                                                onclick="return confirm('¿Eliminar este producto?')">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 <?php else: ?>
-                <div class="empty-state">
-                    <i class="fas fa-box-open"></i>
-                    <p>No tienes productos registrados</p>
-                    <a href="seller-apart-product-create.php" class="btn">Crear Primer Producto</a>
-                </div>
+                    <div class="empty-state">
+                        <i class="fas fa-box-open"></i>
+                        <p>No tienes productos registrados</p>
+                        <a href="seller-apart-product-create.php" class="btn">Crear Primer Producto</a>
+                    </div>
                 <?php endif; ?>
             </div>
 
@@ -612,47 +642,48 @@ $ventas = $stmtVentas->get_result()->fetch_assoc();
                     <h3><i class="fas fa-shopping-cart"></i> Últimos Pedidos</h3>
                     <a href="pedidos-vendedor.php" class="btn btn-outline">Ver Todos</a>
                 </div>
-                
+
                 <?php if ($pedidos->num_rows > 0): ?>
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID Pedido</th>
-                                <th>Cliente</th>
-                                <th>Fecha</th>
-                                <th>Total</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while($pedido = $pedidos->fetch_assoc()): ?>
-                            <tr>
-                                <td>#<?php echo $pedido['id_pedido']; ?></td>
-                                <td><?php echo htmlspecialchars($pedido['nombre'] . ' ' . $pedido['apellido']); ?></td>
-                                <td><?php echo date('d/m/Y', strtotime($pedido['fecha_pedido'])); ?></td>
-                                <td>$<?php echo number_format($pedido['total'], 0, ',', '.'); ?></td>
-                                <td>
-                                    <span class="status status-<?php echo strtolower($pedido['estado']); ?>">
-                                        <?php echo $pedido['estado']; ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <a href="detalle-pedido.php?id=<?php echo $pedido['id_pedido']; ?>" class="btn btn-sm">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID Pedido</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php while ($pedido = $pedidos->fetch_assoc()): ?>
+                                    <tr>
+                                        <td>#<?php echo $pedido['id_pedido']; ?></td>
+                                        <td><?php echo htmlspecialchars($pedido['nombre'] . ' ' . $pedido['apellido']); ?></td>
+                                        <td><?php echo date('d/m/Y', strtotime($pedido['fecha_pedido'])); ?></td>
+                                        <td>$<?php echo number_format($pedido['total'], 0, ',', '.'); ?></td>
+                                        <td>
+                                            <span class="status status-<?php echo strtolower($pedido['estado']); ?>">
+                                                <?php echo $pedido['estado']; ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="detalle-pedido.php?id=<?php echo $pedido['id_pedido']; ?>"
+                                                class="btn btn-sm">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 <?php else: ?>
-                <div class="empty-state">
-                    <i class="fas fa-shopping-cart"></i>
-                    <p>No tienes pedidos aún</p>
-                </div>
+                    <div class="empty-state">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>No tienes pedidos aún</p>
+                    </div>
                 <?php endif; ?>
             </div>
 
@@ -662,33 +693,33 @@ $ventas = $stmtVentas->get_result()->fetch_assoc();
                     <h3><i class="fas fa-store"></i> Información del Negocio</h3>
                     <a href="editar-negocio.php" class="btn">Editar Información</a>
                 </div>
-                
+
                 <div class="business-info-grid">
                     <div class="info-item">
                         <strong>Nombre de Empresa</strong>
                         <span><?php echo htmlspecialchars($negocio['nombre_empresa']); ?></span>
                     </div>
-                    
+
                     <div class="info-item">
                         <strong>NIT</strong>
                         <span><?php echo htmlspecialchars($negocio['nit']); ?></span>
                     </div>
-                    
+
                     <div class="info-item">
                         <strong>Teléfono</strong>
                         <span><?php echo htmlspecialchars($negocio['telefono_contacto']); ?></span>
                     </div>
-                    
+
                     <div class="info-item">
                         <strong>Correo Contacto</strong>
                         <span><?php echo htmlspecialchars($negocio['correo_contacto']); ?></span>
                     </div>
-                    
+
                     <div class="info-item">
                         <strong>Ubicación</strong>
                         <span><?php echo htmlspecialchars($negocio['ubicacion']); ?></span>
                     </div>
-                    
+
                     <div class="info-item">
                         <strong>Fecha Registro</strong>
                         <span><?php echo date('d/m/Y', strtotime($negocio['fecha_registro'])); ?></span>
@@ -701,7 +732,7 @@ $ventas = $stmtVentas->get_result()->fetch_assoc();
                 <div class="section-header">
                     <h3><i class="fas fa-bolt"></i> Acciones Rápidas</h3>
                 </div>
-                
+
                 <div style="display: flex; gap: 15px; flex-wrap: wrap;">
                     <a href="seller-apart-product-create.php" class="btn">
                         <i class="fas fa-plus-circle"></i> Nuevo Producto
@@ -724,48 +755,49 @@ $ventas = $stmtVentas->get_result()->fetch_assoc();
         // Actualizar hora en tiempo real
         function updateTime() {
             const now = new Date();
-            const options = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
                 day: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit'
             };
             const timeString = now.toLocaleDateString('es-ES', options);
-            
+
             // Actualizar en el header si hay un elemento con clase time-display
             const timeElements = document.querySelectorAll('.time-display');
             timeElements.forEach(el => {
                 el.textContent = timeString;
             });
         }
-        
+
         // Actualizar cada minuto
         setInterval(updateTime, 60000);
-        
+
         // Confirmación para acciones de eliminación
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const deleteLinks = document.querySelectorAll('a.btn-danger');
             deleteLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
+                link.addEventListener('click', function (e) {
                     if (!confirm('¿Estás seguro de que quieres realizar esta acción?')) {
                         e.preventDefault();
                     }
                 });
             });
-            
+
             // Añadir animación a las tarjetas de estadísticas
             const statCards = document.querySelectorAll('.stat-card');
             statCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
+                card.addEventListener('mouseenter', function () {
                     this.style.transform = 'translateY(-5px)';
                 });
-                card.addEventListener('mouseleave', function() {
+                card.addEventListener('mouseleave', function () {
                     this.style.transform = 'translateY(0)';
                 });
             });
         });
     </script>
 </body>
+
 </html>

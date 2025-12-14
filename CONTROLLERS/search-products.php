@@ -446,54 +446,71 @@ $resultado = $connect->query($sql);
         </aside>
 
         <section class="main-content" style="flex:1;">
-            <div class="result-container">
+    <div class="result-container">
 
-                <?php if ($resultado !== null): ?>
+        <?php if ($resultado !== null): ?>
 
-                    <?php if ($resultado->num_rows > 0): ?>
+            <?php if ($resultado->num_rows > 0): ?>
 
-                        <h2>Resultados para: "<?php echo htmlspecialchars($busqueda); ?>"</h2>
+                <h2>Resultados para: "<?php echo htmlspecialchars($busqueda); ?>"</h2>
 
-                        <div class="productos-grid">
+                <div class="productos-grid">
 
-                            <?php while ($row = $resultado->fetch_assoc()): ?>
+                    <?php while ($row = $resultado->fetch_assoc()): ?>
 
-                                <div class="producto-card">
-                                    <?php
-                                    $imagen = (!empty($row['imagen'])) ? $row['imagen'] : "default.png";
-                                    ?>
-                                    <div
-                                        class="producto-img"
-                                        style="background-image: url('../SOURCES/PRODUCTOS/<?php echo $imagen; ?>');">
-                                    </div>
+                        <div class="producto-card">
+                            <?php
+                            // OPCIÓN 1: Si guardas las imágenes en Cloudinary
+                            if (!empty($row['imagen_url'])) {
+                                // La URL ya está completa desde Cloudinary
+                                $imagen_url = $row['imagen_url'];
+                            } 
+                            // OPCIÓN 2: Si todavía tienes imágenes locales
+                            elseif (!empty($row['imagen'])) {
+                                // Para compatibilidad con imágenes antiguas
+                                $imagen_url = '../SOURCES/PRODUCTOS/' . $row['imagen'];
+                            }
+                            // OPCIÓN 3: Imagen por defecto
+                            else {
+                                $imagen_url = '../SOURCES/PRODUCTOS/default.png';
+                            }
+                            ?>
+                            
+                            <div class="producto-img" style="background-image: url('<?php echo $imagen_url; ?>'); background-size: cover; background-position: center;">
+                            </div>
 
+                            <h3>
+                                <a href="search-products-product.php?id=<?php echo $row['id_producto']; ?>&search-product=<?php echo urlencode($busqueda); ?>"
+                                    class="producto-link">
+                                    <?php echo htmlspecialchars($row['nombre']); ?>
+                                </a>
+                            </h3>
 
-                                    <h3>
-                                        <a href="search-products-product.php?id=<?php echo $row['id_producto']; ?>&search-product=<?php echo urlencode($busqueda); ?>"
-                                            class="producto-link">
-                                            <?php echo htmlspecialchars($row['nombre']); ?>
-                                        </a>
-                                    </h3>
-
-                                    <p><?php echo htmlspecialchars($row['descripcion']); ?></p>
-                                    <p><strong>$<?php echo number_format($row['precio']); ?></strong></p>
-                                    <p>Stock: <?php echo $row['stock']; ?></p>
-                                </div>
-
-                            <?php endwhile; ?>
-
+                            <p class="descripcion-corta"><?php 
+                                // Mostrar solo parte de la descripción
+                                echo strlen($row['descripcion']) > 100 
+                                    ? substr(htmlspecialchars($row['descripcion']), 0, 100) . '...' 
+                                    : htmlspecialchars($row['descripcion']); 
+                            ?></p>
+                            <p class="precio"><strong>$<?php echo number_format($row['precio'], 0, ',', '.'); ?></strong></p>
+                            <p class="stock">Disponible: <?php echo $row['stock']; ?> unidades</p>
                         </div>
 
-                    <?php else: ?>
-                        <p>No se encontraron productos que coincidan.</p>
-                    <?php endif; ?>
+                    <?php endwhile; ?>
 
-                <?php else: ?>
-                    <p>No se ingresó ningún término de búsqueda.</p>
-                <?php endif; ?>
+                </div>
 
-                <a class="btn-volver" href="../home.php">← Volver al inicio</a>
-            </div>
+            <?php else: ?>
+                <p>No se encontraron productos que coincidan con "<?php echo htmlspecialchars($busqueda); ?>".</p>
+            <?php endif; ?>
+
+        <?php else: ?>
+            <p>No se ingresó ningún término de búsqueda.</p>
+        <?php endif; ?>
+
+        <a class="btn-volver" href="../home.php">← Volver al inicio</a>
+    </div>
+</section>
         </section>
     </div>
     <script src="../scripts/search-product.js" ;>

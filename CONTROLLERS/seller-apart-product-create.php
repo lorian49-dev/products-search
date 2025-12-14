@@ -2,6 +2,9 @@
 session_start();
 require "../shortCuts/connect.php";
 
+// Cargar configuración de Cloudinary
+$cloudinary = require_once "../shortCuts/cloudinary-config.php";
+
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: ../registros-inicio-sesion/login.html");
     exit;
@@ -37,51 +40,108 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $origen = trim($_POST['origen']);
     $categoria_id = $_POST['categoria_id'];
     
-    // Manejar imagen
+    // Manejar imagen con Cloudinary
     $imagen_url = null;
+    $public_id = null; // Guardar el public_id por si necesitas eliminarla después
+    
     if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === 0) {
-        $uploadDir = "../uploads/productos/";
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
+        // Validar tipo de archivo
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        $fileType = mime_content_type($_FILES['imagen']['tmp_name']);
         
-        $fileName = time() . '_' . basename($_FILES['imagen']['name']);
-        $targetFile = $uploadDir . $fileName;
-        
-        if (move_uploaded_file($_FILES['imagen']['tmp_name'], $targetFile)) {
-            $imagen_url = $targetFile;
+        if (!in_array($fileType, $allowedTypes)) {
+            $mensaje = '<div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                        Formato de imagen no permitido. Solo se aceptan JPG, PNG, GIF y WEBP.
+                        </div>';
+        } else {
+            // Validar tamaño máximo (5MB)
+            $maxSize = 5 * 5120 * 5120; // 5MB en bytes
+            if ($_FILES['imagen']['size'] > $maxSize) {
+                $mensaje = '<div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                            La imagen es demasiado grande. Tamaño máximo: 5MB.
+                            </div>';
+            } else {
+                try {
+                    // Generar nombre único para el archivo
+                    $fileName = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME);
+                    $safeFileName = preg_replace('/[^a-zA-Z0-9_-]/', '_', $fileName);
+                    
+                    // Subir imagen a Cloudinary
+                    $uploadResult = $cloudinary->uploadApi()->upload(
+                        $_FILES['imagen']['tmp_name'],
+                        [
+                            'folder' => 'hermes_bd/productos/vendedor_' . $idUsuario,
+                            'public_id' => 'producto_' . time() . '_' . $safeFileName,
+                            'use_filename' => true,
+                            'unique_filename' => true,
+                            'overwrite' => true,
+                            'resource_type' => 'image',
+                            'transformation' => [
+                                'quality' => 'auto:good',
+                                'fetch_format' => 'auto'
+                            ]
+                        ]
+                    );
+                    
+                    // Obtener la URL segura de la imagen
+                    $imagen_url = $uploadResult['secure_url'];
+                    $public_id = $uploadResult['public_id'];
+                    
+                    // Mensaje de éxito para debug
+                    error_log("Imagen subida a Cloudinary. URL: " . $imagen_url);
+                    
+                } catch (Exception $e) {
+                    $mensaje = '<div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                                Error al subir la imagen a Cloudinary: ' . htmlspecialchars($e->getMessage()) . '
+                                </div>';
+                    error_log("Error Cloudinary: " . $e->getMessage());
+                }
+            }
         }
     }
     
-    // Insertar producto con el id_vendedor
-    $sqlInsert = "INSERT INTO producto (nombre, descripcion, imagen_url, precio, stock, origen, id_vendedor) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $connect->prepare($sqlInsert);
-    $stmt->bind_param("ssssisi", $nombre, $descripcion, $imagen_url, $precio, $stock, $origen, $idUsuario);
-    
-    if ($stmt->execute()) {
-        $idProducto = $connect->insert_id;
+    // Si no hay mensaje de error, proceder con la inserción
+    if (empty($mensaje)) {
+        // Insertar producto con el id_vendedor
+        $sqlInsert = "INSERT INTO producto (nombre, descripcion, imagen_url, precio, stock, origen, id_vendedor, cloudinary_public_id) 
+                      VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $connect->prepare($sqlInsert);
+        $stmt->bind_param("ssssisss", $nombre, $descripcion, $imagen_url, $precio, $stock, $origen, $idUsuario, $public_id);
         
-        // Asignar categoría si se seleccionó
-        if ($categoria_id) {
-            $sqlAsignarCategoria = "INSERT INTO producto_categoria (id_producto, id_categoria) VALUES (?, ?)";
-            $stmtCat = $connect->prepare($sqlAsignarCategoria);
-            $stmtCat->bind_param("ii", $idProducto, $categoria_id);
-            $stmtCat->execute();
+        if ($stmt->execute()) {
+            $idProducto = $connect->insert_id;
+            
+            // Asignar categoría si se seleccionó
+            if ($categoria_id) {
+                $sqlAsignarCategoria = "INSERT INTO producto_categoria (id_producto, id_categoria) VALUES (?, ?)";
+                $stmtCat = $connect->prepare($sqlAsignarCategoria);
+                $stmtCat->bind_param("ii", $idProducto, $categoria_id);
+                $stmtCat->execute();
+            }
+            
+            echo "<script>
+                alert('Producto creado exitosamente');
+                window.location.href = 'productos-vendedor.php';
+            </script>";
+            exit;
+        } else {
+            // Si falla la inserción, eliminar la imagen de Cloudinary
+            if ($public_id) {
+                try {
+                    $cloudinary->uploadApi()->destroy($public_id);
+                } catch (Exception $e) {
+                    error_log("Error al eliminar imagen de Cloudinary: " . $e->getMessage());
+                }
+            }
+            
+            $mensaje = '<div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                        Error al crear el producto: ' . $connect->error . '
+                        </div>';
         }
-        
-        echo "<script>
-            alert('Producto creado exitosamente');
-            window.location.href = 'productos-vendedor.php';
-        </script>";
-        exit;
-    } else {
-        $mensaje = '<div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-                    Error al crear el producto: ' . $connect->error . '
-                    </div>';
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -280,6 +340,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin-bottom: 20px;
             border-left: 4px solid #ef4444;
         }
+
+        /* Preview de imagen */
+        .image-preview {
+            margin-top: 10px;
+            display: none;
+        }
+
+        .image-preview img {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 8px;
+            border: 2px solid #d1d5db;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -292,7 +366,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <ul class="nav-menu">
                 <li><a href="seller-apart-main-view.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                 <li><a href="crear-producto.php" class="active"><i class="fas fa-plus-circle"></i> Crear Producto</a></li>
-                <li><a href="productos-vendedor.php"><i class="fas fa-box"></i> Mis Productos</a></li>
+                <li><a href="seller-apart-products.php"><i class="fas fa-box"></i> Mis Productos</a></li>
                 <li><a href="categorias-vendedor.php"><i class="fas fa-tags"></i> Mis Categorías</a></li>
                 <li><a href="catalogos-vendedor.php"><i class="fas fa-book"></i> Mis Catálogos</a></li>
                 <li><a href="pedidos-vendedor.php"><i class="fas fa-shopping-cart"></i> Pedidos</a></li>
@@ -305,7 +379,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="main-content">
             <div class="section-header">
                 <h2><i class="fas fa-plus-circle"></i> Crear Nuevo Producto</h2>
-                <a href="productos-vendedor.php" class="btn btn-outline">
+                <a href="seller-apart-products.php" class="btn btn-outline">
                     <i class="fas fa-arrow-left"></i> Ver Mis Productos
                 </a>
             </div>
@@ -313,7 +387,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php echo $mensaje; ?>
 
             <div class="form-container">
-                <form method="POST" enctype="multipart/form-data">
+                <form method="POST" enctype="multipart/form-data" id="productForm">
                     <div class="form-group">
                         <label>Nombre del Producto *</label>
                         <input type="text" name="nombre" placeholder="Ej: Camiseta de algodón" required>
@@ -345,7 +419,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label>Categoría (Opcional)</label>
                         <select name="categoria_id">
                             <option value="">Seleccionar categoría</option>
-                            <?php while($categoria = $categorias->fetch_assoc()): ?>
+                            <?php 
+                            // Resetear el puntero del resultado
+                            $categorias->data_seek(0);
+                            while($categoria = $categorias->fetch_assoc()): ?>
                                 <option value="<?php echo $categoria['id_categoria']; ?>">
                                     <?php echo htmlspecialchars($categoria['nombre_categoria']); ?>
                                 </option>
@@ -354,18 +431,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     
                     <div class="form-group">
-                        <label>Imagen del Producto (Opcional)</label>
-                        <input type="file" name="imagen" accept="image/*">
+                        <label>Imagen del Producto</label>
+                        <input type="file" name="imagen" accept="image/*" id="imagenInput">
                         <small style="color: #6b7280; display: block; margin-top: 5px;">
-                            Formatos aceptados: JPG, PNG, GIF. Tamaño máximo: 2MB
+                            Formatos aceptados: JPG, PNG, GIF, WEBP. Tamaño máximo: 5MB
                         </small>
+                        <div class="image-preview" id="imagePreview">
+                            <img src="" alt="Vista previa" id="previewImage">
+                        </div>
                     </div>
                     
                     <div class="form-group" style="margin-top: 30px;">
-                        <button type="submit" class="btn btn-success" style="padding: 15px 30px; font-size: 1rem;">
+                        <button href="seller-apart-manage-bussiness.php" class="btn btn-success" style="padding: 15px 30px; font-size: 1rem;">
                             <i class="fas fa-save"></i> Crear Producto
                         </button>
-                        <a href="seller-apart-main-view.php" class="btn btn-outline" style="margin-left: 10px;">
+                        <a href="seller-apart-manage-bussiness.php" class="btn btn-outline" style="margin-left: 10px;">
                             <i class="fas fa-times"></i> Cancelar
                         </a>
                     </div>
@@ -376,6 +456,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <ul style="color: #4b5563; padding-left: 20px;">
                         <li>Vendedor: <strong><?php echo htmlspecialchars($vendedor['nombre_empresa']); ?></strong></li>
                         <li>Todos los productos que crees aparecerán con tu nombre de empresa</li>
+                        <li>Las imágenes se subirán automáticamente a Cloudinary</li>
                         <li>El stock se actualizará automáticamente con cada venta</li>
                         <li>Puedes editar o eliminar tus productos en cualquier momento</li>
                     </ul>
@@ -387,9 +468,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script>
         // Validación del formulario
         document.addEventListener('DOMContentLoaded', function() {
-            const form = document.querySelector('form');
+            const form = document.getElementById('productForm');
+            const imagenInput = document.getElementById('imagenInput');
+            const imagePreview = document.getElementById('imagePreview');
+            const previewImage = document.getElementById('previewImage');
             const precioInput = document.querySelector('input[name="precio"]');
             const stockInput = document.querySelector('input[name="stock"]');
+            
+            // Vista previa de imagen
+            imagenInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    
+                    reader.addEventListener('load', function() {
+                        previewImage.src = reader.result;
+                        imagePreview.style.display = 'block';
+                    });
+                    
+                    reader.readAsDataURL(file);
+                    
+                    // Validar tamaño
+                    if (file.size > 5 * 5120 * 5120) { // 5MB
+                        alert('La imagen es demasiado grande. Tamaño máximo: 5MB.');
+                        this.value = '';
+                        imagePreview.style.display = 'none';
+                    }
+                } else {
+                    imagePreview.style.display = 'none';
+                }
+            });
             
             form.addEventListener('submit', function(e) {
                 let valid = true;
@@ -419,9 +527,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     alert('El stock debe ser un número positivo.');
                 }
                 
+                // Validar tipo de archivo si se seleccionó una imagen
+                if (imagenInput.files.length > 0) {
+                    const file = imagenInput.files[0];
+                    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+                    
+                    if (!allowedTypes.includes(file.type)) {
+                        valid = false;
+                        imagenInput.style.borderColor = '#ef4444';
+                        alert('Formato de imagen no permitido. Solo se aceptan JPG, PNG, GIF y WEBP.');
+                        }
+                }
+                
                 if (!valid) {
                     e.preventDefault();
                     alert('Por favor, complete todos los campos requeridos correctamente.');
+                } else {
+                    // Mostrar mensaje de carga
+                    const submitButton = form.querySelector('button[type="submit"]');
+                    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subiendo imagen...';
+                    submitButton.disabled = true;
                 }
             });
             

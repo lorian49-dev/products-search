@@ -411,8 +411,8 @@ if (isset($_GET['eliminar'])) {
                     <p style="font-size: 0.8rem; color: #d1d5db;">Vendedor</p>
                 </div>
             </div>
-            <a href="seller-apart-main-view.php" class="btn">
-                <i class="fas fa-arrow-left"></i> Volver al Dashboard
+            <a href="../home.php" class="btn">
+                <i class="fas fa-arrow-left"></i> Volver a la página principal
             </a>
         </div>
     </div>
