@@ -23,10 +23,11 @@ if ($result->num_rows === 0) {
 
 $producto = $result->fetch_assoc();
 
-// PROCESAR AÑADIR AL CARRITO
+// PROCESAR AÑADIR AL CARRITO - SOLO PARA AJAX
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
-    $action = $_POST['action']; // 'add_to_cart' o 'buy_now'
+    $action = $_POST['action'];
+    $ajax = isset($_POST['ajax']) && $_POST['ajax'] === 'true'; // Nuevo parámetro
 
     if ($quantity > 0 && $producto['stock'] >= $quantity) {
         $imagen_url = !empty($producto['imagen_url']) ? $producto['imagen_url'] : (!empty($producto['imagen']) ? '../SOURCES/PRODUCTOS/' . $producto['imagen'] : null);
@@ -40,27 +41,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $imagen_url
         );
 
-        // REDIRIGIR SEGÚN LA ACCIÓN
+        // Si es petición AJAX, devolver JSON
+        if ($ajax) {
+            echo json_encode([
+                'success' => true,
+                'message' => '✓ Producto añadido al carrito correctamente',
+                'cart_count' => getCartCount()
+            ]);
+            exit;
+        }
+
+        // Si NO es AJAX, redirigir según la acción
         if ($action === 'buy_now') {
             // "COMPRAR AHORA" → Redirigir al CHECKOUT
             header("Location: ../CONTROLLERS/checkout.php");
             exit;
         } else {
             // "AÑADIR AL CARRITO" → Redirigir al CARRITO
-            $_SESSION['cart_message'] = [
-                'type' => 'success',
-                'message' => '✓ Producto añadido al carrito correctamente'
-            ];
+            $_SESSION['cart_message'] = '✓ Producto añadido al carrito correctamente';
             header("Location: ../CONTROLLERS/cart.php");
             exit;
         }
     } else {
-        $_SESSION['cart_message'] = [
-            'type' => 'error',
-            'message' => 'Stock insuficiente. Disponible: ' . $producto['stock']
-        ];
-        header("Location: ?id=" . $id);
-        exit;
+        $message = 'Stock insuficiente. Disponible: ' . $producto['stock'];
+
+        if ($ajax) {
+            echo json_encode([
+                'success' => false,
+                'message' => $message
+            ]);
+            exit;
+        } else {
+            $_SESSION['cart_message'] = $message;
+            header("Location: ?id=" . $id);
+            exit;
+        }
     }
 }
 
@@ -70,6 +85,7 @@ if (isset($_SESSION['cart_message'])) {
     unset($_SESSION['cart_message']);
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -444,6 +460,88 @@ if (isset($_SESSION['cart_message'])) {
                 justify-content: center;
             }
         }
+
+        .notification-container {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .notification {
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease-out;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            max-width: 350px;
+        }
+
+        .notification-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .notification-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* Estilo para el botón de añadir al carrito cuando está cargando */
+        .btn-loading {
+            position: relative;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid transparent;
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 
@@ -590,27 +688,20 @@ if (isset($_SESSION['cart_message'])) {
                         </div>
 
                         <!-- Botones de acción -->
+                        <!-- Cambia los botones en el HTML: -->
                         <div class="action-buttons">
-                            <!-- FORMULARIO 1: Añadir al carrito -->
-                            <form method="POST" action="" class="hidden-form" id="formAddToCart">
-                                <input type="hidden" name="action" value="add_to_cart">
-                                <input type="hidden" name="quantity" id="quantity_add">
-                            </form>
-
-                            <button type="button" class="btn-add-to-cart" onclick="addToCart()">
+                            <button type="button" class="btn-add-to-cart" onclick="addToCartAjax()" id="addToCartBtn">
                                 <i class="fas fa-cart-plus"></i> Añadir al carrito
                             </button>
 
-                            <!-- FORMULARIO 2: Comprar ahora -->
-                            <form method="POST" action="" class="hidden-form" id="formBuyNow">
-                                <input type="hidden" name="action" value="buy_now">
-                                <input type="hidden" name="quantity" id="quantity_buy">
-                            </form>
-
-                            <button type="button" class="btn-buy-now" onclick="buyNow()">
+                            <button type="button" class="btn-buy-now" onclick="buyNowAjax()" id="buyNowBtn">
                                 <i class="fas fa-bolt"></i> Comprar ahora
                             </button>
                         </div>
+
+                        <!-- Contenedor para notificaciones -->
+                        <div class="notification-container" id="notificationContainer"></div>
+
                     <?php else: ?>
                         <div class="action-buttons">
                             <button class="btn-disabled">
@@ -639,7 +730,187 @@ if (isset($_SESSION['cart_message'])) {
     </div>
     <script src="../scripts/search-product.js"></script>
     <script>
-        // Controlar cantidad
+        // Función para mostrar notificación
+        function showNotification(message, type) {
+            const container = document.getElementById('notificationContainer');
+            if (!container) return;
+            
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            container.appendChild(notification);
+            
+            // Remover después de 4 segundos
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+        }
+
+        // AÑADIR AL CARRITO CON AJAX
+        function addToCartAjax() {
+            const quantity = document.getElementById('quantity').value;
+            const maxStock = <?php echo $producto['stock']; ?>;
+            const productId = <?php echo $producto['id_producto']; ?>;
+            const btn = document.getElementById('addToCartBtn');
+            const originalText = btn.innerHTML;
+
+            // Validar stock
+            if (parseInt(quantity) > maxStock) {
+                showNotification('No hay suficiente stock. Disponible: ' + maxStock, 'error');
+                return false;
+            }
+
+            // Mostrar estado de carga
+            btn.classList.add('btn-loading');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Añadiendo...';
+
+            // Crear datos del formulario
+            const formData = new FormData();
+            formData.append('action', 'add_to_cart');
+            formData.append('quantity', quantity);
+            formData.append('ajax', 'true');
+
+            // Enviar por AJAX
+            fetch('search-products-product.php?id=<?php echo $id; ?>', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Restaurar botón
+                btn.classList.remove('btn-loading');
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+
+                if (data.success) {
+                    showNotification(data.message, 'success');
+                    
+                    // Actualizar contador del carrito si existe en el header
+                    updateCartCount(data.cart_count);
+                    
+                    // Opcional: Mostrar un pequeño efecto visual
+                    btn.style.backgroundColor = '#218838';
+                    setTimeout(() => {
+                        btn.style.backgroundColor = '';
+                    }, 500);
+                } else {
+                    showNotification(data.message, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Error al añadir al carrito', 'error');
+                btn.classList.remove('btn-loading');
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            });
+
+            return false;
+        }
+
+        // COMPRAR AHORA CON AJAX (primero añade al carrito, luego redirige)
+        function buyNowAjax() {
+            const quantity = document.getElementById('quantity').value;
+            const maxStock = <?php echo $producto['stock']; ?>;
+            const btn = document.getElementById('buyNowBtn');
+            const originalText = btn.innerHTML;
+
+            // Validar stock
+            if (parseInt(quantity) > maxStock) {
+                showNotification('No hay suficiente stock. Disponible: ' + maxStock, 'error');
+                return false;
+            }
+
+            // Mostrar estado de carga
+            btn.classList.add('btn-loading');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+
+            // Crear datos del formulario
+            const formData = new FormData();
+            formData.append('action', 'buy_now');
+            formData.append('quantity', quantity);
+            formData.append('ajax', 'true');
+
+            // Enviar por AJAX
+            fetch('search-products-product.php?id=<?php echo $id; ?>', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Redirigir al checkout después de añadir al carrito
+                    setTimeout(() => {
+                        window.location.href = '../CONTROLLERS/checkout.php';
+                    }, 500);
+                } else {
+                    showNotification(data.message, 'error');
+                    btn.classList.remove('btn-loading');
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Error al procesar la compra', 'error');
+                btn.classList.remove('btn-loading');
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            });
+
+            return false;
+        }
+
+        // Función para actualizar el contador del carrito en el header
+        function updateCartCount(count) {
+            // Buscar elementos que puedan mostrar el contador
+            const cartBadge = document.querySelector('.cart-count-badge');
+            const cartIcon = document.querySelector('.icons-header a');
+            
+            if (cartBadge) {
+                cartBadge.textContent = count;
+            }
+            
+            // Si no hay badge, podemos añadir uno dinámicamente
+            if (cartIcon && !cartBadge) {
+                let badge = cartIcon.querySelector('span.badge');
+                if (!badge) {
+                    badge = document.createElement('span');
+                    badge.className = 'cart-count-badge';
+                    badge.style.cssText = `
+                        position: absolute;
+                        top: -5px;
+                        right: -5px;
+                        background: #e74c3c;
+                        color: white;
+                        font-size: 12px;
+                        font-weight: bold;
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    `;
+                    cartIcon.style.position = 'relative';
+                    cartIcon.appendChild(badge);
+                }
+                badge.textContent = count;
+            }
+        }
+
+        // Controlar cantidad (tus funciones existentes)
         function changeQuantity(change) {
             const input = document.getElementById('quantity');
             const current = parseInt(input.value);
@@ -652,42 +923,6 @@ if (isset($_SESSION['cart_message'])) {
             if (newValue > max) newValue = max;
 
             input.value = newValue;
-        }
-
-        // AÑADIR AL CARRITO
-        function addToCart() {
-            const quantity = document.getElementById('quantity').value;
-            const maxStock = <?php echo $producto['stock']; ?>;
-
-            // Validar stock
-            if (parseInt(quantity) > maxStock) {
-                alert('No hay suficiente stock. Disponible: ' + maxStock);
-                return false;
-            }
-
-            // Asignar cantidad al formulario oculto
-            document.getElementById('quantity_add').value = quantity;
-
-            // Enviar formulario
-            document.getElementById('formAddToCart').submit();
-        }
-
-        // COMPRAR AHORA (va directo al checkout)
-        function buyNow() {
-            const quantity = document.getElementById('quantity').value;
-            const maxStock = <?php echo $producto['stock']; ?>;
-
-            // Validar stock
-            if (parseInt(quantity) > maxStock) {
-                alert('No hay suficiente stock. Disponible: ' + maxStock);
-                return false;
-            }
-
-            // Asignar cantidad al formulario oculto
-            document.getElementById('quantity_buy').value = quantity;
-
-            // Enviar formulario
-            document.getElementById('formBuyNow').submit();
         }
 
         // Validar cantidad al cambiar manualmente
@@ -703,17 +938,9 @@ if (isset($_SESSION['cart_message'])) {
             this.value = value;
         });
 
-        // Auto-ocultar mensajes de éxito
-        <?php if ($cart_message && $cart_message['type'] == 'success'): ?>
-            setTimeout(() => {
-                const msgDiv = document.querySelector('.cart-message');
-                if (msgDiv) {
-                    msgDiv.style.opacity = '0.7';
-                    setTimeout(() => {
-                        msgDiv.style.display = 'none';
-                    }, 3000);
-                }
-            }, 3000);
+        // Auto-ocultar mensajes de éxito del servidor (si los hay)
+        <?php if ($cart_message): ?>
+            showNotification('<?php echo addslashes($cart_message); ?>', 'success');
         <?php endif; ?>
     </script>
 </body>
