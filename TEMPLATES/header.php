@@ -75,9 +75,7 @@
                 <span><img src="../SOURCES/ICONOS-LOGOS/bookmark.svg" alt="wishlist"></span>
 
                 <!-- Carrito - ENLACE SIMPLE -->
-                <a href="../CONTROLLERS/cart.php">
-                    <img src="../SOURCES/ICONOS-LOGOS/shopping_bag.svg" alt="Shopping Cart">
-                </a>
+                <span><a href="../CONTROLLERS/cart.php" style="z-index:100;"><img src="../SOURCES/ICONOS-LOGOS/shopping_bag.svg" alt="Shopping Cart"></a></span>
             </div>
         </div>
     </header>
