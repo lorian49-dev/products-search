@@ -125,10 +125,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $log_message .= $eliminar_productos ? "Productos eliminados." : "Productos desasociados.";
             
             // Registrar acción en logs
-            $admin_nombre = $_SESSION['admin_nombre'];
+       /*     $admin_nombre = $_SESSION['admin_nombre'];
             $query_log = "INSERT INTO logs_admin (admin_id, admin_nombre, accion, detalles, fecha) 
                          VALUES ($admin_id, '$admin_nombre', 'ELIMINAR_VENDEDOR', '$log_message', NOW())";
-            mysqli_query($connect, $query_log);
+            mysqli_query($connect, $query_log);*/
             
             // Confirmar transacción
             mysqli_commit($connect);
@@ -179,9 +179,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <!-- Alerta de peligro -->
-        <div class="danger-alert">
+       <div class="warning-advices">
+            <div class="danger-alert">
             <h3><i class="fas fa-radiation"></i> ADVERTENCIA CRÍTICA</h3>
-            <p>Está a punto de eliminar un vendedor del sistema. Esta acción <strong>NO SE PUEDE DESHACER</strong> y eliminará todos los datos relacionados permanentemente.</p>
+            <p>Está a punto de eliminar un Vendedor / Negocio del sistema. Esta acción <strong>NO SE PUEDE DESHACER</strong> y eliminará todos los datos relacionados permanentemente.</p>
+        </div>
+        <!-- Alternativa recomendada -->
+        <div class="alternative-way">
+            <h4><i class="fas fa-lightbulb"></i> Alternativa recomendada</h4>
+            <p>En lugar de eliminar permanentemente, considere:</p>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li><strong>Desactivar la cuenta</strong> en lugar de eliminarla</li>
+                <li><strong>Mantener el usuario</strong> pero eliminar solo los datos del Negocio</li>
+                <li><strong>Archivar la información</strong> en lugar de borrarla</li>
+            </ul>
+            <div style="margin-top: 15px; position:absolute; right:1rem; bottom:20px;">
+                <a href="seller-dashboard-admin-edit.php?id=<?php echo $id_cliente; ?>" class="btn btn-secondary" style="padding: 8px 15px;">
+                    <i class="fas fa-edit"></i> Editar en lugar de Eliminar
+                </a>
+            </div>
+        </div>
         </div>
 
         <!-- Información del vendedor a eliminar -->
@@ -245,8 +262,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <!-- Formulario de confirmación -->
-        <form method="POST" action="" class="form-container">
-            <h3 style="color: #333; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #dee2e6;">
+        <form method="POST" action="" class="form-container-delete">
+            <h3 style=" margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #dee2e6;">
                 <i class="fas fa-shield-alt"></i> Confirmación de Seguridad
             </h3>
             
@@ -254,7 +271,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="password_confirm">Contraseña de Administrador *</label>
                 <input type="password" id="password_confirm" name="password_confirm" class="form-control" 
                        placeholder="Ingrese su contraseña para confirmar" required>
-                <small style="color: #666; font-size: 0.85em;">Debe ingresar su contraseña de administrador para proceder</small>
+                <small style="font-size: 0.85em;">Debe ingresar su contraseña de administrador para proceder</small>
             </div>
             
             <div class="form-group">
@@ -264,7 +281,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <i class="fas fa-box"></i> ELIMINAR TODOS LOS PRODUCTOS (<?php echo $estadisticas['productos']; ?> productos)
                     </label>
                 </div>
-                <small style="color: #666; font-size: 0.85em; margin-left: 30px;">
+                <small style="font-size: 0.85em; margin-left: 30px;">
                     Si NO marca esta opción, los productos se desasociarán del vendedor (id_vendedor = NULL) pero permanecerán en el sistema.
                 </small>
             </div>
@@ -276,7 +293,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <i class="fas fa-user-slash"></i> ELIMINAR TAMBIÉN EL USUARIO ASOCIADO
                     </label>
                 </div>
-                <small style="color: #666; font-size: 0.85em; margin-left: 30px;">
+                <small style="font-size: 0.85em; margin-left: 30px;">
                     Si marca esta opción, el usuario también será eliminado permanentemente. 
                     El vendedor no podrá volver a iniciar sesión.
                 </small>
@@ -315,24 +332,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </form>
 
-        <!-- Alternativa recomendada -->
-        <div style="background: #d1ecf1; color: #0c5460; padding: 20px; border-radius: 10px; margin-top: 25px; border-left: 4px solid #17a2b8;">
-            <h4><i class="fas fa-lightbulb"></i> Alternativas recomendadas</h4>
-            <p>En lugar de eliminar permanentemente, considere:</p>
-            <ul style="margin-left: 20px; margin-top: 10px;">
-                <li><strong>Desactivar la cuenta</strong> en lugar de eliminarla</li>
-                <li><strong>Desasociar productos</strong> en lugar de eliminarlos</li>
-                <li><strong>Archivar la información</strong> en lugar de borrarla</li>
-            </ul>
-            <div style="margin-top: 15px;">
-                <a href="seller-dashboard-admin-edit.php?id=<?php echo $id_vendedor; ?>" class="btn btn-secondary" style="padding: 8px 15px;">
-                    <i class="fas fa-edit"></i> Editar en lugar de Eliminar
-                </a>
-            </div>
-        </div>
-
         <!-- Navegación -->
-        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #dee2e6;">
+        <div class="buttons-div">
             <a href="seller-dashboard-admin-index.php" class="btn btn-secondary">
                 <i class="fas fa-list"></i> Volver a la Lista
             </a>

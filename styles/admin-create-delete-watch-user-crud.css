@@ -541,7 +541,7 @@ body.body-its-dark .form-control{
             border-bottom: 2px solid #eee;
         }
 
-        .client-avatar {
+        .client-avatar, .vendor-avatar {
             width: 60px;
             height: 60px;
             background: var(--chocolate-marron);
@@ -554,7 +554,7 @@ body.body-its-dark .form-control{
             font-weight: bold;
         }
 
-         body.body-its-dark .client-avatar {
+         body.body-its-dark .client-avatar, .vendor-avatar {
           background: var(--fondo-negro);
          }
 
@@ -597,6 +597,7 @@ body.body-its-dark .form-control{
           margin: 0 auto;
           display: flex;
           gap: 1rem;
+          justify-content: center;
         }
 
         /*Navegacion de la vista para ver los vendedores*/
@@ -622,7 +623,7 @@ body.body-its-dark .form-control{
     font-size: .8rem;
   }
 
-  .client-summary{
+  .client-summary, .vendor-summary{
     grid-column: span 1;
     background: rgba(255, 255, 255, 0.95);
   padding: 2rem;
@@ -649,11 +650,36 @@ body.body-its-dark .form-control{
             margin: 0 auto;
             grid-column: span 2;
   }
+  
+  body.body-its-dark .form-container-delete{
+    background: transparent;
+    box-shadow: var(--dark-z-shadow);
+    color: var(--pastel-blanco);
+  }
 
   #password_confirm{
     margin: 2rem 0;
   }
 
+  
+  body.body-its-dark #password_confirm{
+    background-color: var(--pastel-blanco);
+    color: var(--fondo-negro);
+  }
+
   #password_confirm:focus{
     box-shadow: var(--main-shadow);
+  }
+
+  .alternative-way{
+    grid-column: span 2;
+    background: #d1ecf171; 
+    color: var(--fondo-negro);
+     padding: 20px;
+      border-radius: 2rem;
+       margin:0 auto;
+        border: 2px solid #49c54f;
+        font-size: .8rem;
+        margin-top: 1rem;
+        position: relative;
   }

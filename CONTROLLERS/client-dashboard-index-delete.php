@@ -200,9 +200,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <!-- Alerta de peligro -->
-        <div class="danger-alert">
+        <div class="warning-advices">
+            <div class="danger-alert">
             <h3><i class="fas fa-radiation"></i> ADVERTENCIA CRÍTICA</h3>
             <p>Está a punto de eliminar un cliente del sistema. Esta acción <strong>NO SE PUEDE DESHACER</strong> y eliminará todos los datos relacionados permanentemente.</p>
+        </div>
+        <!-- Alternativa recomendada -->
+        <div class="alternative-way">
+            <h4><i class="fas fa-lightbulb"></i> Alternativa recomendada</h4>
+            <p>En lugar de eliminar permanentemente, considere:</p>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li><strong>Desactivar la cuenta</strong> en lugar de eliminarla</li>
+                <li><strong>Mantener el usuario</strong> pero eliminar solo los datos del cliente</li>
+                <li><strong>Archivar la información</strong> en lugar de borrarla</li>
+            </ul>
+            <div style="margin-top: 15px; position:absolute; right:1rem; bottom:20px;">
+                <a href="client-dashboard-index-edit.php?id=<?php echo $id_cliente; ?>" class="btn btn-secondary" style="padding: 8px 15px;">
+                    <i class="fas fa-edit"></i> Editar en lugar de Eliminar
+                </a>
+            </div>
+        </div>
         </div>
 
         <!-- Información del cliente a eliminar -->
@@ -338,28 +355,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </form>
 
-        <!-- Alternativa recomendada -->
-        <div style="background: #d1ecf1; color: #0c5460; padding: 20px; border-radius: 10px; margin-top: 25px; border-left: 4px solid #17a2b8;">
-            <h4><i class="fas fa-lightbulb"></i> Alternativa recomendada</h4>
-            <p>En lugar de eliminar permanentemente, considere:</p>
-            <ul style="margin-left: 20px; margin-top: 10px;">
-                <li><strong>Desactivar la cuenta</strong> en lugar de eliminarla</li>
-                <li><strong>Mantener el usuario</strong> pero eliminar solo los datos del cliente</li>
-                <li><strong>Archivar la información</strong> en lugar de borrarla</li>
-            </ul>
-            <div style="margin-top: 15px;">
-                <a href="client-dashboard-index-edit.php?id=<?php echo $id_cliente; ?>" class="btn btn-secondary" style="padding: 8px 15px;">
-                    <i class="fas fa-edit"></i> Editar en lugar de Eliminar
-                </a>
-            </div>
-        </div>
-
         <!-- Navegación -->
-        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #dee2e6;">
+        <div class="buttons-div">
             <a href="client-dashboard-index.php" class="btn btn-secondary">
                 <i class="fas fa-list"></i> Volver a la Lista
             </a>
-            <a href="client-dashboard-index.php" class="btn btn-secondary">
+            <a href="user-dashboard-admin.php" class="btn btn-secondary">
                 <i class="fas fa-home"></i> Dashboard Principal
             </a>
         </div>
