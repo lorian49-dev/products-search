@@ -199,7 +199,7 @@ $ejec = mysqli_query($connect, $query);
                         <td><?= $row['correo'] ?></td>
                         <td>
                             <input type="password" value="<?= htmlspecialchars($row['contrasena']) ?>" readonly id="pass<?= $row['id_usuario'] ?>">
-                            <button type="button" onclick="togglePass('pass<?= $row['id_usuario'] ?>')"><i class="fa-solid fa-eye"></i></button>
+                            <button type="button" class="button-fa-eye" onclick="togglePass('pass<?= $row['id_usuario'] ?>')"><i class="fa-solid fa-eye"></i></button>
                         </td>
                         <td><?= $row['fecha_nacimiento'] ?></td>
                         <td><?= $row['telefono'] ?></td>

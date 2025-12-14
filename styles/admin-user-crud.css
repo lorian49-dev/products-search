@@ -66,6 +66,18 @@ body.body-its-dark h1{
     color: #fff8f1;
 }
 
+
+    .dashboard-orders{
+      margin-left: 15%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 5rem;
+      gap: 1rem;
+    }
+
+
 /*Estilos para textos*/
 
 h2{
@@ -77,7 +89,8 @@ h2{
 h1{
     font-family: 'Roboto condensed', sans-serif;
     font-weight: 200;
-    color: #fff8f1;
+    color: var(--chocolate-marron);
+    font-weight: 500;
 }
 
 a{
@@ -392,7 +405,7 @@ input:focus {
     width: 5rem;
     border-radius: 20px;
     border-style: none;
-    background:linear-gradient(135deg, #0D47A1, #0097b2);
+    background:var(--fade-blue);
     color: #fff8f1;
     cursor: pointer;
     transition: all .2s ease-in-out;
@@ -490,7 +503,7 @@ table.table-dark thead{
 
 }
 
-.table-dark td>button{
+.table-dark .button-fa-eye{
     color: #fff8f1;
     width: .1rem;
 }
@@ -744,4 +757,62 @@ body.body-its-dark  .modal-content input{
 
 body.body-its-dark  .modal-content input::placeholder{
     color: #2f2f2fff !important;
+}
+
+/*Estilos para el documento de ordenes*/
+
+.dashboard-orders>form{
+    background-color: var(--chocolate-marron);
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 1.3rem;
+    padding: 2.5rem;
+    transition: all .5s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    z-index: 100;
+}
+
+body.body-its-dark .dashboard-orders>form{
+    background-color: #2f2f2fff;
+     box-shadow: 0 10px 30px rgba(200, 200, 200, 0.2);
+}
+
+.dashboard-orders>form>input{
+    width: 80%;
+    height: 50px;
+    padding: 1rem .5rem;
+    border-radius: 2rem;
+    border-style: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+}
+
+.dashboard-orders button{
+    padding: .5rem;
+    width: 4rem;
+    border-radius: 20px;
+    border-style: none;
+    background:var(--fade-blue);
+    color: #fff8f1;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+     box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+     font-size: .7rem;
+}
+
+.dashboard-orders button:hover{
+    transform: scale(1.1);
+    box-shadow: 0 0 40px #58caff;
+    color: var(--fondo-negro);
+}
+
+body.body-its-dark .dashboard-orders button:hover{
+    transform: scale(1.1);
+    background: transparent;
+    box-shadow: var(--dark-z-shadow);
+    color: var(--pastel-blanco);
 }
