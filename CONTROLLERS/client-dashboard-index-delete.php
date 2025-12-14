@@ -1,3 +1,4 @@
+.
 <?php
 session_start();
 include('../shortCuts/connect.php');
@@ -279,7 +280,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <!-- Formulario de confirmación -->
-        <form method="POST" action="" class="form-container">
+        <form method="POST" action="" class="form-container-delete">
             <h3 style=" margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #dee2e6;">
                 <i class="fas fa-shield-alt"></i> Confirmación de Seguridad
             </h3>
@@ -384,10 +385,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (eliminarUsuario) {
                 message += '• EL USUARIO ASOCIADO (no podrá volver a iniciar sesión)\n\n';
-                message += '🚨 ESTA ACCIÓN ES COMPLETAMENTE IRREVERSIBLE 🚨';
+                message += 'ESTA ACCIÓN ES COMPLETAMENTE IRREVERSIBLE ';
             } else {
                 message += '\n⚠️ El usuario se conservará (podrá volver a iniciar sesión)\n\n';
-                message += '🚨 ESTA ACCIÓN NO SE PUEDE DESHACER 🚨';
+                message += ' ESTA ACCIÓN NO SE PUEDE DESHACER ';
             }
 
             message += '\n\nEscriba "ELIMINAR" para confirmar:';

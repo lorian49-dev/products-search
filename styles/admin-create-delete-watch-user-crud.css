@@ -608,3 +608,48 @@ body.body-its-dark .form-control{
      padding-top: 20px;
       border-top: 1px solid #eee;
   }
+
+  /*Estilos individuales para la pagina de eliminacion de usuario*/
+
+  .danger-alert{
+    grid-column: span 1;
+    background-color: #eef0df9c;
+    padding: 2rem;
+    border-radius: 2rem;
+    border: 2px solid rgb(255, 230, 0);
+    box-shadow: var(--main-shadow);
+    align-self: start;
+    font-size: .8rem;
+  }
+
+  .client-summary{
+    grid-column: span 1;
+    background: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  border-radius: 20px;
+  margin-bottom: 25px;
+  box-shadow: var(--main-shadow);
+  }
+
+  .warning-container{
+    grid-column: span 2;
+    background: rgba(255, 255, 255, 0.95);
+  padding: 25px 30px;
+  border-radius: 20px;
+  margin-bottom: 25px;
+  box-shadow: var(--main-shadow);
+  }
+
+  .form-container-delete{
+    width: 80%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            grid-column: span 2;
+  }
+
+  #password_confirm{
+    margin: 2rem 0;
+  }
