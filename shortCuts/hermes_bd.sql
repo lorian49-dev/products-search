@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-12-2025 a las 01:21:01
+-- Tiempo de generación: 14-12-2025 a las 19:22:05
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -44,7 +44,7 @@ CREATE TABLE `administradores` (
 --
 
 INSERT INTO `administradores` (`id_admin`, `username`, `password`, `email`, `id_rol`, `nombre_completo`, `activo`, `ultimo_acceso`, `fecha_creacion`) VALUES
-(1, 'admin_general', '$2y$10$BkiBc1f.PLPLYbo/pi3rbu65od3i/4UUtZAG1eR0Ci69YK3xzio.y', 'admin@hermes.com', 1, 'Administrador General', 1, '2025-12-12 00:02:09', '2025-11-28 05:39:28'),
+(1, 'admin_general', '$2y$10$BkiBc1f.PLPLYbo/pi3rbu65od3i/4UUtZAG1eR0Ci69YK3xzio.y', 'admin@hermes.com', 1, 'Administrador General', 1, '2025-12-14 02:29:02', '2025-11-28 05:39:28'),
 (2, 'admin_colaborador', '$2y$10$gj/0iBf8jrU2M.mLt7GbKuYqCD7eDjbGULCCplVK2X46l901kI/8K', 'colab@hermes.com', 2, 'Administrador Colaborador', 1, '2025-12-02 15:36:39', '2025-11-28 05:39:28'),
 (4, 'admin_general1', '$2y$10$U80eW8ZldM9Cvujb55Kl8OdHaXefmzHaozKxn2ppzpjKUiUqWm8Ki', 'admin@hermes.com', 1, NULL, 1, '2025-12-08 22:53:12', '2025-11-28 06:49:44'),
 (5, 'Andres_David', '$2y$10$XP/d7usLEKm440y21xLp..nHpA/FXBhYq3rSGQW2t5pRW7x7h6Z0O', 'andr@gmail.com', 2, 'Andres David Carvajal Gutierrez', 1, '2025-12-02 15:28:25', '2025-11-28 18:16:14'),
@@ -147,15 +147,7 @@ INSERT INTO `categoria` (`id_categoria`, `nombre_categoria`) VALUES
 (5, 'Belleza y Cuidado Personal'),
 (6, 'Juguetes y Juegos'),
 (7, 'Libros y Oficina'),
-(8, 'Alimentos y Bebidas'),
-(9, 'Electrónica'),
-(10, 'Ropa y Accesorios'),
-(11, 'Hogar y Jardín'),
-(12, 'Deportes'),
-(13, 'Belleza y Cuidado Personal'),
-(14, 'Juguetes y Juegos'),
-(15, 'Libros y Oficina'),
-(16, 'Alimentos y Bebidas');
+(8, 'Alimentos y Bebidas');
 
 -- --------------------------------------------------------
 
@@ -199,6 +191,36 @@ CREATE TABLE `detalle_pedido` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `direcciones`
+--
+
+CREATE TABLE `direcciones` (
+  `id_direccion` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `direccion` text NOT NULL,
+  `ciudad` varchar(100) NOT NULL,
+  `departamento` varchar(100) NOT NULL,
+  `codigo_postal` varchar(20) DEFAULT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
+  `referencias` varchar(255) DEFAULT NULL,
+  `es_principal` tinyint(1) DEFAULT 0,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `nombre_direccion` varchar(100) DEFAULT 'Casa/Ofi',
+  `pais` varchar(100) DEFAULT 'TuPaís',
+  `estado` enum('activa','inactiva') DEFAULT 'activa'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `direcciones`
+--
+
+INSERT INTO `direcciones` (`id_direccion`, `id_usuario`, `direccion`, `ciudad`, `departamento`, `codigo_postal`, `telefono`, `referencias`, `es_principal`, `fecha_creacion`, `nombre_direccion`, `pais`, `estado`) VALUES
+(1, 2, 'dig 58 m bis #78-29 sur', 'Bogotá D.C.', 'Cundinamanrca', '13213151', '3153123165', '', 1, '2025-12-14 18:03:26', 'Casa/Ofi', 'TuPaís', 'activa'),
+(2, 2, 'sadsadad', 'asdasdasdasd', 'sadada', 'asdsadad', '2131513131', '', 0, '2025-12-14 18:03:41', 'Casa/Ofi', 'TuPaís', 'activa');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `direccion_envio`
 --
 
@@ -228,7 +250,7 @@ INSERT INTO `direccion_envio` (`id_direccion`, `id_cliente`, `alias`, `direccion
 --
 
 CREATE TABLE `pasarela_pago` (
-  `id_pasarela` int(11) NOT NULL ,
+  `id_pasarela` int(11) NOT NULL,
   `id_carrito` int(11) NOT NULL,
   `metodo_pago` varchar(100) NOT NULL,
   `estado_pago` enum('Pendiente','Completado','Fallido') DEFAULT 'Pendiente',
@@ -244,20 +266,49 @@ CREATE TABLE `pasarela_pago` (
 CREATE TABLE `pedido` (
   `id_pedido` int(11) NOT NULL,
   `id_usuario` int(11) DEFAULT NULL,
-  `id_cliente` int(11) DEFAULT NULL,
+  `id_vendedor` int(11) NOT NULL,
   `fecha_pedido` timestamp NOT NULL DEFAULT current_timestamp(),
   `total` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `subtotal` decimal(10,2) NOT NULL,
+  `envio` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `iva` decimal(10,2) NOT NULL DEFAULT 0.00,
   `estado` enum('Pendiente','Enviado','Entregado','Cancelado') DEFAULT 'Pendiente',
   `descripcion` varchar(500) DEFAULT NULL,
-  `llegada_estimada` date DEFAULT NULL
+  `direccion_envio` text DEFAULT NULL,
+  `metodo_pago` varchar(50) DEFAULT NULL,
+  `llegada_estimada` date DEFAULT NULL,
+  `telefono_contacto` varchar(20) DEFAULT NULL,
+  `email_contacto` varchar(100) DEFAULT NULL,
+  `ciudad` varchar(100) DEFAULT NULL,
+  `departamento` varchar(100) DEFAULT NULL,
+  `codigo_postal` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `pedido`
 --
 
-INSERT INTO `pedido` (`id_pedido`, `id_usuario`, `id_cliente`, `fecha_pedido`, `total`, `estado`, `descripcion`, `llegada_estimada`) VALUES
-(3, 28, 28, '2025-12-08 22:21:58', 4300000.00, 'Pendiente', 'Compra de prueba: Laptop (ID 100) y Smartphone (ID 101).', NULL);
+INSERT INTO `pedido` (`id_pedido`, `id_usuario`, `id_vendedor`, `fecha_pedido`, `total`, `subtotal`, `envio`, `iva`, `estado`, `descripcion`, `direccion_envio`, `metodo_pago`, `llegada_estimada`, `telefono_contacto`, `email_contacto`, `ciudad`, `departamento`, `codigo_postal`) VALUES
+(3, 28, 0, '2025-12-08 22:21:58', 4300000.00, 0.00, 0.00, 0.00, 'Pendiente', 'Compra de prueba: Laptop (ID 100) y Smartphone (ID 101).', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pedido_item`
+--
+
+CREATE TABLE `pedido_item` (
+  `id_item` int(11) NOT NULL,
+  `id_pedido` int(11) NOT NULL,
+  `id_producto` int(11) NOT NULL,
+  `id_vendedor` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `precio_unitario` decimal(10,2) NOT NULL,
+  `subtotal` decimal(10,2) NOT NULL,
+  `nombre_producto` varchar(255) NOT NULL,
+  `imagen_url` varchar(500) DEFAULT NULL,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -270,6 +321,7 @@ CREATE TABLE `producto` (
   `nombre` varchar(100) NOT NULL,
   `descripcion` varchar(500) DEFAULT NULL,
   `imagen_url` varchar(255) DEFAULT NULL,
+  `cloudinary_public_id` varchar(255) DEFAULT NULL,
   `precio` decimal(12,2) NOT NULL,
   `stock` int(11) NOT NULL DEFAULT 0,
   `origen` varchar(100) DEFAULT NULL,
@@ -281,14 +333,16 @@ CREATE TABLE `producto` (
 -- Volcado de datos para la tabla `producto`
 --
 
-INSERT INTO `producto` (`id_producto`, `nombre`, `descripcion`, `imagen_url`, `precio`, `stock`, `origen`, `id_vendedor`, `fecha_creacion`) VALUES
-(2, 'Camiseta Negra', 'Camiseta 100% algodón color negro', NULL, 35000.00, 20, 'Colombia', NULL, '2025-11-23 17:06:13'),
-(100, 'Laptop HP Pavilion TEST', 'Laptop 15.6\", Intel i5, 8GB RAM, 512GB SSD', NULL, 2500000.00, 10, NULL, NULL, '2025-12-01 21:53:40'),
-(101, 'Smartphone Samsung TEST', '6.5\", 128GB, 8GB RAM, Cámara Quad', NULL, 1800000.00, 15, NULL, NULL, '2025-12-01 21:53:40'),
-(102, 'Audífonos Sony TEST', 'Audífonos inalámbricos con cancelación de ruido', NULL, 350000.00, 25, NULL, NULL, '2025-12-01 21:53:40'),
-(103, 'Smartwatch Apple TEST', 'Series 7, GPS, 45mm, Resistente al agua', NULL, 2200000.00, 8, NULL, NULL, '2025-12-01 21:53:40'),
-(104, 'Tablet Amazon TEST', '10\", 32GB, HD, Alexa integrado', NULL, 800000.00, 20, NULL, NULL, '2025-12-01 21:53:40'),
-(105, 'teclado', 'teclado para huevadas', '../uploads/productos/1765497873_693b5c1182194.jpg', 20000.00, 50, 'logitech', NULL, '2025-12-12 00:04:33');
+INSERT INTO `producto` (`id_producto`, `nombre`, `descripcion`, `imagen_url`, `cloudinary_public_id`, `precio`, `stock`, `origen`, `id_vendedor`, `fecha_creacion`) VALUES
+(2, 'Camiseta Negra', 'Camiseta 100% algodón color negro', NULL, NULL, 35000.00, 20, 'Colombia', NULL, '2025-11-23 17:06:13'),
+(100, 'Laptop HP Pavilion TEST', 'Laptop 15.6\", Intel i5, 8GB RAM, 512GB SSD', NULL, NULL, 2500000.00, 10, NULL, NULL, '2025-12-01 21:53:40'),
+(101, 'Smartphone Samsung TEST', '6.5\", 128GB, 8GB RAM, Cámara Quad', NULL, NULL, 1800000.00, 15, NULL, NULL, '2025-12-01 21:53:40'),
+(102, 'Audífonos Sony TEST', 'Audífonos inalámbricos con cancelación de ruido', NULL, NULL, 350000.00, 25, NULL, NULL, '2025-12-01 21:53:40'),
+(103, 'Smartwatch Apple TEST', 'Series 7, GPS, 45mm, Resistente al agua', NULL, NULL, 2200000.00, 8, NULL, NULL, '2025-12-01 21:53:40'),
+(104, 'Tablet Amazon TEST', '10\", 32GB, HD, Alexa integrado', NULL, NULL, 800000.00, 20, NULL, NULL, '2025-12-01 21:53:40'),
+(105, 'teclado', 'teclado para huevadas', '../uploads/productos/1765497873_693b5c1182194.jpg', NULL, 20000.00, 50, 'logitech', NULL, '2025-12-12 00:04:33'),
+(106, 'asdada', 'asdasdad', 'https://res.cloudinary.com/dwetjdmaz/image/upload/v1765677813/hermes_bd/productos/vendedor_2/producto_1765677810_chart__2_.png', 'hermes_bd/productos/vendedor_2/producto_1765677810_chart__2_', 21313.00, 123132123, 'asdadasdad', 2, '2025-12-14 02:03:32'),
+(107, 'asdada', 'asdasdad', 'https://res.cloudinary.com/dwetjdmaz/image/upload/v1765677815/hermes_bd/productos/vendedor_2/producto_1765677813_chart__2_.png', 'hermes_bd/productos/vendedor_2/producto_1765677813_chart__2_', 21313.00, 123132123, 'asdadasdad', 2, '2025-12-14 02:03:35');
 
 -- --------------------------------------------------------
 
@@ -306,7 +360,8 @@ CREATE TABLE `producto_categoria` (
 --
 
 INSERT INTO `producto_categoria` (`id_producto`, `id_categoria`) VALUES
-(105, 9);
+(106, 7),
+(107, 7);
 
 -- --------------------------------------------------------
 
@@ -353,7 +408,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `correo`, `contrasena`, `fecha_nacimiento`, `telefono`, `direccion_principal`, `codigo_recuperacion`, `codigo_expira`) VALUES
-(2, 'Oscar', 'asdad', 'oscar.vanegas772@gmail.com', '$2y$10$O7xH90JGWzknLOOEM.tWluXA8kvwbOqwTbTbKzW9ANvALgHjkeNWG', '1111-11-11', '121213131', NULL, '392943', '2025-11-19 21:43:45'),
+(2, 'Oscar', 'asdad', 'oscar.vanegas772@gmail.com', '$2y$10$O7xH90JGWzknLOOEM.tWluXA8kvwbOqwTbTbKzW9ANvALgHjkeNWG', '1111-11-11', '121213131', 'masmdasmdma', '392943', '2025-11-19 21:43:45'),
 (3, 'Juan', 'Pérez', 'juan.perez@email.com', '$2y$10$TuHashDeContraseña', '1990-05-15', '3101234567', 'Calle 123 #45-67, Bogotá', NULL, NULL),
 (4, 'María', 'Gómez', 'maria.gomez@email.com', '$2y$10$TuHashDeContraseña', '1985-08-22', '3209876543', 'Avenida Siempre Viva 742, Medellín', NULL, NULL),
 (5, 'Carlos', 'Rodríguez', 'carlos.rod@email.com', '$2y$10$TuHashDeContraseña', '1995-02-10', '3155551234', 'Carrera 7 #23-45, Cali', NULL, NULL),
@@ -478,6 +533,13 @@ ALTER TABLE `detalle_pedido`
   ADD KEY `fk_detalle_producto` (`id_producto`);
 
 --
+-- Indices de la tabla `direcciones`
+--
+ALTER TABLE `direcciones`
+  ADD PRIMARY KEY (`id_direccion`),
+  ADD KEY `idx_usuario_principal` (`id_usuario`,`es_principal`);
+
+--
 -- Indices de la tabla `direccion_envio`
 --
 ALTER TABLE `direccion_envio`
@@ -497,7 +559,16 @@ ALTER TABLE `pasarela_pago`
 ALTER TABLE `pedido`
   ADD PRIMARY KEY (`id_pedido`),
   ADD KEY `fk_pedido_usuario` (`id_usuario`),
-  ADD KEY `fk_pedido_cliente` (`id_cliente`);
+  ADD KEY `id_vendedor` (`id_vendedor`);
+
+--
+-- Indices de la tabla `pedido_item`
+--
+ALTER TABLE `pedido_item`
+  ADD PRIMARY KEY (`id_item`),
+  ADD KEY `idx_pedido` (`id_pedido`),
+  ADD KEY `idx_vendedor` (`id_vendedor`),
+  ADD KEY `idx_producto` (`id_producto`);
 
 --
 -- Indices de la tabla `producto`
@@ -580,6 +651,12 @@ ALTER TABLE `detalle_pedido`
   MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `direcciones`
+--
+ALTER TABLE `direcciones`
+  MODIFY `id_direccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `direccion_envio`
 --
 ALTER TABLE `direccion_envio`
@@ -598,10 +675,16 @@ ALTER TABLE `pedido`
   MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de la tabla `pedido_item`
+--
+ALTER TABLE `pedido_item`
+  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -665,6 +748,12 @@ ALTER TABLE `detalle_pedido`
   ADD CONSTRAINT `fk_detalle_producto` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`) ON UPDATE CASCADE;
 
 --
+-- Filtros para la tabla `direcciones`
+--
+ALTER TABLE `direcciones`
+  ADD CONSTRAINT `direcciones_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+
+--
 -- Filtros para la tabla `direccion_envio`
 --
 ALTER TABLE `direccion_envio`
@@ -680,8 +769,17 @@ ALTER TABLE `pasarela_pago`
 -- Filtros para la tabla `pedido`
 --
 ALTER TABLE `pedido`
-  ADD CONSTRAINT `fk_pedido_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_pedido_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_pedido_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`id_vendedor`),
+  ADD CONSTRAINT `pedido_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+
+--
+-- Filtros para la tabla `pedido_item`
+--
+ALTER TABLE `pedido_item`
+  ADD CONSTRAINT `pedido_item_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedido` (`id_pedido`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pedido_item_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`),
+  ADD CONSTRAINT `pedido_item_ibfk_3` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`id_vendedor`);
 
 --
 -- Filtros para la tabla `producto`
