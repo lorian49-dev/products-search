@@ -1,4 +1,3 @@
-.
 <?php
 session_start();
 include('../shortCuts/connect.php');
@@ -147,10 +146,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             // Registrar acción en logs
-            $admin_nombre = $_SESSION['admin_nombre'];
+           /* $admin_nombre = $_SESSION['admin_nombre'];
             $query_log = "INSERT INTO logs_admin (admin_id, admin_nombre, accion, detalles, fecha) 
                          VALUES ($admin_id, '$admin_nombre', 'ELIMINAR_CLIENTE', '$log_message', NOW())";
-            mysqli_query($connect, $query_log);
+            mysqli_query($connect, $query_log); */
 
             // Confirmar transacción
             mysqli_commit($connect);
@@ -299,7 +298,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <i class="fas fa-user-slash"></i> ELIMINAR TAMBIÉN EL USUARIO ASOCIADO
                     </label>
                 </div>
-                <small style=margin-left: 30px;">
+                <small style="margin-left: 30px;">
                     Si marca esta opción, el usuario también será eliminado permanentemente.
                     El cliente no podrá volver a iniciar sesión.
                 </small>
