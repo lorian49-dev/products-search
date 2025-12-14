@@ -645,11 +645,15 @@ body.body-its-dark .form-control{
             background: rgba(255, 255, 255, 0.95);
             padding: 5rem;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 25px;
+            box-shadow: var(--main-shadow);
+            margin: 0 auto;
             grid-column: span 2;
   }
 
   #password_confirm{
     margin: 2rem 0;
+  }
+
+  #password_confirm:focus{
+    box-shadow: var(--main-shadow);
   }
