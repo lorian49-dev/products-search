@@ -1,6 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
+:root{
 
+    /*Colores primarios*/
+    --pastel-blanco:#fff8f1;
+    --chocolate-marron:#461d01;
+    --cielo-turqueza:#0097b2;
+    --mostaza-amarillo:#ffb000;
+    --fondo-negro:#2f2f2fff;
+
+    /*Degradados principales*/
+
+    --fade-blue:linear-gradient(135deg, #0D47A1, #0097b2);
+    --fade-yellow:linear-gradient(135deg, #EF6C00, #ffb000);
+
+    /*Sombras*/
+
+    --main-shadow: 1px 1px hsl(0deg 0% 0% / 0.075),
+      0 2px 2px hsl(0deg 0% 0% / 0.075),
+      0 4px 4px hsl(0deg 0% 0% / 0.075),
+      0 8px 8px hsl(0deg 0% 0% / 0.075),
+      0 16px 16px hsl(0deg 0% 0% / 0.075);
+
+    --dark-z-shadow:-5px -5px 10px rgba(255, 255, 255, 0.1),
+                         10px 10px 10px rgba(0, 0, 0, 0.3),
+                         inset -3px -3px 5px rgba(255, 255, 255, 0.1),
+                         inset 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
 *{
     margin: 0;
     padding: 0;
@@ -10,6 +36,13 @@
 
 body{
         background-color:#fff8f1;
+}
+
+.body-container{
+    width: 100%;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
 
 /*Estilos de la cabecera*/
@@ -304,6 +337,81 @@ a{
  left: 70px;
 }
 
+/*ESTILOS DEL PIE DE PAGINA O FOOTER*/
+
+footer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--chocolate-marron);
+    color: var(--pastel-blanco);
+    margin-top: 10rem;
+}
+
+footer>button{
+ width: 10rem;
+ margin: 0 auto;
+ padding: 1rem;
+ border-radius: 1rem;
+ border-style: none;
+ transform: translateY(-50%);
+ cursor: pointer;
+ box-shadow: var(--main-shadow);
+}
+
+.content-footer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 2rem 0;
+    gap: 3rem;
+}
+
+.content-footer ul{
+    list-style: none;
+}
+
+.content-footer ul span{
+    font-size: 1rem !important;
+}
+
+.content-footer ul li{
+    font-size: .7rem;
+}
+
+
+.footer-right{
+    display: flex;
+    gap: 2rem;
+}
+
+.logotype-footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.logotype-footer img{
+    width: 8rem;
+}
+
+.logotype-footer span{
+    font-family: 'Anton';
+    font-optical-sizing: auto;
+    position: relative;
+}
+
+.logotype-footer span::before{
+ content: '';
+ display: block;
+ position: absolute;
+ width: 2px;
+ height: 3rem;
+ background-color: var(--pastel-blanco);
+ left: -1.5rem;
+ transform: translateY(-1rem);
+}
 
 
 

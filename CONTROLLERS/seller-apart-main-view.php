@@ -13,7 +13,7 @@ session_start();
     <script src="https://unpkg.com/scrollreveal"></script>
 </head>
 <body>
-
+    <div class="body-container">
     <header>
         <span id="logo-hermes-home"><h1>HERMES</h1></span>
         <span><i class="far fa-home"></i></span>
@@ -112,7 +112,8 @@ session_start();
      </div>
      
     </main>
-
+    <?php include '../TEMPLATES/footer.php'?>
+    </div>
     <script src="../scripts/seller-main-view.js"></script>
 </body>
 </html>
