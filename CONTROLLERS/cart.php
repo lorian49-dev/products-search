@@ -677,6 +677,7 @@ $total = $cart_total + $envio + $iva;
         }
     </script>
     <script src="../scripts/home.js"></script>
+    <?php include '../TEMPLATES/footer.php' ?>
 </body>
 
 </html>

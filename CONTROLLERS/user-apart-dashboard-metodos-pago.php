@@ -818,6 +818,7 @@ foreach ($metodos_pago as $metodo) {
         }
     </script>
     <script src="../scripts/user-apart-dashboard.js"></script>
+    <?php include '../TEMPLATES/footer.php' ?>
 </body>
 
 </html>

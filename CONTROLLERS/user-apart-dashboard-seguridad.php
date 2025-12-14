@@ -597,6 +597,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cambiar_password'])) 
         });
     </script>
     <script src="../scripts/user-apart-dashboard.js"></script>
+    <?php include '../TEMPLATES/footer.php' ?>
 </body>
 
 </html>

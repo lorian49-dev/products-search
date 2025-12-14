@@ -41,7 +41,7 @@ $usuario = mysqli_fetch_assoc($result);
 </head>
 
 <body>
-    <?php include '../TEMPLATES/header.php'?>
+    <?php include '../TEMPLATES/header.php' ?>
 
     <div class="dashboard-layout">
 
@@ -70,14 +70,14 @@ $usuario = mysqli_fetch_assoc($result);
                 </li>
 
                 <li>
-                    <a href="seguridad.html">
-                        <i class="fa-solid fa-lock"></i> Seguridad y contraseña
+                    <a href="user-apart-dashboard-seguridad.php">
+                        <i class="fa-solid fa-lock"></i> Seguridad
                         <span class="chev"><i class="fa-solid fa-chevron-right"></i></span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="configuracion.html">
+                    <a href="user-apart-dashboard-configuracion.php">
                         <i class="fa-solid fa-gear"></i> Configuración
                         <span class="chev"><i class="fa-solid fa-chevron-right"></i></span>
                     </a>
@@ -170,7 +170,7 @@ $usuario = mysqli_fetch_assoc($result);
         </main>
     </div>
     <script src="../scripts/user-apart-dashboard.js"></script>
-
+    <?php include '../TEMPLATES/footer.php' ?>
 
 </body>
 

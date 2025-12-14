@@ -319,7 +319,7 @@ if (!$resultPedidos) {
                             Volver al Home
                         </a>
                     </li>
-                       <!-- DASHBOARD PRINCIPAL -->
+                    <!-- DASHBOARD PRINCIPAL -->
                     <li>
                         <a href="user-apart-dashboard.php">
                             <i class="fa-solid fa-tachometer-alt"></i>
@@ -437,7 +437,7 @@ if (!$resultPedidos) {
             </section>
 
     </main>
-
+    <?php include '../TEMPLATES/footer.php' ?>
 </body>
 <script src="../scripts/user-apart-dashboard.js"></script>
 

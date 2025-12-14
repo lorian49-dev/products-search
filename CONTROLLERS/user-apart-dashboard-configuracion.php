@@ -753,6 +753,7 @@ if (isset($_GET['descargar_datos']) && $_GET['descargar_datos'] == 'json') {
         }
     </script>
     <script src="../scripts/user-apart-dashboard.js"></script>
+    <?php include '../TEMPLATES/footer.php' ?>
 </body>
 
 </html>

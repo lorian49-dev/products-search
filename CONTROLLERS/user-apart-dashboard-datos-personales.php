@@ -580,7 +580,8 @@ foreach ($direcciones as $dir) {
                 </div>
             </form>
         </div>
-
+    </div>
+    <?php include '../TEMPLATES/footer.php' ?>
 </body>
 
 <script src="../scripts/user-apart-dashboard.js"></script>
