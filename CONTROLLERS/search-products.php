@@ -189,7 +189,7 @@ $cats = $connect->query("SELECT * FROM categoria ORDER BY nombre_categoria ASC")
 </head>
 
 <body>
-    <?php include '../TEMPLATES/header.php'?>
+    <?php include '../TEMPLATES/header.php' ?>
     <div class="container" style="display:flex; gap:20px;">
 
         <aside class="sidebar" style="width:250px; border:1px solid #ccc; padding:15px; background:#f9f9f9; border-radius:8px;">
@@ -313,7 +313,7 @@ $cats = $connect->query("SELECT * FROM categoria ORDER BY nombre_categoria ASC")
             </div>
         </section>
     </div>
-
+    <?php include '../TEMPLATES/footer.php' ?>
     <script>
         function resetFilters() {
             window.location.href = 'search-products.php';
@@ -321,6 +321,7 @@ $cats = $connect->query("SELECT * FROM categoria ORDER BY nombre_categoria ASC")
     </script>
     <script src="../scripts/search-product.js" ;>
     </script>
+
 </body>
 
 </html>

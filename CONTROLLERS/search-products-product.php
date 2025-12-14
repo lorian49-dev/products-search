@@ -734,16 +734,16 @@ if (isset($_SESSION['cart_message'])) {
         function showNotification(message, type) {
             const container = document.getElementById('notificationContainer');
             if (!container) return;
-            
+
             const notification = document.createElement('div');
             notification.className = `notification notification-${type}`;
             notification.innerHTML = `
                 <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
                 <span>${message}</span>
             `;
-            
+
             container.appendChild(notification);
-            
+
             // Remover después de 4 segundos
             setTimeout(() => {
                 notification.style.animation = 'slideOut 0.3s ease-out';
@@ -782,38 +782,38 @@ if (isset($_SESSION['cart_message'])) {
 
             // Enviar por AJAX
             fetch('search-products-product.php?id=<?php echo $id; ?>', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Restaurar botón
-                btn.classList.remove('btn-loading');
-                btn.disabled = false;
-                btn.innerHTML = originalText;
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Restaurar botón
+                    btn.classList.remove('btn-loading');
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
 
-                if (data.success) {
-                    showNotification(data.message, 'success');
-                    
-                    // Actualizar contador del carrito si existe en el header
-                    updateCartCount(data.cart_count);
-                    
-                    // Opcional: Mostrar un pequeño efecto visual
-                    btn.style.backgroundColor = '#218838';
-                    setTimeout(() => {
-                        btn.style.backgroundColor = '';
-                    }, 500);
-                } else {
-                    showNotification(data.message, 'error');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showNotification('Error al añadir al carrito', 'error');
-                btn.classList.remove('btn-loading');
-                btn.disabled = false;
-                btn.innerHTML = originalText;
-            });
+                    if (data.success) {
+                        showNotification(data.message, 'success');
+
+                        // Actualizar contador del carrito si existe en el header
+                        updateCartCount(data.cart_count);
+
+                        // Opcional: Mostrar un pequeño efecto visual
+                        btn.style.backgroundColor = '#218838';
+                        setTimeout(() => {
+                            btn.style.backgroundColor = '';
+                        }, 500);
+                    } else {
+                        showNotification(data.message, 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Error al añadir al carrito', 'error');
+                    btn.classList.remove('btn-loading');
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                });
 
             return false;
         }
@@ -844,30 +844,30 @@ if (isset($_SESSION['cart_message'])) {
 
             // Enviar por AJAX
             fetch('search-products-product.php?id=<?php echo $id; ?>', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Redirigir al checkout después de añadir al carrito
-                    setTimeout(() => {
-                        window.location.href = '../CONTROLLERS/checkout.php';
-                    }, 500);
-                } else {
-                    showNotification(data.message, 'error');
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Redirigir al checkout después de añadir al carrito
+                        setTimeout(() => {
+                            window.location.href = '../CONTROLLERS/checkout.php';
+                        }, 500);
+                    } else {
+                        showNotification(data.message, 'error');
+                        btn.classList.remove('btn-loading');
+                        btn.disabled = false;
+                        btn.innerHTML = originalText;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Error al procesar la compra', 'error');
                     btn.classList.remove('btn-loading');
                     btn.disabled = false;
                     btn.innerHTML = originalText;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showNotification('Error al procesar la compra', 'error');
-                btn.classList.remove('btn-loading');
-                btn.disabled = false;
-                btn.innerHTML = originalText;
-            });
+                });
 
             return false;
         }
@@ -877,11 +877,11 @@ if (isset($_SESSION['cart_message'])) {
             // Buscar elementos que puedan mostrar el contador
             const cartBadge = document.querySelector('.cart-count-badge');
             const cartIcon = document.querySelector('.icons-header a');
-            
+
             if (cartBadge) {
                 cartBadge.textContent = count;
             }
-            
+
             // Si no hay badge, podemos añadir uno dinámicamente
             if (cartIcon && !cartBadge) {
                 let badge = cartIcon.querySelector('span.badge');
@@ -943,6 +943,7 @@ if (isset($_SESSION['cart_message'])) {
             showNotification('<?php echo addslashes($cart_message); ?>', 'success');
         <?php endif; ?>
     </script>
+    <?php include '../TEMPLATES/footer.php' ?>
 </body>
 
 </html>
