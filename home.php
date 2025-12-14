@@ -159,6 +159,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
 </head>
 
 <body>
+    <div class="body-container">
     <?php if (isset($_SESSION['flash_message'])): ?>
         <div class="message-session">
             <?php
@@ -167,7 +168,9 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
             ?>
         </div>
     <?php endif; ?>
-    <?php include 'TEMPLATES/header-home.php'?>
+
+    <?php include 'TEMPLATES/header-home.php'?> <!--Inclusion de la plantilla para la cabecera-->
+
     <main>
         <!-- RESULTADOS DE LA BÚSQUEDA -->
         <?php if ($resultadoBusqueda !== null): ?>
@@ -284,9 +287,8 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
 
         </div>
     </main>
-    <footer>
-
-    </footer>
+    <?php include 'TEMPLATES/footer-home.php'?>
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const carousel = document.getElementById('offertsCarousel');
