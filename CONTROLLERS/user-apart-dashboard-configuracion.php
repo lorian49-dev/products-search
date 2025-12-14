@@ -143,7 +143,7 @@ if (isset($_GET['descargar_datos']) && $_GET['descargar_datos'] == 'json') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configuración</title>
     <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
-    <link rel="stylesheet" href="../styles/home.css">
+    <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -753,7 +753,7 @@ if (isset($_GET['descargar_datos']) && $_GET['descargar_datos'] == 'json') {
         }
     </script>
     <script src="../scripts/user-apart-dashboard.js"></script>
-    <?php include '../TEMPLATES/footer.php' ?>
+    <script src="../scripts/home.js"></script>
 </body>
 
 </html>
