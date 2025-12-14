@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-12-2025 a las 19:22:05
+-- Tiempo de generación: 14-12-2025 a las 22:13:27
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,26 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `hermes_bd`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `actividades_usuario`
+--
+
+CREATE TABLE `actividades_usuario` (
+  `id_actividad` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `actividad` varchar(255) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `actividades_usuario`
+--
+
+INSERT INTO `actividades_usuario` (`id_actividad`, `id_usuario`, `actividad`, `fecha`) VALUES
+(1, 2, 'Cambio de contraseña', '2025-12-14 19:50:47');
 
 -- --------------------------------------------------------
 
@@ -246,6 +266,33 @@ INSERT INTO `direccion_envio` (`id_direccion`, `id_cliente`, `alias`, `direccion
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `metodos_pago`
+--
+
+CREATE TABLE `metodos_pago` (
+  `id_metodo_pago` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `tipo` enum('tarjeta_credito','tarjeta_debito','paypal') NOT NULL,
+  `nombre_titular` varchar(100) DEFAULT NULL,
+  `numero_tarjeta` varchar(4) DEFAULT NULL,
+  `fecha_vencimiento` varchar(7) DEFAULT NULL,
+  `marca_tarjeta` varchar(20) DEFAULT NULL,
+  `email_paypal` varchar(100) DEFAULT NULL,
+  `es_predeterminado` tinyint(1) DEFAULT 0,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `metodos_pago`
+--
+
+INSERT INTO `metodos_pago` (`id_metodo_pago`, `id_usuario`, `tipo`, `nombre_titular`, `numero_tarjeta`, `fecha_vencimiento`, `marca_tarjeta`, `email_paypal`, `es_predeterminado`, `fecha_creacion`) VALUES
+(1, 2, 'paypal', NULL, NULL, NULL, NULL, 'sadsadasdasdasdasdasd@asdsad.com', 0, '2025-12-14 19:29:30'),
+(2, 2, 'tarjeta_credito', 'Oscar asdad', '2131', '12/31', 'Visa', NULL, 1, '2025-12-14 19:31:13');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `pasarela_pago`
 --
 
@@ -387,6 +434,21 @@ INSERT INTO `rol` (`id_rol`, `nombre_rol`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `sesiones_usuario`
+--
+
+CREATE TABLE `sesiones_usuario` (
+  `id_sesion` varchar(128) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `ip` varchar(45) DEFAULT NULL,
+  `dispositivo` text DEFAULT NULL,
+  `fecha_inicio` timestamp NOT NULL DEFAULT current_timestamp(),
+  `fecha_ultima_actividad` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuario`
 --
 
@@ -400,30 +462,31 @@ CREATE TABLE `usuario` (
   `telefono` varchar(15) DEFAULT NULL,
   `direccion_principal` varchar(255) DEFAULT NULL,
   `codigo_recuperacion` varchar(10) DEFAULT NULL,
-  `codigo_expira` datetime DEFAULT NULL
+  `codigo_expira` datetime DEFAULT NULL,
+  `two_factor_auth` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `correo`, `contrasena`, `fecha_nacimiento`, `telefono`, `direccion_principal`, `codigo_recuperacion`, `codigo_expira`) VALUES
-(2, 'Oscar', 'asdad', 'oscar.vanegas772@gmail.com', '$2y$10$O7xH90JGWzknLOOEM.tWluXA8kvwbOqwTbTbKzW9ANvALgHjkeNWG', '1111-11-11', '121213131', 'masmdasmdma', '392943', '2025-11-19 21:43:45'),
-(3, 'Juan', 'Pérez', 'juan.perez@email.com', '$2y$10$TuHashDeContraseña', '1990-05-15', '3101234567', 'Calle 123 #45-67, Bogotá', NULL, NULL),
-(4, 'María', 'Gómez', 'maria.gomez@email.com', '$2y$10$TuHashDeContraseña', '1985-08-22', '3209876543', 'Avenida Siempre Viva 742, Medellín', NULL, NULL),
-(5, 'Carlos', 'Rodríguez', 'carlos.rod@email.com', '$2y$10$TuHashDeContraseña', '1995-02-10', '3155551234', 'Carrera 7 #23-45, Cali', NULL, NULL),
-(6, 'Ana', 'Martínez', 'ana.martinez@email.com', '$2y$10$TuHashDeContraseña', '1992-11-30', '3189998888', 'Diagonal 80 #12-34, Barranquilla', NULL, NULL),
-(7, 'Luis', 'Hernández', 'luis.hernandez@email.com', '$2y$10$TuHashDeContraseña', '1988-07-18', '3001112233', 'Transversal 45 #56-78, Cartagena', NULL, NULL),
-(23, 'Juan', 'Pérez', 'juan.perez2@email.com', '$2y$10$TuHashDeContraseña', '1990-05-15', '3101234567', 'Calle 123 #45-67, Bogotá', NULL, NULL),
-(24, 'María', 'Gómez', 'maria.gomez2@email.com', '$2y$10$TuHashDeContraseña', '1985-08-22', '3209876543', 'Avenida Siempre Viva 742, Medellín', NULL, NULL),
-(25, 'Carlos', 'Rodríguez', 'carlos.rod2@email.com', '$2y$10$TuHashDeContraseña', '1995-02-10', '3155551234', 'Carrera 7 #23-45, Cali', NULL, NULL),
-(26, 'Ana', 'Martínez', 'ana.martinez2@email.com', '$2y$10$TuHashDeContraseña', '1992-11-30', '3189998888', 'Diagonal 80 #12-34, Barranquilla', NULL, NULL),
-(27, 'Luis', 'Hernández', 'luis.hernandez2@email.com', '$2y$10$TuHashDeContraseña', '1988-07-18', '3001112233', 'Transversal 45 #56-78, Cartagena', NULL, NULL),
-(28, 'Juan', 'Pérez', 'juan.perez.test@email.com', '$2y$10$TuHashDeContraseña', '1990-05-15', '3101234567', 'Calle 123 #45-67, Bogotá', NULL, NULL),
-(29, 'María', 'Gómez', 'maria.gomez.test@email.com', '$2y$10$TuHashDeContraseña', '1985-08-22', '3209876543', 'Avenida Siempre Viva 742, Medellín', NULL, NULL),
-(30, 'Carlos', 'Rodríguez', 'carlos.rod.test@email.com', '$2y$10$TuHashDeContraseña', '1995-02-10', '3155551234', 'Carrera 7 #23-45, Cali', NULL, NULL),
-(31, 'Ana', 'Martínez', 'ana.martinez.test@email.com', '$2y$10$TuHashDeContraseña', '1992-11-30', '3189998888', 'Diagonal 80 #12-34, Barranquilla', NULL, NULL),
-(32, 'Luis', 'Hernández', 'luis.hernandez.test@email.com', '$2y$10$TuHashDeContraseña', '1988-07-18', '3001112233', 'Transversal 45 #56-78, Cartagena', NULL, NULL);
+INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `correo`, `contrasena`, `fecha_nacimiento`, `telefono`, `direccion_principal`, `codigo_recuperacion`, `codigo_expira`, `two_factor_auth`) VALUES
+(2, 'Oscar', 'asdad', 'oscar.vanegas772@gmail.com', '$2y$10$C/QYRLXVPzpaTICGwEkvwegipIdeBK3vk1y1Bla/4hOB5uL9M1QwS', '1111-11-11', '121213131', 'masmdasmdma', '392943', '2025-11-19 21:43:45', 0),
+(3, 'Juan', 'Pérez', 'juan.perez@email.com', '$2y$10$TuHashDeContraseña', '1990-05-15', '3101234567', 'Calle 123 #45-67, Bogotá', NULL, NULL, 0),
+(4, 'María', 'Gómez', 'maria.gomez@email.com', '$2y$10$TuHashDeContraseña', '1985-08-22', '3209876543', 'Avenida Siempre Viva 742, Medellín', NULL, NULL, 0),
+(5, 'Carlos', 'Rodríguez', 'carlos.rod@email.com', '$2y$10$TuHashDeContraseña', '1995-02-10', '3155551234', 'Carrera 7 #23-45, Cali', NULL, NULL, 0),
+(6, 'Ana', 'Martínez', 'ana.martinez@email.com', '$2y$10$TuHashDeContraseña', '1992-11-30', '3189998888', 'Diagonal 80 #12-34, Barranquilla', NULL, NULL, 0),
+(7, 'Luis', 'Hernández', 'luis.hernandez@email.com', '$2y$10$TuHashDeContraseña', '1988-07-18', '3001112233', 'Transversal 45 #56-78, Cartagena', NULL, NULL, 0),
+(23, 'Juan', 'Pérez', 'juan.perez2@email.com', '$2y$10$TuHashDeContraseña', '1990-05-15', '3101234567', 'Calle 123 #45-67, Bogotá', NULL, NULL, 0),
+(24, 'María', 'Gómez', 'maria.gomez2@email.com', '$2y$10$TuHashDeContraseña', '1985-08-22', '3209876543', 'Avenida Siempre Viva 742, Medellín', NULL, NULL, 0),
+(25, 'Carlos', 'Rodríguez', 'carlos.rod2@email.com', '$2y$10$TuHashDeContraseña', '1995-02-10', '3155551234', 'Carrera 7 #23-45, Cali', NULL, NULL, 0),
+(26, 'Ana', 'Martínez', 'ana.martinez2@email.com', '$2y$10$TuHashDeContraseña', '1992-11-30', '3189998888', 'Diagonal 80 #12-34, Barranquilla', NULL, NULL, 0),
+(27, 'Luis', 'Hernández', 'luis.hernandez2@email.com', '$2y$10$TuHashDeContraseña', '1988-07-18', '3001112233', 'Transversal 45 #56-78, Cartagena', NULL, NULL, 0),
+(28, 'Juan', 'Pérez', 'juan.perez.test@email.com', '$2y$10$TuHashDeContraseña', '1990-05-15', '3101234567', 'Calle 123 #45-67, Bogotá', NULL, NULL, 0),
+(29, 'María', 'Gómez', 'maria.gomez.test@email.com', '$2y$10$TuHashDeContraseña', '1985-08-22', '3209876543', 'Avenida Siempre Viva 742, Medellín', NULL, NULL, 0),
+(30, 'Carlos', 'Rodríguez', 'carlos.rod.test@email.com', '$2y$10$TuHashDeContraseña', '1995-02-10', '3155551234', 'Carrera 7 #23-45, Cali', NULL, NULL, 0),
+(31, 'Ana', 'Martínez', 'ana.martinez.test@email.com', '$2y$10$TuHashDeContraseña', '1992-11-30', '3189998888', 'Diagonal 80 #12-34, Barranquilla', NULL, NULL, 0),
+(32, 'Luis', 'Hernández', 'luis.hernandez.test@email.com', '$2y$10$TuHashDeContraseña', '1988-07-18', '3001112233', 'Transversal 45 #56-78, Cartagena', NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -475,6 +538,13 @@ CREATE TABLE `wishlist` (
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `actividades_usuario`
+--
+ALTER TABLE `actividades_usuario`
+  ADD PRIMARY KEY (`id_actividad`),
+  ADD KEY `id_usuario` (`id_usuario`);
 
 --
 -- Indices de la tabla `administradores`
@@ -547,6 +617,13 @@ ALTER TABLE `direccion_envio`
   ADD KEY `fk_dir_cliente` (`id_cliente`);
 
 --
+-- Indices de la tabla `metodos_pago`
+--
+ALTER TABLE `metodos_pago`
+  ADD PRIMARY KEY (`id_metodo_pago`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
 -- Indices de la tabla `pasarela_pago`
 --
 ALTER TABLE `pasarela_pago`
@@ -591,6 +668,13 @@ ALTER TABLE `rol`
   ADD PRIMARY KEY (`id_rol`);
 
 --
+-- Indices de la tabla `sesiones_usuario`
+--
+ALTER TABLE `sesiones_usuario`
+  ADD PRIMARY KEY (`id_sesion`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
@@ -619,6 +703,12 @@ ALTER TABLE `wishlist`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `actividades_usuario`
+--
+ALTER TABLE `actividades_usuario`
+  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `administradores`
@@ -663,6 +753,12 @@ ALTER TABLE `direccion_envio`
   MODIFY `id_direccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de la tabla `metodos_pago`
+--
+ALTER TABLE `metodos_pago`
+  MODIFY `id_metodo_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `pasarela_pago`
 --
 ALTER TABLE `pasarela_pago`
@@ -701,6 +797,12 @@ ALTER TABLE `usuario`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `actividades_usuario`
+--
+ALTER TABLE `actividades_usuario`
+  ADD CONSTRAINT `actividades_usuario_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `administradores`
@@ -760,6 +862,12 @@ ALTER TABLE `direccion_envio`
   ADD CONSTRAINT `fk_dir_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Filtros para la tabla `metodos_pago`
+--
+ALTER TABLE `metodos_pago`
+  ADD CONSTRAINT `metodos_pago_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE;
+
+--
 -- Filtros para la tabla `pasarela_pago`
 --
 ALTER TABLE `pasarela_pago`
@@ -793,6 +901,12 @@ ALTER TABLE `producto`
 ALTER TABLE `producto_categoria`
   ADD CONSTRAINT `fk_pc_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_pc_producto` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `sesiones_usuario`
+--
+ALTER TABLE `sesiones_usuario`
+  ADD CONSTRAINT `sesiones_usuario_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `usuario_rol`
