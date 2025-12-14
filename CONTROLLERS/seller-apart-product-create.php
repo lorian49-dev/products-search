@@ -39,16 +39,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stock = $_POST['stock'];
     $origen = trim($_POST['origen']);
     $categoria_id = $_POST['categoria_id'];
-    
+
     // Manejar imagen con Cloudinary
     $imagen_url = null;
     $public_id = null; // Guardar el public_id por si necesitas eliminarla después
-    
+
     if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === 0) {
         // Validar tipo de archivo
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
         $fileType = mime_content_type($_FILES['imagen']['tmp_name']);
-        
+
         if (!in_array($fileType, $allowedTypes)) {
             $mensaje = '<div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
                         Formato de imagen no permitido. Solo se aceptan JPG, PNG, GIF y WEBP.
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Generar nombre único para el archivo
                     $fileName = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME);
                     $safeFileName = preg_replace('/[^a-zA-Z0-9_-]/', '_', $fileName);
-                    
+
                     // Subir imagen a Cloudinary
                     $uploadResult = $cloudinary->uploadApi()->upload(
                         $_FILES['imagen']['tmp_name'],
@@ -82,14 +82,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             ]
                         ]
                     );
-                    
+
                     // Obtener la URL segura de la imagen
                     $imagen_url = $uploadResult['secure_url'];
                     $public_id = $uploadResult['public_id'];
-                    
+
                     // Mensaje de éxito para debug
                     error_log("Imagen subida a Cloudinary. URL: " . $imagen_url);
-                    
                 } catch (Exception $e) {
                     $mensaje = '<div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
                                 Error al subir la imagen a Cloudinary: ' . htmlspecialchars($e->getMessage()) . '
@@ -99,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
-    
+
     // Si no hay mensaje de error, proceder con la inserción
     if (empty($mensaje)) {
         // Insertar producto con el id_vendedor
@@ -107,10 +106,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                       VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $connect->prepare($sqlInsert);
         $stmt->bind_param("ssssisss", $nombre, $descripcion, $imagen_url, $precio, $stock, $origen, $idUsuario, $public_id);
-        
+
         if ($stmt->execute()) {
             $idProducto = $connect->insert_id;
-            
+
             // Asignar categoría si se seleccionó
             if ($categoria_id) {
                 $sqlAsignarCategoria = "INSERT INTO producto_categoria (id_producto, id_categoria) VALUES (?, ?)";
@@ -118,10 +117,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmtCat->bind_param("ii", $idProducto, $categoria_id);
                 $stmtCat->execute();
             }
-            
+
             echo "<script>
                 alert('Producto creado exitosamente');
-                window.location.href = 'productos-vendedor.php';
+                window.location.href = 'sellet-apart-manage-bussiness.php';
             </script>";
             exit;
         } else {
@@ -133,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     error_log("Error al eliminar imagen de Cloudinary: " . $e->getMessage());
                 }
             }
-            
+
             $mensaje = '<div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
                         Error al crear el producto: ' . $connect->error . '
                         </div>';
@@ -144,6 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -172,7 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             width: 250px;
             background: white;
             padding: 25px 0;
-            box-shadow: 3px 0 10px rgba(0,0,0,0.05);
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.05);
             position: fixed;
             height: 100vh;
         }
@@ -213,7 +213,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             transition: all 0.3s;
         }
 
-        .nav-menu a:hover, .nav-menu a.active {
+        .nav-menu a:hover,
+        .nav-menu a.active {
             background: #eff6ff;
             color: #1d4ed8;
         }
@@ -290,7 +291,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background: white;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
 
         .form-group {
@@ -304,7 +305,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: #374151;
         }
 
-        input, select, textarea {
+        input,
+        select,
+        textarea {
             width: 100%;
             padding: 12px;
             border: 2px solid #d1d5db;
@@ -356,6 +359,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     </style>
 </head>
+
 <body>
     <div class="dashboard-container">
         <!-- Sidebar -->
@@ -364,8 +368,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h2>Hermes<span>Seller</span></h2>
             </div>
             <ul class="nav-menu">
-                <li><a href="seller-apart-main-view.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                <li><a href="crear-producto.php" class="active"><i class="fas fa-plus-circle"></i> Crear Producto</a></li>
+                <li><a href="seller-apart-manage-bussiness.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="seller-apart-product-create.php" class="active"><i class="fas fa-plus-circle"></i> Crear Producto</a></li>
                 <li><a href="seller-apart-products.php"><i class="fas fa-box"></i> Mis Productos</a></li>
                 <li><a href="categorias-vendedor.php"><i class="fas fa-tags"></i> Mis Categorías</a></li>
                 <li><a href="catalogos-vendedor.php"><i class="fas fa-book"></i> Mis Catálogos</a></li>
@@ -392,44 +396,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label>Nombre del Producto *</label>
                         <input type="text" name="nombre" placeholder="Ej: Camiseta de algodón" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Descripción *</label>
                         <textarea name="descripcion" placeholder="Describe tu producto..." required></textarea>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label>Precio * (COP)</label>
                             <input type="number" name="precio" step="0.01" min="0" placeholder="Ej: 50000" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <label>Stock *</label>
                             <input type="number" name="stock" min="0" placeholder="Ej: 100" required>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Origen/Marca</label>
                         <input type="text" name="origen" placeholder="Ej: Colombia, Nike, etc.">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Categoría (Opcional)</label>
                         <select name="categoria_id">
                             <option value="">Seleccionar categoría</option>
-                            <?php 
+                            <?php
                             // Resetear el puntero del resultado
                             $categorias->data_seek(0);
-                            while($categoria = $categorias->fetch_assoc()): ?>
+                            while ($categoria = $categorias->fetch_assoc()): ?>
                                 <option value="<?php echo $categoria['id_categoria']; ?>">
                                     <?php echo htmlspecialchars($categoria['nombre_categoria']); ?>
                                 </option>
                             <?php endwhile; ?>
                         </select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Imagen del Producto</label>
                         <input type="file" name="imagen" accept="image/*" id="imagenInput">
@@ -440,7 +444,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <img src="" alt="Vista previa" id="previewImage">
                         </div>
                     </div>
-                    
+
                     <div class="form-group" style="margin-top: 30px;">
                         <button href="seller-apart-manage-bussiness.php" class="btn btn-success" style="padding: 15px 30px; font-size: 1rem;">
                             <i class="fas fa-save"></i> Crear Producto
@@ -450,7 +454,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </a>
                     </div>
                 </form>
-                
+
                 <div style="margin-top: 30px; padding: 15px; background: #f9fafb; border-radius: 8px; border-left: 4px solid #3b82f6;">
                     <h4 style="color: #1f2937; margin-bottom: 10px;"><i class="fas fa-info-circle"></i> Información importante:</h4>
                     <ul style="color: #4b5563; padding-left: 20px;">
@@ -474,20 +478,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             const previewImage = document.getElementById('previewImage');
             const precioInput = document.querySelector('input[name="precio"]');
             const stockInput = document.querySelector('input[name="stock"]');
-            
+
             // Vista previa de imagen
             imagenInput.addEventListener('change', function() {
                 const file = this.files[0];
                 if (file) {
                     const reader = new FileReader();
-                    
+
                     reader.addEventListener('load', function() {
                         previewImage.src = reader.result;
                         imagePreview.style.display = 'block';
                     });
-                    
+
                     reader.readAsDataURL(file);
-                    
+
                     // Validar tamaño
                     if (file.size > 5 * 5120 * 5120) { // 5MB
                         alert('La imagen es demasiado grande. Tamaño máximo: 5MB.');
@@ -498,10 +502,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     imagePreview.style.display = 'none';
                 }
             });
-            
+
             form.addEventListener('submit', function(e) {
                 let valid = true;
-                
+
                 // Validar campos requeridos
                 const requiredFields = form.querySelectorAll('[required]');
                 requiredFields.forEach(field => {
@@ -512,33 +516,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         field.style.borderColor = '#d1d5db';
                     }
                 });
-                
+
                 // Validar precio positivo
                 if (precioInput.value && parseFloat(precioInput.value) < 0) {
                     valid = false;
                     precioInput.style.borderColor = '#ef4444';
                     alert('El precio debe ser un número positivo.');
                 }
-                
+
                 // Validar stock positivo
                 if (stockInput.value && parseInt(stockInput.value) < 0) {
                     valid = false;
                     stockInput.style.borderColor = '#ef4444';
                     alert('El stock debe ser un número positivo.');
                 }
-                
+
                 // Validar tipo de archivo si se seleccionó una imagen
                 if (imagenInput.files.length > 0) {
                     const file = imagenInput.files[0];
                     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-                    
+
                     if (!allowedTypes.includes(file.type)) {
                         valid = false;
                         imagenInput.style.borderColor = '#ef4444';
                         alert('Formato de imagen no permitido. Solo se aceptan JPG, PNG, GIF y WEBP.');
-                        }
+                    }
                 }
-                
+
                 if (!valid) {
                     e.preventDefault();
                     alert('Por favor, complete todos los campos requeridos correctamente.');
@@ -549,7 +553,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     submitButton.disabled = true;
                 }
             });
-            
+
             // Restaurar bordes cuando el usuario empiece a escribir
             const inputs = form.querySelectorAll('input, textarea, select');
             inputs.forEach(input => {
@@ -560,4 +564,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         });
     </script>
 </body>
+
 </html>
