@@ -189,71 +189,7 @@ $cats = $connect->query("SELECT * FROM categoria ORDER BY nombre_categoria ASC")
 </head>
 
 <body>
-    <header>
-        <div class="top">
-            <span id="logo-hermes-home">
-                <h1>HERMES</h1>
-            </span>
-            <ul style="list-style:none;">
-                <div class="input-search-product-box">
-                    <form action="search-products.php" method="GET" style="width:100%">
-                        <li class="input-search-product-li">
-                            <input
-                                type="text"
-                                name="search-product"
-                                id="input-search-product"
-                                placeholder="Buscar producto..."
-                                value="<?php echo htmlspecialchars($busqueda); ?>"
-                                autocomplete="off">
-                            <button type="submit" class="button-search"><i class="fa-solid fa-magnifying-glass"></i></button>
-                            <div id="results-container"></div>
-                        </li>
-                    </form>
-                </div>
-            </ul>
-        </div>
-        <div class="bottom">
-            <nav>
-                <ul>
-                    <?php if (isset($_SESSION['usuario_nombre'])): ?>
-                        <li><span id="venderPage">Vender</span></li>
-                    <?php endif; ?>
-                    <li><span id="ayuda-listado">Ayuda</span>
-                        <div id="menu-ayuda" class="menu-categoria">
-                            <ul>
-                                <li>Informacion</li>
-                                <li>PQRS</li>
-                                <li>Contactos</li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-
-            <div class="account-header">
-                <!-- perfil usuario -->
-                <?php if (isset($_SESSION['usuario_nombre'])): ?>
-                    <div class="perfil-menu">
-                        <button class="perfil-btn"><?php echo htmlspecialchars($_SESSION['usuario_nombre']); ?></button>
-                        <div class="dropdown-content">
-                            <a href="../CONTROLLERS/user-apart-dashboard.php">Mi cuenta</a>
-                            <a href="../registros-inicio-sesion/logout.php">Cerrar sesión</a>
-                        </div>
-                    </div>
-                <?php else: ?>
-                    <a href="../registros-inicio-sesion/login.php"><span class="sisu-buttons">Sign In</span></a>
-                    <a href="../registros-inicio-sesion/register.html"><span class="sisu-buttons">Sign Up</span></a>
-                <?php endif; ?>
-                <!-- fin del menu despegable -->
-            </div>
-            <div class="icons-header">
-                <span><img src="../SOURCES/ICONOS-LOGOS/bookmark.svg" alt="wishlist"></span>
-                <a href="cart.php">
-                    <img src="SOURCES/ICONOS-LOGOS/shopping_bag.svg" alt="Shopping Cart">
-                </a>
-            </div>
-        </div>
-    </header>
+    <?php include '../TEMPLATES/header.php'?>
     <div class="container" style="display:flex; gap:20px;">
 
         <aside class="sidebar" style="width:250px; border:1px solid #ccc; padding:15px; background:#f9f9f9; border-radius:8px;">
