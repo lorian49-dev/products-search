@@ -26,7 +26,7 @@ if (isset($_SESSION['cart_message'])) {
         $message = $_SESSION['cart_message'];
         $message_type = 'success';
     }
-    
+
     unset($_SESSION['cart_message']);
 }
 
@@ -454,7 +454,7 @@ $total = $cart_total + $envio + $iva;
 </head>
 
 <body>
-   <?php include '../TEMPLATES/header.php'?>
+    <?php include '../TEMPLATES/header.php' ?>
 
     <!-- CONTENIDO DEL CARRITO -->
     <div class="container">
@@ -496,7 +496,7 @@ $total = $cart_total + $envio + $iva;
                             </thead>
                             <tbody>
                                 <?php foreach ($cart_items as $product_id => $item): ?>
-                                    <?php 
+                                    <?php
                                     $product_name = isset($item['name']) ? (string)$item['name'] : 'Producto sin nombre';
                                     $price = isset($item['price']) ? (float)$item['price'] : 0;
                                     $quantity = isset($item['quantity']) ? (int)$item['quantity'] : 1;
@@ -506,9 +506,9 @@ $total = $cart_total + $envio + $iva;
                                     <tr>
                                         <td>
                                             <div class="product-info">
-                                                <img src="<?php echo htmlspecialchars($image_url, ENT_QUOTES, 'UTF-8'); ?>" 
-                                                     alt="<?php echo htmlspecialchars($product_name, ENT_QUOTES, 'UTF-8'); ?>" 
-                                                     class="product-image">
+                                                <img src="<?php echo htmlspecialchars($image_url, ENT_QUOTES, 'UTF-8'); ?>"
+                                                    alt="<?php echo htmlspecialchars($product_name, ENT_QUOTES, 'UTF-8'); ?>"
+                                                    class="product-image">
                                                 <div>
                                                     <div class="product-name"><?php echo htmlspecialchars($product_name, ENT_QUOTES, 'UTF-8'); ?></div>
                                                     <div class="product-price">$<?php echo number_format($price, 0, ',', '.'); ?></div>
@@ -520,21 +520,21 @@ $total = $cart_total + $envio + $iva;
                                         </td>
                                         <td>
                                             <div class="quantity-control">
-                                                <input type="number" 
-                                                       name="quantity[<?php echo (int)$product_id; ?>]" 
-                                                       value="<?php echo (int)$quantity; ?>" 
-                                                       min="1" 
-                                                       max="99"
-                                                       class="quantity-input">
+                                                <input type="number"
+                                                    name="quantity[<?php echo (int)$product_id; ?>]"
+                                                    value="<?php echo (int)$quantity; ?>"
+                                                    min="1"
+                                                    max="99"
+                                                    class="quantity-input">
                                             </div>
                                         </td>
                                         <td class="product-price">
                                             $<?php echo number_format($subtotal, 0, ',', '.'); ?>
                                         </td>
                                         <td>
-                                            <a href="?remove=<?php echo (int)$product_id; ?>" 
-                                               class="btn-remove" 
-                                               onclick="return confirm('¿Eliminar producto del carrito?')">
+                                            <a href="?remove=<?php echo (int)$product_id; ?>"
+                                                class="btn-remove"
+                                                onclick="return confirmDelete(event, 'producto')">
                                                 <i class="fas fa-trash"></i> Eliminar
                                             </a>
                                         </td>
@@ -542,44 +542,44 @@ $total = $cart_total + $envio + $iva;
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
-                        
+
                         <div class="cart-actions">
                             <button type="submit" name="update_cart" class="update-btn">
                                 <i class="fas fa-sync-alt"></i> Actualizar Carrito
                             </button>
-                            <a href="?clear=1" class="clear-btn" onclick="return confirm('¿Vaciar todo el carrito?')">
+                            <a href="?clear=1" class="clear-btn" onclick="return confirmDelete(event, 'carrito')">
                                 <i class="fas fa-trash-alt"></i> Vaciar Carrito
                             </a>
                         </div>
                     </div>
-                    
+
                     <div class="cart-summary">
                         <h3 class="summary-title">Resumen del Pedido</h3>
-                        
+
                         <div class="summary-row">
                             <span class="summary-label">Subtotal:</span>
                             <span class="summary-value">$<?php echo number_format($cart_total, 0, ',', '.'); ?></span>
                         </div>
-                        
+
                         <div class="summary-row">
                             <span class="summary-label">Envío:</span>
                             <span class="summary-value">$<?php echo number_format($envio, 0, ',', '.'); ?></span>
                         </div>
-                        
+
                         <div class="summary-row">
                             <span class="summary-label">IVA (19%):</span>
                             <span class="summary-value">$<?php echo number_format($iva, 0, ',', '.'); ?></span>
                         </div>
-                        
+
                         <div class="summary-total">
                             <span>Total:</span>
                             <span>$<?php echo number_format($total, 0, ',', '.'); ?></span>
                         </div>
-                        
+
                         <a href="checkout.php" class="checkout-btn">
                             <i class="fas fa-lock"></i> Proceder al Pago
                         </a>
-                        
+
                         <a href="search-products.php" class="btn-continue">
                             <i class="fas fa-arrow-left"></i> Seguir Comprando
                         </a>
@@ -596,25 +596,85 @@ $total = $cart_total + $envio + $iva;
                 if (this.value < 1) this.value = 1;
                 if (this.value > 99) this.value = 99;
             });
-            
+
             input.addEventListener('input', function() {
                 if (this.value < 1) this.value = 1;
                 if (this.value > 99) this.value = 99;
             });
         });
-        
-        // Confirmación antes de eliminar o vaciar
-        document.querySelectorAll('.btn-remove, .clear-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                const message = this.classList.contains('btn-remove') 
-                    ? '¿Eliminar producto del carrito?' 
-                    : '¿Vaciar todo el carrito?';
-                
-                if (!confirm(message)) {
-                    e.preventDefault();
-                }
+
+        // Función para confirmación única
+        function confirmDelete(event, tipo) {
+            event.preventDefault(); // Prevenir acción por defecto
+
+            let mensaje = '';
+            let url = '';
+
+            if (tipo === 'producto') {
+                mensaje = '¿Eliminar producto del carrito?';
+                url = event.currentTarget.href;
+            } else if (tipo === 'carrito') {
+                mensaje = '¿Vaciar todo el carrito?';
+                url = event.currentTarget.href;
+            }
+
+            if (confirm(mensaje)) {
+                window.location.href = url;
+            }
+            return false;
+        }
+
+        // Menu de ayuda
+        const ayudaListado = document.getElementById('ayuda-listado');
+        const menuAyuda = document.getElementById('menu-ayuda');
+
+        if (ayudaListado && menuAyuda) {
+            ayudaListado.addEventListener('mouseenter', () => {
+                menuAyuda.style.opacity = '1';
+                menuAyuda.style.pointerEvents = 'all';
             });
-        });
+
+            ayudaListado.addEventListener('mouseleave', () => {
+                menuAyuda.style.opacity = '0';
+                menuAyuda.style.pointerEvents = 'none';
+            });
+
+            menuAyuda.addEventListener('mouseenter', () => {
+                menuAyuda.style.opacity = '1';
+                menuAyuda.style.pointerEvents = 'all';
+            });
+
+            menuAyuda.addEventListener('mouseleave', () => {
+                menuAyuda.style.opacity = '0';
+                menuAyuda.style.pointerEvents = 'none';
+            });
+        }
+
+        // Menu perfil
+        const perfilMenu = document.querySelector('.perfil-menu');
+        const dropdownContent = document.querySelector('.dropdown-content');
+
+        if (perfilMenu && dropdownContent) {
+            perfilMenu.addEventListener('mouseenter', () => {
+                dropdownContent.style.opacity = '1';
+                dropdownContent.style.pointerEvents = 'all';
+            });
+
+            perfilMenu.addEventListener('mouseleave', () => {
+                dropdownContent.style.opacity = '0';
+                dropdownContent.style.pointerEvents = 'none';
+            });
+
+            dropdownContent.addEventListener('mouseenter', () => {
+                dropdownContent.style.opacity = '1';
+                dropdownContent.style.pointerEvents = 'all';
+            });
+
+            dropdownContent.addEventListener('mouseleave', () => {
+                dropdownContent.style.opacity = '0';
+                dropdownContent.style.pointerEvents = 'none';
+            });
+        }
     </script>
     <script src="../scripts/home.js"></script>
 </body>

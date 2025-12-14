@@ -1,73 +1,77 @@
 <?php
-// CONTROLLERS/cart.php
+// add-to-cart.php
 session_start();
 require_once "../shortCuts/connect.php";
 
-// Incluir funciones del carrito desde includes/
-require_once "cart-functions.php";
-// Verificar que sea una solicitud POST
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+// Verificar si se recibieron datos POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['product_id']) && isset($_POST['quantity'])) {
+        $product_id = (int)$_POST['product_id'];
+        $quantity = (int)$_POST['quantity'];
+        
+        // Validar que la cantidad sea positiva
+        if ($quantity <= 0) {
+            $_SESSION['cart_message'] = 'La cantidad debe ser mayor a 0';
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+        
+        // Obtener información del producto de la base de datos
+        $sql = "SELECT nombre, precio, imagen_url, cloudinary_public_id, stock FROM producto WHERE id_producto = ?";
+        $stmt = $connect->prepare($sql);
+        $stmt->bind_param("i", $product_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            $producto = $result->fetch_assoc();
+            
+            // Verificar stock
+            if ($producto['stock'] < $quantity) {
+                $_SESSION['cart_message'] = 'No hay suficiente stock disponible';
+                header("Location: " . $_SERVER['HTTP_REFERER']);
+                exit;
+            }
+            
+            // Incluir funciones del carrito
+            require_once "cart-functions.php";
+            
+            // Determinar la URL de la imagen
+            $image_url = '';
+            if (!empty($producto['imagen_url'])) {
+                $image_url = $producto['imagen_url'];
+            } elseif (!empty($producto['imagen'])) {
+                $image_url = '../SOURCES/PRODUCTOS/' . $producto['imagen'];
+            }
+            
+            // Añadir al carrito usando la función
+            addToCart(
+                $product_id,
+                $producto['nombre'],
+                $producto['precio'],
+                $quantity,
+                $image_url
+            );
+            
+            // Mensaje simple de éxito (NO JSON)
+            $_SESSION['cart_message'] = '✓ Producto añadido al carrito correctamente';
+            
+        } else {
+            $_SESSION['cart_message'] = 'Producto no encontrado';
+        }
+        
+        // Redirigir de vuelta a la página anterior
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
+        
+    } else {
+        $_SESSION['cart_message'] = 'Datos del producto incompletos';
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+} else {
+    // Si no es POST, redirigir al inicio
     header("Location: ../home.php");
     exit;
 }
-
-// Obtener datos del producto
-$product_id = isset($_POST['product_id']) ? (int)$_POST['product_id'] : 0;
-$quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
-
-if ($product_id <= 0 || $quantity <= 0) {
-    $_SESSION['cart_message'] = [
-        'type' => 'error',
-        'message' => 'Datos inválidos'
-    ];
-    header("Location: " . ($_SERVER['HTTP_REFERER'] ?? '../home.php'));
-    exit;
-}
-
-// Obtener información del producto
-$sql = "SELECT nombre, precio, imagen_url, cloudinary_public_id, stock FROM producto WHERE id_producto = ?";
-$stmt = $connect->prepare($sql);
-$stmt->bind_param("i", $product_id);
-$stmt->execute();
-$producto = $stmt->get_result()->fetch_assoc();
-
-if (!$producto) {
-    $_SESSION['cart_message'] = [
-        'type' => 'error',
-        'message' => 'Producto no encontrado'
-    ];
-    header("Location: " . ($_SERVER['HTTP_REFERER'] ?? '../home.php'));
-    exit;
-}
-
-// Verificar stock
-if ($producto['stock'] < $quantity) {
-    $_SESSION['cart_message'] = [
-        'type' => 'error',
-        'message' => 'Stock insuficiente. Disponible: ' . $producto['stock']
-    ];
-    header("Location: " . ($_SERVER['HTTP_REFERER'] ?? '../home.php'));
-    exit;
-}
-
-// Obtener URL de la imagen
-$image_url = !empty($producto['imagen_url']) ? $producto['imagen_url'] : (!empty($producto['imagen']) ? '../SOURCES/PRODUCTOS/' . $producto['imagen'] : null);
-
-// Añadir al carrito
-addToCart(
-    $product_id,
-    $producto['nombre'],
-    $producto['precio'],
-    $quantity,
-    $image_url
-);
-
-// Mensaje de éxito
-$_SESSION['cart_message'] = [
-    'type' => 'success',
-    'message' => '✓ Producto añadido al carrito'
-];
-
-// Redirigir de vuelta
-header("Location: " . ($_SERVER['HTTP_REFERER'] ?? '../home.php'));
-exit;
+?>
