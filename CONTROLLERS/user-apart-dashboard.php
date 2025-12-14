@@ -84,7 +84,7 @@ $usuario = mysqli_fetch_assoc($result);
                 </li>
             </ul>
 
-            <a href="../registros-inicio-sesion/logout.php" style="text-decoration:none;color:#b30000;">
+            <a href="../registros-inicio-sesion/logout-user.php" style="text-decoration:none;color:#b30000;">
                 <li><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</li>
             </a>
             </ul>

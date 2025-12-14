@@ -2,225 +2,822 @@
 session_start();
 include("../shortCuts/connect.php");
 
-// Verificar que el usuario haya iniciado sesión
+// Verificar sesión
 if (!isset($_SESSION['usuario_id'])) {
-    die("Error: No hay sesión activa. Inicia sesión nuevamente.");
+    header("Location: ../login.php");
+    exit;
 }
 
-$usuario_id = intval($_SESSION['usuario_id']); // seguridad
+$usuario_id = intval($_SESSION['usuario_id']);
 
 // Obtener datos del usuario
-$sql = "SELECT * FROM usuario WHERE id_usuario = $usuario_id";
-$result = mysqli_query($connect, $sql);
-if (!$result) {
-    die("Error en la consulta: " . mysqli_error($connect));
-}
-$usuario = mysqli_fetch_assoc($result);
+$sql_usuario = "SELECT nombre, apellido FROM usuario WHERE id_usuario = $usuario_id";
+$result_usuario = mysqli_query($connect, $sql_usuario);
+$usuario = mysqli_fetch_assoc($result_usuario);
 
+// Obtener métodos de pago del usuario
+$sql_metodos = "SELECT * FROM metodos_pago WHERE id_usuario = $usuario_id ORDER BY es_predeterminado DESC, fecha_creacion DESC";
+$result_metodos = mysqli_query($connect, $sql_metodos);
 
-// OBTENER TODAS LAS DIRECCIONES DEL USUARIO
-// Aquí asumimos que en `cliente` tienes un campo `direccion`
-$sqlDirecciones = "SELECT direccion FROM cliente WHERE id_cliente= $usuario_id";
-$resultDirecciones = mysqli_query($connect, $sqlDirecciones);
-
-$direcciones = [];
-if ($resultDirecciones && mysqli_num_rows($resultDirecciones) > 0) {
-    while ($row = mysqli_fetch_assoc($resultDirecciones)) {
-        $direcciones[] = $row['direccion'];
+$metodos_pago = [];
+if ($result_metodos && mysqli_num_rows($result_metodos) > 0) {
+    while ($row = mysqli_fetch_assoc($result_metodos)) {
+        $metodos_pago[] = $row;
     }
 }
 
-// Dirección principal viene de tabla usuario
-$direccionPrincipal = $usuario['direccion_principal'] ?? "";
-
+// Obtener método predeterminado
+$metodo_predeterminado = null;
+foreach ($metodos_pago as $metodo) {
+    if ($metodo['es_predeterminado'] == 1) {
+        $metodo_predeterminado = $metodo;
+        break;
+    }
+}
 ?>
+
+<!DOCTYPE html>
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Métodos de Pago</title>
     <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
-    <title>Usuario</title>
     <link rel="stylesheet" href="../styles/home.css">
     <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-        .perfil-container {
-            width: 70%;
+        /* Estilos del dashboard (mismos que en datos-personales) */
+        .dashboard-container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
             margin: 30px auto;
+            gap: 30px;
+        }
+
+        .dashboard-sidebar {
+            width: 250px;
             background: #fff;
-            padding: 30px;
             border-radius: 15px;
             box-shadow: 0 0 10px #ccc;
+            padding: 20px;
+            height: fit-content;
         }
 
-        .personal-info p {
-            font-size: 16px;
-            margin: 8px 0;
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .principal {
-            color: green;
-            font-weight: bold;
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
-        .direcciones-lista {
-            margin-top: 20px;
+        .sidebar-menu li {
+            margin-bottom: 5px;
         }
 
-        .direccion-card {
-            background: #fafafa;
-            padding: 12px;
-            border: 1px solid #ddd;
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #555;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            gap: 12px;
+        }
+
+        .sidebar-menu a.active {
+            background: #e3f2fd;
+            color: #1976d2;
+            font-weight: 500;
+        }
+
+        /* ESTILOS ESPECÍFICOS PARA MÉTODOS DE PAGO */
+        .dashboard-content {
+            flex: 1;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 0 10px #ccc;
+            padding: 30px;
+        }
+
+        .current-page-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .payment-methods-container {
+            margin-top: 30px;
+        }
+
+        .method-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
             border-radius: 10px;
-            margin-bottom: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
             position: relative;
+            transition: all 0.3s;
         }
 
-        .badge {
-            background: green;
-            color: #fff;
-            padding: 3px 8px;
-            font-size: 12px;
-            border-radius: 5px;
-            position: absolute;
-            top: 10px;
-            right: 10px;
+        .method-card:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .btn-principal {
-            margin-top: 5px;
-            padding: 6px 10px;
-            border: none;
-            background: #1976d2;
-            color: #fff;
-            border-radius: 6px;
-            cursor: pointer;
+        .method-card.default {
+            border-left: 4px solid #28a745;
+            background: #f0fff4;
         }
 
-        .btn-principal:hover {
-            background: #125a9c;
+        .method-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
         }
 
-        .form-direccion input {
-            padding: 8px;
-            width: 70%;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+        .method-type {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .form-direccion button {
-            padding: 8px 15px;
+        .method-icon {
+            font-size: 24px;
+            color: #1976d2;
+        }
+
+        .method-icon.visa {
+            color: #1a1f71;
+        }
+
+        .method-icon.mastercard {
+            color: #eb001b;
+        }
+
+        .method-icon.amex {
+            color: #2e77bc;
+        }
+
+        .method-icon.paypal {
+            color: #003087;
+        }
+
+        .badge-default {
             background: #28a745;
-            border: none;
             color: white;
-            border-radius: 8px;
-            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
         }
 
-        .form-direccion button:hover {
-            background: #1d7f34;
+        .method-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .method-detail {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .method-label {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .method-value {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .card-number {
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+
+        .method-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-method {
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-set-default {
+            background: #1976d2;
+            color: white;
+        }
+
+        .btn-set-default:hover {
+            background: #1565c0;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #c82333;
+        }
+
+        /* Formulario para agregar método de pago */
+        .add-method-form {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+        }
+
+        .card-images {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .card-image {
+            width: 40px;
+            opacity: 0.5;
+        }
+
+        .card-image.active {
+            opacity: 1;
+        }
+
+        .payment-types {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .payment-type-btn {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .payment-type-btn:hover {
+            border-color: #1976d2;
+        }
+
+        .payment-type-btn.active {
+            border-color: #1976d2;
+            background: #e3f2fd;
+        }
+
+        .payment-type-btn i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Sección PayPal */
+        .paypal-section {
+            display: none;
+        }
+
+        .paypal-section.active {
+            display: block;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #dee2e6;
+        }
+
+        .btn-submit {
+            background: #28a745;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+
+        .security-note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #856404;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+            .dashboard-sidebar {
+                width: 100%;
+            }
+
+            .method-actions {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <div class="top">
-            <span id="logo-hermes-home">
-                <h1>HERMES</h1>
-            </span>
-            <ul style="list-style:none;">
-                <div class="input-search-product-box">
-                    <form action="search-products.php" method="GET" style="width:100%">
-                        <li class="input-search-product-li">
-                            <input
-                                type="text"
-                                name="search-product"
-                                id="input-search-product"
-                                placeholder="Buscar producto..."
-                                value="" autocomplete="off">
-                            <button type="submit" class="button-search"><i class="fa-solid fa-magnifying-glass"></i></button>
-                            <div id="results-container"></div>
-                            <div id="user-data"
-                                data-nombre="<?php echo $usuario['nombre']; ?>"
-                                data-apellido="<?php echo $usuario['apellido']; ?>"
-                                data-correo="<?php echo $usuario['correo']; ?>"
-                                data-telefono="<?php echo $usuario['telefono']; ?>"
-                                data-fecha="<?php echo $usuario['fecha_nacimiento']; ?>"
-                                data-direccion="<?php echo $usuario['direccion_principal']; ?>">
-                            </div>
+    <?php include '../TEMPLATES/header.php' ?>
 
-                        </li>
-                    </form>
+    <div class="dashboard-container">
+        <!-- MENÚ LATERAL -->
+        <div class="dashboard-sidebar">
+            <div class="sidebar-title">
+                <i class="fa-solid fa-user-circle"></i>
+                Mi Cuenta
+            </div>
 
-                    </li>
-                </div>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="../home.php">
+                        <i class="fa-solid fa-home"></i>
+                        Volver al Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="user-apart-dashboard.php">
+                        <i class="fa-solid fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="user-apart-dashboard-datos-personales.php">
+                        <i class="fa-solid fa-user"></i>
+                        Datos Personales
+                    </a>
+                </li>
+
+                <li>
+                    <a href="user-apart-dashboard-compras.php">
+                        <i class="fa-solid fa-shopping-bag"></i>
+                        Mis Compras
+                    </a>
+                </li>
+
+                <li>
+                    <a href="user-apart-dashboard-metodos-pago.php" class="active">
+                        <i class="fa-solid fa-credit-card"></i>
+                        Métodos de Pago
+                    </a>
+                </li>
+
+                <li>
+                    <a href="user-apart-dashboard-seguridad.php">
+                        <i class="fa-solid fa-shield-alt"></i>
+                        Seguridad
+                    </a>
+                </li>
+
+                <li>
+                    <a href="user-apart-dashboard-configuracion.php">
+                        <i class="fa-solid fa-cog"></i>
+                        Configuración
+                    </a>
+                </li>
+
+                <li class="menu-divider"></li>
+
+                <li>
+                    <a href="../registros-inicio-sesion/logout-user.php" class="logout-link">
+                        <i class="fa-solid fa-sign-out-alt"></i>
+                        Cerrar Sesión
+                    </a>
+                </li>
             </ul>
         </div>
-        <div class="bottom">
-            <nav>
-                <ul>
-                    <li><span id="span-menu-categoria">Categorias</span>
-                        <div id="menu-categoria" class="menu-categoria">
-                            <ul>
-                                <li>Electrodomesticos</li>
-                                <li>Tecnologia</li>
-                                <li>Hogar</li>
-                                <li>Moda</li>
-                                <li>Deportes</li>
-                                <li>Belleza</li>
-                                <li>Jugueteria</li>
-                                <li>Automotriz</li>
-                                <li>Electronica</li>
-                                <li>Mascotas</li>
-                                <li>Arte</li>
-                            </ul>
-                        </div>
-                    </li>
-                    <?php if (isset($_SESSION['usuario_nombre'])): ?>
-                        <li><span id="venderPage">Vender</span></li>
-                    <?php endif; ?>
-                    <li><span id="ayuda-listado">Ayuda</span>
-                        <div id="menu-ayuda" class="menu-categoria">
-                            <ul>
-                                <li>Informacion</li>
-                                <li>PQRS</li>
-                                <li>Contactos</li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
 
-            <div class="account-header">
-                <!-- perfil usuario -->
-                <?php if (isset($_SESSION['usuario_nombre'])): ?>
-                    <div class="perfil-menu">
-                        <button class="perfil-btn"> <?php echo htmlspecialchars($_SESSION['usuario_nombre']); ?></button>
-                        <div class="dropdown-content">
-                            <a href="user-apart-dashboard.php">Mi cuenta</a>
-                            <a href="../registros-inicio-sesion/logout-user.php">Cerrar sesión</a>
-                        </div>
+        <!-- CONTENIDO PRINCIPAL -->
+        <div class="dashboard-content">
+            <h2 class="current-page-title">
+                <i class="fa-solid fa-credit-card"></i>
+                Métodos de Pago
+            </h2>
 
-                    </div>
+            <p class="text-muted mb-4">
+                Gestiona tus métodos de pago para compras rápidas y seguras.
+            </p>
+
+            <!-- Métodos de Pago Existentes -->
+            <div class="payment-methods-container">
+                <h3>Mis métodos de pago</h3>
+
+                <?php if (count($metodos_pago) > 0): ?>
+                    <?php foreach ($metodos_pago as $metodo): ?>
+                        <div class="method-card <?php echo $metodo['es_predeterminado'] == 1 ? 'default' : ''; ?>">
+                            <div class="method-header">
+                                <div class="method-type">
+                                    <?php
+                                    $icon_class = 'fa-credit-card';
+                                    $brand_class = '';
+
+                                    if ($metodo['tipo'] == 'paypal') {
+                                        $icon_class = 'fa-paypal';
+                                        $brand_class = 'paypal';
+                                    } else {
+                                        // Determinar marca de tarjeta
+                                        $first_digit = substr($metodo['numero_tarjeta'], 0, 1);
+                                        if ($first_digit == '4') {
+                                            $brand_class = 'visa';
+                                        } elseif ($first_digit == '5') {
+                                            $brand_class = 'mastercard';
+                                        } elseif ($first_digit == '3') {
+                                            $icon_class = 'fa-cc-amex';
+                                            $brand_class = 'amex';
+                                        }
+                                    }
+                                    ?>
+                                    <i class="fa-brands <?php echo $icon_class; ?> method-icon <?php echo $brand_class; ?>"></i>
+                                    <div>
+                                        <h4 class="mb-1">
+                                            <?php
+                                            if ($metodo['tipo'] == 'tarjeta_credito') {
+                                                echo 'Tarjeta de Crédito';
+                                            } elseif ($metodo['tipo'] == 'tarjeta_debito') {
+                                                echo 'Tarjeta de Débito';
+                                            } elseif ($metodo['tipo'] == 'paypal') {
+                                                echo 'PayPal';
+                                            } else {
+                                                echo ucfirst($metodo['tipo']);
+                                            }
+                                            ?>
+                                        </h4>
+                                        <small class="text-muted">
+                                            Agregado el <?php echo date('d/m/Y', strtotime($metodo['fecha_creacion'])); ?>
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <?php if ($metodo['es_predeterminado'] == 1): ?>
+                                    <span class="badge-default">Predeterminado</span>
+                                <?php endif; ?>
+                            </div>
+
+                            <div class="method-details">
+                                <?php if ($metodo['tipo'] == 'paypal'): ?>
+                                    <div class="method-detail">
+                                        <span class="method-label">Email de PayPal</span>
+                                        <span class="method-value"><?php echo htmlspecialchars($metodo['email_paypal']); ?></span>
+                                    </div>
+                                <?php else: ?>
+                                    <div class="method-detail">
+                                        <span class="method-label">Titular</span>
+                                        <span class="method-value"><?php echo htmlspecialchars($metodo['nombre_titular']); ?></span>
+                                    </div>
+
+                                    <div class="method-detail">
+                                        <span class="method-label">Número de tarjeta</span>
+                                        <span class="method-value card-number">
+                                            **** **** **** <?php echo substr($metodo['numero_tarjeta'], -4); ?>
+                                        </span>
+                                    </div>
+
+                                    <?php if ($metodo['fecha_vencimiento']): ?>
+                                        <div class="method-detail">
+                                            <span class="method-label">Válida hasta</span>
+                                            <span class="method-value"><?php echo htmlspecialchars($metodo['fecha_vencimiento']); ?></span>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <?php if ($metodo['marca_tarjeta']): ?>
+                                        <div class="method-detail">
+                                            <span class="method-label">Marca</span>
+                                            <span class="method-value"><?php echo htmlspecialchars($metodo['marca_tarjeta']); ?></span>
+                                        </div>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            </div>
+
+                            <div class="method-actions">
+                                <?php if ($metodo['es_predeterminado'] != 1): ?>
+                                    <form action="user-apart-dashboard-metogo-pago-principal.php" method="POST" style="display: inline;">
+                                        <input type="hidden" name="metodo_id" value="<?php echo $metodo['id_metodo_pago']; ?>">
+                                        <button type="submit" class="btn-method btn-set-default">
+                                            <i class="fa-solid fa-star"></i> Establecer como predeterminado
+                                        </button>
+                                    </form>
+                                <?php endif; ?>
+
+                                <form action="user-apart-dashboard-metodo-pago-eliminar.php" method="POST" style="display: inline;"
+                                    onsubmit="return confirm('¿Estás seguro de eliminar este método de pago?');">
+                                    <input type="hidden" name="metodo_id" value="<?php echo $metodo['id_metodo_pago']; ?>">
+                                    <button type="submit" class="btn-method btn-delete">
+                                        <i class="fa-solid fa-trash"></i> Eliminar
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
                 <?php else: ?>
-                    <a href="../registros-inicio-sesion/login.php"><span class="sisu-buttons"> Sign In</span></a>
-                    <a href="../registros-inicio-sesion/register.html"><span class="sisu-buttons"> Sign Up</span></a>
+                    <div class="empty-state">
+                        <i class="fa-solid fa-credit-card"></i>
+                        <h4>No tienes métodos de pago guardados</h4>
+                        <p>Agrega un método de pago para realizar compras más rápidas.</p>
+                    </div>
                 <?php endif; ?>
-                <!-- fin del menu despegable -->
             </div>
-            <div class="icons-header">
-                <span><img src="../SOURCES/ICONOS-LOGOS/bookmark.svg" alt="wishlist"></span>
-                <span><img src="../SOURCES/ICONOS-LOGOS/shopping_bag.svg" alt="Shopping Cart"></span>
+
+            <!-- Formulario para agregar nuevo método de pago -->
+            <div class="add-method-form">
+                <h3>Agregar nuevo método de pago</h3>
+
+                <!-- Selector de tipo de pago -->
+                <div class="payment-types">
+                    <button type="button" class="payment-type-btn active" data-type="tarjeta">
+                        <i class="fa-solid fa-credit-card"></i>
+                        Tarjeta
+                    </button>
+                    <button type="button" class="payment-type-btn" data-type="paypal">
+                        <i class="fa-brands fa-paypal"></i>
+                        PayPal
+                    </button>
+                </div>
+
+                <!-- Formulario para tarjeta -->
+                <form id="form-tarjeta" action="user-apart-dashboard-metodo-pago-agregar.php" method="POST">
+                    <input type="hidden" name="tipo" value="tarjeta">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombre_titular">Nombre del titular *</label>
+                            <input type="text" id="nombre_titular" name="nombre_titular"
+                                value="<?php echo htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']); ?>"
+                                required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="numero_tarjeta">Número de tarjeta *</label>
+                            <input type="text" id="numero_tarjeta" name="numero_tarjeta"
+                                pattern="[0-9\s]{13,23}" maxlength="23"
+                                placeholder="1234 5678 9012 3456" required>
+                            <div class="card-images">
+                                <img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa" class="card-image">
+                                <img src="https://img.icons8.com/color/48/000000/mastercard.png" alt="MasterCard" class="card-image">
+                                <img src="https://img.icons8.com/color/48/000000/american-express.png" alt="Amex" class="card-image">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fecha_vencimiento">Fecha de vencimiento *</label>
+                            <input type="text" id="fecha_vencimiento" name="fecha_vencimiento"
+                                placeholder="MM/AA" pattern="(0[1-9]|1[0-2])\/[0-9]{2}"
+                                maxlength="5" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cvv">CVV *</label>
+                            <input type="text" id="cvv" name="cvv" pattern="[0-9]{3,4}"
+                                maxlength="4" placeholder="123" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tipo_tarjeta">Tipo de tarjeta *</label>
+                            <select id="tipo_tarjeta" name="tipo_tarjeta" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="tarjeta_credito">Tarjeta de Crédito</option>
+                                <option value="tarjeta_debito">Tarjeta de Débito</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="marca_tarjeta">Marca de la tarjeta</label>
+                        <select id="marca_tarjeta" name="marca_tarjeta">
+                            <option value="">Seleccionar...</option>
+                            <option value="Visa">Visa</option>
+                            <option value="MasterCard">MasterCard</option>
+                            <option value="American Express">American Express</option>
+                            <option value="Diners Club">Diners Club</option>
+                        </select>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="es_predeterminado" name="es_predeterminado" value="1">
+                        <label class="form-check-label" for="es_predeterminado">
+                            Establecer como método de pago predeterminado
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fa-solid fa-save"></i> Guardar Tarjeta
+                    </button>
+                </form>
+
+                <!-- Formulario para PayPal -->
+                <form id="form-paypal" action="user-apart-dashboard-metodo-pago-agregar.php" method="POST" class="paypal-section">
+                    <input type="hidden" name="tipo" value="paypal">
+
+                    <div class="form-group">
+                        <label for="email_paypal">Email de PayPal *</label>
+                        <input type="email" id="email_paypal" name="email_paypal"
+                            placeholder="tucuenta@paypal.com" required>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="es_predeterminado_paypal" name="es_predeterminado" value="1">
+                        <label class="form-check-label" for="es_predeterminado_paypal">
+                            Establecer como método de pago predeterminado
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fa-brands fa-paypal"></i> Guardar PayPal
+                    </button>
+                </form>
+
+                <div class="security-note">
+                    <i class="fa-solid fa-shield-alt"></i>
+                    <strong>Seguridad:</strong> Los datos de tu tarjeta se encriptan y almacenan de forma segura.
+                    Nunca almacenamos tu CVV completo.
+                </div>
             </div>
         </div>
-    </header>
-    <section class="dashboard-menu">
-        <ul>
-            <li>
-                <a href="user-apart-dashboard.php">
-                    <i class="fa-solid fa-user"></i> Mi perfil
-                    <span class="chev"><i class="fa-solid fa-chevron-right"></i></span>
-                </a>
-            </li>
-        </ul>
-    </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Cambiar entre tarjeta y PayPal
+        document.querySelectorAll('.payment-type-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remover active de todos
+                document.querySelectorAll('.payment-type-btn').forEach(b => b.classList.remove('active'));
+                // Agregar active al clickeado
+                this.classList.add('active');
+
+                const type = this.getAttribute('data-type');
+
+                // Mostrar formulario correspondiente
+                if (type === 'tarjeta') {
+                    document.getElementById('form-tarjeta').style.display = 'block';
+                    document.getElementById('form-paypal').style.display = 'none';
+                } else {
+                    document.getElementById('form-tarjeta').style.display = 'none';
+                    document.getElementById('form-paypal').style.display = 'block';
+                }
+            });
+        });
+
+        // Formatear número de tarjeta
+        document.getElementById('numero_tarjeta').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/(\d{4})/g, '$1 ').trim();
+            e.target.value = value.substring(0, 19);
+
+            // Detectar marca de tarjeta
+            const firstDigit = value.charAt(0);
+            const cardImages = document.querySelectorAll('.card-image');
+
+            cardImages.forEach(img => img.classList.remove('active'));
+
+            if (firstDigit === '4') {
+                cardImages[0].classList.add('active'); // Visa
+            } else if (firstDigit === '5') {
+                cardImages[1].classList.add('active'); // MasterCard
+            } else if (firstDigit === '3') {
+                cardImages[2].classList.add('active'); // Amex
+            }
+        });
+
+        // Formatear fecha de vencimiento
+        document.getElementById('fecha_vencimiento').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value.substring(0, 5);
+        });
+
+        // Validar formulario tarjeta
+        document.getElementById('form-tarjeta').addEventListener('submit', function(e) {
+            const cardNumber = document.getElementById('numero_tarjeta').value.replace(/\s/g, '');
+            const expiry = document.getElementById('fecha_vencimiento').value;
+            const cvv = document.getElementById('cvv').value;
+
+            if (cardNumber.length < 13 || cardNumber.length > 19) {
+                e.preventDefault();
+                alert('El número de tarjeta debe tener entre 13 y 19 dígitos');
+                return false;
+            }
+
+            if (!/^\d{2}\/\d{2}$/.test(expiry)) {
+                e.preventDefault();
+                alert('Formato de fecha inválido. Use MM/AA');
+                return false;
+            }
+
+            if (!/^\d{3,4}$/.test(cvv)) {
+                e.preventDefault();
+                alert('CVV debe tener 3 o 4 dígitos');
+                return false;
+            }
+
+            return true;
+        });
+
+        // Mostrar mensajes de éxito/error
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('success')) {
+            alert(urlParams.get('success'));
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+        if (urlParams.has('error')) {
+            alert(urlParams.get('error'));
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    </script>
+    <script src="../scripts/user-apart-dashboard.js"></script>
+</body>
+
+</html>

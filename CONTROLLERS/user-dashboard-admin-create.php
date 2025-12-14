@@ -46,7 +46,7 @@
             }, 2000);
         </script>';
     } else {
-        echo "❌ Error al registrar el usuario: " . mysqli_error($connect);
+        echo "Error al registrar el usuario: " . mysqli_error($connect);
     }
 
     // Cerramos la conexión
