@@ -240,10 +240,16 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                 <!-- fin del menu despegable -->
             </div>
             <div class="icons-header">
+                <!-- Wishlist -->
                 <span><img src="SOURCES/ICONOS-LOGOS/bookmark.svg" alt="wishlist"></span>
-                <span><img src="SOURCES/ICONOS-LOGOS/shopping_bag.svg" alt="Shopping Cart"></span>
+
+                <!-- Carrito - ENLACE SIMPLE -->
+                <a href="CONTROLLERS/cart.php">
+                    <img src="../SOURCES/ICONOS-LOGOS/shopping_bag.svg" alt="Shopping Cart">
+                </a>
             </div>
         </div>
+
     </header>
     <main>
         <!-- RESULTADOS DE LA BÚSQUEDA -->
@@ -317,7 +323,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                                 }
 
                                 $nombre_corto = strlen($p['nombre']) > 35 ? substr($p['nombre'], 0, 32) . '...' : $p['nombre'];
-                                ?>
+                        ?>
                                 <a href="CONTROLLERS/search-products-product.php?id=<?php echo $p['id_producto']; ?>"
                                     class="carousel-card">
                                     <div class="card">
@@ -341,7 +347,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                                         </div>
                                     </div>
                                 </a>
-                                <?php
+                        <?php
                             endwhile;
                         else:
                             echo "<p style='color:#999; padding:40px;'>No hay ofertas hoy</p>";
@@ -365,7 +371,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
 
     </footer>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const carousel = document.getElementById('offertsCarousel');
             if (!carousel) return;
 

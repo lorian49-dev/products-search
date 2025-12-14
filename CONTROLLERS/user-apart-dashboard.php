@@ -128,7 +128,9 @@ $usuario = mysqli_fetch_assoc($result);
             </div>
             <div class="icons-header">
                 <span><img src="../SOURCES/ICONOS-LOGOS/bookmark.svg" alt="wishlist"></span>
-                <span><img src="../SOURCES/ICONOS-LOGOS/shopping_bag.svg" alt="Shopping Cart"></span>
+                <a href="cart.php">
+                    <img src="SOURCES/ICONOS-LOGOS/shopping_bag.svg" alt="Shopping Cart">
+                </a>
             </div>
         </div>
     </header>
