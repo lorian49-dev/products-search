@@ -24,8 +24,7 @@ if (!isset($_SESSION['admin_rol']) || !in_array($_SESSION['admin_rol'], $rolesPe
 }
 //  FIN PROTECCIÓN DE ACCESO 
 
-// TU CÓDIGO ORIGINAL SE MANTIENE INTACTO
-$query = "SELECT * FROM usuario";
+$query = "SELECT * FROM usuario ORDER BY id_usuario DESC";
 $ejec = mysqli_query($connect, $query);
 ?>
 
@@ -204,8 +203,6 @@ $ejec = mysqli_query($connect, $query);
                         </td>
                         <td><?= $row['fecha_nacimiento'] ?></td>
                         <td><?= $row['telefono'] ?></td>
-
-                        <!--Línea 55 Corregida: Debes añadir 'id=' y cerrar la etiqueta la Columna ID_Usuario esta distinta</a>-->
                         <td><a href="#"
                                 class="btn-edit"
                                 data-id="<?= $row['id_usuario'] ?>"

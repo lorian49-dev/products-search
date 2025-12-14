@@ -11,8 +11,18 @@
     $telefono         = $_POST['phone-user'];
 
     // Validar que los campos no estén vacíos
-    if (empty($nombre) || empty($apellido) || empty($correo) || empty($password)) {
+    if (empty($nombre) || empty($apellido) || empty($correo) || empty($password) || empty($fecha_nacimiento)) {
         die("Por favor complete todos los campos obligatorios.");
+    }
+
+    // Validar rango de edad (ejemplo: entre 18 y 80 años)
+    $fechaNac = new DateTime($fecha_nacimiento);
+    $hoy = new DateTime();
+    $edad = $hoy->diff($fechaNac)->y;
+
+    if ($edad < 18 || $edad > 80) {
+          echo "<script>alert('Debes tener entre 18 y 80 años para registrarte'); window.location.href='register.html';</script>";
+          die();
     }
 
     // Hasheamos la contraseña de forma segura
@@ -43,7 +53,7 @@
     } else {
         echo "Error al registrar usuario: " . $stmt->error;
     }
-
+-
     $stmt->close();
     $connect->close();
 ?>
