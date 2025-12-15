@@ -27,17 +27,6 @@ $usuario = mysqli_fetch_assoc($result);
     <title>Usuario</title>
     <link rel="stylesheet" href="../styles/home.css">
     <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
-    <style>
-        #menu-usuario li a {
-            display: flex;
-            justify-content: space-between;
-            align-items: left;
-            color: inherit;
-            text-decoration: none;
-            padding: 10px;
-            width: 9%;
-        }
-    </style>
 </head>
 
 <body>
@@ -82,40 +71,27 @@ $usuario = mysqli_fetch_assoc($result);
                         <span class="chev"><i class="fa-solid fa-chevron-right"></i></span>
                     </a>
                 </li>
-            </ul>
-
             <a href="../registros-inicio-sesion/logout-user.php" style="text-decoration:none;color:#b30000;">
                 <li><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</li>
             </a>
             </ul>
         </aside>
-
-        <!-- SUBVENTANA DINÁMICA (AQUÍ SE CARGA EL CONTENIDO) -->
-        <!-- // AÑADIDO -->
-        <div id="modal-overlay">
-            <div id="modal-content">
-                <button id="modal-close">X</button>
-                <div id="modal-inner"></div>
-            </div>
-        </div>
-
-
         <main class="profile-panel">
 
             <!-- Header con avatar y nombre -->
             <div class="profile-header">
                 <div class="avatar"><?= strtoupper(substr($usuario['nombre'], 0, 1)) . strtoupper(substr($usuario['apellido'], 0, 1)); ?></div>
                 <div>
-                    <h2 style="margin:0; color:#222; font-size:22px;"><?= htmlspecialchars($usuario['nombre'] . " " . $usuario['apellido']); ?></h2>
-                    <div style="color:#6b6b6b; font-weight:600; margin-top:6px;"><?= htmlspecialchars($usuario['correo']); ?></div>
+                    <h2 style="margin:0; font-size:22px;"><?= htmlspecialchars($usuario['nombre'] . " " . $usuario['apellido']); ?></h2>
+                    <div style=" font-weight:600; margin-top:6px;"><?= htmlspecialchars($usuario['correo']); ?></div>
                 </div>
             </div>
 
             <!-- tarjetas tipo resumen -->
-            <div class="cards">
+            <div class="cards-users">
 
                 <!-- Card 1 - Tu Información -->
-                <div class="card">
+                <div class="card-user">
                     <strong>Tu información</strong>
                     <div style="margin-top:8px; color:#6b6b6b; font-size:13px;">
                         <?= htmlspecialchars($usuario['nombre'] . " " . $usuario['apellido']); ?>
@@ -126,7 +102,7 @@ $usuario = mysqli_fetch_assoc($result);
                 </div>
 
                 <!-- Card 2 - Datos de la cuenta -->
-                <div class="card">
+                <div class="card-user">
                     <strong>Datos de la cuenta</strong>
                     <div style="margin-top:8px; color:#6b6b6b; font-size:13px;">
                         Correo: <?= htmlspecialchars($usuario['correo']); ?>
@@ -137,7 +113,7 @@ $usuario = mysqli_fetch_assoc($result);
                 </div>
 
                 <!-- Card 3 - Seguridad -->
-                <div class="card">
+                <div class="card-user">
                     <strong>Seguridad</strong>
                     <div style="margin-top:8px; color:#6b6b6b; font-size:13px;">
                         Tu cuenta está protegida.
@@ -148,7 +124,7 @@ $usuario = mysqli_fetch_assoc($result);
                 </div>
 
                 <!-- Card 4 - Direcciones -->
-                <div class="card">
+                <div class="card-user">
                     <strong>Direcciones</strong>
                     <div style="margin-top:8px; color:#6b6b6b; font-size:13px;">
                         Dirección principal:
@@ -161,8 +137,8 @@ $usuario = mysqli_fetch_assoc($result);
             </div>
 
 
-            <div style="margin-top:16px;">
-                <a href="../home.php" class="btn btn-back">← volver al inicio</a>
+            <div style="margin-top:16px;" class="btn-back-div">
+                <a href="../home.php"><button  class="btn btn-back">← volver al inicio</button></a>
             </div>
 
             <!-- Modal ACTUAL DE EDITAR -->

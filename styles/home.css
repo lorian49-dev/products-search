@@ -641,7 +641,7 @@ footer{
     flex-direction: column;
     background-color: var(--chocolate-marron);
     color: var(--pastel-blanco);
-    margin-top: 40rem;
+    margin-top: 10rem;
 }
 
 footer>button{
@@ -653,6 +653,13 @@ footer>button{
  transform: translateY(-50%);
  cursor: pointer;
  box-shadow: var(--main-shadow);
+ background: var(--fondo-negro);
+ color: var(--pastel-blanco);
+ transition: background .3s ease;
+}
+
+footer>button:hover{
+    background: #1d1d1d;
 }
 
 .content-footer{
@@ -707,4 +714,104 @@ footer>button{
  background-color: var(--pastel-blanco);
  left: -1.5rem;
  transform: translateY(-1rem);
+}
+
+/*------------------------------------------------------------------------------------------------*/
+
+/*Estilos para el panel de usuario*/
+
+.dashboard-layout{
+ width: 80%;
+ margin: 5rem auto 0 auto;
+ display: flex;
+ gap: 2rem;
+}
+
+.sidebar-ml{
+    border-radius: 2rem;
+    background-color: #ffffff;
+    box-shadow: var(--main-shadow);
+    padding: 2rem;
+    width: 25%;
+}
+
+.sidebar-ml ul{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    text-decoration: none;
+    list-style: none;
+}
+
+.sidebar-ml a{
+    color: var(--fondo-negro);
+    text-decoration: none;
+}
+
+.profile-panel{
+    width: 75%;
+    background-color: var(--chocolate-marron);
+    border-radius: 2rem;
+    box-shadow: var(--main-shadow);
+    color: var(--pastel-blanco);
+}
+
+.profile-header{
+    text-align: center;
+}
+
+.profile-header .avatar{
+    background: var(--pastel-blanco);
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    color: var(--fondo-negro);
+    margin: 2rem auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cards-users{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 3rem 0;
+    gap:1rem;
+    justify-content: center;
+}
+
+.card-user{
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    background-color: var(--pastel-blanco);
+    border-radius: 2rem;
+    box-shadow: var(--main-shadow);
+    color: var(--fondo-negro);
+    transition: all .3s ease;
+}
+
+.card-user:hover{
+    transform: scale(1.1, 1.1);
+}
+
+.btn-back-div{
+    text-align: center;
+}
+
+.btn-back{
+    padding: .8rem;
+    border-radius: 1rem;
+    border-style: none;
+    transform: translateY(50%);
+    box-shadow: var(--main-shadow);
+    background: var(--fade-yellow);
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.btn-back:hover{
+    transform: translateY(1px);
 }
