@@ -83,10 +83,14 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
 
         .prev-btn {
             left: 10px;
+            display: flex;
+            justify-content: center;
         }
 
         .next-btn {
             right: 10px;
+            display: flex;
+            justify-content: center;
         }
 
         .carousel-btn:hover {
@@ -94,7 +98,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
         }
 
         .preview-image {
-            height: 280px;
+            height: 14rem;
             background-size: cover !important;
             background-position: center !important;
         }
@@ -102,7 +106,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
         /* Estilos para el carrusel - IMAGEN COMPLETA */
         .preview-image {
             width: 100%;
-            height: 180px;
+            height: 9rem;
             /* Altura fija para todas las imágenes */
             background-size: contain;
             /* Muestra la imagen completa */
@@ -110,25 +114,28 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
             background-repeat: no-repeat;
             background-color: #f9f9f9;
             /* Fondo neutro para imágenes con transparencia */
-            border-bottom: 1px solid #eee;
             transition: all 0.3s ease;
         }
 
         /* Para mantener la proporción de las imágenes */
         .card {
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 2rem;
             overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            background: white;
+            background: #461d01;
             height: 100%;
             display: flex;
             flex-direction: column;
+            border: #461d01 0.5px solid;
         }
 
-        .card:hsover {
+        .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 1px 1px hsl(0deg 0% 0% / 0.075),
+      0 2px 2px hsl(0deg 0% 0% / 0.075),
+      0 4px 4px hsl(0deg 0% 0% / 0.075),
+      0 8px 8px hsl(0deg 0% 0% / 0.075),
+      0 16px 16px hsl(0deg 0% 0% / 0.075);
         }
 
         .card:hover .preview-image {
@@ -150,9 +157,8 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
         }
 
         .card-info {
+            background: #461d01;
             padding: 10px;
-            background: #f8f9fa;
-            border-top: 1px solid #e0e0e0;
             text-align: center;
         }
     </style>
@@ -171,7 +177,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
 
     <?php include 'TEMPLATES/header-home.php'?> <!--Inclusion de la plantilla para la cabecera-->
 
-    <main>
+    <main class="main-home">
         <!-- RESULTADOS DE LA BÚSQUEDA -->
         <?php if ($resultadoBusqueda !== null): ?>
             <div class="products-box" style="padding:20px;">
@@ -182,7 +188,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                         <?php while ($row = $resultadoBusqueda->fetch_assoc()): ?>
 
                             <div class="producto-card"
-                                style="width:200px; border:1px solid #ccc; border-radius:10px; padding:10px;">
+                                style="width:200px; border:1px solid ; border-radius:10px; padding:10px;">
                                 <h3><?php echo $row['nombre']; ?></h3>
                                 <p><?php echo $row['descripcion']; ?></p>
                                 <p><strong>$<?php echo $row['precio']; ?></strong></p>
@@ -210,7 +216,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
         <div class="offerts-box">
             <div class="offerts-box-targets">
                 <div class="offerts-text">
-                    <h2>SOLO POR HOY !</h2>
+                    <h2>Seleccion de hoy</h2>
                 </div>
 
                 <div class="carousel-container">
@@ -221,7 +227,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                         <?php
                         $sql = "SELECT id_producto, nombre, precio, stock, imagen_url 
                         FROM producto 
-                        WHERE stock > 0
+                        WHERE stock > 0 AND precio <= 100000
                         ORDER BY RAND() 
                         LIMIT 12";
 
@@ -254,14 +260,14 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                                                 background-repeat: no-repeat;
                                                 background-color: #f9f9f9;"></div>
                                             <div class="preview-description">
-                                                <strong><?php echo htmlspecialchars($nombre_corto); ?></strong><br>
-                                                <span style="color:#e74c3c; font-size:16px; font-weight:bold;">
+                                                <?php echo htmlspecialchars($nombre_corto); ?><br>
+                                                <span style="color:#2f2f2fff; font-size:1.5rem; font-family:'Anton';">
                                                     $<?php echo number_format($p['precio'], 0, ',', '.'); ?>
                                                 </span>
                                             </div>
                                         </div>
                                         <div class="card-info">
-                                            <small style="color:<?php echo $p['stock'] < 10 ? '#e74c3c' : '#27ae60'; ?>">
+                                            <small style="color:<?php echo $p['stock'] < 10 ? '#e74c3c' : '#ffffffff'; ?>">
                                                 <?php echo $p['stock'] < 10 ? "¡Solo {$p['stock']}!" : "En stock"; ?>
                                             </small>
                                         </div>
@@ -280,8 +286,83 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
                 </div>
             </div>
         </div>
+        <div class="slides-partners-1">
+                    <!--Apartado especial de carrusel continuo que muestre marcas asociadas-->
+        </div>
         <div class="products-box">
+ <div class="offerts-box">
+            <div class="offerts-box-targets offerts-box-targets-second">
+                <div class="offerts-text">
+                    <h2>Nuestros Productos</h2>
+                </div>
 
+                <div class="carousel-container">
+                    <!-- Flecha izquierda -->
+                    <button class="carousel-btn prev-btn">&#8249;</button>
+
+                    <div class="offerts-carousel" id="offertsCarousel">
+                        <?php
+                        $sql = "SELECT id_producto, nombre, precio, stock, imagen_url 
+                        FROM producto 
+                        WHERE stock > 0
+                        ORDER BY id_producto DESC
+                        LIMIT 12";
+
+                        $resultado = $connect->query($sql);
+
+                        if ($resultado && $resultado->num_rows > 0):
+                            while ($p = $resultado->fetch_assoc()):
+                                // URL de la imagen
+                                if (!empty($p['imagen_url'])) {
+                                    $imagen = $p['imagen_url'];
+                                }
+                                // Compatibilidad con imágenes locales antiguas
+                                elseif (!empty($p['imagen']) && file_exists('../SOURCES/PRODUCTOS/' . $p['imagen'])) {
+                                    $imagen = '../SOURCES/PRODUCTOS/' . $p['imagen'];
+                                }
+                                // Imagen por defecto
+                                else {
+                                    $imagen = "https://via.placeholder.com/280x280/f0f0f0/999?text=Sin+Foto";
+                                }
+
+                                $nombre_corto = strlen($p['nombre']) > 35 ? substr($p['nombre'], 0, 32) . '...' : $p['nombre'];
+                        ?>
+                                <a href="CONTROLLERS/search-products-product.php?id=<?php echo $p['id_producto']; ?>"
+                                    class="carousel-card">
+                                    <div class="card">
+                                        <div class="card-preview">
+                                            <div class="preview-image" style="background-image: url('<?php echo htmlspecialchars($imagen); ?>'); 
+                                                background-size: contain; /* CAMBIADO: de cover a contain */
+                                                background-position: center;
+                                                background-repeat: no-repeat;
+                                                background-color: #f9f9f9;"></div>
+                                            <div class="preview-description">
+                                                <?php echo htmlspecialchars($nombre_corto); ?><br>
+                                                                                         <span style="color:#2f2f2fff; font-size:1.5rem; font-family:'Anton';">
+                                                    $<?php echo number_format($p['precio'], 0, ',', '.'); ?>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="card-info">
+                                            <small style="color:<?php echo $p['stock'] < 10 ? '#e74c3c' : '#ffffffff'; ?>">
+                                                <?php echo $p['stock'] < 10 ? "¡Solo {$p['stock']}!" : "En stock"; ?>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </a>
+                        <?php
+                            endwhile;
+                        else:
+                            echo "<p style='color:#999; padding:40px;'>No hay ofertas hoy</p>";
+                        endif;
+                        ?>
+                    </div>
+
+                    <!-- Flecha derecha -->
+                    <button class="carousel-btn next-btn">&#8250;</button>
+                </div>
+            </div>
+        </div>
         </div>
         <div class="our-stores">
 
@@ -291,31 +372,40 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const carousel = document.getElementById('offertsCarousel');
-            if (!carousel) return;
+            // Seleccionar todos los carruseles
+const carousels = document.querySelectorAll('.offerts-carousel');
+if (!carousels.length) return;
 
-            const prevBtn = document.querySelector('.prev-btn');
-            const nextBtn = document.querySelector('.next-btn');
+// Ancho aproximado de cada tarjeta + gap (ajústalo si cambias el diseño)
+const cardWidth = 270 * 2;
 
-            const cardWidth = 270; // Ancho aproximado de cada tarjeta + gap (ajústalo si cambias el diseño)
-
-            // Mover a la derecha
-            nextBtn.addEventListener('click', () => {
-                carousel.scrollBy({
-                    left: cardWidth,
-                    behavior: 'smooth'
-                });
+// Mover a la derecha - SOLUCIÓN 1: Manejar cada carrusel individualmente
+const nextBtns = document.querySelectorAll('.next-btn');
+nextBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+        // Cada botón controla su carrusel correspondiente
+        if (carousels[index]) {
+            carousels[index].scrollBy({
+                left: cardWidth,
+                behavior: 'smooth'
             });
+        }
+    });
+});
 
-            // Mover a la izquierda
-            prevBtn.addEventListener('click', () => {
-                carousel.scrollBy({
-                    left: -cardWidth,
-                    behavior: 'smooth'
-                });
+// Mover a la izquierda
+const prevBtns = document.querySelectorAll('.prev-btn');
+prevBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+        if (carousels[index]) {
+            carousels[index].scrollBy({
+                left: -cardWidth,
+                behavior: 'smooth'
             });
-
-            // Opcional: ocultar flechas cuando llegas al final
+        }
+    });
+});
+            //  ocultar flechas cuando llegas al final
             carousel.addEventListener('scroll', () => {
                 prevBtn.style.display = carousel.scrollLeft <= 0 ? 'none' : 'block';
                 nextBtn.style.display = (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) ? 'none' : 'block';

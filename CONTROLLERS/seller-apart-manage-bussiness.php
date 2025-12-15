@@ -28,7 +28,7 @@ if ($result->num_rows === 0) {
 
 $negocio = $result->fetch_assoc();
 
-// Obtener estadísticas del vendedor
+// Obtener estadísticas del vendedor - Asegúrate que esta línea esté completa
 $sqlStats = "SELECT 
     (SELECT COUNT(*) FROM producto WHERE id_vendedor = ?) as total_productos,
     (SELECT COUNT(*) FROM catalogo WHERE id_vendedor = ?) as total_catalogos,
@@ -38,6 +38,7 @@ $sqlStats = "SELECT
      JOIN producto pr ON dp.id_producto = pr.id_producto 
      WHERE pr.id_vendedor = ?) as total_ventas";
 
+// Línea 41 debería ser:
 $stmtStats = $connect->prepare($sqlStats);
 $stmtStats->bind_param("iii", $idUsuario, $idUsuario, $idUsuario);
 $stmtStats->execute();
@@ -55,7 +56,7 @@ $sqlPedidos = "SELECT DISTINCT p.*, u.nombre, u.apellido
                FROM pedido p 
                JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido 
                JOIN producto pr ON dp.id_producto = pr.id_producto 
-               JOIN usuario u ON p.id_usuario = u.id_usuario 
+               JOIN usuario u ON p.id_cliente = u.id_usuario
                WHERE pr.id_vendedor = ? 
                ORDER BY p.fecha_pedido DESC 
                LIMIT 5";

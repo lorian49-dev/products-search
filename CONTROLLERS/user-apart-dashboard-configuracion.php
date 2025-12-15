@@ -145,9 +145,7 @@ if (isset($_GET['descargar_datos']) && $_GET['descargar_datos'] == 'json') {
     <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
     <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
+<style>
         /* Estilos del dashboard (mismos que en datos-personales) */
         .dashboard-container {
             display: flex;

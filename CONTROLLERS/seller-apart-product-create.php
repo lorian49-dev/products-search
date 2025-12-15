@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             echo "<script>
                 alert('Producto creado exitosamente');
-                window.location.href = 'sellet-apart-manage-bussiness.php';
+                window.location.href = 'seller-apart-manage-bussiness.php';
             </script>";
             exit;
         } else {

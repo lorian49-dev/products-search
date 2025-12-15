@@ -357,6 +357,13 @@ footer>button{
  transform: translateY(-50%);
  cursor: pointer;
  box-shadow: var(--main-shadow);
+ background: var(--fondo-negro);
+ color: var(--pastel-blanco);
+ transition: background .3s ease;
+}
+
+footer>button:hover{
+    background: #1d1d1d;
 }
 
 .content-footer{
@@ -412,9 +419,6 @@ footer>button{
  left: -1.5rem;
  transform: translateY(-1rem);
 }
-
-
-
 
 
 
