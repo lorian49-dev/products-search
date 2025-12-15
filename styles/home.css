@@ -33,6 +33,11 @@
     box-sizing: border-box;
 }
 
+html{
+    font-size: 1vw;
+}
+
+
 body {
     background-color: #fff8f1;
     font-family: 'roboto condensed', sans-serif;
@@ -44,6 +49,7 @@ body {
     display: grid;
     grid-template-rows: auto 1fr auto;
 }
+
 
 /*Mensaje de sesion inicio*/
 
@@ -70,7 +76,6 @@ header {
     align-items: center;
     padding: 0 2rem 2rem 2rem;
     background-color: #461d01;
-
 }
 
 .top {
@@ -125,14 +130,16 @@ nav>ul {
     align-items: center;
     height: 100%;
     gap: 1rem;
+    
 }
 
 nav ul li {
     position: relative;
+    
 }
 
 nav ul li span {
-    font-size: 1rem;
+        font-size: .8rem;
     color: #fff8f1;
     cursor: pointer;
     text-align: center;
@@ -399,6 +406,7 @@ header a {
 .offerts-box {
     width: 100%;
     position: relative;
+    height: 50rem;
 }
 
 .offerts-box-targets {
@@ -407,13 +415,19 @@ header a {
     height: 700px;
     background-color: #fff8f1d5;
     backdrop-filter: blur(10px);
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.514);
+    box-shadow: var(--main-shadow);
     position: absolute;
     top: -70px;
     left: 50%;
     border-radius: 50px;
     transform: translateX(-50%);
+    padding: 0 2rem;
 }
+
+.offerts-box-targets-second{
+    top: 0;
+}
+
 
 .offerts-text {
     width: 100%;
@@ -509,7 +523,7 @@ header a {
     /* // Sin fondo */
     border: none;
     cursor: pointer;
-    font-size: 16px;
+    font-size: .8rem;
     color: #ffffff;
     /* // Texto claro sobre fondo oscuro */
     padding: 10px 20px;
@@ -520,6 +534,7 @@ header a {
 .perfil-btn.active {
     background-color: #0097b2;
     box-shadow: #0097b2 1px 1px 25px;
+
 }
 
 .perfil-btn:hover {
@@ -540,6 +555,8 @@ header a {
     opacity: 0;
     pointer-events: none;
     overflow: hidden;
+    font-size: .8rem;
+
 }
 
 .dropdown-content a {
@@ -641,7 +658,6 @@ footer{
     flex-direction: column;
     background-color: var(--chocolate-marron);
     color: var(--pastel-blanco);
-    margin-top: 10rem;
 }
 
 footer>button{
