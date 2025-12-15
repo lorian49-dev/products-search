@@ -452,18 +452,17 @@ $productos = $stmtProductos->get_result();
 <body>
     <div class="dashboard-container">
         <!-- Sidebar -->
-        <div class="sidebar">
+                <div class="sidebar">
             <div class="logo">
                 <h2>Hermes<span>Seller</span></h2>
             </div>
             <ul class="nav-menu">
-                <li><a href="seller-apart-main-view.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                <li><a href="crear-producto.php"><i class="fas fa-plus-circle"></i> Crear Producto</a></li>
-                <li><a href="productos-vendedor.php"><i class="fas fa-box"></i> Mis Productos</a></li>
+                <li><a href="seller-apart-manage-bussiness.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="seller-apart-product-create.php" class="active"><i class="fas fa-plus-circle"></i> Crear Producto</a></li>
+                <li><a href="seller-apart-products.php"><i class="fas fa-box"></i> Mis Productos</a></li>
                 <li><a href="categorias-vendedor.php"><i class="fas fa-tags"></i> Mis Categorías</a></li>
-                <li><a href="catalogos-vendedor.php" class="active"><i class="fas fa-book"></i> Mis Catálogos</a></li>
-                <li><a href="pedidos-vendedor.php"><i class="fas fa-shopping-cart"></i> Pedidos</a></li>
-                <li><a href="editar-negocio.php"><i class="fas fa-store"></i> Editar Negocio</a></li>
+                <li><a href="seller-apart-catalogo.php"><i class="fas fa-book"></i> Mis Catálogos</a></li>
+                <li><a href="seller-apart-negocio-editar.php"><i class="fas fa-store"></i> Editar Negocio</a></li>
                 <li><a href="../home.php"><i class="fas fa-home"></i> Volver al Inicio</a></li>
             </ul>
         </div>
@@ -472,7 +471,7 @@ $productos = $stmtProductos->get_result();
         <div class="main-content">
             <div class="section-header">
                 <h2><i class="fas fa-book"></i> Mis Catálogos</h2>
-                <a href="seller-apart-main-view.php" class="btn btn-outline">
+                <a href="seller-apart-manage-bussiness.php" class="btn btn-outline">
                     <i class="fas fa-arrow-left"></i> Volver al Dashboard
                 </a>
             </div>

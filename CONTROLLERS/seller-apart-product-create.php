@@ -372,9 +372,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li><a href="seller-apart-product-create.php" class="active"><i class="fas fa-plus-circle"></i> Crear Producto</a></li>
                 <li><a href="seller-apart-products.php"><i class="fas fa-box"></i> Mis Productos</a></li>
                 <li><a href="categorias-vendedor.php"><i class="fas fa-tags"></i> Mis Categorías</a></li>
-                <li><a href="catalogos-vendedor.php"><i class="fas fa-book"></i> Mis Catálogos</a></li>
-                <li><a href="pedidos-vendedor.php"><i class="fas fa-shopping-cart"></i> Pedidos</a></li>
-                <li><a href="editar-negocio.php"><i class="fas fa-store"></i> Editar Negocio</a></li>
+                <li><a href="seller-apart-catalogo.php"><i class="fas fa-book"></i> Mis Catálogos</a></li>
+                <li><a href="seller-apart-negocio-editar.php"><i class="fas fa-store"></i> Editar Negocio</a></li>
                 <li><a href="../home.php"><i class="fas fa-home"></i> Volver al Inicio</a></li>
             </ul>
         </div>
