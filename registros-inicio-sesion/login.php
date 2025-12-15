@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="tittle-text">
                 <h1>Inicio de Sesión</h1>
-                <p>¿No tienes cuenta? <a href="register.html">Registrarse</a></p>
+                
             </div>
 
             <?php if (isset($error)): ?>
@@ -94,6 +94,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                        value="<?php echo isset($_POST['email-user']) ? htmlspecialchars($_POST['email-user']) : ''; ?>">
 
                 <input type="password" name="pass" placeholder="Contraseña" required>
+                <p>¿No tienes cuenta? <a href="register.html">Registrarse</a></p>
+                <p>¿Olvidaste Tu Contraseña? <a href="../CONTROLLERS/recuperar-contrasena.PHP">Recuperar Contraseña</a></p>
 
                 <button type="submit" class="send-info"><span>Iniciar Sesión</span></button>
             </form>
