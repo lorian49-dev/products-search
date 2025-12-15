@@ -47,7 +47,6 @@ foreach ($direcciones as $dir) {
     <title>Usuario</title>
     <link rel="stylesheet" href="../styles/home.css">
     <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .perfil-container {
             width: 90%;

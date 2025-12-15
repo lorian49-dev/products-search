@@ -171,7 +171,7 @@ if (isset($_GET['search-product']) && !empty($_GET['search-product'])) {
 
     <?php include 'TEMPLATES/header-home.php'?> <!--Inclusion de la plantilla para la cabecera-->
 
-    <main>
+    <main class="main-home">
         <!-- RESULTADOS DE LA BÚSQUEDA -->
         <?php if ($resultadoBusqueda !== null): ?>
             <div class="products-box" style="padding:20px;">

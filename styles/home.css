@@ -45,6 +45,11 @@ body {
     grid-template-rows: auto 1fr auto;
 }
 
+.main-home{
+    margin-bottom: 40rem;
+
+}
+
 /*Mensaje de sesion inicio*/
 
 .message-session {
@@ -70,7 +75,6 @@ header {
     align-items: center;
     padding: 0 2rem 2rem 2rem;
     background-color: #461d01;
-
 }
 
 .top {
@@ -750,10 +754,11 @@ footer>button:hover{
 
 .profile-panel{
     width: 75%;
-    background-color: var(--chocolate-marron);
+    background-color: #461d01d2;
     border-radius: 2rem;
     box-shadow: var(--main-shadow);
     color: var(--pastel-blanco);
+    backdrop-filter: blur(5px);
 }
 
 .profile-header{
