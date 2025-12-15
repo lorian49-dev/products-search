@@ -1,0 +1,72 @@
+2025-12-15 02:30:33 - Iniciando recarga
+2025-12-15 02:30:33 - Usuario ID: 2
+2025-12-15 02:30:33 - Monto recibido: 10000
+2025-12-15 02:30:33 - Intentando ruta: C:\xampp\htdocs\products-search/shortCuts/connect.php
+2025-12-15 02:30:33 - Connect.php incluido
+2025-12-15 02:30:33 - Conexión exitosa
+2025-12-15 02:30:33 - Transacción iniciada
+2025-12-15 02:30:33 - SQL check: SELECT id_metodo_pago, saldo_billetera FROM metodos_pago 
+                  WHERE id_usuario = ? AND tipo = 'billetera_virtual'
+2025-12-15 02:30:33 - Filas encontradas: 1
+2025-12-15 02:30:33 - Actualizando - ID: 19, Anterior: 70000, Nuevo: 80000
+2025-12-15 02:30:33 - Filas afectadas en update: 1
+2025-12-15 02:30:33 - Error registrando transacción: Unknown column 'id_metodo_pago' in 'field list'
+2025-12-15 02:30:34 - Transacción confirmada
+2025-12-15 02:30:34 - Respuesta enviada: ÉXITO
+2025-12-15 02:30:34 - Conexión cerrada
+2025-12-15 02:30:34 - Proceso finalizado
+
+2025-12-15 02:31:50 - Iniciando recarga
+2025-12-15 02:31:50 - Usuario ID: 2
+2025-12-15 02:31:50 - Monto recibido: 50000
+2025-12-15 02:31:50 - Intentando ruta: C:\xampp\htdocs\products-search/shortCuts/connect.php
+2025-12-15 02:31:50 - Connect.php incluido
+2025-12-15 02:31:50 - Conexión exitosa
+2025-12-15 02:31:50 - Transacción iniciada
+2025-12-15 02:31:50 - SQL check: SELECT id_metodo_pago, saldo_billetera FROM metodos_pago 
+                  WHERE id_usuario = ? AND tipo = 'billetera_virtual'
+2025-12-15 02:31:50 - Filas encontradas: 1
+2025-12-15 02:31:50 - Actualizando - ID: 19, Anterior: 80000, Nuevo: 130000
+2025-12-15 02:31:50 - Filas afectadas en update: 1
+2025-12-15 02:31:50 - Error registrando transacción: Unknown column 'id_metodo_pago' in 'field list'
+2025-12-15 02:31:50 - Transacción confirmada
+2025-12-15 02:31:50 - Respuesta enviada: ÉXITO
+2025-12-15 02:31:50 - Conexión cerrada
+2025-12-15 02:31:50 - Proceso finalizado
+
+2025-12-15 02:37:11 - Iniciando recarga
+2025-12-15 02:37:11 - Usuario ID: 2
+2025-12-15 02:37:11 - Monto recibido: 10000
+2025-12-15 02:37:11 - Intentando ruta: C:\xampp\htdocs\products-search/shortCuts/connect.php
+2025-12-15 02:37:11 - Connect.php incluido
+2025-12-15 02:37:11 - Conexión exitosa
+2025-12-15 02:37:11 - Transacción iniciada
+2025-12-15 02:37:11 - SQL check: SELECT id_metodo_pago, saldo_billetera FROM metodos_pago 
+                  WHERE id_usuario = ? AND tipo = 'billetera_virtual'
+2025-12-15 02:37:11 - Filas encontradas: 1
+2025-12-15 02:37:11 - Actualizando - ID: 19, Anterior: 130000, Nuevo: 140000
+2025-12-15 02:37:11 - Filas afectadas en update: 1
+2025-12-15 02:37:11 - Error registrando transacción: Unknown column 'id_metodo_pago' in 'field list'
+2025-12-15 02:37:11 - Transacción confirmada
+2025-12-15 02:37:11 - Respuesta enviada: ÉXITO
+2025-12-15 02:37:11 - Conexión cerrada
+2025-12-15 02:37:11 - Proceso finalizado
+
+2025-12-15 02:39:40 - Iniciando recarga
+2025-12-15 02:39:40 - Usuario ID: 2
+2025-12-15 02:39:40 - Monto recibido: 10000
+2025-12-15 02:39:40 - Intentando ruta: C:\xampp\htdocs\products-search/shortCuts/connect.php
+2025-12-15 02:39:40 - Connect.php incluido
+2025-12-15 02:39:40 - Conexión exitosa
+2025-12-15 02:39:40 - Transacción iniciada
+2025-12-15 02:39:40 - SQL check: SELECT id_metodo_pago, saldo_billetera FROM metodos_pago 
+                  WHERE id_usuario = ? AND tipo = 'billetera_virtual'
+2025-12-15 02:39:40 - Filas encontradas: 1
+2025-12-15 02:39:40 - Actualizando - ID: 19, Anterior: 140000, Nuevo: 150000
+2025-12-15 02:39:40 - Filas afectadas en update: 1
+2025-12-15 02:39:40 - Error registrando transacción: Unknown column 'id_metodo_pago' in 'field list'
+2025-12-15 02:39:40 - Transacción confirmada
+2025-12-15 02:39:40 - Respuesta enviada: ÉXITO
+2025-12-15 02:39:40 - Conexión cerrada
+2025-12-15 02:39:40 - Proceso finalizado
+

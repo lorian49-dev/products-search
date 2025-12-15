@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         listTriggerEvents(triggerHelp, divHelp) // igual aca, solo que este es para la lista de ayuda
     }
 
-    
+
     let btnProfile = document.getElementsByClassName('perfil-btn')[0]
     let btnProfileContainer = document.getElementsByClassName('dropdown-content')[0]
 
@@ -301,7 +301,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 <button type="submit" class="guardar-btn">Actualizar</button>
             </form>
         `,
-
         // SEGURIDAD
         2: () => `
             <h2>Seguridad</h2>
@@ -330,10 +329,37 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // CERRAR
-    closeBtn.addEventListener("click", () => overlay.style.display = "none");
-    overlay.addEventListener("click", (e) => {
-        if (e.target === overlay) overlay.style.display = "none";
+    // user-apart-dashboard.js - versión completa corregida
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // 1. Cerrar modales (solo si existen)
+        const closeBtn = document.getElementById("closeBtn");
+        const overlay = document.getElementById("overlay");
+
+        if (closeBtn && overlay) {
+            closeBtn.addEventListener("click", function () {
+                overlay.style.display = "none";
+            });
+
+            overlay.addEventListener("click", function (e) {
+                if (e.target === overlay) {
+                    overlay.style.display = "none";
+                }
+            });
+        }
+
+        // 2. Cerrar modal con Escape key (si existe overlay)
+        if (overlay) {
+            document.addEventListener("keydown", function (e) {
+                if (e.key === "Escape" && overlay.style.display !== "none") {
+                    overlay.style.display = "none";
+                }
+            });
+        }
+
+        // 3. Tu otro código original aquí...
+        // Solo asegúrate de verificar que los elementos existan
+
     });
 
 })

@@ -205,17 +205,17 @@ foreach ($metodos_pago as $metodo) {
         .btn-recharge:hover {
             background: #f8f9fa;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .btn-history {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             color: white;
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .btn-history:hover {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.3);
         }
 
         /* Estilos para Contra Entrega */
@@ -238,7 +238,7 @@ foreach ($metodos_pago as $metodo) {
         }
 
         .cod-info {
-            background: rgba(255,255,255,0.8);
+            background: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
             margin-top: 15px;
@@ -512,7 +512,7 @@ foreach ($metodos_pago as $metodo) {
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -665,7 +665,7 @@ foreach ($metodos_pago as $metodo) {
                 </div>
                 <p><strong>Método:</strong> Paga al recibir tu pedido</p>
                 <p><strong>Descripción:</strong> Realiza tu compra y paga en efectivo cuando recibas los productos en tu domicilio.</p>
-                
+
                 <div class="cod-info">
                     <p><i class="fa-solid fa-info-circle"></i> <strong>Importante:</strong> Este método se selecciona al momento de finalizar tu compra en el checkout.</p>
                 </div>
@@ -676,7 +676,7 @@ foreach ($metodos_pago as $metodo) {
                 <h3>Mis métodos de pago registrados</h3>
 
                 <?php if ($num_metodos_visibles > 0): ?>
-                    <?php foreach ($metodos_pago as $metodo): 
+                    <?php foreach ($metodos_pago as $metodo):
                         // Saltar billetera virtual que ya se mostró arriba
                         if ($metodo['tipo'] == 'billetera_virtual') continue;
                     ?>
@@ -918,7 +918,7 @@ foreach ($metodos_pago as $metodo) {
             <h3 style="margin-bottom: 20px; color: #333;">
                 <i class="fa-solid fa-money-bill-wave"></i> Recargar Billetera
             </h3>
-            
+
             <form id="rechargeForm" onsubmit="return processRecharge(event)">
                 <div style="margin-bottom: 20px;">
                     <label for="monto" style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
@@ -926,10 +926,10 @@ foreach ($metodos_pago as $metodo) {
                     </label>
                     <div style="position: relative;">
                         <span style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-weight: bold; color: #667eea;">$</span>
-                        <input type="number" id="monto" name="monto" 
-                               min="1000" max="10000000" step="1000"
-                               style="width: 100%; padding: 12px 12px 12px 30px; border: 2px solid #ced4da; border-radius: 8px;"
-                               placeholder="Ej: 50000" required>
+                        <input type="number" id="monto" name="monto"
+                            min="1000" max="10000000" step="1000"
+                            style="width: 100%; padding: 12px 12px 12px 30px; border: 2px solid #ced4da; border-radius: 8px;"
+                            placeholder="Ej: 50000" required>
                     </div>
                     <small style="color: #666; display: block; margin-top: 5px;">Mínimo: $1.000 | Máximo: $10.000.000</small>
                 </div>
@@ -947,12 +947,12 @@ foreach ($metodos_pago as $metodo) {
                 </div>
 
                 <div style="display: flex; gap: 10px; margin-top: 30px;">
-                    <button type="button" onclick="closeRechargeModal()" 
-                            style="flex: 1; padding: 12px; background: #6c757d; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                    <button type="button" onclick="closeRechargeModal()"
+                        style="flex: 1; padding: 12px; background: #6c757d; color: white; border: none; border-radius: 6px; cursor: pointer;">
                         Cancelar
                     </button>
                     <button type="submit" id="rechargeBtn"
-                            style="flex: 1; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        style="flex: 1; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;">
                         <i class="fa-solid fa-check"></i> Recargar
                     </button>
                 </div>
@@ -981,57 +981,97 @@ foreach ($metodos_pago as $metodo) {
         }
 
         // Procesar recarga
+        // REEMPLAZA todo el código de processRecharge con esta versión SIMPLIFICADA:
+        // Procesar recarga - VERSIÓN CORREGIDA
         function processRecharge(event) {
             event.preventDefault();
-            
-            const monto = parseFloat(document.getElementById('monto').value);
+            console.log('Iniciando proceso de recarga...');
+
+            const montoInput = document.getElementById('monto');
+            const monto = parseFloat(montoInput.value);
             const rechargeBtn = document.getElementById('rechargeBtn');
-            
-            if (monto < 1000) {
+
+            // Validaciones
+            if (isNaN(monto) || monto < 1000) {
                 alert('Monto mínimo: $1.000');
                 return false;
             }
-            
+
             if (monto > 10000000) {
                 alert('Monto máximo: $10.000.000');
                 return false;
             }
-            
+
             if (!confirm(`¿Recargar $${monto.toLocaleString('es-CO')} a tu billetera?`)) {
                 return false;
             }
-            
-            // Deshabilitar botón y mostrar carga
+
+            // Deshabilitar botón
             rechargeBtn.disabled = true;
+            const originalText = rechargeBtn.innerHTML;
             rechargeBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando...';
-            
-            // Enviar petición AJAX
-            fetch('CONTROLLERS/recharge-wallet.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `monto=${monto}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(`¡Recarga exitosa!\nNuevo saldo: $${data.saldo_nuevo.toLocaleString('es-CO')}`);
-                    closeRechargeModal();
-                    location.reload();
-                } else {
-                    alert('Error: ' + data.message);
+
+            // Usar SOLAMENTE UNA RUTA CORRECTA
+            // Basado en tu estructura, la ruta correcta es:
+            const correctPath = 'recharge-wallet.php'; // ← ¡IMPORTANTE!
+
+            console.log('Usando ruta:', correctPath);
+
+            // Crear FormData
+            const formData = new FormData();
+            formData.append('monto', monto);
+
+            // Hacer la petición DIRECTAMENTE
+            fetch(correctPath, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    console.log('Status:', response.status, 'OK:', response.ok);
+
+                    if (!response.ok) {
+                        throw new Error(`Error HTTP: ${response.status}`);
+                    }
+
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Respuesta del servidor:', data);
+
+                    if (data.success) {
+                        // Éxito
+                        alert(`¡Recarga exitosa!\nNuevo saldo: $${data.saldo_nuevo.toLocaleString('es-CO')}`);
+
+                        // Actualizar saldo en pantalla
+                        const balanceElement = document.querySelector('.wallet-balance');
+                        if (balanceElement) {
+                            balanceElement.textContent = '$' + data.saldo_nuevo.toLocaleString('es-CO');
+                        }
+
+                        // Cerrar modal
+                        closeRechargeModal();
+
+                    } else {
+                        // Error del servidor
+                        alert('Error: ' + data.message);
+                        rechargeBtn.disabled = false;
+                        rechargeBtn.innerHTML = originalText;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error completo:', error);
+
+                    // Mostrar error específico
+                    if (error.message.includes('404')) {
+                        alert('Error: No se encontró el archivo de recarga.\nEl archivo recharge-wallet.php debe estar en la misma carpeta que esta página.');
+                    } else {
+                        alert('Error de conexión: ' + error.message);
+                    }
+
                     rechargeBtn.disabled = false;
-                    rechargeBtn.innerHTML = '<i class="fa-solid fa-check"></i> Recargar';
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error en la conexión');
-                rechargeBtn.disabled = false;
-                rechargeBtn.innerHTML = '<i class="fa-solid fa-check"></i> Recargar';
-            });
-            
+                    rechargeBtn.innerHTML = originalText;
+                });
+
             return false;
         }
 
