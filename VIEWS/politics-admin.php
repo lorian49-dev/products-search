@@ -40,7 +40,7 @@ if ($conn->connect_error) {
 </head>
 <body>
     <nav id="navegation">
-        <a href="user-dashboard-admin.php"><i class="fas fa-home" id="iconHome"></i></a>
+        <a href="../CONTROLLERS/user-dashboard-admin.php"><i class="fas fa-home" id="iconHome"></i></a>
         <span class="img-logo">
             <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO">
         </span>
