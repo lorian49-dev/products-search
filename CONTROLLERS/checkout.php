@@ -1116,6 +1116,114 @@ $total = $subtotal + $envio + $iva;
     </div>
 
     <script>
+        // Función para procesar el pedido SIN redirección a PHP
+function processOrder() {
+    const terminos = document.getElementById('terminos');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    // Validaciones básicas
+    if (!terminos.checked) {
+        alert('Debes aceptar los términos y condiciones para continuar.');
+        terminos.focus();
+        return;
+    }
+    
+    if (!selectedPaymentMethod) {
+        alert('Por favor selecciona un método de pago.');
+        return;
+    }
+    
+    // Confirmar
+    const confirmar = confirm(`¿Confirmar compra por $${totalAmount.toLocaleString('es-CO')}?\n\nMétodo: ${getPaymentMethodName(selectedPaymentMethod)}`);
+    
+    if (!confirmar) {
+        return;
+    }
+    
+    // Deshabilitar botón
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+    
+    // SIMULACIÓN DE PROCESO (para presentación)
+    setTimeout(function() {
+        // Generar ID de pedido falso
+        const pedidoId = 'PED-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+        
+        // Limpiar carrito de la sesión (simulado)
+        if (typeof(Storage) !== "undefined") {
+            sessionStorage.removeItem('cart');
+        }
+        
+        // Mostrar confirmación SIN redirigir
+        showOrderConfirmation(pedidoId);
+    }, 2000);
+}
+
+// Función para mostrar confirmación en la misma página
+function showOrderConfirmation(pedidoId) {
+    // Crear overlay
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        padding: 20px;
+    `;
+    
+    // Crear contenido de confirmación
+    overlay.innerHTML = `
+        <div style="background: white; border-radius: 20px; padding: 40px; max-width: 600px; width: 100%; text-align: center; position: relative;">
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 8px; background: linear-gradient(90deg, #8B4513, #28a745); border-radius: 20px 20px 0 0;"></div>
+            
+            <div style="font-size: 80px; color: #28a745; margin-bottom: 20px;">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            
+            <h1 style="color: #2c3e50; margin-bottom: 20px;">¡Pedido Confirmado!</h1>
+            <p style="color: #6c757d; margin-bottom: 30px;">Tu pedido ha sido procesado exitosamente.</p>
+            
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 15px; margin-bottom: 30px; border-left: 5px solid #8B4513;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <span style="font-weight: bold;">Número de pedido:</span>
+                    <span style="color: #8B4513; font-weight: bold;">${pedidoId}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="font-weight: bold;">Total:</span>
+                    <span style="color: #8B4513; font-weight: bold;">$${totalAmount.toLocaleString('es-CO')}</span>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 15px;">
+                <button onclick="window.location.href='../home.php'" 
+                        style="flex: 1; padding: 15px; background: #f8f9fa; color: #2c3e50; border: 2px solid #e0e0e0; border-radius: 10px; font-weight: bold; cursor: pointer;">
+                    <i class="fas fa-home"></i> Inicio
+                </button>
+                <button onclick="window.location.href='user-apart-dashboard.php'" 
+                        style="flex: 1; padding: 15px; background: #8B4513; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">
+                    <i class="fas fa-clipboard-list"></i> Ver Pedidos
+                </button>
+            </div>
+            
+            <button onclick="this.parentElement.parentElement.remove()" 
+                    style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: #6c757d; font-size: 20px; cursor: pointer;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+    
+    // Agregar al documento
+    document.body.appendChild(overlay);
+    
+    // Opcional: Limpiar formulario
+    document.getElementById('checkoutForm').reset();
+}
     // Variables globales
     let selectedPaymentMethod = null;
     const totalAmount = <?php echo $total; ?>;

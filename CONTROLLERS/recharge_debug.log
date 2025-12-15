@@ -88,3 +88,21 @@
 2025-12-15 03:20:56 - Conexión cerrada
 2025-12-15 03:20:56 - Proceso finalizado
 
+2025-12-15 19:26:05 - Iniciando recarga
+2025-12-15 19:26:05 - Usuario ID: 33
+2025-12-15 19:26:05 - Monto recibido: 10000000
+2025-12-15 19:26:05 - Intentando ruta: C:\xampp\htdocs\products-search/shortCuts/connect.php
+2025-12-15 19:26:05 - Connect.php incluido
+2025-12-15 19:26:05 - Conexión exitosa
+2025-12-15 19:26:05 - Transacción iniciada
+2025-12-15 19:26:05 - SQL check: SELECT id_metodo_pago, saldo_billetera FROM metodos_pago 
+                  WHERE id_usuario = ? AND tipo = 'billetera_virtual'
+2025-12-15 19:26:05 - Filas encontradas: 1
+2025-12-15 19:26:05 - Actualizando - ID: 6, Anterior: 0, Nuevo: 10000000
+2025-12-15 19:26:05 - Filas afectadas en update: 1
+2025-12-15 19:26:05 - Error registrando transacción: Unknown column 'id_metodo_pago' in 'field list'
+2025-12-15 19:26:05 - Transacción confirmada
+2025-12-15 19:26:05 - Respuesta enviada: ÉXITO
+2025-12-15 19:26:05 - Conexión cerrada
+2025-12-15 19:26:05 - Proceso finalizado
+
