@@ -71,8 +71,6 @@
                 <!-- fin del menu despegable -->
             </div>
             <div class="icons-header">
-                <!-- Wishlist -->
-                <span><img src="SOURCES/ICONOS-LOGOS/bookmark.svg" alt="wishlist"></span>
 
                 <!-- Carrito - ENLACE SIMPLE -->
                  <span><a href="CONTROLLERS/cart.php" style="z-index:100;"><img src="SOURCES/ICONOS-LOGOS/shopping_bag.svg" alt="Shopping Cart"></a></span>
