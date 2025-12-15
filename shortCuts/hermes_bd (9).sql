@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-12-2025 a las 03:05:00
+-- Tiempo de generación: 15-12-2025 a las 05:15:08
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -39,7 +39,8 @@ CREATE TABLE `actividades_usuario` (
 --
 
 INSERT INTO `actividades_usuario` (`id_actividad`, `id_usuario`, `actividad`, `fecha`) VALUES
-(1, 2, 'Cambio de contraseña', '2025-12-14 19:50:47');
+(1, 2, 'Cambio de contraseña', '2025-12-14 19:50:47'),
+(2, 3, 'Cambio de contraseña mediante recuperación', '2025-12-15 03:06:43');
 
 -- --------------------------------------------------------
 
@@ -64,7 +65,7 @@ CREATE TABLE `administradores` (
 --
 
 INSERT INTO `administradores` (`id_admin`, `username`, `password`, `email`, `id_rol`, `nombre_completo`, `activo`, `ultimo_acceso`, `fecha_creacion`) VALUES
-(1, 'Matheo', '$2y$10$oZqaprYY0DnNlEObXj61uO9UZSH.0E46P1hOQKsYt/i2ur8ATE2V2', 'admin@hermes.com', 1, 'Administrador General', 1, '2025-12-15 01:48:40', '2025-11-28 05:39:28'),
+(1, 'admin_general', '$2y$10$BkiBc1f.PLPLYbo/pi3rbu65od3i/4UUtZAG1eR0Ci69YK3xzio.y', 'admin@hermes.com', 1, 'Administrador General', 1, '2025-12-14 02:29:02', '2025-11-28 05:39:28'),
 (2, 'admin_colaborador', '$2y$10$gj/0iBf8jrU2M.mLt7GbKuYqCD7eDjbGULCCplVK2X46l901kI/8K', 'colab@hermes.com', 2, 'Administrador Colaborador', 1, '2025-12-02 15:36:39', '2025-11-28 05:39:28'),
 (4, 'admin_general1', '$2y$10$U80eW8ZldM9Cvujb55Kl8OdHaXefmzHaozKxn2ppzpjKUiUqWm8Ki', 'admin@hermes.com', 1, NULL, 1, '2025-12-08 22:53:12', '2025-11-28 06:49:44'),
 (5, 'Andres_David', '$2y$10$XP/d7usLEKm440y21xLp..nHpA/FXBhYq3rSGQW2t5pRW7x7h6Z0O', 'andr@gmail.com', 2, 'Andres David Carvajal Gutierrez', 1, '2025-12-02 15:28:25', '2025-11-28 18:16:14'),
@@ -391,7 +392,7 @@ INSERT INTO `metodos_pago` (`id_metodo_pago`, `id_usuario`, `tipo`, `nombre_titu
 (3, 31, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
 (4, 26, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
 (5, 6, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
-(6, 33, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
+(6, 33, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 1010000.00),
 (7, 30, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
 (8, 25, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
 (9, 5, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
@@ -404,7 +405,7 @@ INSERT INTO `metodos_pago` (`id_metodo_pago`, `id_usuario`, `tipo`, `nombre_titu
 (16, 29, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
 (17, 24, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
 (18, 4, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
-(19, 2, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 150000.00);
+(19, 2, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00);
 
 -- --------------------------------------------------------
 
@@ -428,7 +429,7 @@ CREATE TABLE `pasarela_pago` (
 
 CREATE TABLE `pedido` (
   `id_pedido` int(11) NOT NULL,
-  `id_cliente` int(11) DEFAULT NULL,
+  `id_usuario` int(11) DEFAULT NULL,
   `id_vendedor` int(11) NOT NULL,
   `fecha_pedido` timestamp NOT NULL DEFAULT current_timestamp(),
   `total` decimal(12,2) NOT NULL DEFAULT 0.00,
@@ -452,7 +453,7 @@ CREATE TABLE `pedido` (
 -- Volcado de datos para la tabla `pedido`
 --
 
-INSERT INTO `pedido` (`id_pedido`, `id_cliente`, `id_vendedor`, `fecha_pedido`, `total`, `subtotal`, `envio`, `iva`, `estado`, `descripcion`, `direccion_envio`, `metodo_pago`, `llegada_estimada`, `telefono_contacto`, `email_contacto`, `ciudad`, `departamento`, `codigo_postal`, `es_contra_entrega`) VALUES
+INSERT INTO `pedido` (`id_pedido`, `id_usuario`, `id_vendedor`, `fecha_pedido`, `total`, `subtotal`, `envio`, `iva`, `estado`, `descripcion`, `direccion_envio`, `metodo_pago`, `llegada_estimada`, `telefono_contacto`, `email_contacto`, `ciudad`, `departamento`, `codigo_postal`, `es_contra_entrega`) VALUES
 (3, 28, 0, '2025-12-08 22:21:58', 4300000.00, 0.00, 0.00, 0.00, 'Pendiente', 'Compra de prueba: Laptop (ID 100) y Smartphone (ID 101).', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
@@ -606,8 +607,8 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `correo`, `contrasena`, `fecha_nacimiento`, `telefono`, `direccion_principal`, `codigo_recuperacion`, `codigo_expira`, `two_factor_auth`) VALUES
-(2, 'Oscar', 'asdad', 'oscar.vanegas772@gmail.com', '$2y$10$C/QYRLXVPzpaTICGwEkvwegipIdeBK3vk1y1Bla/4hOB5uL9M1QwS', '1111-11-11', '121213131', 'masmdasmdma', '392943', '2025-11-19 21:43:45', 0),
-(3, 'Juan', 'Pérez', 'juan.perez@email.com', '$2y$10$TuHashDeContraseña', '1990-05-15', '3101234567', 'Calle 123 #45-67, Bogotá', NULL, NULL, 0),
+(2, 'Oscar', 'asdad', 'oscar.vanegas772@gmail.com', '$2y$10$C/QYRLXVPzpaTICGwEkvwegipIdeBK3vk1y1Bla/4hOB5uL9M1QwS', '1111-11-11', '121213131', 'masmdasmdma', '923521', '2025-12-15 04:02:48', 0),
+(3, 'Juan', 'Pérez', 'juan.perez@email.com', '$2y$10$fyJK/5Jeq0xP8SLzBDLg6.PPcNU0w2a6XOgYGv7/8wYm.iFSYxUqm', '1990-05-15', '3101234567', 'Calle 123 #45-67, Bogotá', '322329', '2025-12-15 05:07:01', 0),
 (4, 'María', 'Gómez', 'maria.gomez@email.com', '$2y$10$TuHashDeContraseña', '1985-08-22', '3209876543', 'Avenida Siempre Viva 742, Medellín', NULL, NULL, 0),
 (5, 'Carlos', 'Rodríguez', 'carlos.rod@email.com', '$2y$10$TuHashDeContraseña', '1995-02-10', '3155551234', 'Carrera 7 #23-45, Cali', NULL, NULL, 0),
 (6, 'Ana', 'Martínez', 'ana.martinez@email.com', '$2y$10$TuHashDeContraseña', '1992-11-30', '3189998888', 'Diagonal 80 #12-34, Barranquilla', NULL, NULL, 0),
@@ -799,7 +800,7 @@ ALTER TABLE `pasarela_pago`
 --
 ALTER TABLE `pedido`
   ADD PRIMARY KEY (`id_pedido`),
-  ADD KEY `fk_pedido_usuario` (`id_cliente`),
+  ADD KEY `fk_pedido_usuario` (`id_usuario`),
   ADD KEY `id_vendedor` (`id_vendedor`);
 
 --
@@ -879,7 +880,7 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT de la tabla `actividades_usuario`
 --
 ALTER TABLE `actividades_usuario`
-  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `administradores`
@@ -951,7 +952,7 @@ ALTER TABLE `direccion_envio`
 -- AUTO_INCREMENT de la tabla `metodos_pago`
 --
 ALTER TABLE `metodos_pago`
-  MODIFY `id_metodo_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id_metodo_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `pasarela_pago`
