@@ -120,8 +120,12 @@ $ejec = mysqli_query($connect, $query);
             </ul>
             <li id="liAbout">Acerca de<i class="fa-solid fa-caret-up"></i></li>
             <ul class="sheetListAbout">
-                <li>Politicas de privacidad y uso</li>
-                <li>Terminos para vendedores</li>
+                <a href="../VIEWS/politics-admin.php">
+                    <li>Politicas de privacidad y uso</li>
+                </a>
+                <a href="../VIEWS/seller-terms.php">
+                    <li>Terminos para los vendedores</li>
+                </a>
             </ul>
             <span class="btn-color-mode">
                 <form action="../registros-inicio-sesion/logout.php" method="POST">
