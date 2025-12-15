@@ -241,10 +241,10 @@ $data = $_SESSION['recuperacion_data'];
             // Validar coincidencia
             if (confirm.length > 0) {
                 if (password === confirm) {
-                    matchMessage.innerHTML = '✅ Las contraseñas coinciden';
+                    matchMessage.innerHTML = 'Las contraseñas coinciden';
                     matchMessage.style.color = '#28a745';
                 } else {
-                    matchMessage.innerHTML = '❌ Las contraseñas no coinciden';
+                    matchMessage.innerHTML = 'Las contraseñas no coinciden';
                     matchMessage.style.color = '#ff4757';
                 }
             } else {
