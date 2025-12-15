@@ -138,7 +138,7 @@ session_start();
         </form>
         
         <div class="back-link">
-            <a href="../login.php">← Volver al Inicio de Sesión</a>
+            <a href="../registros-inicio-sesion/login.php">← Volver al Inicio de Sesión</a>
         </div>
     </div>
 </body>
