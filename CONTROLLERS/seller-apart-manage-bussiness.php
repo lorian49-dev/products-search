@@ -523,8 +523,8 @@ $ventas = $stmtVentas->get_result()->fetch_assoc();
                 <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                 <li><a href="seller-apart-product-create.php"><i class="fas fa-plus-circle"></i> Crear Producto</a></li>
                 <li><a href="seller-apart-products.php"><i class="fas fa-box"></i> Mis Productos</a></li>
-                <li><a href="categorias-vendedor.php"><i class="fas fa-tags"></i> Mis Categorías</a></li>
-                <li><a href="catalogos-vendedor.php"><i class="fas fa-book"></i> Mis Catálogos</a></li>
+                <li><a href="seller-apart-categoarias.php"><i class="fas fa-tags"></i> Mis Categorías</a></li>
+                <li><a href="seller-apart-catalogo.php"><i class="fas fa-book"></i> Mis Catálogos</a></li>
                 <li><a href="pedidos-vendedor.php"><i class="fas fa-shopping-cart"></i> Pedidos</a></li>
                 <li><a href="editar-negocio.php"><i class="fas fa-store"></i> Editar Negocio</a></li>
                 <li><a href="perfil-vendedor.php"><i class="fas fa-user-cog"></i> Mi Perfil</a></li>

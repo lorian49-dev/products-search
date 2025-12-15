@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['finalizar_recuperacio
         $_SESSION['message_type'] = 'success';
         
         // Redirigir a login
-        header('Location: ../login.php');
+        header('Location: ../registros-inicio-sesion/login.php');
         exit;
         
     } catch (Exception $e) {

@@ -15,8 +15,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!empty($_POST['return_url'])) {
         $url = $_POST['return_url'];
-        // Evitar redirecciones peligrosas
-        if (strpos($url, 'login.php') === false && strpos($url, 'logout.php') === false) {
+        
+        // Validar que sea una URL segura y no sea una página de autenticación
+        if (isValidRedirectUrl($url)) {
             $redirect = $url;
         }
     }
@@ -42,7 +43,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Mensaje opcional
             $_SESSION['flash_message'] = "¡Bienvenido de vuelta, {$user['nombre']}!";
 
-            // REDIRECCIÓN MÁGICA: vuelve exactamente donde estaba
+            // REDIRECCIÓN: siempre a home.php después de recuperar contraseña
+            // Si venimos de recuperar contraseña, forzar home.php
+            if (isset($_SESSION['came_from_password_recovery']) && $_SESSION['came_from_password_recovery']) {
+                unset($_SESSION['came_from_password_recovery']);
+                $redirect = '../home.php';
+            }
+            
             header("Location: $redirect");
             exit();
         }
@@ -50,6 +57,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Si falla el login
     $error = "Correo o contraseña incorrectos";
+}
+
+// Función para validar URLs de redirección
+function isValidRedirectUrl($url) {
+    // Lista de páginas a las que NO se debe redirigir
+    $forbidden_patterns = [
+        'login.php',
+        'logout.php',
+        'recuperar-contrasena',
+        'register',
+        'auth/',
+        'signin',
+        'signup'
+    ];
+    
+    // Verificar que no contenga patrones prohibidos
+    foreach ($forbidden_patterns as $pattern) {
+        if (stripos($url, $pattern) !== false) {
+            return false;
+        }
+    }
+    
+    // Verificar que sea una URL válida y segura
+    if (!filter_var($url, FILTER_VALIDATE_URL)) {
+        // Si no es una URL completa, verificar que sea una ruta relativa segura
+        if (preg_match('/\.\.\//', $url) || preg_match('/[<>"\']/', $url)) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+// =================================================
+// 2. DETECTAR SI VIENES DE RECUPERACIÓN DE CONTRASEÑA
+// =================================================
+// Guardar en sesión si venimos de recuperación de contraseña
+if (isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'recuperar-contrasena') !== false) {
+    $_SESSION['came_from_password_recovery'] = true;
 }
 ?>
 
@@ -74,7 +120,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="tittle-text">
                 <h1>Inicio de Sesión</h1>
-                
             </div>
 
             <?php if (isset($error)): ?>
@@ -82,12 +127,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
 
             <form method="post" action="login.php">
-                <!-- ESTA LÍNEA GUARDA AUTOMÁTICAMENTE DÓNDE ESTABA EL USUARIO -->
+                <!-- SOLUCIÓN DEFINITIVA: No usar HTTP_REFERER para redirección -->
                 <input type="hidden" name="return_url" value="<?php 
-                    echo htmlspecialchars(
-                        $_GET['return_url'] ?? 
-                        ($_SERVER['HTTP_REFERER'] ?? '../home.php')
-                    ); 
+                    // OPCIÓN A: Solo usar parámetro GET (más seguro)
+                    if (!empty($_GET['return_url'])) {
+                        $url = $_GET['return_url'];
+                        // Validar que sea segura
+                        if (isValidRedirectUrl($url)) {
+                            echo htmlspecialchars($url);
+                        } else {
+                            echo '../home.php';
+                        }
+                    } 
+                    // OPCIÓN B: Forzar siempre home.php después de recuperación
+                    elseif (isset($_SESSION['came_from_password_recovery']) && $_SESSION['came_from_password_recovery']) {
+                        echo '../home.php';
+                    }
+                    // OPCIÓN C: Home por defecto
+                    else {
+                        echo '../home.php';
+                    }
                 ?>">
 
                 <input type="email" name="email-user" placeholder="Correo electrónico" required 
@@ -95,11 +154,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <input type="password" name="pass" placeholder="Contraseña" required>
                 <p>¿No tienes cuenta? <a href="register.html">Registrarse</a></p>
-                <p>¿Olvidaste Tu Contraseña? <a href="../CONTROLLERS/recuperar-contrasena.PHP">Recuperar Contraseña</a></p>
+                <p>¿Olvidaste Tu Contraseña? <a href="../CONTROLLERS/recuperar-contrasena.PHP" id="recovery-link">Recuperar Contraseña</a></p>
 
                 <button type="submit" class="send-info"><span>Iniciar Sesión</span></button>
             </form>
         </div>
     </main>
+    
+    <script>
+    // Solución adicional con JavaScript
+    document.getElementById('recovery-link').addEventListener('click', function(e) {
+        // Limpiar cualquier return_url almacenado
+        sessionStorage.removeItem('return_url');
+        
+        // Opcional: limpiar el campo hidden del formulario
+        document.querySelector('input[name="return_url"]').value = '../home.php';
+    });
+    </script>
 </body>
 </html>
