@@ -47,15 +47,17 @@ if (!empty($busqueda)) {
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>Panel Admin</title>
-     <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
-    <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css"> 
+    <link rel="shortcut icon" href="../SOURCES/ICONOS-LOGOS/ico.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../SOURCES/ICONOS-LOGOS/fontawesome-free-7.1.0-web/css/all.css">
     <link rel="stylesheet" href="../styles/admin-user-crud.css">
 </head>
+
 <body>
- <nav id="navegation">
+    <nav id="navegation">
         <a href="user-dashboard-admin.php"><i class="fas fa-home" id="iconHome"></i></a>
         <span>
             <img src="../SOURCES/ICONOS-LOGOS/HERMES_LOGO_CREAM.png" alt="HERMES" title="HERMES LOGOTIPO" width="200px">
@@ -103,12 +105,8 @@ if (!empty($busqueda)) {
             </ul>
             <li id="liAbout">Acerca de<i class="fa-solid fa-caret-up"></i></li>
             <ul class="sheetListAbout">
-                <a href="../VIEWS/politics-admin.php">
-                    <li>Politicas de privacidad y uso</li>
-                </a>
-                <a href="../VIEWS/seller-terms.php">
-                    <li>Terminos para los vendedores</li>
-                </a>
+                <li>Politicas de privacidad y uso</li>
+                <li>Terminos para vendedores</li>
             </ul>
             <span class="btn-color-mode">
                 <form action="../registros-inicio-sesion/logout.php" method="POST">
@@ -124,33 +122,33 @@ if (!empty($busqueda)) {
                     <button class="dark-mode"><i class="fa-solid fa-moon"></i></button>
                 </div>
             </span>
-    </nav>  
-<main class="dashboard-orders">
-    <h1>PANEL ADMINISTRATIVO</h1>
+    </nav>
+    <main class="dashboard-orders">
+        <h1>PANEL ADMINISTRATIVO</h1>
 
-    <h2>Listado de Ventas por Vendedor</h2>
+        <h2>Listado de Ventas por Vendedor</h2>
 
-<!-- BUSCADOR -->
-<form method="GET">
-    <input type="text" name="busqueda" placeholder="Buscar ventas..."
-           value="<?= htmlspecialchars($busqueda) ?>" class="input-orders">
-    <button type="submit">Buscar</button>
-</form>
+        <!-- BUSCADOR -->
+        <form method="GET">
+            <input type="text" name="busqueda" placeholder="Buscar ventas..."
+                value="<?= htmlspecialchars($busqueda) ?>" class="input-orders">
+            <button type="submit">Buscar</button>
+        </form>
 
-<br>
+        <br>
 
-<table>
-<tr>
-    <th>Vendedor</th>
-    <th>Producto</th>
-    <th>Cliente</th>
-    <th>Cantidad</th>
-    <th>Total</th>
-    <th>Estado Pedido</th>
-</tr>
+        <table>
+            <tr>
+                <th>Vendedor</th>
+                <th>Producto</th>
+                <th>Cliente</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th>Estado Pedido</th>
+            </tr>
 
-<?php
-$sql = "
+            <?php
+            $sql = "
 SELECT 
     v.nombre_empresa,
     pr.nombre AS producto,
@@ -163,20 +161,16 @@ FROM pedido p
 INNER JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido
 INNER JOIN producto pr ON dp.id_producto = pr.id_producto
 INNER JOIN vendedor v ON pr.id_vendedor = v.id_vendedor
-INNER JOIN usuario u ON p.id_usuario = u.id_usuario  -- CAMBIADO: usa id_usuario directo
+INNER JOIN cliente c ON p.id_cliente = c.id_cliente
+INNER JOIN usuario u ON c.id_cliente = u.id_usuario
 $where
 ";
-$res = $conn->query($sql);
-if (!$res) {
-    echo "❌ Error SQL: " . $conn->error;
-    echo "<br>Consulta: " . htmlspecialchars($sql);
-    // Puedes continuar mostrando una tabla vacía o un mensaje amigable
-    $res = false;
-}
 
-if ($res) {
-    while ($row = $res->fetch_assoc()) {
-        echo "<tr>
+            $res = $conn->query($sql);
+
+            if ($res) {
+                while ($row = $res->fetch_assoc()) {
+                    echo "<tr>
             <td>{$row['nombre_empresa']}</td>
             <td>{$row['producto']}</td>
             <td>{$row['nombre']} {$row['apellido']}</td>
@@ -184,33 +178,33 @@ if ($res) {
             <td>{$row['precio_total']}</td>
             <td>{$row['estado']}</td>
         </tr>";
-    }
-}
-?>
-</table>
+                }
+            }
+            ?>
+        </table>
 
-<hr>
+        <hr>
 
-<!-- =============================== -->
-<!-- 2. ACTUALIZAR ESTADO DE PEDIDOS -->
-<!-- =============================== -->
+        <!-- =============================== -->
+        <!-- 2. ACTUALIZAR ESTADO DE PEDIDOS -->
+        <!-- =============================== -->
 
-<h2>Actualizar Estados de Pedidos</h2>
+        <h2>Actualizar Estados de Pedidos</h2>
 
-<table>
-<thead>
-    <th>ID Pedido</th>
-    <th>Estado Actual</th>
-    <th>Nuevo Estado</th>
-    <th>Guardar</th>
-</thead>
+        <table>
+            <thead>
+                <th>ID Pedido</th>
+                <th>Estado Actual</th>
+                <th>Nuevo Estado</th>
+                <th>Guardar</th>
+            </thead>
 
-<?php
-$ped = $conn->query("SELECT * FROM pedido");
+            <?php
+            $ped = $conn->query("SELECT * FROM pedido");
 
-if ($ped) {
-    while ($p = $ped->fetch_assoc()) {
-        echo "
+            if ($ped) {
+                while ($p = $ped->fetch_assoc()) {
+                    echo "
         <tr>
             <form method='POST'>
             <td>{$p['id_pedido']}</td>
@@ -229,24 +223,24 @@ if ($ped) {
             </td>
             </form>
         </tr>";
-    }
-}
+                }
+            }
 
-if (isset($_POST["actualizar"])) {
-    $id = $_POST["id"];
-    $estado = $_POST["estado"];
+            if (isset($_POST["actualizar"])) {
+                $id = $_POST["id"];
+                $estado = $_POST["estado"];
 
-    if ($conn->query("UPDATE pedido SET estado='$estado' WHERE id_pedido=$id")) {
-        echo "<script>
+                if ($conn->query("UPDATE pedido SET estado='$estado' WHERE id_pedido=$id")) {
+                    echo "<script>
             alert('Estado actualizado correctamente.');
             window.location.href = window.location.href;
         </script>";
-    }
-}
-?>
-</table>
-</main>
-<script src="../scripts/admin.js"></script>
+                }
+            }
+            ?>
+        </table>
+    </main>
+    <script src="../scripts/admin.js"></script>
 </body>
-</html>
 
+</html>
