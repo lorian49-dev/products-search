@@ -405,7 +405,7 @@ prevBtns.forEach((btn, index) => {
         }
     });
 });
-            // Opcional: ocultar flechas cuando llegas al final
+            //  ocultar flechas cuando llegas al final
             carousel.addEventListener('scroll', () => {
                 prevBtn.style.display = carousel.scrollLeft <= 0 ? 'none' : 'block';
                 nextBtn.style.display = (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) ? 'none' : 'block';
