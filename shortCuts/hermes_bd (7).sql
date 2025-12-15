@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-12-2025 a las 22:13:27
+-- Tiempo de generación: 15-12-2025 a las 01:03:43
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -69,6 +69,104 @@ INSERT INTO `administradores` (`id_admin`, `username`, `password`, `email`, `id_
 (4, 'admin_general1', '$2y$10$U80eW8ZldM9Cvujb55Kl8OdHaXefmzHaozKxn2ppzpjKUiUqWm8Ki', 'admin@hermes.com', 1, NULL, 1, '2025-12-08 22:53:12', '2025-11-28 06:49:44'),
 (5, 'Andres_David', '$2y$10$XP/d7usLEKm440y21xLp..nHpA/FXBhYq3rSGQW2t5pRW7x7h6Z0O', 'andr@gmail.com', 2, 'Andres David Carvajal Gutierrez', 1, '2025-12-02 15:28:25', '2025-11-28 18:16:14'),
 (6, 'Andres_David1', '$2y$10$bhWhCISRPldYKdTC0tJoBORnyG1kESdYrryyrzPn7n8M6v3WZ70s2', 'andres@hgf.com', 2, 'Abdres Carvajal', 1, '2025-12-11 16:57:41', '2025-12-17 15:31:32');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `billetera`
+--
+
+CREATE TABLE `billetera` (
+  `id_billetera` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `tipo_usuario` enum('cliente','vendedor','admin') DEFAULT 'cliente',
+  `saldo_disponible` decimal(12,2) DEFAULT 0.00,
+  `saldo_pendiente` decimal(12,2) DEFAULT 0.00,
+  `saldo_bloqueado` decimal(12,2) DEFAULT 0.00,
+  `moneda` varchar(3) DEFAULT 'COP',
+  `estado` enum('activa','inactiva','bloqueada') DEFAULT 'activa',
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `fecha_actualizacion` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `billetera`
+--
+
+INSERT INTO `billetera` (`id_billetera`, `id_usuario`, `tipo_usuario`, `saldo_disponible`, `saldo_pendiente`, `saldo_bloqueado`, `moneda`, `estado`, `fecha_creacion`, `fecha_actualizacion`) VALUES
+(1, 31, 'cliente', 0.00, 0.00, 0.00, 'COP', 'activa', '2025-12-14 20:35:05', NULL),
+(2, 26, 'cliente', 0.00, 0.00, 0.00, 'COP', 'activa', '2025-12-14 20:35:05', NULL),
+(3, 6, 'cliente', 0.00, 0.00, 0.00, 'COP', 'activa', '2025-12-14 20:35:05', NULL),
+(4, 30, 'cliente', 0.00, 0.00, 0.00, 'COP', 'activa', '2025-12-14 20:35:05', NULL),
+(5, 25, 'cliente', 0.00, 0.00, 0.00, 'COP', 'activa', '2025-12-14 20:35:05', NULL),
+(6, 5, 'cliente', 0.00, 0.00, 0.00, 'COP', 'activa', '2025-12-14 20:35:05', NULL),
+(7, 28, 'cliente', 0.00, 0.00, 0.00, 'COP', 'activa', '2025-12-14 20:35:05', NULL),
+(8, 23, 'cliente', 0.00, 0.00, 0.00, 'COP', 'activa', '2025-12-14 20:35:05', NULL),
+(9, 3, 'cliente', 0.00, 0.00, 0.00, 'COP', 'activa', '2025-12-14 20:35:05', NULL),
+(10, 32, 'cliente', 0.00, 0.00, 0.00, 'COP', 'activa', '2025-12-14 20:35:05', NULL),
+(11, 27, 'cliente', 0.00, 0.00, 0.00, 'COP', 'activa', '2025-12-14 20:35:05', NULL),
+(12, 7, 'cliente', 0.00, 0.00, 0.00, 'COP', 'activa', '2025-12-14 20:35:05', NULL),
+(13, 29, 'cliente', 0.00, 0.00, 0.00, 'COP', 'activa', '2025-12-14 20:35:05', NULL),
+(14, 24, 'cliente', 0.00, 0.00, 0.00, 'COP', 'activa', '2025-12-14 20:35:05', NULL),
+(15, 4, 'cliente', 0.00, 0.00, 0.00, 'COP', 'activa', '2025-12-14 20:35:05', NULL),
+(16, 2, 'cliente', 0.00, 0.00, 0.00, 'COP', 'activa', '2025-12-14 20:35:05', NULL),
+(32, 2, 'vendedor', 0.00, 0.00, 0.00, 'COP', 'activa', '2025-12-14 20:35:05', NULL),
+(33, 1, 'admin', 0.00, 0.00, 0.00, 'COP', 'activa', '2025-12-14 20:35:05', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `billetera_metodo_retiro`
+--
+
+CREATE TABLE `billetera_metodo_retiro` (
+  `id_metodo` int(11) NOT NULL,
+  `id_billetera` int(11) NOT NULL,
+  `tipo` enum('bancario','nequi','daviplata','paypal') NOT NULL,
+  `datos` text NOT NULL,
+  `es_principal` tinyint(1) DEFAULT 0,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `billetera_solicitud_retiro`
+--
+
+CREATE TABLE `billetera_solicitud_retiro` (
+  `id_solicitud` int(11) NOT NULL,
+  `id_billetera` int(11) NOT NULL,
+  `id_metodo` int(11) NOT NULL,
+  `monto` decimal(12,2) NOT NULL,
+  `comision` decimal(10,2) DEFAULT 0.00,
+  `monto_neto` decimal(12,2) NOT NULL,
+  `estado` enum('pendiente','aprobado','procesando','completado','rechazado') DEFAULT 'pendiente',
+  `motivo_rechazo` varchar(255) DEFAULT NULL,
+  `referencia_pago` varchar(100) DEFAULT NULL,
+  `fecha_solicitud` timestamp NOT NULL DEFAULT current_timestamp(),
+  `fecha_procesado` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `billetera_transaccion`
+--
+
+CREATE TABLE `billetera_transaccion` (
+  `id_transaccion` bigint(20) NOT NULL,
+  `id_billetera` int(11) NOT NULL,
+  `tipo` enum('recarga','compra','venta','retiro','comision','reembolso','transferencia') NOT NULL,
+  `monto` decimal(12,2) NOT NULL,
+  `saldo_anterior` decimal(12,2) NOT NULL,
+  `saldo_nuevo` decimal(12,2) NOT NULL,
+  `referencia` varchar(100) DEFAULT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `estado` enum('pendiente','completado','fallido','reversado') DEFAULT 'pendiente',
+  `metadata` text DEFAULT NULL,
+  `fecha_transaccion` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -272,23 +370,41 @@ INSERT INTO `direccion_envio` (`id_direccion`, `id_cliente`, `alias`, `direccion
 CREATE TABLE `metodos_pago` (
   `id_metodo_pago` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `tipo` enum('tarjeta_credito','tarjeta_debito','paypal') NOT NULL,
+  `tipo` enum('tarjeta_credito','tarjeta_debito','paypal','contra_entrega','billetera_virtual') NOT NULL,
   `nombre_titular` varchar(100) DEFAULT NULL,
   `numero_tarjeta` varchar(4) DEFAULT NULL,
   `fecha_vencimiento` varchar(7) DEFAULT NULL,
   `marca_tarjeta` varchar(20) DEFAULT NULL,
   `email_paypal` varchar(100) DEFAULT NULL,
   `es_predeterminado` tinyint(1) DEFAULT 0,
-  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `saldo_billetera` decimal(12,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `metodos_pago`
 --
 
-INSERT INTO `metodos_pago` (`id_metodo_pago`, `id_usuario`, `tipo`, `nombre_titular`, `numero_tarjeta`, `fecha_vencimiento`, `marca_tarjeta`, `email_paypal`, `es_predeterminado`, `fecha_creacion`) VALUES
-(1, 2, 'paypal', NULL, NULL, NULL, NULL, 'sadsadasdasdasdasdasd@asdsad.com', 0, '2025-12-14 19:29:30'),
-(2, 2, 'tarjeta_credito', 'Oscar asdad', '2131', '12/31', 'Visa', NULL, 1, '2025-12-14 19:31:13');
+INSERT INTO `metodos_pago` (`id_metodo_pago`, `id_usuario`, `tipo`, `nombre_titular`, `numero_tarjeta`, `fecha_vencimiento`, `marca_tarjeta`, `email_paypal`, `es_predeterminado`, `fecha_creacion`, `saldo_billetera`) VALUES
+(1, 2, 'paypal', NULL, NULL, NULL, NULL, 'sadsadasdasdasdasdasd@asdsad.com', 0, '2025-12-14 19:29:30', 0.00),
+(2, 2, 'tarjeta_credito', 'Oscar asdad', '2131', '12/31', 'Visa', NULL, 1, '2025-12-14 19:31:13', 0.00),
+(3, 31, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
+(4, 26, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
+(5, 6, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
+(6, 33, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
+(7, 30, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
+(8, 25, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
+(9, 5, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
+(10, 28, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
+(11, 23, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
+(12, 3, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
+(13, 32, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
+(14, 27, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
+(15, 7, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
+(16, 29, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
+(17, 24, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
+(18, 4, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00),
+(19, 2, 'billetera_virtual', NULL, NULL, NULL, NULL, NULL, 0, '2025-12-14 22:45:55', 0.00);
 
 -- --------------------------------------------------------
 
@@ -328,15 +444,16 @@ CREATE TABLE `pedido` (
   `email_contacto` varchar(100) DEFAULT NULL,
   `ciudad` varchar(100) DEFAULT NULL,
   `departamento` varchar(100) DEFAULT NULL,
-  `codigo_postal` varchar(20) DEFAULT NULL
+  `codigo_postal` varchar(20) DEFAULT NULL,
+  `es_contra_entrega` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `pedido`
 --
 
-INSERT INTO `pedido` (`id_pedido`, `id_usuario`, `id_vendedor`, `fecha_pedido`, `total`, `subtotal`, `envio`, `iva`, `estado`, `descripcion`, `direccion_envio`, `metodo_pago`, `llegada_estimada`, `telefono_contacto`, `email_contacto`, `ciudad`, `departamento`, `codigo_postal`) VALUES
-(3, 28, 0, '2025-12-08 22:21:58', 4300000.00, 0.00, 0.00, 0.00, 'Pendiente', 'Compra de prueba: Laptop (ID 100) y Smartphone (ID 101).', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `pedido` (`id_pedido`, `id_usuario`, `id_vendedor`, `fecha_pedido`, `total`, `subtotal`, `envio`, `iva`, `estado`, `descripcion`, `direccion_envio`, `metodo_pago`, `llegada_estimada`, `telefono_contacto`, `email_contacto`, `ciudad`, `departamento`, `codigo_postal`, `es_contra_entrega`) VALUES
+(3, 28, 0, '2025-12-08 22:21:58', 4300000.00, 0.00, 0.00, 0.00, 'Pendiente', 'Compra de prueba: Laptop (ID 100) y Smartphone (ID 101).', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -449,6 +566,24 @@ CREATE TABLE `sesiones_usuario` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `transacciones_billetera`
+--
+
+CREATE TABLE `transacciones_billetera` (
+  `id_transaccion` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `tipo` enum('recarga','compra','devolucion') NOT NULL,
+  `monto` decimal(12,2) NOT NULL,
+  `saldo_anterior` decimal(12,2) NOT NULL,
+  `saldo_nuevo` decimal(12,2) NOT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `id_pedido` int(11) DEFAULT NULL,
+  `fecha_transaccion` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuario`
 --
 
@@ -486,7 +621,8 @@ INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `correo`, `contrasena
 (29, 'María', 'Gómez', 'maria.gomez.test@email.com', '$2y$10$TuHashDeContraseña', '1985-08-22', '3209876543', 'Avenida Siempre Viva 742, Medellín', NULL, NULL, 0),
 (30, 'Carlos', 'Rodríguez', 'carlos.rod.test@email.com', '$2y$10$TuHashDeContraseña', '1995-02-10', '3155551234', 'Carrera 7 #23-45, Cali', NULL, NULL, 0),
 (31, 'Ana', 'Martínez', 'ana.martinez.test@email.com', '$2y$10$TuHashDeContraseña', '1992-11-30', '3189998888', 'Diagonal 80 #12-34, Barranquilla', NULL, NULL, 0),
-(32, 'Luis', 'Hernández', 'luis.hernandez.test@email.com', '$2y$10$TuHashDeContraseña', '1988-07-18', '3001112233', 'Transversal 45 #56-78, Cartagena', NULL, NULL, 0);
+(32, 'Luis', 'Hernández', 'luis.hernandez.test@email.com', '$2y$10$TuHashDeContraseña', '1988-07-18', '3001112233', 'Transversal 45 #56-78, Cartagena', NULL, NULL, 0),
+(33, 'andres', 'carvajal', 'andres@gmail.com', '$2y$10$8QmfFCTqtL6OG7Tta9HPUuE1Unt0KZgrP/cE7kgyrZtzx23.DLCw6', '1991-12-14', '', NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -553,6 +689,34 @@ ALTER TABLE `administradores`
   ADD PRIMARY KEY (`id_admin`),
   ADD UNIQUE KEY `username` (`username`),
   ADD KEY `id_rol` (`id_rol`);
+
+--
+-- Indices de la tabla `billetera`
+--
+ALTER TABLE `billetera`
+  ADD PRIMARY KEY (`id_billetera`),
+  ADD UNIQUE KEY `uk_usuario_tipo` (`id_usuario`,`tipo_usuario`);
+
+--
+-- Indices de la tabla `billetera_metodo_retiro`
+--
+ALTER TABLE `billetera_metodo_retiro`
+  ADD PRIMARY KEY (`id_metodo`),
+  ADD KEY `idx_billetera_metodo` (`id_billetera`);
+
+--
+-- Indices de la tabla `billetera_solicitud_retiro`
+--
+ALTER TABLE `billetera_solicitud_retiro`
+  ADD PRIMARY KEY (`id_solicitud`);
+
+--
+-- Indices de la tabla `billetera_transaccion`
+--
+ALTER TABLE `billetera_transaccion`
+  ADD PRIMARY KEY (`id_transaccion`),
+  ADD KEY `idx_billetera` (`id_billetera`),
+  ADD KEY `idx_referencia` (`referencia`);
 
 --
 -- Indices de la tabla `carrito`
@@ -675,6 +839,13 @@ ALTER TABLE `sesiones_usuario`
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
+-- Indices de la tabla `transacciones_billetera`
+--
+ALTER TABLE `transacciones_billetera`
+  ADD PRIMARY KEY (`id_transaccion`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
@@ -717,6 +888,30 @@ ALTER TABLE `administradores`
   MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT de la tabla `billetera`
+--
+ALTER TABLE `billetera`
+  MODIFY `id_billetera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
+--
+-- AUTO_INCREMENT de la tabla `billetera_metodo_retiro`
+--
+ALTER TABLE `billetera_metodo_retiro`
+  MODIFY `id_metodo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `billetera_solicitud_retiro`
+--
+ALTER TABLE `billetera_solicitud_retiro`
+  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `billetera_transaccion`
+--
+ALTER TABLE `billetera_transaccion`
+  MODIFY `id_transaccion` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `carrito`
 --
 ALTER TABLE `carrito`
@@ -756,7 +951,7 @@ ALTER TABLE `direccion_envio`
 -- AUTO_INCREMENT de la tabla `metodos_pago`
 --
 ALTER TABLE `metodos_pago`
-  MODIFY `id_metodo_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_metodo_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `pasarela_pago`
@@ -789,10 +984,16 @@ ALTER TABLE `rol`
   MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT de la tabla `transacciones_billetera`
+--
+ALTER TABLE `transacciones_billetera`
+  MODIFY `id_transaccion` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Restricciones para tablas volcadas
@@ -874,14 +1075,6 @@ ALTER TABLE `pasarela_pago`
   ADD CONSTRAINT `fk_pasarela_carrito` FOREIGN KEY (`id_carrito`) REFERENCES `carrito` (`id_carrito`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `pedido`
---
-ALTER TABLE `pedido`
-  ADD CONSTRAINT `fk_pedido_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`id_vendedor`),
-  ADD CONSTRAINT `pedido_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
-
---
 -- Filtros para la tabla `pedido_item`
 --
 ALTER TABLE `pedido_item`
@@ -890,36 +1083,10 @@ ALTER TABLE `pedido_item`
   ADD CONSTRAINT `pedido_item_ibfk_3` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`id_vendedor`);
 
 --
--- Filtros para la tabla `producto`
+-- Filtros para la tabla `transacciones_billetera`
 --
-ALTER TABLE `producto`
-  ADD CONSTRAINT `fk_producto_vendedor` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`id_vendedor`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `producto_categoria`
---
-ALTER TABLE `producto_categoria`
-  ADD CONSTRAINT `fk_pc_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_pc_producto` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `sesiones_usuario`
---
-ALTER TABLE `sesiones_usuario`
-  ADD CONSTRAINT `sesiones_usuario_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE;
-
---
--- Filtros para la tabla `usuario_rol`
---
-ALTER TABLE `usuario_rol`
-  ADD CONSTRAINT `fk_ur_rol` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id_rol`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_ur_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `vendedor`
---
-ALTER TABLE `vendedor`
-  ADD CONSTRAINT `fk_vendedor_usuario` FOREIGN KEY (`id_vendedor`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `transacciones_billetera`
+  ADD CONSTRAINT `transacciones_billetera_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
