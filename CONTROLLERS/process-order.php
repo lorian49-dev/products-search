@@ -1,314 +1,263 @@
 <?php
-// CONTROLLERS/process-order.php
+// CONTROLLERS/process-order.php - VERSIÓN CORREGIDA
 session_start();
-require_once "../shortCuts/connect.php";
-require_once "cart-functions.php";
+require_once dirname(__DIR__) . '/shortCuts/connect.php';
 
-// Verificar que el usuario esté logueado y tenga carrito
-if (!isset($_SESSION['usuario_id']) || empty($_SESSION['cart'])) {
-    $_SESSION['checkout_error'] = 'Tu carrito está vacío o no has iniciado sesión';
+// Activar errores
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Verificar usuario y carrito
+if (!isset($_SESSION['usuario_id'])) {
+    $_SESSION['checkout_error'] = 'Debes iniciar sesión para continuar';
     header("Location: checkout.php");
     exit;
 }
 
-$id_usuario = $_SESSION['usuario_id'];
-
-// Validar datos del formulario
-$required_fields = [
-    'nombre', 'apellido', 'email', 'telefono', 
-    'direccion', 'ciudad', 'departamento', 'metodo_pago',
-    'terminos'
-];
-
-$errors = [];
-foreach ($required_fields as $field) {
-    if (empty($_POST[$field])) {
-        $errors[] = ucfirst($field) . ' es requerido';
-    }
-}
-
-if (!empty($errors)) {
-    $_SESSION['checkout_error'] = implode('<br>', $errors);
-    header("Location: checkout.php");
+if (empty($_SESSION['cart'])) {
+    $_SESSION['checkout_error'] = 'Tu carrito está vacío';
+    header("Location: cart.php");
     exit;
 }
 
-// Obtener datos del formulario
-$nombre = trim($_POST['nombre']);
-$apellido = trim($_POST['apellido']);
-$email = trim($_POST['email']);
-$telefono = trim($_POST['telefono']);
-$direccion = trim($_POST['direccion']);
-$ciudad = trim($_POST['ciudad']);
-$departamento = trim($_POST['departamento']);
+// Obtener datos
+$id_cliente = $_SESSION['usuario_id'];
+$nombre = trim($_POST['nombre'] ?? '');
+$apellido = trim($_POST['apellido'] ?? '');
+$email = trim($_POST['email'] ?? '');
+$telefono = trim($_POST['telefono'] ?? '');
+$direccion = trim($_POST['direccion'] ?? '');
+$ciudad = trim($_POST['ciudad'] ?? '');
+$departamento = trim($_POST['departamento'] ?? '');
 $codigo_postal = trim($_POST['codigo_postal'] ?? '');
-$referencia = trim($_POST['referencia'] ?? '');
-$metodo_pago = $_POST['metodo_pago'];
-$newsletter = isset($_POST['newsletter']) ? 1 : 0;
+$metodo_pago = trim($_POST['metodo_pago'] ?? '');
+$terminos = isset($_POST['terminos']);
 
-// Calcular totales
+// Validaciones básicas
+if (!$terminos) {
+    $_SESSION['checkout_error'] = 'Debes aceptar los términos';
+    header("Location: checkout.php");
+    exit;
+}
+
+// Calcular totales (función simple si no existe)
+function getCartTotal() {
+    $total = 0;
+    if (isset($_SESSION['cart'])) {
+        foreach ($_SESSION['cart'] as $item) {
+            $total += ($item['price'] ?? 0) * ($item['quantity'] ?? 0);
+        }
+    }
+    return $total;
+}
+
 $subtotal = getCartTotal();
 $envio = 10000;
 $iva = $subtotal * 0.19;
 $total = $subtotal + $envio + $iva;
 
-// ======= MODIFICACIÓN 1: Manejo de estado según método de pago =======
-// Determinar estado inicial según método de pago
-if ($metodo_pago === 'billetera') {
-    // Verificar que la transacción de billetera exista
-    if (empty($_POST['billetera_transaccion_id'])) {
-        $_SESSION['checkout_error'] = 'No se encontró la transacción de billetera. Por favor intenta nuevamente.';
-        header("Location: checkout.php");
-        exit;
-    }
-    
-    // El pago con billetera ya fue procesado, marcar como pagado
-    $estado_inicial = 'pagado';
-    $transaccion_billetera_id = $_POST['billetera_transaccion_id'];
-    
-} elseif ($metodo_pago === 'contra_entrega') {
-    $estado_inicial = 'confirmado';
-} else {
-    $estado_inicial = 'pendiente';
-}
-// ======= FIN MODIFICACIÓN 1 =======
-
-// Verificar stock antes de procesar
-$stock_errors = validateCartStock($connect);
-if ($stock_errors !== true) {
-    $error_messages = [];
-    foreach ($stock_errors as $error) {
-        $error_messages[] = $error['product_name'] . ': Solicitado ' . $error['requested'] . ', Disponible ' . $error['available'];
-    }
-    $_SESSION['checkout_error'] = 'Stock insuficiente:<br>' . implode('<br>', $error_messages);
-    header("Location: checkout.php");
-    exit;
-}
-
 // Iniciar transacción
-$connect->begin_transaction();
+mysqli_begin_transaction($connect);
 
 try {
-    // 1. Agrupar productos por vendedor
-    $pedidos_por_vendedor = [];
-    
-    foreach ($_SESSION['cart'] as $product_id => $item) {
-        $sql = "SELECT p.*, v.id_vendedor, v.nombre_empresa 
-                FROM producto p 
-                LEFT JOIN vendedor v ON p.id_vendedor = v.id_vendedor 
-                WHERE p.id_producto = ?";
-        $stmt = $connect->prepare($sql);
-        $stmt->bind_param("i", $product_id);
+    // 1. Verificar billetera si es necesario
+    if ($metodo_pago == 'billetera_virtual') {
+        $sql_billetera = "SELECT saldo_billetera FROM metodos_pago 
+                         WHERE id_usuario = ? AND tipo = 'billetera_virtual'";
+        $stmt = $connect->prepare($sql_billetera);
+        $stmt->bind_param("i", $id_cliente);
         $stmt->execute();
-        $producto = $stmt->get_result()->fetch_assoc();
+        $result = $stmt->get_result();
         
-        if ($producto) {
-            $id_vendedor = $producto['id_vendedor'];
-            
-            if (!isset($pedidos_por_vendedor[$id_vendedor])) {
-                $pedidos_por_vendedor[$id_vendedor] = [
-                    'vendedor_nombre' => $producto['nombre_empresa'],
-                    'items' => [],
-                    'subtotal' => 0
-                ];
-            }
-            
-            $pedidos_por_vendedor[$id_vendedor]['items'][] = [
-                'producto' => $producto,
-                'item_carrito' => $item
-            ];
-            $pedidos_por_vendedor[$id_vendedor]['subtotal'] += $item['price'] * $item['quantity'];
+        if ($result->num_rows == 0) {
+            throw new Exception('No tienes billetera virtual');
         }
+        
+        $billetera = $result->fetch_assoc();
+        $saldo_actual = floatval($billetera['saldo_billetera']);
+        
+        if ($saldo_actual < $total) {
+            throw new Exception('Saldo insuficiente en billetera');
+        }
+        
+        // Actualizar saldo
+        $nuevo_saldo = $saldo_actual - $total;
+        $sql_update = "UPDATE metodos_pago SET saldo_billetera = ? WHERE id_usuario = ? AND tipo = 'billetera_virtual'";
+        $stmt2 = $connect->prepare($sql_update);
+        $stmt2->bind_param("di", $nuevo_saldo, $id_cliente);
+        $stmt2->execute();
+        $stmt2->close();
+        $stmt->close();
     }
     
-    // 2. Generar número de pedido único
-    $numero_pedido = 'PED-' . date('Ymd') . '-' . strtoupper(uniqid());
+    // 2. CREAR PEDIDO - CON CONTEO CORRECTO DE PARÁMETROS
+    $estado = ($metodo_pago == 'contra_entrega') ? 'pendiente' : 'confirmado';
+    $es_contra_entrega = ($metodo_pago == 'contra_entrega') ? 1 : 0;
+    $llegada_estimada = date('Y-m-d', strtotime('+3 days'));
     
-    $pedidos_ids = [];
-    $direccion_completa = "$direccion, $ciudad, $departamento" . ($codigo_postal ? " - CP: $codigo_postal" : "");
+    // Versión SIMPLIFICADA - solo columnas esenciales
+    $sql_pedido = "INSERT INTO pedido (
+        id_cliente, 
+        fecha_pedido, 
+        total, 
+        subtotal, 
+        envio, 
+        iva, 
+        estado, 
+        metodo_pago,
+        direccion_envio,
+        telefono_contacto,
+        email_contacto,
+        ciudad,
+        departamento,
+        es_contra_entrega
+    ) VALUES (?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
-    // 3. Crear pedido para cada vendedor
-    foreach ($pedidos_por_vendedor as $id_vendedor => $datos) {
-        $subtotal_vendedor = $datos['subtotal'];
-        $envio_vendedor = count($pedidos_por_vendedor) > 1 ? ($envio / count($pedidos_por_vendedor)) : $envio;
-        $iva_vendedor = $subtotal_vendedor * 0.19;
-        $total_vendedor = $subtotal_vendedor + $envio_vendedor + $iva_vendedor;
-        
-        // Crear descripción del pedido
-        $descripcion = "Pedido #$numero_pedido\n";
-        $descripcion .= "Cliente: $nombre $apellido\n";
-        $descripcion .= "Productos: " . count($datos['items']) . " artículo(s)\n";
-        $descripcion .= "Vendedor: " . $datos['vendedor_nombre'];
-        
-        // ======= MODIFICACIÓN 2: Insertar pedido usando $estado_inicial =======
-        // 4. Insertar pedido en la tabla `pedido`
-        $sql_pedido = "INSERT INTO pedido (
-            id_usuario, id_vendedor, fecha_pedido, 
-            subtotal, envio, iva, total, estado, descripcion,
-            direccion_envio, metodo_pago, telefono_contacto,
-            email_contacto, ciudad, departamento, codigo_postal,
-            referencia, numero_pedido
-        ) VALUES (?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
-        $stmt_pedido = $connect->prepare($sql_pedido);
-        $stmt_pedido->bind_param(
-            "iiddddssssssssss", 
-            $id_usuario, $id_vendedor,
-            $subtotal_vendedor, $envio_vendedor, $iva_vendedor, $total_vendedor,
-            $estado_inicial,  // ¡IMPORTANTE: Usar variable $estado_inicial en lugar de 'pendiente' fijo
-            $descripcion, $direccion_completa, $metodo_pago, $telefono,
-            $email, $ciudad, $departamento, $codigo_postal,
-            $referencia, $numero_pedido
-        );
-        
-        if (!$stmt_pedido->execute()) {
-            throw new Exception("Error al crear pedido: " . $connect->error);
-        }
-        
-        $id_pedido = $connect->insert_id;
-        $pedidos_ids[] = $id_pedido;
-        
-        // ======= MODIFICACIÓN 3: Si es pago con billetera, procesar comisiones =======
-        if ($metodo_pago === 'billetera') {
-            // Procesar comisiones para vendedores
-            $comision_porcentaje = 0.05; // 5% de comisión para la plataforma
-            $comision = $total_vendedor * $comision_porcentaje;
-            $monto_vendedor = $total_vendedor - $comision;
-            
-            // Aquí podrías registrar la comisión en una tabla separada
-            // o actualizar el saldo del vendedor en su billetera
-            // Por ahora solo lo dejamos como comentario
-            /*
-            $sql_comision = "INSERT INTO comisiones_pedidos 
-                            (id_pedido, id_vendedor, monto_total, comision, monto_vendedor)
-                            VALUES (?, ?, ?, ?, ?)";
-            $stmt_comision = $connect->prepare($sql_comision);
-            $stmt_comision->bind_param("iiddd", $id_pedido, $id_vendedor, $total_vendedor, $comision, $monto_vendedor);
-            $stmt_comision->execute();
-            */
-        }
-        // ======= FIN MODIFICACIÓN 3 =======
-        
-        // 5. Insertar items en `pedido_item` y actualizar stock
-        foreach ($datos['items'] as $item_data) {
-            $producto = $item_data['producto'];
-            $item_carrito = $item_data['item_carrito'];
-            
-            // Reducir stock
-            $sql_update_stock = "UPDATE producto SET stock = stock - ? WHERE id_producto = ?";
-            $stmt_stock = $connect->prepare($sql_update_stock);
-            $stmt_stock->bind_param("ii", $item_carrito['quantity'], $producto['id_producto']);
-            
-            if (!$stmt_stock->execute()) {
-                throw new Exception("Error al actualizar stock del producto ID " . $producto['id_producto']);
-            }
-            
-            // Insertar item del pedido
-            $subtotal_item = $item_carrito['price'] * $item_carrito['quantity'];
-            
-            $sql_item = "INSERT INTO pedido_item (
-                id_pedido, id_producto, id_vendedor, cantidad, 
-                precio_unitario, subtotal, nombre_producto, imagen_url
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            
-            $stmt_item = $connect->prepare($sql_item);
-            $stmt_item->bind_param(
-                "iiiiddss", 
-                $id_pedido, $producto['id_producto'], $id_vendedor,
-                $item_carrito['quantity'], $item_carrito['price'], $subtotal_item,
-                $producto['nombre'], $producto['imagen_url']
-            );
-            
-            if (!$stmt_item->execute()) {
-                throw new Exception("Error al guardar items del pedido: " . $connect->error);
-            }
-        }
-        
-        // 6. Notificar al vendedor (simulado - puedes implementar email después)
-        $sql_notificar = "INSERT INTO notificaciones (
-            id_usuario, tipo, titulo, mensaje, fecha, leida
-        ) VALUES (?, 'nuevo_pedido', 'Nuevo Pedido Recibido', ?, NOW(), 0)";
-        
-        $stmt_notif = $connect->prepare($sql_notificar);
-        $mensaje_notif = "Has recibido un nuevo pedido #$numero_pedido por $" . number_format($total_vendedor, 0, ',', '.');
-        $stmt_notif->bind_param("is", $id_vendedor, $mensaje_notif);
-        $stmt_notif->execute();
+    // 14 parámetros en total
+    // 1. id_cliente (i)
+    // 2. total (d)
+    // 3. subtotal (d)
+    // 4. envio (d)
+    // 5. iva (d)
+    // 6. estado (s)
+    // 7. metodo_pago (s)
+    // 8. direccion_envio (s)
+    // 9. telefono_contacto (s)
+    // 10. email_contacto (s)
+    // 11. ciudad (s)
+    // 12. departamento (s)
+    // 13. es_contra_entrega (i)
+    
+    $stmt_pedido = $connect->prepare($sql_pedido);
+    
+    if (!$stmt_pedido) {
+        throw new Exception("Error preparando pedido: " . mysqli_error($connect));
     }
     
-    // 7. Guardar dirección del usuario para futuras compras
-    $sql_direccion = "INSERT INTO direcciones (
-        id_usuario, direccion, ciudad, departamento, 
-        codigo_postal, telefono, referencia, es_principal
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, 1)
-    ON DUPLICATE KEY UPDATE 
-        direccion = VALUES(direccion),
-        ciudad = VALUES(ciudad),
-        departamento = VALUES(departamento),
-        codigo_postal = VALUES(codigo_postal),
-        telefono = VALUES(telefono),
-        referencia = VALUES(referencia)";
+    // IMPORTANTE: 14 parámetros = 14 caracteres en bind_param
+    // 'i' (1) + 'ddd' (3) + 'sssssss' (7) + 'i' (1) = 12? Vamos a contar:
+    // 1. id_cliente: i (integer)
+    // 2. total: d (double)
+    // 3. subtotal: d (double)
+    // 4. envio: d (double)
+    // 5. iva: d (double)
+    // 6. estado: s (string)
+    // 7. metodo_pago: s (string)
+    // 8. direccion_envio: s (string)
+    // 9. telefono_contacto: s (string)
+    // 10. email_contacto: s (string)
+    // 11. ciudad: s (string)
+    // 12. departamento: s (string)
+    // 13. es_contra_entrega: i (integer)
+    // Total: i (1) + dddd (4) + sssssss (7) + i (1) = 13 caracteres
     
-    $stmt_dir = $connect->prepare($sql_direccion);
-    $stmt_dir->bind_param(
-        "issssss", 
-        $id_usuario, $direccion, $ciudad, $departamento,
-        $codigo_postal, $telefono, $referencia
+    // ¡ESPERA! Tenemos 13 parámetros en la consulta SQL
+    // Vamos a contar de nuevo:
+    // 1. id_cliente (1)
+    // 2. NOW() es función MySQL, no parámetro (0)
+    // 3. total (2)
+    // 4. subtotal (3)
+    // 5. envio (4)
+    // 6. iva (5)
+    // 7. estado (6)
+    // 8. metodo_pago (7)
+    // 9. direccion_envio (8)
+    // 10. telefono_contacto (9)
+    // 11. email_contacto (10)
+    // 12. ciudad (11)
+    // 13. departamento (12)
+    // 14. es_contra_entrega (13)
+    
+    // ¡SON 13 PARÁMETROS, NO 14! (porque NOW() no es parámetro PHP)
+    
+    $stmt_pedido->bind_param(
+        "iddddsssssssi", // 13 caracteres: i + dddd + ssssss + i
+        $id_cliente,     // 1. i
+        $total,          // 2. d
+        $subtotal,       // 3. d
+        $envio,          // 4. d
+        $iva,            // 5. d
+        $estado,         // 6. s
+        $metodo_pago,    // 7. s
+        $direccion,      // 8. s
+        $telefono,       // 9. s
+        $email,          // 10. s
+        $ciudad,         // 11. s
+        $departamento,   // 12. s
+        $es_contra_entrega // 13. i
     );
-    $stmt_dir->execute();
     
-    // 8. Suscribir a newsletter si seleccionó la opción
-    if ($newsletter) {
-        $sql_newsletter = "INSERT INTO newsletter_suscripciones (email, nombre, fecha_suscripcion, activo)
-                          VALUES (?, ?, NOW(), 1)
-                          ON DUPLICATE KEY UPDATE activo = 1";
-        $stmt_news = $connect->prepare($sql_newsletter);
-        $nombre_completo = "$nombre $apellido";
-        $stmt_news->bind_param("ss", $email, $nombre_completo);
-        $stmt_news->execute();
+    if (!$stmt_pedido->execute()) {
+        throw new Exception("Error ejecutando pedido: " . $stmt_pedido->error . 
+                           "\nSQL: " . $sql_pedido);
     }
     
-    // 9. Confirmar transacción
-    $connect->commit();
+    $id_pedido = $connect->insert_id;
+    $stmt_pedido->close();
     
-    // 10. Limpiar carrito
+    if (!$id_pedido) {
+        throw new Exception("Error al crear el pedido");
+    }
+    
+    // 3. Crear detalles del pedido (versión simple)
+    foreach ($_SESSION['cart'] as $product_id => $item) {
+        // Insertar en detalle_pedido (versión mínima)
+        $sql_detalle = "INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad) 
+                       VALUES (?, ?, ?)";
+        
+        $stmt_detalle = $connect->prepare($sql_detalle);
+        $stmt_detalle->bind_param("iii", $id_pedido, $product_id, $item['quantity']);
+        
+        if (!$stmt_detalle->execute()) {
+            // Si falla, probar con precio_unitario
+            $sql_detalle2 = "INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad, precio_unitario) 
+                            VALUES (?, ?, ?, ?)";
+            
+            $stmt_detalle2 = $connect->prepare($sql_detalle2);
+            $precio = $item['price'] ?? 0;
+            $stmt_detalle2->bind_param("iiid", $id_pedido, $product_id, $item['quantity'], $precio);
+            
+            if (!$stmt_detalle2->execute()) {
+                throw new Exception("Error al agregar producto al detalle");
+            }
+            $stmt_detalle2->close();
+        } else {
+            $stmt_detalle->close();
+        }
+        
+        // Actualizar stock
+        $sql_stock = "UPDATE producto SET stock = stock - ? WHERE id_producto = ?";
+        $stmt_stock = $connect->prepare($sql_stock);
+        $stmt_stock->bind_param("ii", $item['quantity'], $product_id);
+        $stmt_stock->execute();
+        $stmt_stock->close();
+    }
+    
+    // 4. Actualizar información del usuario
+    $sql_usuario = "UPDATE usuario SET nombre = ?, apellido = ?, correo = ?, telefono = ? WHERE id_usuario = ?";
+    $stmt_usuario = $connect->prepare($sql_usuario);
+    $stmt_usuario->bind_param("ssssi", $nombre, $apellido, $email, $telefono, $id_cliente);
+    $stmt_usuario->execute();
+    $stmt_usuario->close();
+    
+    // Confirmar transacción
+    mysqli_commit($connect);
+    
+    // Limpiar carrito
     unset($_SESSION['cart']);
     
-    // 11. Guardar información para la confirmación
-    $_SESSION['ultimo_pedido'] = [
-        'numero_pedido' => $numero_pedido,
-        'total' => $total,
-        'metodo_pago' => $metodo_pago,
-        'fecha' => date('d/m/Y H:i'),
-        'direccion' => $direccion_completa,
-        'pedidos_ids' => $pedidos_ids,
-        'estado' => $estado_inicial
-    ];
+    // Redirigir
+    $_SESSION['pedido_exitoso'] = true;
+    $_SESSION['id_pedido'] = $id_pedido;
     
-    // Si es billetera, guardar también el ID de transacción
-    if ($metodo_pago === 'billetera' && isset($transaccion_billetera_id)) {
-        $_SESSION['ultimo_pedido']['billetera_transaccion_id'] = $transaccion_billetera_id;
-    }
-    
-    $_SESSION['checkout_success'] = true;
-    
-    // ======= MODIFICACIÓN 4: Redirección para billetera =======
-    // 12. Redirigir según método de pago
-    if ($metodo_pago === 'contra_entrega' || $metodo_pago === 'billetera') {
-        // Para contra entrega O billetera, ir directo a confirmación
-        header("Location: order-confirmation.php");
-    } else {
-        // Para pagos electrónicos (tarjeta, PSE), ir a procesamiento de pago
-        header("Location: payment-process.php?pedido=$numero_pedido");
-    }
-    // ======= FIN MODIFICACIÓN 4 =======
+    header("Location: order-confirmation.php?id=$id_pedido");
     exit;
     
 } catch (Exception $e) {
-    // Revertir transacción en caso de error
-    $connect->rollback();
+    // Revertir
+    mysqli_rollback($connect);
     
-    error_log("Error en checkout: " . $e->getMessage());
-    $_SESSION['checkout_error'] = "Error al procesar el pedido: " . $e->getMessage();
+    $_SESSION['checkout_error'] = 'Error: ' . $e->getMessage();
     header("Location: checkout.php");
     exit;
 }

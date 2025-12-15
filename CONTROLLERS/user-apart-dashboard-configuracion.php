@@ -118,7 +118,7 @@ if ($result_metodos_pago) {
 }
 
 // Obtener pedidos/compras del usuario (si tienes la tabla)
-$sql_pedidos = "SELECT * FROM pedido WHERE id_usuario = $usuario_id ORDER BY fecha_pedido DESC";
+$sql_pedidos = "SELECT * FROM pedido WHERE id_cliente = $usuario_id ORDER BY fecha_pedido DESC";
 $result_pedidos = mysqli_query($connect, $sql_pedidos);
 $pedidos = [];
 if ($result_pedidos) {

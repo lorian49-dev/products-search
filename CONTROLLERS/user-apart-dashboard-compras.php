@@ -17,7 +17,7 @@ if (!$result) {
 }
 $usuario = mysqli_fetch_assoc($result);
 // Obtener el historial de compras del usuario
-$sqlPedidos = "SELECT * FROM pedido WHERE id_usuario = $usuario_id ORDER BY fecha_pedido DESC";
+$sqlPedidos = "SELECT * FROM pedido WHERE id_cliente = $usuario_id ORDER BY fecha_pedido DESC";
 $resultPedidos = mysqli_query($connect, $sqlPedidos);
 
 if (!$resultPedidos) {

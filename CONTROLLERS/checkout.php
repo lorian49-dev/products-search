@@ -1377,7 +1377,7 @@ $total = $subtotal + $envio + $iva;
                                     Total a pagar: <strong>$${totalAmount.toLocaleString('es-CO')}</strong><br>
                                     Faltan: <strong>$${(totalAmount - data.saldo).toLocaleString('es-CO')}</strong>
                                 </p>
-                                <button onclick="window.location.href='../user-apart-dashboard-metodos-pago.php'" 
+                                <button onclick="window.location.href='../CONTROLLERS/user-apart-dashboard-metodos-pago.php'" 
                                         style="margin-top: 10px; padding: 8px 15px; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;">
                                     <i class="fas fa-money-bill-wave"></i> Recargar Billetera
                                 </button>
