@@ -197,7 +197,7 @@ try {
 <body>
     <div class="container">
         <div class="dev-banner">
-            🚧 MODO DESARROLLO - Código visible en pantalla
+            MODO DESARROLLO - Código visible en pantalla
         </div>
         
         <div class="content">
@@ -209,37 +209,37 @@ try {
             
             <div class="info-box">
                 <div class="info-row">
-                    <span class="label">📧 Correo:</span>
+                    <span class="label">Correo:</span>
                     <span class="value"><?php echo htmlspecialchars($correo); ?></span>
                 </div>
                 <div class="info-row">
-                    <span class="label">👤 Nombre:</span>
+                    <span class="label">Nombre:</span>
                     <span class="value"><?php echo htmlspecialchars($nombre); ?></span>
                 </div>
                 <div class="info-row">
-                    <span class="label">⏰ Expira:</span>
+                    <span class="label">Expira:</span>
                     <span class="value"><?php echo $expiracion; ?></span>
                 </div>
             </div>
             
             <div class="warning">
-                ⚠️ En producción, este código se enviaría por correo automáticamente.
+                En producción, este código se enviaría por correo automáticamente.
             </div>
             
             <a href="verificar-codigo.php" class="btn">
-                ✅ Continuar al formulario de verificación
+                Continuar al formulario de verificación
             </a>
             
             <script>
                 // Mostrar en consola
-                console.log('🔐 CÓDIGO DE RECUPERACIÓN');
+                console.log('CÓDIGO DE RECUPERACIÓN');
                 console.log('Correo: <?php echo $correo; ?>');
                 console.log('Código: <?php echo $codigo; ?>');
                 console.log('Expira: <?php echo $expiracion; ?>');
                 
                 // Copiar al portapapeles automáticamente
                 navigator.clipboard.writeText('<?php echo $codigo; ?>').then(() => {
-                    console.log('📋 Código copiado al portapapeles');
+                    console.log('Código copiado al portapapeles');
                 });
             </script>
         </div>

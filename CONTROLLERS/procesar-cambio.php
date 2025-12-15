@@ -33,14 +33,14 @@ try {
         $stmt->close();
         
         if (!$resultado) {
-            $_SESSION['error_codigo'] = '❌ Código incorrecto';
+            $_SESSION['error_codigo'] = 'Código incorrecto';
             header('Location: verificar-codigo.php');
             exit;
         }
         
         // Verificar expiración
         if (strtotime($resultado['codigo_expira']) < time()) {
-            $_SESSION['error_codigo'] = '⏰ El código ha expirado. Solicita uno nuevo.';
+            $_SESSION['error_codigo'] = 'El código ha expirado. Solicita uno nuevo.';
             header('Location: verificar-codigo.php');
             exit;
         }
@@ -52,14 +52,14 @@ try {
         // Para administradores (sesión temporal)
         if (!isset($_SESSION['codigo_recuperacion_admin']) ||
             $_SESSION['codigo_recuperacion_admin']['codigo'] !== $codigo_ingresado) {
-            $_SESSION['error_codigo'] = '❌ Código incorrecto';
+            $_SESSION['error_codigo'] = 'Código incorrecto';
             header('Location: verificar-codigo.php');
             exit;
         }
         
         // Verificar expiración
         if (strtotime($_SESSION['codigo_recuperacion_admin']['expiracion']) < time()) {
-            $_SESSION['error_codigo'] = '⏰ El código ha expirado. Solicita uno nuevo.';
+            $_SESSION['error_codigo'] = 'El código ha expirado. Solicita uno nuevo.';
             header('Location: verificar-codigo.php');
             exit;
         }
@@ -72,7 +72,7 @@ try {
     exit;
     
 } catch (Exception $e) {
-    $_SESSION['error_codigo'] = '⚠️ Error en el sistema: ' . $e->getMessage();
+    $_SESSION['error_codigo'] = 'Error en el sistema: ' . $e->getMessage();
     header('Location: verificar-codigo.php');
     exit;
 }
