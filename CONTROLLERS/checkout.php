@@ -31,6 +31,15 @@ $stmt_dir->bind_param("i", $id_usuario);
 $stmt_dir->execute();
 $direccion = $stmt_dir->get_result()->fetch_assoc();
 
+// Obtener saldo de billetera virtual
+$sql_billetera = "SELECT saldo_billetera FROM metodos_pago WHERE id_usuario = ? AND tipo = 'billetera_virtual'";
+$stmt_billetera = $connect->prepare($sql_billetera);
+$stmt_billetera->bind_param("i", $id_usuario);
+$stmt_billetera->execute();
+$result_billetera = $stmt_billetera->get_result();
+$billetera = $result_billetera->fetch_assoc();
+$saldo_billetera = $billetera ? $billetera['saldo_billetera'] : 0.00;
+
 // Calcular totales
 $subtotal = getCartTotal();
 $envio = 10000; // Costo fijo de envío
@@ -55,6 +64,7 @@ $total = $subtotal + $envio + $iva;
             --dark: #2c3e50;
             --light: #f8f9fa;
             --gray: #6c757d;
+            --wallet: #667eea;
         }
         
         * {
@@ -346,6 +356,22 @@ $total = $subtotal + $envio + $iva;
             font-size: 0.9rem;
             color: var(--gray);
             line-height: 1.4;
+        }
+        
+        /* Saldo de billetera */
+        .wallet-balance {
+            font-size: 0.85rem;
+            margin-top: 8px;
+            padding: 6px 10px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 6px;
+            color: var(--wallet);
+            font-weight: 600;
+        }
+        
+        .wallet-balance.insufficient {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
         }
         
         /* DETALLES DE PAGO (dinámicos) */
@@ -858,7 +884,20 @@ $total = $subtotal + $envio + $iva;
                             <input type="radio" name="metodo_pago" value="pse" hidden>
                         </div>
                         
-                        <!-- Contra Entrega -->
+                        <!-- Billetera Virtual (NUEVO) -->
+                        <div class="payment-method" onclick="selectPaymentMethod('billetera_virtual', this)" id="billeteraVirtualBtn">
+                            <div class="payment-icon">
+                                <i class="fas fa-wallet" style="color: #667eea;"></i>
+                            </div>
+                            <div class="payment-name">Billetera Virtual</div>
+                            <div class="payment-desc">Paga con tu saldo Hermes</div>
+                            <div id="walletBalance" class="wallet-balance">
+                                Cargando saldo...
+                            </div>
+                            <input type="radio" name="metodo_pago" value="billetera_virtual" hidden>
+                        </div>
+                        
+                        <!-- Contra Entrega (NUEVO) -->
                         <div class="payment-method" onclick="selectPaymentMethod('contra_entrega', this)">
                             <div class="payment-icon">
                                 <i class="fas fa-money-bill-wave" style="color: #e74c3c;"></i>
@@ -1079,6 +1118,7 @@ $total = $subtotal + $envio + $iva;
     <script>
     // Variables globales
     let selectedPaymentMethod = null;
+    const totalAmount = <?php echo $total; ?>;
     const paymentDetails = {
         'tarjeta_credito': `
             <h3 style="color: var(--dark); margin-bottom: 20px; font-size: 1.3rem;">
@@ -1235,7 +1275,7 @@ $total = $subtotal + $envio + $iva;
                                 Por favor ten el dinero exacto o aproximado disponible.
                             </p>
                             <p style="color: #856404; font-weight: bold;">
-                                Total a pagar: $<?php echo number_format($total, 0, ',', '.'); ?>
+                                Total a pagar: $${totalAmount.toLocaleString('es-CO')}
                             </p>
                         </div>
                     </div>
@@ -1259,8 +1299,99 @@ $total = $subtotal + $envio + $iva;
                     </span>
                 </div>
             </div>
+        `,
+        
+        'billetera_virtual': `
+            <h3 style="color: var(--dark); margin-bottom: 20px; font-size: 1.3rem;">
+                <i class="fas fa-wallet"></i> Pago con Billetera Virtual
+            </h3>
+            <div style="display: grid; gap: 20px;">
+                <div id="walletPaymentDetails">
+                    <!-- Se llena con JavaScript -->
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+                    <i class="fas fa-shield-alt" style="color: var(--secondary);"></i>
+                    <span style="color: var(--gray); font-size: 0.9rem;">
+                        El pago se procesa de forma instantánea y segura desde tu saldo disponible.
+                    </span>
+                </div>
+            </div>
         `
     };
+    
+    // Función para verificar saldo de billetera
+    function checkWalletBalance() {
+        fetch('checkout-payment-handler.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'action=check_wallet_balance'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const walletBalance = document.getElementById('walletBalance');
+                const walletBtn = document.getElementById('billeteraVirtualBtn');
+                const walletRadio = walletBtn.querySelector('input[type="radio"]');
+                
+                if (data.saldo >= totalAmount) {
+                    walletBalance.innerHTML = `Saldo: <strong>$${data.saldo.toLocaleString('es-CO')}</strong>`;
+                    walletBalance.className = 'wallet-balance';
+                    walletRadio.disabled = false;
+                    
+                    // Actualizar detalles del pago
+                    const detailsDiv = document.getElementById('walletPaymentDetails');
+                    if (detailsDiv) {
+                        detailsDiv.innerHTML = `
+                            <div style="background: #e8f5e9; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745;">
+                                <p style="color: #155724; margin: 0;">
+                                    <i class="fas fa-check-circle"></i>
+                                    <strong>Saldo suficiente:</strong> Puedes pagar con tu billetera.
+                                </p>
+                                <p style="color: #155724; margin: 10px 0 0 0;">
+                                    Saldo disponible: <strong>$${data.saldo.toLocaleString('es-CO')}</strong><br>
+                                    Total a pagar: <strong>$${totalAmount.toLocaleString('es-CO')}</strong><br>
+                                    Saldo restante: <strong>$${(data.saldo - totalAmount).toLocaleString('es-CO')}</strong>
+                                </p>
+                            </div>
+                        `;
+                    }
+                } else {
+                    walletBalance.innerHTML = `Saldo insuficiente: <strong>$${data.saldo.toLocaleString('es-CO')}</strong>`;
+                    walletBalance.className = 'wallet-balance insufficient';
+                    walletRadio.disabled = true;
+                    
+                    // Actualizar detalles del pago
+                    const detailsDiv = document.getElementById('walletPaymentDetails');
+                    if (detailsDiv) {
+                        detailsDiv.innerHTML = `
+                            <div style="background: #f8d7da; padding: 15px; border-radius: 8px; border-left: 4px solid #dc3545;">
+                                <p style="color: #721c24; margin: 0;">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <strong>Saldo insuficiente:</strong> No tienes suficiente saldo.
+                                </p>
+                                <p style="color: #721c24; margin: 10px 0 0 0;">
+                                    Saldo disponible: <strong>$${data.saldo.toLocaleString('es-CO')}</strong><br>
+                                    Total a pagar: <strong>$${totalAmount.toLocaleString('es-CO')}</strong><br>
+                                    Faltan: <strong>$${(totalAmount - data.saldo).toLocaleString('es-CO')}</strong>
+                                </p>
+                                <button onclick="window.location.href='../user-apart-dashboard-metodos-pago.php'" 
+                                        style="margin-top: 10px; padding: 8px 15px; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                                    <i class="fas fa-money-bill-wave"></i> Recargar Billetera
+                                </button>
+                            </div>
+                        `;
+                    }
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('walletBalance').innerHTML = 'Error cargando saldo';
+        });
+    }
     
     // Seleccionar método de pago
     function selectPaymentMethod(method, element) {
@@ -1277,6 +1408,11 @@ $total = $subtotal + $envio + $iva;
         
         // Mostrar detalles del pago
         showPaymentDetails(method);
+        
+        // Si es billetera virtual, verificar saldo
+        if (method === 'billetera_virtual') {
+            checkWalletBalance();
+        }
         
         // Habilitar botón de enviar
         document.getElementById('submitBtn').disabled = false;
@@ -1394,6 +1530,15 @@ $total = $subtotal + $envio + $iva;
                     errorMessage = 'Por favor selecciona el tipo de cuenta';
                 }
                 break;
+                
+            case 'billetera_virtual':
+                // Verificar saldo nuevamente antes de enviar
+                const walletRadio = document.querySelector('input[value="billetera_virtual"]');
+                if (walletRadio.disabled) {
+                    isValid = false;
+                    errorMessage = 'Saldo insuficiente en billetera virtual';
+                }
+                break;
         }
         
         if (!isValid) {
@@ -1403,7 +1548,7 @@ $total = $subtotal + $envio + $iva;
         }
         
         // Mostrar confirmación
-        const confirmar = confirm(`¿Confirmar compra por $${<?php echo $total; ?>?.toLocaleString('es-CO')}?\n\nMétodo: ${getPaymentMethodName(selectedPaymentMethod)}`);
+        const confirmar = confirm(`¿Confirmar compra por $${totalAmount.toLocaleString('es-CO')}?\n\nMétodo: ${getPaymentMethodName(selectedPaymentMethod)}`);
         
         if (!confirmar) {
             e.preventDefault();
@@ -1423,7 +1568,8 @@ $total = $subtotal + $envio + $iva;
             'tarjeta_credito': 'Tarjeta de Crédito',
             'tarjeta_debito': 'Tarjeta de Débito',
             'pse': 'PSE',
-            'contra_entrega': 'Contra Entrega'
+            'contra_entrega': 'Contra Entrega',
+            'billetera_virtual': 'Billetera Virtual'
         };
         return names[method] || method;
     }
@@ -1463,6 +1609,9 @@ $total = $subtotal + $envio + $iva;
         if (departamentoSelect && departamentoSelect.value) {
             // Ya está seleccionado por PHP
         }
+        
+        // Verificar saldo de billetera al cargar la página
+        checkWalletBalance();
     });
     </script>
 </body>

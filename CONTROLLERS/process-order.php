@@ -52,6 +52,27 @@ $envio = 10000;
 $iva = $subtotal * 0.19;
 $total = $subtotal + $envio + $iva;
 
+// ======= MODIFICACIÓN 1: Manejo de estado según método de pago =======
+// Determinar estado inicial según método de pago
+if ($metodo_pago === 'billetera') {
+    // Verificar que la transacción de billetera exista
+    if (empty($_POST['billetera_transaccion_id'])) {
+        $_SESSION['checkout_error'] = 'No se encontró la transacción de billetera. Por favor intenta nuevamente.';
+        header("Location: checkout.php");
+        exit;
+    }
+    
+    // El pago con billetera ya fue procesado, marcar como pagado
+    $estado_inicial = 'pagado';
+    $transaccion_billetera_id = $_POST['billetera_transaccion_id'];
+    
+} elseif ($metodo_pago === 'contra_entrega') {
+    $estado_inicial = 'confirmado';
+} else {
+    $estado_inicial = 'pendiente';
+}
+// ======= FIN MODIFICACIÓN 1 =======
+
 // Verificar stock antes de procesar
 $stock_errors = validateCartStock($connect);
 if ($stock_errors !== true) {
@@ -119,6 +140,7 @@ try {
         $descripcion .= "Productos: " . count($datos['items']) . " artículo(s)\n";
         $descripcion .= "Vendedor: " . $datos['vendedor_nombre'];
         
+        // ======= MODIFICACIÓN 2: Insertar pedido usando $estado_inicial =======
         // 4. Insertar pedido en la tabla `pedido`
         $sql_pedido = "INSERT INTO pedido (
             id_usuario, id_vendedor, fecha_pedido, 
@@ -126,18 +148,14 @@ try {
             direccion_envio, metodo_pago, telefono_contacto,
             email_contacto, ciudad, departamento, codigo_postal,
             referencia, numero_pedido
-        ) VALUES (?, ?, NOW(), ?, ?, ?, ?, 'pendiente', ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
-        $estado_inicial = 'pendiente';
-        if ($metodo_pago === 'contra_entrega') {
-            $estado_inicial = 'confirmado'; // Para contra entrega
-        }
+        ) VALUES (?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         $stmt_pedido = $connect->prepare($sql_pedido);
         $stmt_pedido->bind_param(
             "iiddddssssssssss", 
             $id_usuario, $id_vendedor,
             $subtotal_vendedor, $envio_vendedor, $iva_vendedor, $total_vendedor,
+            $estado_inicial,  // ¡IMPORTANTE: Usar variable $estado_inicial en lugar de 'pendiente' fijo
             $descripcion, $direccion_completa, $metodo_pago, $telefono,
             $email, $ciudad, $departamento, $codigo_postal,
             $referencia, $numero_pedido
@@ -149,6 +167,27 @@ try {
         
         $id_pedido = $connect->insert_id;
         $pedidos_ids[] = $id_pedido;
+        
+        // ======= MODIFICACIÓN 3: Si es pago con billetera, procesar comisiones =======
+        if ($metodo_pago === 'billetera') {
+            // Procesar comisiones para vendedores
+            $comision_porcentaje = 0.05; // 5% de comisión para la plataforma
+            $comision = $total_vendedor * $comision_porcentaje;
+            $monto_vendedor = $total_vendedor - $comision;
+            
+            // Aquí podrías registrar la comisión en una tabla separada
+            // o actualizar el saldo del vendedor en su billetera
+            // Por ahora solo lo dejamos como comentario
+            /*
+            $sql_comision = "INSERT INTO comisiones_pedidos 
+                            (id_pedido, id_vendedor, monto_total, comision, monto_vendedor)
+                            VALUES (?, ?, ?, ?, ?)";
+            $stmt_comision = $connect->prepare($sql_comision);
+            $stmt_comision->bind_param("iiddd", $id_pedido, $id_vendedor, $total_vendedor, $comision, $monto_vendedor);
+            $stmt_comision->execute();
+            */
+        }
+        // ======= FIN MODIFICACIÓN 3 =======
         
         // 5. Insertar items en `pedido_item` y actualizar stock
         foreach ($datos['items'] as $item_data) {
@@ -191,7 +230,7 @@ try {
         ) VALUES (?, 'nuevo_pedido', 'Nuevo Pedido Recibido', ?, NOW(), 0)";
         
         $stmt_notif = $connect->prepare($sql_notificar);
-        $mensaje_notif = "Has recibido un nuevo pedido #$numero_pedido por $$total_vendedor";
+        $mensaje_notif = "Has recibido un nuevo pedido #$numero_pedido por $" . number_format($total_vendedor, 0, ',', '.');
         $stmt_notif->bind_param("is", $id_vendedor, $mensaje_notif);
         $stmt_notif->execute();
     }
@@ -241,19 +280,27 @@ try {
         'metodo_pago' => $metodo_pago,
         'fecha' => date('d/m/Y H:i'),
         'direccion' => $direccion_completa,
-        'pedidos_ids' => $pedidos_ids
+        'pedidos_ids' => $pedidos_ids,
+        'estado' => $estado_inicial
     ];
+    
+    // Si es billetera, guardar también el ID de transacción
+    if ($metodo_pago === 'billetera' && isset($transaccion_billetera_id)) {
+        $_SESSION['ultimo_pedido']['billetera_transaccion_id'] = $transaccion_billetera_id;
+    }
     
     $_SESSION['checkout_success'] = true;
     
+    // ======= MODIFICACIÓN 4: Redirección para billetera =======
     // 12. Redirigir según método de pago
-    if ($metodo_pago === 'contra_entrega') {
-        // Para contra entrega, ir directo a confirmación
+    if ($metodo_pago === 'contra_entrega' || $metodo_pago === 'billetera') {
+        // Para contra entrega O billetera, ir directo a confirmación
         header("Location: order-confirmation.php");
     } else {
-        // Para pagos electrónicos, ir a procesamiento de pago
+        // Para pagos electrónicos (tarjeta, PSE), ir a procesamiento de pago
         header("Location: payment-process.php?pedido=$numero_pedido");
     }
+    // ======= FIN MODIFICACIÓN 4 =======
     exit;
     
 } catch (Exception $e) {
