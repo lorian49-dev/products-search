@@ -34,6 +34,20 @@ foreach ($metodos_pago as $metodo) {
         break;
     }
 }
+
+// Obtener saldo de billetera virtual
+$sql_billetera = "SELECT saldo_billetera FROM metodos_pago WHERE id_usuario = $usuario_id AND tipo = 'billetera_virtual'";
+$result_billetera = mysqli_query($connect, $sql_billetera);
+$billetera = mysqli_fetch_assoc($result_billetera);
+$saldo_billetera = $billetera ? $billetera['saldo_billetera'] : 0.00;
+
+// Contar métodos de pago (excluyendo billetera virtual)
+$num_metodos_visibles = 0;
+foreach ($metodos_pago as $metodo) {
+    if ($metodo['tipo'] != 'billetera_virtual') {
+        $num_metodos_visibles++;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -130,6 +144,107 @@ foreach ($metodos_pago as $metodo) {
             margin-top: 30px;
         }
 
+        /* Estilos para Billetera Virtual */
+        .wallet-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .wallet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .wallet-title {
+            font-size: 22px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .wallet-balance {
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .wallet-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-wallet {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-recharge {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-recharge:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-history {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-history:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Estilos para Contra Entrega */
+        .cod-section {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: #333;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(255, 154, 158, 0.3);
+        }
+
+        .cod-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cod-info {
+            background: rgba(255,255,255,0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        /* Métodos de pago registrados */
         .method-card {
             background: #f8f9fa;
             border: 1px solid #dee2e6;
@@ -389,6 +504,28 @@ foreach ($metodos_pago as $metodo) {
             color: #856404;
         }
 
+        /* Modal para recarga */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+        }
+
         @media (max-width: 768px) {
             .dashboard-container {
                 flex-direction: column;
@@ -399,6 +536,10 @@ foreach ($metodos_pago as $metodo) {
             }
 
             .method-actions {
+                flex-direction: column;
+            }
+
+            .wallet-actions {
                 flex-direction: column;
             }
         }
@@ -488,12 +629,57 @@ foreach ($metodos_pago as $metodo) {
                 Gestiona tus métodos de pago para compras rápidas y seguras.
             </p>
 
-            <!-- Métodos de Pago Existentes -->
-            <div class="payment-methods-container">
-                <h3>Mis métodos de pago</h3>
+            <!-- SECCIÓN 1: BILLETERA VIRTUAL -->
+            <div class="wallet-section">
+                <div class="wallet-header">
+                    <div class="wallet-title">
+                        <i class="fa-solid fa-wallet"></i> Billetera Virtual Hermes
+                    </div>
+                    <div>
+                        <span class="badge-default">DISPONIBLE</span>
+                    </div>
+                </div>
 
-                <?php if (count($metodos_pago) > 0): ?>
-                    <?php foreach ($metodos_pago as $metodo): ?>
+                <div class="wallet-balance">
+                    $<?php echo number_format($saldo_billetera, 0, ',', '.'); ?>
+                </div>
+
+                <p style="text-align: center; opacity: 0.9; margin-bottom: 20px;">
+                    Paga con tu saldo Hermes de forma rápida y segura
+                </p>
+
+                <div class="wallet-actions">
+                    <button class="btn-wallet btn-recharge" onclick="showRechargeModal()">
+                        <i class="fa-solid fa-money-bill-wave"></i> Recargar Billetera
+                    </button>
+                    <button class="btn-wallet btn-history" onclick="window.location.href='user-apart-dashboard-wallet-history.php'">
+                        <i class="fa-solid fa-history"></i> Historial de Transacciones
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 2: CONTRA ENTREGA -->
+            <div class="cod-section">
+                <div class="cod-title">
+                    <i class="fa-solid fa-truck"></i> Contra Entrega
+                </div>
+                <p><strong>Método:</strong> Paga al recibir tu pedido</p>
+                <p><strong>Descripción:</strong> Realiza tu compra y paga en efectivo cuando recibas los productos en tu domicilio.</p>
+                
+                <div class="cod-info">
+                    <p><i class="fa-solid fa-info-circle"></i> <strong>Importante:</strong> Este método se selecciona al momento de finalizar tu compra en el checkout.</p>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 3: MÉTODOS DE PAGO REGISTRADOS -->
+            <div class="payment-methods-container">
+                <h3>Mis métodos de pago registrados</h3>
+
+                <?php if ($num_metodos_visibles > 0): ?>
+                    <?php foreach ($metodos_pago as $metodo): 
+                        // Saltar billetera virtual que ya se mostró arriba
+                        if ($metodo['tipo'] == 'billetera_virtual') continue;
+                    ?>
                         <div class="method-card <?php echo $metodo['es_predeterminado'] == 1 ? 'default' : ''; ?>">
                             <div class="method-header">
                                 <div class="method-type">
@@ -726,8 +912,143 @@ foreach ($metodos_pago as $metodo) {
         </div>
     </div>
 
+    <!-- MODAL PARA RECARGAR BILLETERA -->
+    <div id="rechargeModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 20px; color: #333;">
+                <i class="fa-solid fa-money-bill-wave"></i> Recargar Billetera
+            </h3>
+            
+            <form id="rechargeForm" onsubmit="return processRecharge(event)">
+                <div style="margin-bottom: 20px;">
+                    <label for="monto" style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
+                        Monto a recargar *
+                    </label>
+                    <div style="position: relative;">
+                        <span style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-weight: bold; color: #667eea;">$</span>
+                        <input type="number" id="monto" name="monto" 
+                               min="1000" max="10000000" step="1000"
+                               style="width: 100%; padding: 12px 12px 12px 30px; border: 2px solid #ced4da; border-radius: 8px;"
+                               placeholder="Ej: 50000" required>
+                    </div>
+                    <small style="color: #666; display: block; margin-top: 5px;">Mínimo: $1.000 | Máximo: $10.000.000</small>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
+                        Monto rápido
+                    </label>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button type="button" class="btn-amount" data-amount="10000" onclick="setAmount(10000)">$10.000</button>
+                        <button type="button" class="btn-amount" data-amount="50000" onclick="setAmount(50000)">$50.000</button>
+                        <button type="button" class="btn-amount" data-amount="100000" onclick="setAmount(100000)">$100.000</button>
+                        <button type="button" class="btn-amount" data-amount="200000" onclick="setAmount(200000)">$200.000</button>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 30px;">
+                    <button type="button" onclick="closeRechargeModal()" 
+                            style="flex: 1; padding: 12px; background: #6c757d; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        Cancelar
+                    </button>
+                    <button type="submit" id="rechargeBtn"
+                            style="flex: 1; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        <i class="fa-solid fa-check"></i> Recargar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Variables globales
+        let currentSaldo = <?php echo $saldo_billetera; ?>;
+
+        // Funciones del modal
+        function showRechargeModal() {
+            document.getElementById('rechargeModal').style.display = 'flex';
+            document.getElementById('monto').focus();
+        }
+
+        function closeRechargeModal() {
+            document.getElementById('rechargeModal').style.display = 'none';
+            document.getElementById('monto').value = '';
+        }
+
+        function setAmount(amount) {
+            document.getElementById('monto').value = amount;
+        }
+
+        // Procesar recarga
+        function processRecharge(event) {
+            event.preventDefault();
+            
+            const monto = parseFloat(document.getElementById('monto').value);
+            const rechargeBtn = document.getElementById('rechargeBtn');
+            
+            if (monto < 1000) {
+                alert('Monto mínimo: $1.000');
+                return false;
+            }
+            
+            if (monto > 10000000) {
+                alert('Monto máximo: $10.000.000');
+                return false;
+            }
+            
+            if (!confirm(`¿Recargar $${monto.toLocaleString('es-CO')} a tu billetera?`)) {
+                return false;
+            }
+            
+            // Deshabilitar botón y mostrar carga
+            rechargeBtn.disabled = true;
+            rechargeBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando...';
+            
+            // Enviar petición AJAX
+            fetch('CONTROLLERS/recharge-wallet.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `monto=${monto}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(`¡Recarga exitosa!\nNuevo saldo: $${data.saldo_nuevo.toLocaleString('es-CO')}`);
+                    closeRechargeModal();
+                    location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                    rechargeBtn.disabled = false;
+                    rechargeBtn.innerHTML = '<i class="fa-solid fa-check"></i> Recargar';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error en la conexión');
+                rechargeBtn.disabled = false;
+                rechargeBtn.innerHTML = '<i class="fa-solid fa-check"></i> Recargar';
+            });
+            
+            return false;
+        }
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('rechargeModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeRechargeModal();
+            }
+        });
+
+        // Cerrar modal con ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('rechargeModal').style.display === 'flex') {
+                closeRechargeModal();
+            }
+        });
+
         // Cambiar entre tarjeta y PayPal
         document.querySelectorAll('.payment-type-btn').forEach(btn => {
             btn.addEventListener('click', function() {
