@@ -159,12 +159,16 @@ FROM pedido p
 INNER JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido
 INNER JOIN producto pr ON dp.id_producto = pr.id_producto
 INNER JOIN vendedor v ON pr.id_vendedor = v.id_vendedor
-INNER JOIN cliente c ON p.id_cliente = c.id_cliente
-INNER JOIN usuario u ON c.id_cliente = u.id_usuario
+INNER JOIN usuario u ON p.id_usuario = u.id_usuario  -- CAMBIADO: usa id_usuario directo
 $where
 ";
-
 $res = $conn->query($sql);
+if (!$res) {
+    echo "❌ Error SQL: " . $conn->error;
+    echo "<br>Consulta: " . htmlspecialchars($sql);
+    // Puedes continuar mostrando una tabla vacía o un mensaje amigable
+    $res = false;
+}
 
 if ($res) {
     while ($row = $res->fetch_assoc()) {
