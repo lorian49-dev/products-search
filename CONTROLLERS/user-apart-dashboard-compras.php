@@ -336,7 +336,7 @@ if (!$resultPedidos) {
 
                     <!-- Mis Compras -->
                     <li>
-                        <a href="user-apart-dashboard-mis-compras.php" class="active">
+                        <a href="user-apart-dashboard-compras.php" class="active">
                             <i class="fa-solid fa-shopping-bag"></i>
                             Mis Compras
                         </a>

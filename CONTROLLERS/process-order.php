@@ -1,7 +1,7 @@
 <?php
 // CONTROLLERS/process-order.php - VERSIÓN CORREGIDA
 session_start();
-require_once dirname(__DIR__) . '/shortCuts/connect.php';
+require_once "../shortCuts/connect.php";
 
 // Activar errores
 error_reporting(E_ALL);
