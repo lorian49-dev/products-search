@@ -982,6 +982,7 @@ foreach ($metodos_pago as $metodo) {
 
         // Procesar recarga
         // REEMPLAZA todo el código de processRecharge con esta versión SIMPLIFICADA:
+        // Procesar recarga - VERSIÓN CORREGIDA
         function processRecharge(event) {
             event.preventDefault();
             console.log('Iniciando proceso de recarga...');
@@ -990,136 +991,86 @@ foreach ($metodos_pago as $metodo) {
             const monto = parseFloat(montoInput.value);
             const rechargeBtn = document.getElementById('rechargeBtn');
 
-            console.log('Monto ingresado:', monto);
-
-            // Validaciones básicas
-            if (isNaN(monto) || monto <= 0) {
-                alert('Por favor ingresa un monto válido');
-                montoInput.focus();
-                return false;
-            }
-
-            if (monto < 1000) {
+            // Validaciones
+            if (isNaN(monto) || monto < 1000) {
                 alert('Monto mínimo: $1.000');
-                montoInput.focus();
                 return false;
             }
 
             if (monto > 10000000) {
                 alert('Monto máximo: $10.000.000');
-                montoInput.focus();
                 return false;
             }
 
-            if (!confirm(`¿Confirmas recargar $${monto.toLocaleString('es-CO')} a tu billetera?`)) {
+            if (!confirm(`¿Recargar $${monto.toLocaleString('es-CO')} a tu billetera?`)) {
                 return false;
             }
 
-            // Deshabilitar botón y mostrar carga
+            // Deshabilitar botón
             rechargeBtn.disabled = true;
             const originalText = rechargeBtn.innerHTML;
             rechargeBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando...';
 
+            // Usar SOLAMENTE UNA RUTA CORRECTA
+            // Basado en tu estructura, la ruta correcta es:
+            const correctPath = 'recharge-wallet.php'; // ← ¡IMPORTANTE!
+
+            console.log('Usando ruta:', correctPath);
+
             // Crear FormData
             const formData = new FormData();
             formData.append('monto', monto);
-            console.log('FormData creado');
 
-            // INTENTAR DIFERENTES RUTAS - prueba una por una
-            const possiblePaths = [
-                './CONTROLLERS/recharge-wallet.php',
-                '../CONTROLLERS/recharge-wallet.php',
-                '/CONTROLLERS/recharge-wallet.php',
-                'CONTROLLERS/recharge-wallet.php',
-                '../../CONTROLLERS/recharge-wallet.php'
-            ];
+            // Hacer la petición DIRECTAMENTE
+            fetch(correctPath, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    console.log('Status:', response.status, 'OK:', response.ok);
 
-            let currentPathIndex = 0;
+                    if (!response.ok) {
+                        throw new Error(`Error HTTP: ${response.status}`);
+                    }
 
-            function tryNextPath() {
-                if (currentPathIndex >= possiblePaths.length) {
-                    alert('No se pudo encontrar el archivo de recarga. Contacta al administrador.');
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Respuesta del servidor:', data);
+
+                    if (data.success) {
+                        // Éxito
+                        alert(`¡Recarga exitosa!\nNuevo saldo: $${data.saldo_nuevo.toLocaleString('es-CO')}`);
+
+                        // Actualizar saldo en pantalla
+                        const balanceElement = document.querySelector('.wallet-balance');
+                        if (balanceElement) {
+                            balanceElement.textContent = '$' + data.saldo_nuevo.toLocaleString('es-CO');
+                        }
+
+                        // Cerrar modal
+                        closeRechargeModal();
+
+                    } else {
+                        // Error del servidor
+                        alert('Error: ' + data.message);
+                        rechargeBtn.disabled = false;
+                        rechargeBtn.innerHTML = originalText;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error completo:', error);
+
+                    // Mostrar error específico
+                    if (error.message.includes('404')) {
+                        alert('Error: No se encontró el archivo de recarga.\nEl archivo recharge-wallet.php debe estar en la misma carpeta que esta página.');
+                    } else {
+                        alert('Error de conexión: ' + error.message);
+                    }
+
                     rechargeBtn.disabled = false;
                     rechargeBtn.innerHTML = originalText;
-                    return;
-                }
-
-                const path = possiblePaths[currentPathIndex];
-                console.log('Intentando ruta:', path);
-
-                fetch(path, {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => {
-                        console.log('Respuesta recibida, status:', response.status);
-                        console.log('URL solicitada:', path);
-
-                        if (!response.ok) {
-                            throw new Error(`HTTP ${response.status}`);
-                        }
-                        return response.text(); // Primero obtener como texto
-                    })
-                    .then(text => {
-                        console.log('Respuesta completa:', text);
-
-                        try {
-                            const data = JSON.parse(text);
-                            console.log('JSON parseado:', data);
-
-                            if (data.success) {
-                                // Éxito
-                                alert(`¡Recarga exitosa!\nNuevo saldo: $${data.saldo_nuevo.toLocaleString('es-CO')}`);
-
-                                // Actualizar saldo en pantalla
-                                const balanceElement = document.querySelector('.wallet-balance');
-                                if (balanceElement) {
-                                    balanceElement.textContent = '$' + data.saldo_nuevo.toLocaleString('es-CO');
-                                }
-
-                                closeRechargeModal();
-
-                            } else {
-                                // Error del servidor
-                                alert('Error: ' + data.message);
-                                rechargeBtn.disabled = false;
-                                rechargeBtn.innerHTML = originalText;
-                            }
-
-                        } catch (e) {
-                            console.error('Error parseando JSON:', e);
-                            console.log('Respuesta no es JSON:', text);
-
-                            if (currentPathIndex < possiblePaths.length - 1) {
-                                // Intentar siguiente ruta
-                                currentPathIndex++;
-                                tryNextPath();
-                            } else {
-                                alert('Error inesperado en el servidor');
-                                rechargeBtn.disabled = false;
-                                rechargeBtn.innerHTML = originalText;
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error en fetch:', error);
-
-                        if (currentPathIndex < possiblePaths.length - 1) {
-                            // Intentar siguiente ruta
-                            currentPathIndex++;
-                            console.log('Intentando siguiente ruta...');
-                            tryNextPath();
-                        } else {
-                            alert('Error de conexión: ' + error.message);
-                            console.log('Todas las rutas fallaron');
-                            rechargeBtn.disabled = false;
-                            rechargeBtn.innerHTML = originalText;
-                        }
-                    });
-            }
-
-            // Iniciar con la primera ruta
-            tryNextPath();
+                });
 
             return false;
         }
