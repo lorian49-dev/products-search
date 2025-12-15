@@ -64,7 +64,7 @@ if ($conn->connect_error) {
             </ul>
             <li id="liProducts">Consultar Productos<i class="fa-solid fa-caret-up"></i></li>
             <ul class="sheetListProducts">
-                <a href="../CONTROLLERS/userproducts-dashboard-admin-index.php">
+                <a href="../CONTROLLERS/products-dashboard-admin-index.php">
                     <li>Productos</li>
                 </a>
                 <li>Categorias</li>
