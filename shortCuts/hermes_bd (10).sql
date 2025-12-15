@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-12-2025 a las 05:15:08
+-- Tiempo de generación: 15-12-2025 a las 05:39:54
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -499,8 +499,8 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`id_producto`, `nombre`, `descripcion`, `imagen_url`, `cloudinary_public_id`, `precio`, `stock`, `origen`, `id_vendedor`, `fecha_creacion`) VALUES
-(2, 'Camiseta Negra', 'Camiseta 100% algodón color negro', NULL, NULL, 35000.00, 20, 'Colombia', NULL, '2025-11-23 17:06:13'),
-(100, 'Laptop HP Pavilion TEST', 'Laptop 15.6\", Intel i5, 8GB RAM, 512GB SSD', NULL, NULL, 2500000.00, 10, NULL, NULL, '2025-12-01 21:53:40'),
+(2, 'Camiseta Negra', 'Camiseta 100% algodón color negro', NULL, NULL, 35000.00, 20, 'Colombia', 2, '2025-11-23 17:06:13'),
+(100, 'Laptop HP Pavilion TEST', 'Laptop 15.6\", Intel i5, 8GB RAM, 512GB SSD', NULL, NULL, 2500000.00, 10, NULL, 2, '2025-12-01 21:53:40'),
 (101, 'Smartphone Samsung TEST', '6.5\", 128GB, 8GB RAM, Cámara Quad', NULL, NULL, 1800000.00, 15, NULL, NULL, '2025-12-01 21:53:40'),
 (102, 'Audífonos Sony TEST', 'Audífonos inalámbricos con cancelación de ruido', NULL, NULL, 350000.00, 25, NULL, NULL, '2025-12-01 21:53:40'),
 (103, 'Smartwatch Apple TEST', 'Series 7, GPS, 45mm, Resistente al agua', NULL, NULL, 2200000.00, 8, NULL, NULL, '2025-12-01 21:53:40'),
